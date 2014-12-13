@@ -1,0 +1,9 @@
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\bin\Release\tianx.exe
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\bin\Release\tianx.pdb
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Release\ResolveAssemblyReference.cache
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Release\tianx.Form1.resources
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Release\tianx.Properties.Resources.resources
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Release\GenerateResource-ResGen.read.1.tlog
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Release\GenerateResource-ResGen.write.1.tlog
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Release\tianx.exe
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Release\tianx.pdb

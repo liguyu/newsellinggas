@@ -1,0 +1,42 @@
+C:\candel\tianx\tianx\obj\Debug\ResolveAssemblyReference.cache
+C:\candel\tianx\tianx\obj\Debug\tianx.Form1.resources
+C:\candel\tianx\tianx\obj\Debug\tianx.Properties.Resources.resources
+C:\candel\tianx\tianx\obj\Debug\tianx.csproj.GenerateResource.Cache
+C:\candel\tianx\tianx\bin\Debug\tianx.exe
+C:\candel\tianx\tianx\bin\Debug\tianx.pdb
+C:\candel\tianx\tianx\obj\Debug\tianx.exe
+C:\candel\tianx\tianx\obj\Debug\tianx.pdb
+C:\Documents and Settings\Administrator\桌面\tianx\tianx\obj\Debug\tianx.exe
+C:\Documents and Settings\Administrator\桌面\tianx\tianx\obj\Debug\tianx.pdb
+C:\Documents and Settings\Administrator\桌面\tianx\tianx\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrator\桌面\tianx\tianx\obj\Debug\tianx.Form1.resources
+C:\Documents and Settings\Administrator\桌面\tianx\tianx\obj\Debug\tianx.Properties.Resources.resources
+C:\Documents and Settings\Administrator\桌面\tianx\tianx\obj\Debug\tianx.csproj.GenerateResource.Cache
+C:\Documents and Settings\Administrator\桌面\tianx\tianx\bin\Debug\tianx.exe
+C:\Documents and Settings\Administrator\桌面\tianx\tianx\bin\Debug\tianx.pdb
+F:\XJG\IC卡程式\中燃测试（兼容新CPU卡）\tianx\tianx\obj\Debug\tianx.exe
+F:\XJG\IC卡程式\中燃测试（兼容新CPU卡）\tianx\tianx\obj\Debug\tianx.pdb
+F:\XJG\IC卡程式\中燃测试（兼容新CPU卡）\tianx\tianx\bin\Debug\tianx.exe
+F:\XJG\IC卡程式\中燃测试（兼容新CPU卡）\tianx\tianx\bin\Debug\tianx.pdb
+F:\XJG\IC卡程式\中燃测试（兼容新CPU卡）\tianx\tianx\obj\Debug\ResolveAssemblyReference.cache
+F:\XJG\IC卡程式\中燃测试（兼容新CPU卡）\tianx\tianx\obj\Debug\tianx.Form1.resources
+F:\XJG\IC卡程式\中燃测试（兼容新CPU卡）\tianx\tianx\obj\Debug\tianx.Properties.Resources.resources
+F:\XJG\IC卡程式\中燃测试（兼容新CPU卡）\tianx\tianx\obj\Debug\GenerateResource-ResGen.read.1.tlog
+F:\XJG\IC卡程式\中燃测试（兼容新CPU卡）\tianx\tianx\obj\Debug\GenerateResource-ResGen.write.1.tlog
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Debug\tianx.exe
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Debug\tianx.pdb
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\bin\Debug\tianx.exe
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\bin\Debug\tianx.pdb
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Debug\ResolveAssemblyReference.cache
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Debug\tianx.Form1.resources
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Debug\tianx.Properties.Resources.resources
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Debug\GenerateResource-ResGen.read.1.tlog
+F:\XJG\IC卡程式\内蒙郭小容\DLL\售金额\tianx\tianx\obj\Debug\GenerateResource-ResGen.write.1.tlog
+E:\桌面备份\各表厂动态库接口\天信接口\tianx\tianx\obj\Debug\tianx.exe
+E:\桌面备份\各表厂动态库接口\天信接口\tianx\tianx\obj\Debug\tianx.pdb
+E:\桌面备份\各表厂动态库接口\天信接口\tianx\tianx\bin\Debug\tianx.exe
+E:\桌面备份\各表厂动态库接口\天信接口\tianx\tianx\bin\Debug\tianx.pdb
+E:\桌面备份\各表厂动态库接口\天信接口\tianx\tianx\obj\Debug\tianx.csprojResolveAssemblyReference.cache
+E:\桌面备份\各表厂动态库接口\天信接口\tianx\tianx\obj\Debug\tianx.Form1.resources
+E:\桌面备份\各表厂动态库接口\天信接口\tianx\tianx\obj\Debug\tianx.Properties.Resources.resources
+E:\桌面备份\各表厂动态库接口\天信接口\tianx\tianx\obj\Debug\tianx.csproj.GenerateResource.Cache

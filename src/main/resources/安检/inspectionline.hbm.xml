@@ -1,0 +1,86 @@
+﻿<?xml version="1.0"  encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class entity-name="T_INSPECTION_LINE" table="T_INSPECTION_LINE">
+        <id name="id" type="string">
+         <generator class="uuid.hex"></generator>
+        </id>
+        <!-- 故障设备 -->
+        <property name="EQUIPMENT" type="string">
+        </property>
+        <!-- 故障内容 -->
+        <property name="CONTENT" type="string">
+        </property>
+        <!-- 服务人员 -->
+        <property name="SERVICE_PEOPLE" type="string">
+        </property>
+        <!-- 服务时间 -->
+        <property name="SERVICE_DATE" type="string">
+        </property>
+        <!-- 服务结果 -->
+        <property name="SERVICE_RESULT" type="string">
+        </property>
+        <!-- 维修说明 -->
+        <property name="SERVICE_TXT" type="string">
+        </property>
+        <!-- 安检计划ID -->
+        <property name="CHECK_CARD_ID" type="string">
+        </property>
+        <!-- 卡编号 -->
+        <property name="CARD_ID" type="string">
+        </property>
+        <!-- 用户名 -->
+        <property name="USER_NAME" type="string">
+        </property>
+        <!-- 地域名 -->
+        <property name="REGION_NAME" type="string">
+        </property>
+        <!-- 街道名 -->
+        <property name="ROAD" type="string">
+        </property>
+        <!-- 小区名 -->
+        <property name="UNIT_NAME" type="string">
+        </property>
+        <!-- 楼号 -->
+        <property name="CUS_DOM" type="string">
+        </property>
+        <!-- 单元 -->
+        <property name="CUS_DY" type="string">
+        </property>
+        <!-- 楼层 -->
+        <property name="CUS_FLOOR" type="string">
+        </property>
+        <!-- 房号 -->
+        <property name="CUS_ROOM" type="string">
+        </property>
+        <!-- 电话号码 -->
+        <property name="TELPHONE" type="string">
+        </property>
+        <!-- 安检员 -->
+        <property name="SAVE_PEOPLE" type="string">
+        </property>
+        <!-- 安检日期 -->
+        <property name="SAVE_DATE" type="string">
+        </property>
+        <!-- 操作地点 -->
+        <property name="OP_SPOT" type="string">
+        </property>
+        <!-- IC卡表厂家名称 -->
+        <property name="IC_METER_NAME" type="string">
+        </property>
+        <!-- 基表厂家名称 -->
+        <property name="JB_METER_NAME" type="string">
+        </property>
+        <!-- 基表数 -->
+        <property name="JB_NUMBER" type="int">
+        </property>
+        <!-- 剩余气量 -->
+        <property name="SURPLUS_GAS" type="int">
+        </property>
+        <!--备注  -->
+        <property name="BZ" type="string">
+        </property>
+    </class>
+</hibernate-mapping>

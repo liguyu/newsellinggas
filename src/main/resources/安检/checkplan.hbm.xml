@@ -1,0 +1,21 @@
+<?xml version="1.0"  encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class entity-name="T_CHECKPLAN" table="T_CHECKPLAN">
+        <id name="id" type="string">
+         <generator class="uuid.hex"></generator>
+        </id>
+        <property name="f_name" type="string"/>
+        <!-- 是否下发 -->
+        <property name="f_issued" type="string"/>
+		<!-- 日期 -->
+		<property name="f_date" type="string"/>
+		<!--安检单-->
+		<set name="f_checks" cascade="delete">
+          <key column="checkplanid" on-delete="noaction"/>
+          <one-to-many entity-name="T_IC_SAFECHECK_PAPER" not-found="exception"/>  
+        </set>
+    </class>
+</hibernate-mapping>

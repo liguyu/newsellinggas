@@ -1,0 +1,89 @@
+﻿<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             x:Class="s2.App"
+             xmlns:a="clr-namespace:Com.Aote.Attachs;assembly=s2DLL"			 
+			 xmlns:b="clr-namespace:Com.Aote.Behaviors;assembly=s2DLL"
+             xmlns:o="clr-namespace:Com.Aote.ObjectTools;assembly=s2DLL"
+             xmlns:SampleData="clr-namespace:Expression.Blend.SampleData.SampleDataSource" 
+             xmlns:m="clr-namespace:Com.Aote.Marks;assembly=s2DLL"
+          
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             >
+    <Application.Resources>
+        <!-- 应该在此定义应用程序级的资源。-->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="LogConfig.xaml"></ResourceDictionary>
+				<ResourceDictionary Source="ResourceDictionary1.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        
+        </ResourceDictionary>
+
+
+        <SolidColorBrush x:Key="Red" Color="Red"></SolidColorBrush>
+        <SolidColorBrush x:Key="Black" Color="Black"></SolidColorBrush>
+        <o:DataPagerConverter x:Key="DataPagerConverter"/>
+        <o:DataPagerConverter x:Key="PagerConverter"/>
+
+
+        <!--开发环境
+        <o:WebClientInfo x:Key="ldapaddress" BaseAddress="http://127.0.0.1:83/rs"/>
+        <o:WebClientInfo x:Key="reportaddress" BaseAddress="http://127.0.0.1/rs/report"/>
+        <o:WebClientInfo x:Key="saveuser" BaseAddress="http://127.0.0.1:83/rs/user/entity"/>
+        <o:WebClientInfo x:Key="reportclient" BaseAddress="http://127.0.0.1:83/jsp/pagenologin.jsp?"/>
+        <o:WebClientInfo x:Key="bank"  BaseAddress="http://127.0.0.1/rs/bank"/>
+        <o:WebClientInfo x:Key="server"  BaseAddress="http://127.0.0.1/rs"/>
+        <o:WebClientInfo x:Key="dbclient"  BaseAddress="http://127.0.0.1/rs/db"/>
+        <o:WebClientInfo x:Key="bankaddress" BaseAddress="http://127.0.0.1/rs/bc"/>
+        <o:WebClientInfo x:Key="reportclient2" BaseAddress="http://127.0.0.1/"/>
+        <o:WebClientInfo x:Key="noteserver" BaseAddress="http://127.0.0.1:83/rs/sms"/>
+        <o:WebClientInfo x:Key="chargeserver"  BaseAddress="http://127.0.0.1/rs/charge"/>-->
+        
+        <!--黄河燃气环境
+        <o:WebClientInfo x:Key="ldapaddress" BaseAddress="http://60.214.209.189:83/huangheres/rs"/>
+        <o:WebClientInfo x:Key="reportaddress" BaseAddress="http://60.214.209.189:83/huanghegas/rs/report"/>
+        <o:WebClientInfo x:Key="saveuser" BaseAddress="http://60.214.209.189:83/huangheres/rs/user/entity"/>
+        <o:WebClientInfo x:Key="reportclient" BaseAddress="http://60.214.209.189:83/huangheres/jsp/pagenologin.jsp?"/>
+        <o:WebClientInfo x:Key="bank"  BaseAddress="http://60.214.209.189:83/huanghegas/rs/bank"/>
+        <o:WebClientInfo x:Key="server"  BaseAddress="http://60.214.209.189:83/huanghegas/rs"/>
+        <o:WebClientInfo x:Key="dbclient"  BaseAddress="http://60.214.209.189:83/huanghegas/rs/db"/>
+        <o:WebClientInfo x:Key="bankaddress" BaseAddress="http://60.214.209.189:83/huanghegas/rs/bc"/>
+        <o:WebClientInfo x:Key="reportclient2" BaseAddress="http://60.214.209.189:83/huanghegas/"/>
+        <o:WebClientInfo x:Key="noteserver" BaseAddress="http://60.214.209.189:83/huangheres/rs/sms"/>
+        <o:WebClientInfo x:Key="chargeserver"  BaseAddress="http://60.214.209.189:83/huanghegas/rs/charge"/>-->
+
+
+
+
+        <!--黄河燃气环境-->
+        <o:WebClientInfo x:Key="ldapaddress" BaseAddress="http://125.76.225.223:3000/newsellingres/rs"/>
+        <o:WebClientInfo x:Key="reportaddress" BaseAddress="http://125.76.225.223:3000/newsellingres/rs/report"/>
+        <o:WebClientInfo x:Key="saveuser" BaseAddress="http://125.76.225.223:3000/newsellingres/rs/user/entity"/>
+        <o:WebClientInfo x:Key="reportclient" BaseAddress="http://125.76.225.223:3000/newsellingres/jsp/pagenologin.jsp?"/>
+        <o:WebClientInfo x:Key="bank"  BaseAddress="http://125.76.225.223:3000/newsellinggasres/rs/bank"/>
+        <o:WebClientInfo x:Key="server"  BaseAddress="http://125.76.225.223:3000/newsellingres/rs"/>
+        <o:WebClientInfo x:Key="dbclient"  BaseAddress="http://125.76.225.223:3000/newsellinggas/rs/db"/>
+        <o:WebClientInfo x:Key="bankaddress" BaseAddress="http://60.214.209.189:83/huanghegas/rs/bc"/>
+        <o:WebClientInfo x:Key="reportclient2" BaseAddress="http://60.214.209.189:83/huanghegas/"/>
+        <o:WebClientInfo x:Key="noteserver" BaseAddress="http://60.214.209.189:83/huangheres/rs/sms"/>
+        <o:WebClientInfo x:Key="chargeserver"  BaseAddress="http://60.214.209.189:83/huanghegas/rs/charge"/>
+
+        <!--正式环境
+        <o:WebClientInfo x:Key="ldapaddress" BaseAddress="http://192.168.1.7:82/rs"/>
+        <o:WebClientInfo x:Key="dbclient"  BaseAddress="http://192.168.1.7:8090/rs/db"/>
+        <o:WebClientInfo x:Key="saveuser" BaseAddress="http://192.168.1.7:82/rs/user/entity"/>  
+        <o:WebClientInfo x:Key="reportclient" BaseAddress="http://192.168.1.7:82/jsp/pagenologin.jsp?"/>
+        <o:WebClientInfo x:Key="server"  BaseAddress="http://192.168.1.7:8090/rs"/>
+        <o:WebClientInfo x:Key="bank" BaseAddress="http://192.168.1.7:8090/rs/bank"/>-->
+
+        <!--正式环境
+        <o:WebClientInfo x:Key="ldapaddress" BaseAddress="http://110.18.70.106:82/rs"/>
+        <o:WebClientInfo x:Key="dbclient"  BaseAddress="http://110.18.70.106:8090/rs/db"/>
+        <o:WebClientInfo x:Key="saveuser" BaseAddress="http://110.18.70.106:82/rs/user/entity"/>
+        <o:WebClientInfo x:Key="reportclient" BaseAddress="http://110.18.70.106:82/jsp/pagenologin.jsp?"/>
+        <o:WebClientInfo x:Key="server"  BaseAddress="http://110.18.70.106:8090/rs"/>
+        <o:WebClientInfo x:Key="bank" BaseAddress="http://110.18.70.106:8090/rs/bank"/>-->
+    </Application.Resources>
+ 
+</Application>

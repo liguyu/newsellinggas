@@ -1,0 +1,12 @@
+<?xml version="1.0"  encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.aote">
+	<!--大字段表-->
+	<class table="t_blob" entity-name="t_blob">
+		<id name="id" type="string"/>
+		<property name="filename" type="string"/>
+		<property name="blob" type="blob"/>
+	</class>
+</hibernate-mapping>

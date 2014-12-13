@@ -1,0 +1,91 @@
+﻿<?xml version="1.0"  encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping >
+	<!--用气地址表-->
+	<class entity-name="t_gasaddress" table="t_gasaddress" dynamic-update="true">
+	   <id name="id" type="int">
+			<generator class="identity"></generator>
+		</id>
+		<!--户数-->
+		<property name="f_usernum" type="int"/>
+		<!--用气地址-->
+		<property name="f_gasaddress" type="string"/>
+		<!--海力表型编码-->
+		<property name="f_watchnum" type="string"/>
+		<!--脉冲(表系数)-->
+		<property name="f_maichong" type="string"/>
+		<!--表型号对应类型-->
+		<property name="f_type" type="string"/>
+		<!--额定流量-->
+		<property name="f_flownum" type="double"/>
+		<!--计算编号-->
+		<property name="f_jisuannum" type="int"/>
+		<!--小区名称-->
+		<property name="f_districtname" type="string"/> 
+		<!--区 -->
+		<property name="f_area" type="string"/>
+		<!--街道 -->
+		<property name="f_road" type="string"/>
+		<!--单元号 -->
+		<property name="f_cusDy" type="string"/>
+		<!--楼号 -->
+		<property name="f_cusDom" type="string"/>
+		<!--楼层 -->
+		<property name="f_cusFloor" type="string"/>
+		<!--门牌号 -->
+		<property name="f_apartment" type="string"/>
+		<!--门站 -->
+		<property name="f_menzhan" type="string"/>
+		<!--抄表月份 -->
+		<property name="f_handdate" type="string"/>
+		
+		
+		<!--用气性质-->
+		<property name="f_gasproperties" type="string"/>
+		<!--气价类型-->
+		<property name="f_gaspricetype" type="string"/>
+		<!--气价-->
+		<property name="f_gasprice" type="double"/>
+		<!--气表厂家  -->
+		<property name="f_changjia" type="string"/>		
+		<!--气表型号  -->
+		<property name="f_metertype" type="string"/>
+		<!--气表品牌  -->
+		<property name="f_gaswatchbrand" type="string"/>
+		<!--别名  -->
+		<property name="f_aliasname" type="string"/>
+		<!--气表类型 -->
+		<property name="f_gasmeterstyle" type="string"/>
+		<!--开户气量 -->
+		<property name="f_accountVolume" type="double"/>
+		<!--开始楼号 -->
+		<property name="f_startbuild" type="int"/>
+		<!--结束楼号 -->
+		<property name="f_endbuild" type="int"/>
+		<!--开始单元 -->
+		<property name="f_startunit" type="int"/>
+		<!--结束单元 -->
+		<property name="f_endunit" type="int"/>
+		<!--开始层-->
+		<property name="f_startlayer" type="int"/>
+		<!--结束层-->
+		<property name="f_endlayer" type="int"/>
+		<!--每层室数-->
+		<property name="f_room" type="int"/>
+		<!-- 操作员 -->
+		<property name="f_operator" type="string"/>
+		<!-- 操作日期 -->
+		<property name="f_date" type="date"/>
+		<!-- 部门 -->
+		<property name="f_department" type="string"/>
+		<!-- 分公司 -->
+		<property name="f_filiale" type="string"/>
+		<!-- 分公司编号 -->
+		<property name="f_fengongsinum" type="string"/>
+		
+		<!-- 建档状态 -->
+		<property name="f_state" type="string"/>
+	</class>
+</hibernate-mapping>
