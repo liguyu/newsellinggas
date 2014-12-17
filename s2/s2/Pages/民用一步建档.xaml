@@ -22,11 +22,12 @@
             <!--气表品牌列表-->
             <o:ObjectList Name="pinpailist" WebClientInfo="{StaticResource dbclient}" Path="{m:Exp Str=$from qibiao as qibiao left join fetch qibiao.qbnumber}"/>
             <!--用气性质列表-->
-            <o:ObjectList Name="usegaslist" WebClientInfo="{StaticResource dbclient}" Path="{m:Exp Str=$from gasproper as gasproper left join fetch gasproper.pricetype where f_gasproperties\=\'民用用气\'}"/>
+            <o:ObjectList Name="usegaslist" WebClientInfo="{StaticResource dbclient}" Path="{m:Exp Str=$from gasproper as gasproper left join fetch gasproper.pricetype where f_gasproperties\=\'民用\'}"/>
             <o:ObjectList Name="chaobiaoyuanlist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='抄表员'"/>
             <o:ObjectList Name="jiaofeilist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='交费类型'"/>
             <o:ObjectList Name="usertypelist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='用户类型查询用'"/>
             <o:ObjectList Name="kaipiaolist" WebClientInfo="{StaticResource dbclient}"  Path="from paramvalue where param.name='开票类型'"/>
+			<o:ObjectList Name="qblxlist" WebClientInfo="{StaticResource dbclient}"  Path="from paramvalue where param.name='气表类型'"/>
             <!--打开子窗口对象-->
             <o:ChildWindowObj Name="openkafei" CWName="/Pages/高级管理员登录" />
             <o:ChildWindowObj Name="openxiangou" CWName="/Pages/管理员登录" />
@@ -46,9 +47,8 @@
                 <o:PropertySetter PropertyName="f_waterheater" Default="{m:Exp Str=False}"/>
                 <o:PropertySetter PropertyName="f_gasmeteraccomodations" Default="0"/>
                 <o:PropertySetter PropertyName="f_gasmetermanufacturers" Value="{m:Exp Str=CoboxPinpai.SelectedItem.f_changjia}"/>
-                <o:PropertySetter PropertyName="f_gasmeterstyle" Default="卡表"/>
                 <o:PropertySetter PropertyName="f_flownum" Default="0" Value="{m:Exp Str=DaXiaoKa.SelectedItem.f_flownum}"/>
-                <o:PropertySetter PropertyName="f_type" Default="卡表" Value="{m:Exp Str=DaXiaoKa.SelectedItem.f_type}"/>
+                <o:PropertySetter PropertyName="f_type" Default="{m:Exp Str=userfile.DataContext.f_gasmeterstyle}" Value="{m:Exp Str=DaXiaoKa.SelectedItem.f_type}"/>
                 <o:PropertySetter PropertyName="f_maichong" Default="0" Value="{m:Exp Str=DaXiaoKa.SelectedItem.f_maichong}"/>
                 <o:PropertySetter PropertyName="f_watchnum" Default="0" Value="{m:Exp Str=DaXiaoKa.SelectedItem.f_watchnum}"/>
 
@@ -319,13 +319,6 @@
                                         </TextBox>
                                         <ComboBox x:Name="CoboxGasPro" DisplayMemberPath="f_gasproperties"  SelectedValuePath="f_gasproperties" ItemsSource="{m:Exp Str=usegaslist}" SelectedValue="{m:Bind Path=f_gasproperties}"  Grid.Column="1" Margin="0,3,0,2" Grid.Row="9" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" >
                                             <a:Data.Prop>
-
-                                                <!--<o:PropertySetter PropertyName="f_phone" Value="{m:Exp Str=userfilego.f_phone}"/>
-                                            </a:Data.Prop>
-                                        </TextBox>
-                                        <ComboBox x:Name="CoboxGasPro" DisplayMemberPath="f_gasproperties"  SelectedValuePath="f_gasproperties"  SelectedValue="{m:Bind Path=f_gasproperties}"  ItemsSource="{m:Exp Str=usegaslist}" Grid.Column="1" Margin="0" Grid.Row="10" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" >
-                                            <a:Data.Prop>
->>>>>>> .r26480-->
                                                 <o:PropertySetter PropertyName="f_gasproperties" NotNull="True" Value="{m:Exp Str=$\{areafiles.SelectedItem.f_gasproperties\}$}"  Default="{m:Exp Str=userfilego.f_gasproperties}"/>
                                             </a:Data.Prop>
                                         </ComboBox>
@@ -341,7 +334,7 @@
                                         </TextBox>
                                         <TextBlock Margin="0,4,0,1" TextWrapping="Wrap" Text="气表品牌：" TextAlignment="Right" Grid.Row="10" Height="25"/>
                                         <TextBlock Margin="0,3,0,2" TextWrapping="Wrap" Text="气表型号：" TextAlignment="Right" Grid.Row="10" Height="25" Grid.Column="2"/>
-                                        <TextBlock Margin="0,3,0,2" Grid.Row="6" TextWrapping="Wrap" Text="表　  　号：" TextAlignment="Right" Height="25"/>
+                                        <TextBlock Margin="0,3,0,2" Grid.Row="7" TextWrapping="Wrap" Text="表　  　号：" TextAlignment="Right" Height="25"/>
                                         <TextBlock Grid.Column="2" Margin="0,4,0,1" Grid.Row="6" TextWrapping="Wrap" Text="合同编号：" TextAlignment="Right" Height="25"/>
                                         <!--<TextBlock Margin="-2,0,0,0" Grid.Row="7" TextWrapping="Wrap" Text="开票类型：" TextAlignment="Right" RenderTransformOrigin="0.18,0" Height="26" VerticalAlignment="Bottom"/>-->
                                         <ComboBox x:Name="CoboxPinpai" DisplayMemberPath="f_pinpai" SelectedValuePath="f_pinpai" ItemsSource="{m:Exp Str=pinpailist}" SelectedValue="{m:Bind Path=f_gaswatchbrand}" Grid.Column="1" Margin="0,2,0,3" Grid.Row="10" Height="25" VerticalAlignment="Stretch"   >
@@ -354,7 +347,7 @@
                                                 <o:PropertySetter PropertyName="f_metertype" NotNull="True" Value="{m:Exp Str=areafiles.SelectedItem.f_metertype}" Default="{m:Exp Str=userfilego.f_metertype}"/>
                                             </a:Data.Prop>
                                         </ComboBox>
-                                        <TextBox Text="{m:Bind Path=f_meternumber}"  Grid.Column="1" Margin="0,3,0,2" Grid.Row="6" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" VerticalAlignment="Stretch" Grid.RowSpan="1" >
+                                        <TextBox Text="{m:Bind Path=f_meternumber}"  Grid.Column="1" Margin="0,3,0,2" Grid.Row="7" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" VerticalAlignment="Stretch" Grid.RowSpan="1" >
                                             <a:Data.Prop>
                                                 <o:PropertySetter PropertyName="f_meternumber" />
                                             </a:Data.Prop>
@@ -523,8 +516,8 @@
                                                 <o:PropertySetter PropertyName="kmm"  Value="{m:Exp Str=CoboxPinpai.SelectedItem.kmm}"  Default="{m:Exp Str=CoboxPinpai.SelectedItem.kmm}" />
                                             </a:Data.Prop>
                                         </TextBox>
-                                        <TextBlock Margin="0,4,0,1" Grid.Row="10" TextWrapping="Wrap" Text="气表位置：" TextAlignment="Right" Grid.Column="4" Height="25"/>
-                                        <ComboBox DisplayMemberPath="name" SelectedValuePath="name" SelectedValue="{m:Bind Path=f_weizhi}"  Grid.Column="5" Margin="0,1,0,0" Grid.Row="10" Height="Auto" VerticalAlignment="Stretch" Grid.RowSpan="1" >
+                                        <TextBlock Margin="0,4,0,1" Grid.Row="12" TextWrapping="Wrap" Text="气表位置：" TextAlignment="Right" Grid.Column="4" Height="25"/>
+                                        <ComboBox DisplayMemberPath="name" SelectedValuePath="name" SelectedValue="{m:Bind Path=f_weizhi}"  Grid.Column="5" Margin="0,1,0,0" Grid.Row="12" Height="Auto" VerticalAlignment="Stretch" Grid.RowSpan="1" >
                                             <a:Data.Items>
                                                 <o:ObjectList WebClientInfo="{StaticResource dbclient}"  Path="from paramvalue where param.name='内外表'"/>
                                             </a:Data.Items>
@@ -671,6 +664,23 @@
                                                 <o:PropertySetter PropertyName="f_stairmonths" NoDependValue="{m:Exp Str=CoboxStair.SelectedItem.f_stairmonths}"  />
                                             </a:Data.Prop>
                                         </TextBox>
+                                        <TextBlock Margin="1,4,1,1" TextWrapping="Wrap" Text="卡      号：" TextAlignment="Right" Grid.Row="6" Height="25"/>
+                                        <TextBox Text="{m:Bind Path=f_cardid}"  Grid.Column="1" Margin="0,3,0,2" Grid.Row="6" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Grid.RowSpan="1" >
+                                        	<a:Data.Prop>
+                                        		<o:PropertySetter PropertyName="f_cardid"/>
+                                        	</a:Data.Prop>
+                                        </TextBox>
+                                        <TextBlock Grid.Row="10" TextWrapping="Wrap" Text="气表类型：" TextAlignment="Right" Height="25" Margin="0,4,0,1" Grid.Column="4"/>
+                                        <!--<ComboBox x:Name="Coboxqblx" DisplayMemberPath="name"  SelectedValuePath="name" ItemsSource="{m:Exp Str=qblxlist}" SelectedValue="{m:Bind Path=f_gasmeterstyle}" Grid.Column="5" Margin="0,2,0,3" Grid.Row="12" Height="25" VerticalAlignment="Stretch"   >
+                                        	<a:Data.Prop>
+                                                <o:PropertySetter PropertyName="f_gasmeterstyle" NotNull="True"/>
+                                            </a:Data.Prop>
+                                        </ComboBox>-->
+										<TextBox Text="{m:Bind Path=f_gasmeterstyle}"  Grid.Column="5" Margin="0,2,0,3" Grid.Row="10" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" >
+													<a:Data.Prop>
+														<o:PropertySetter PropertyName="f_gasmeterstyle" Value="{m:Exp Str=CoboxPinpai.SelectedItem.f_type}" />
+													</a:Data.Prop>	
+												</TextBox>
                                     </Grid>
                                 </ScrollViewer>
                             </sdk:TabItem>

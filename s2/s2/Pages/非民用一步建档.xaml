@@ -210,7 +210,7 @@
 												<TextBlock Text="单位名称：" Grid.Column="0" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Height="25" Grid.Row="3"/>
 												<TextBlock Text="联 系 人：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="5" Height="25"/>
 												<TextBlock Text="地　　址：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Height="25" Grid.Row="6"/>
-												<TextBlock Text="证件类型：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Height="600" Grid.Row="4" Width="700"/>
+												<TextBlock Text="证件类型：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="4"/>
 												<TextBlock Text="电　　话：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Column="2" Grid.Row="5" Height="25"/>
 												<TextBlock Text="安装地点：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="9" Height="25"/>
 												<TextBlock Text="用户类型：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="8" Height="25" Grid.Column="2"/>
@@ -663,7 +663,7 @@
 													</a:Data.Prop>
 												</TextBox>
 												<TextBlock Text="卡　　号：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Column="4" Height="25" Grid.Row="9"/>
-												<TextBox Text="{m:Bind Path=f_cardid}" Grid.Column="5" Margin="0" Grid.Row="9" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" Grid.RowSpan="1" >
+												<TextBox Text="{m:Bind Path=f_cardid}" Grid.Column="5" Margin="0" Grid.Row="9" Height="25" VerticalAlignment="Stretch" Grid.RowSpan="1" >
 													<a:Data.Prop>
 														<o:PropertySetter PropertyName="f_cardid" />
 													</a:Data.Prop>	
