@@ -52,16 +52,18 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.135*"/>
                             <ColumnDefinition Width="0.225*"/>
+							<ColumnDefinition Width="0.135*"/>
+                            <ColumnDefinition Width="0.225*"/>
                             <ColumnDefinition Width="0.64*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.44*"/>
                             <RowDefinition Height="0.56*"/>
                         </Grid.RowDefinitions>
-                        <sdk:Label Content="用户编号：" Margin="0,5,0,6" RenderTransformOrigin="0.5,0.5"  HorizontalAlignment="Right" />
-                        <TextBox Text="{m:Bind Path=f_userid}"  Margin="0,10,-1,5" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch" Height="Auto" Grid.Column="1"  >
+                        <sdk:Label Content="卡      号：" Margin="0,5,0,6" RenderTransformOrigin="0.5,0.5"  HorizontalAlignment="Right" />
+                        <TextBox Text="{m:Bind Path=f_cardid}"  Margin="0,10,-1,5" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch" Height="Auto" Grid.Column="1"  >
                             <a:Data.Prop>
-                                <o:PropertySetter PropertyName="f_userid" Operator="f_userid = 'this'"/>
+                                <o:PropertySetter PropertyName="f_cardid" Operator="f_cardid = 'this'"/>
                             </a:Data.Prop>
                         </TextBox>
                         <sdk:Label Content="小区名称：" Margin="0,5,0,20" HorizontalAlignment="Right" Grid.Row="1" />
@@ -70,7 +72,13 @@
                                 <o:PropertySetter PropertyName="f_districtname" Operator="f_districtname like 'this%'"/>
                             </a:Data.Prop>
                         </TextBox>
-                        <Button Content="查询" x:Name="searchbutton" Click="{m:Exp Str=searchHandUserUnit.DataContext.Search()}" Width="100" Margin="9,0,0,20" HorizontalAlignment="Left"  Grid.Column="2"  Grid.Row="1"/>
+                        <Button Content="查询" x:Name="searchbutton" Click="{m:Exp Str=searchHandUserUnit.DataContext.Search()}" Width="100" Margin="9,0,0,20" HorizontalAlignment="Left"  Grid.Column="3"  Grid.Row="1"/>
+                        <sdk:Label Content="用户编号：" Margin="0,5,0,6" RenderTransformOrigin="0.5,0.5"  HorizontalAlignment="Right" Grid.Column="2" />
+                        <TextBox Text="{m:Bind Path=f_userid}"  Margin="0,10,0,5" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch" Height="Auto" Grid.Column="3"  Grid.ColumnSpan="1"  >
+                        	<a:Data.Prop>
+                        		<o:PropertySetter PropertyName="f_userid" Operator="f_userid = 'this'"/>
+                        	</a:Data.Prop>
+                        </TextBox>
                     </Grid>
                 </StackPanel>
                 <sdk:DataGrid x:Name="handUserUnits" ItemsSource="{m:Exp Str=personlist}" IsReadOnly="True" AutoGenerateColumns="False" Margin="8,80,315,1.333" HorizontalAlignment="Stretch" Width="Auto" Grid.Row="1" d:LayoutOverrides="VerticalAlignment" Grid.RowSpan="2">
