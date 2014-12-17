@@ -26,6 +26,7 @@ public class CardService {
 	public String files() {
 		String result = "";
 		String path = this.getClass().getClassLoader().getResource("/card").getPath();
+		path="D:/card";
 		log.debug(path);
 		//递归获取所有文件的最后修改日期
 		File file = new File(path);
