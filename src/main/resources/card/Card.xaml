@@ -4,21 +4,28 @@
     xmlns:service="clr-namespace:service;assembly=LocalService"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <service:CardInfos x:Key="CardInfos">
-        <service:CardConfig Name="XianFeng">
-            <service:CardConfig.Card>
-                <card:XianFeng/>
-            </service:CardConfig.Card>
-        </service:CardConfig>
-	<service:CardConfig Name="JinKaMY">
-            <service:CardConfig.Card>
-                <card:JinKaMY/>
-            </service:CardConfig.Card>
-        </service:CardConfig>
 
-	<service:CardConfig Name="JinKaGY">
+
+	<service:CardConfig Name="JinKaMHK">
             <service:CardConfig.Card>
-                <card:JinKaGY/>
+                <card:JinKaMHK/>
             </service:CardConfig.Card>
         </service:CardConfig>
+	<service:CardConfig Name="JinKaGYMHK">
+            <service:CardConfig.Card>
+                <card:JinKaGYMHK/>
+            </service:CardConfig.Card>
+        </service:CardConfig>
+        <service:CardConfig Name="LanBaoShi">
+            <service:CardConfig.Card>
+                <card:LanBaoShi/>
+            </service:CardConfig.Card>
+        </service:CardConfig>
+	<service:CardConfig Name="LanBaoShiGY">
+            <service:CardConfig.Card>
+                <card:LanBaoShiGY/>
+            </service:CardConfig.Card>
+        </service:CardConfig>
+	 
     </service:CardInfos>
 </ResourceDictionary>

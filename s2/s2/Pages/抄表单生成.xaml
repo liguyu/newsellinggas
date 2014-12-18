@@ -87,6 +87,12 @@
 										<o:PropertySetter PropertyName="f_address"  Operator="f_address like 'this%'"/>          
 									</a:Data.Prop>
 								</TextBox>
+								<TextBlock TextWrapping="Wrap" Text="卡号："  Margin="10,0,0,0" Height="25" TextAlignment="Right" HorizontalAlignment="Left" />
+								<TextBox x:Name="tjwhf_Copy" TextWrapping="Wrap" Text="{m:Bind Path=f_cardid}" Width="80" Margin="0" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+									<a:Data.Prop>
+										<o:PropertySetter PropertyName="f_cardid"  Operator="f_cardid = 'this'"/>           
+									</a:Data.Prop>
+								</TextBox>
 								<TextBlock TextWrapping="Wrap" Text="用户编号："  Margin="10,0,0,0" Height="25" TextAlignment="Right" HorizontalAlignment="Left" />
 								<TextBox x:Name="tjwhf_Copy1" TextWrapping="Wrap" Text="{m:Bind Path=f_userid}" Width="80" Margin="0" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
 									<a:Data.Prop>
@@ -95,6 +101,7 @@
 								</TextBox>
 								<Button Content=" 查  询" x:Name="dansearchbutton" Grid.Column="9" Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="20,0,0,0" FontSize="14" Width="54" HorizontalAlignment="Left"  />
 								<HyperlinkButton x:Name="annex"  Content="导出Excel"  NavigateUri="{m:Exp Str=$\{dbclient.BaseAddress\}/excel/\{test1.url\}/\{daninfos.ItemsSource.Count\}/f_userid|f_username|f_address|f_phone|f_inputtor|f_meternumber|lastinputdate|lastinputgasnum$}" TargetName="_blank" 	Margin="20,0,0,0" Background="white" Grid.Column="9" Width="60" d:LayoutOverrides="Width" VerticalAlignment="Center" />
+								
 								
 							</StackPanel>
 					

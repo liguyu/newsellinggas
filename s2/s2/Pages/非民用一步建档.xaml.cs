@@ -14,8 +14,9 @@ namespace Com.Aote.Pages
 	{
 		public 非民用一步建档()
 		{
+            
 			// Required to initialize variables
 			InitializeComponent();
-		}
+		} 
 	}
 }

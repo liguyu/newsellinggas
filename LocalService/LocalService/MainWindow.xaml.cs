@@ -31,7 +31,7 @@ namespace LocalService
         {
             InitializeComponent();
             //显示成托盘
-            this.Visibility = Visibility.Hidden;
+            /*this.Visibility = Visibility.Hidden;
             this.notifyIcon = new NotifyIcon();
             this.notifyIcon.BalloonTipText = "托盘应用程序正在运行！";
             this.notifyIcon.Text = "托盘应用程序！";
@@ -46,7 +46,7 @@ namespace LocalService
             System.Windows.Forms.MenuItem[] menuItems = new System.Windows.Forms.MenuItem[] { item1, item2 };
             this.notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(menuItems);
             this.StateChanged += new EventHandler(MainWindow_StateChanged);
-            this.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
+            this.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);*/
             //启动服务
             service.StartServer();
         }

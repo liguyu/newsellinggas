@@ -89,7 +89,7 @@ namespace service
             {
                 //获取本地端口号，波特率
                 Port = short.Parse(Config.GetConfig("Port"));
-                Baud = int.Parse(Config.GetConfig("Baud"));
+                Baud = int.Parse(Config.GetConfig("Baud"));                   
                 Log.Debug("Port,Baud" + Port + Baud);
                 //获取后台ip地址
                 string ip = Config.GetConfig("RemoteIP");

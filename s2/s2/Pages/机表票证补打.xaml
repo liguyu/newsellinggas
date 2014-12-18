@@ -78,7 +78,7 @@
 						</o:GeneralObject>
 		<!--售气收费对象 -->
         	<o:GeneralObject Name="sellinggas" EntityType="t_sellinggas" WebClientInfo="{StaticResource dbclient}"
-             Path="{m:Exp Str=$one/from t_sellinggas where id\=(select max(id) from t_sellinggas where f_userid\=\'\{userfile.DataContext.f_userid\}\' and f_payfeevalid \=\'有效\' and f_comtype \!\=\'银行\' ) and f_payfeevalid \=\'有效\' and f_comtype \!\=\'银行\' $\,$abc$}" 
+             Path="{m:Exp Str=userfiles.SelectedItem!\=null:$one/from t_sellinggas where id\=(select max(id) from t_sellinggas where f_userid\=\'\{userfiles.SelectedItem.f_userid\}\' and f_payfeevalid \=\'有效\' and f_comtype \!\=\'银行\' ) and f_payfeevalid \=\'有效\' and f_comtype \!\=\'银行\' $\,userfile.DataContext.f_userid!\=null:$one/from t_sellinggas where id\=(select max(id) from t_sellinggas where f_userid\=\'\{userfile.DataContext.f_userid\}\' and f_payfeevalid \=\'有效\' and f_comtype \!\=\'银行\' ) and f_payfeevalid \=\'有效\' and f_comtype \!\=\'银行\' $\,userfile.DataContext.f_cardid!\=null:$one/from t_sellinggas where id\=(select max(id) from t_sellinggas where f_cardid\=\'\{userfile.DataContext.f_cardid\}\' and f_payfeevalid \=\'有效\' and f_comtype \!\=\'银行\' ) and f_payfeevalid \=\'有效\' and f_comtype \!\=\'银行\' $\,$abc$}" 
 			 IsInit="{m:Exp Str=print.State\=\=$End$ or print1.State\=\=$End$}">
 			</o:GeneralObject>
 		<!--保存对象  CanSave="{m:Exp Str=print.State\=\=$End$}"-->
@@ -103,19 +103,25 @@
 							<o:SearchObject />        	
 						</a:Data.Context>
 						
+						<TextBlock TextWrapping="Wrap" Text="卡号：" Margin="5,6,0,6"/>
+						<TextBox TextWrapping="Wrap" Text="{m:Bind Path=f_cardid}" a:ControlAttach.DefaultButton="searchbutton" Width="60" Height="25" Margin="0,3" >
+							<a:Data.Prop>
+								<o:PropertySetter PropertyName="f_cardid" Operator="f_cardid like 'this%'"/>               
+							</a:Data.Prop>
+						</TextBox>
 						<TextBlock TextWrapping="Wrap" Text="用户编号：" Margin="5,6,0,6"/>
-						<TextBox TextWrapping="Wrap" Text="{m:Bind Path=f_userid}" a:ControlAttach.DefaultButton="searchbutton" Width="120" Height="25" Margin="0,3" >
+						<TextBox TextWrapping="Wrap" Text="{m:Bind Path=f_userid}" a:ControlAttach.DefaultButton="searchbutton" Width="60" Height="25" Margin="0,3" >
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_userid" Operator="f_userid like 'this%'"/>               
 							</a:Data.Prop>
 						</TextBox>
-						<TextBlock TextWrapping="Wrap" Text="公司类型：" Margin="0,6,6,0" HorizontalAlignment="Right" Grid.Column="2" Width="81" TextAlignment="Right"/>
-						<ComboBox x:Name="tjczy_Copy"  SelectedValue="{m:Bind Path=f_comtype}" Grid.Column="3" ItemsSource="{m:Exp Str=gongsitypelist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="80">
+						<TextBlock TextWrapping="Wrap" Text="公司类型：" Margin="0,6,6,0" HorizontalAlignment="Right" Grid.Column="2" TextAlignment="Right"/>
+						<ComboBox x:Name="tjczy_Copy"  SelectedValue="{m:Bind Path=f_comtype}" Grid.Column="3" ItemsSource="{m:Exp Str=gongsitypelist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="60">
 									<a:Data.Prop>
 										<o:PropertySetter PropertyName="f_comtype"  Operator="f_comtype = 'this'"/>          
 									</a:Data.Prop>
 								</ComboBox>
-						<Button Content="查  询" x:Name="searchbutton" Click="{m:Exp Str=userfilesearch.DataContext.Search()}" Margin="0,5,5,0" HorizontalAlignment="Right" Width="50" />
+						<Button Content="查  询" x:Name="searchbutton" Click="{m:Exp Str=userfilesearch.DataContext.Search()}" Margin="0,5,5,0" Width="50" />
 					</toolkit:DockPanel>
 					<toolkit:DockPanel   toolkit:DockPanel.Dock="Bottom" Height="24">
 						<TextBlock TextWrapping="Wrap" Margin="0,-6,0,6" Text="{m:Exp Str=$共\{userfiles.ItemsSource.Count\}项}" Width="Auto" HorizontalAlignment="Stretch" Foreground="#FF140000"/>
@@ -125,13 +131,14 @@
 						AutoGenerateColumns="False" Width="Auto" Background="{x:Null}" IsReadOnly="True" >
 						<a:Data.Items>
 							<o:PagedObjectList x:Name="userfileslist" WebClientInfo="{StaticResource dbclient}"
-								Path="{m:Exp Str=$from t_repair where \{userfilesearch.DataContext.Condition\}  and f_comtype \!\=\'银行\'  and f_reversaldate \=\'\{SysTime.Today.ToString($yyyy-MM-dd$)\}\' }"
+								Path="{m:Exp Str=$from t_repair where \{userfilesearch.DataContext.Condition\}  and f_comtype \!\=\'银行\' and f_reversaldate \=\'\{SysTime.Today.ToString($yyyy-MM-dd$)\}\'}"
 								IsOld="{m:Exp Str=SubmitAction.State\=\=$End$ or DeleteAction.State\=\=$End$ or userfile.DataContext.State\=\=$End$}"
 								PageIndex="{m:Exp Str=pager.PageIndex}" PageSize="{m:Exp Str=pager.PageSize}" SumNames=","/>
 						</a:Data.Items>
 						<sdk:DataGrid.Columns>
 							<sdk:DataGridTextColumn d:IsLocked="True" Header="序  号" Binding="{Binding Index}"/>
 							<sdk:DataGridTextColumn d:IsLocked="True" Header="用户编号" Binding="{Binding f_userid}"/>
+							<sdk:DataGridTextColumn d:IsLocked="True" Header="卡号" Binding="{Binding f_cardid}"/>
 							<sdk:DataGridTextColumn d:IsLocked="True" Header="用户姓名" Binding="{Binding f_username}"/>
 							<sdk:DataGridTextColumn Header="交费时间" Binding="{Binding f_deliverytime,StringFormat=hh:mm:ss tt}"/>
 							<sdk:DataGridTextColumn Header="补打日期" Binding="{Binding f_reversaldate,StringFormat=yyyy-MM-dd}"/>
@@ -195,8 +202,8 @@
 								<ColumnDefinition Width="130"/>
 								<ColumnDefinition Width="1*"/>
 							</Grid.ColumnDefinitions>
-							<TextBlock Text="用户编号：" Margin="0" TextWrapping="Wrap"  TextAlignment="Right" Height="25"/>
-							<TextBlock Text="用户姓名：" Margin="0" TextWrapping="Wrap"  TextAlignment="Right" Grid.Column="2" Height="25"/>
+							<TextBlock Text="用户编号：" Margin="0" TextWrapping="Wrap"  TextAlignment="Right" Height="25" Grid.Column="2"/>
+							<TextBlock Text="用户姓名：" Margin="0" TextWrapping="Wrap"  TextAlignment="Right" Grid.Column="4" Height="25"/>
 							<TextBlock Text="身份证号：" Margin="0" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
 							<TextBlock Text="地      址：" Grid.Column="2" Margin="0" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
 							<TextBlock Text="门 牌 号：" Grid.Column="2" Margin="0" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
@@ -224,13 +231,13 @@
 							<TextBlock Text="收      款：" Grid.Column="2" Margin="0" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
 							<TextBlock Text="应交金额：" Margin="0" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Right" Grid.Column="4" Height="25"/>
 							<TextBlock Text="找      零：" Margin="0" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-							<TextBox x:Name="userid" Text="{m:Bind Path=f_userid}"  Grid.Column="1" Margin="0,0,53,0" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25"  >
+							<TextBox x:Name="userid" Text="{m:Bind Path=f_userid}"  Grid.Column="3" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25"  >
 								<a:Data.Prop>
-									<o:PropertySetter PropertyName="f_userid" />
+									<o:PropertySetter PropertyName="f_userid"  Value="{m:Exp Str=sellinggas.f_userid\=&gt;Completed}"/>
 								</a:Data.Prop>
 							</TextBox>
 							
-							<TextBox Text="{m:Bind Path=f_username}" IsReadOnly="True" Grid.Column="3" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="3" Height="25"  >
+							<TextBox Text="{m:Bind Path=f_username}" IsReadOnly="True" Grid.Column="5" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25"  >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_username" Value="{m:Exp Str=sellinggas.f_username\=&gt;Completed}"/>
 								</a:Data.Prop>
@@ -472,17 +479,17 @@
 								</a:Data.Prop>
 							</TextBox>
 							<TextBlock Margin="0" Grid.Row="11" TextWrapping="Wrap" TextAlignment="Right" Height="25"><Run Text="交费"/><Run Text="时间"/><Run Text="："/></TextBlock>
-							<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="1" Margin="0" Grid.Row="11"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" >
+							<!--<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="1" Margin="0" Grid.Row="11"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_deliverytime" Value="{m:Exp Str=sellinggas.f_deliverytime\=&gt;Completed}" />
 								</a:Data.Prop>
-							</toolkit:TimePicker>
+							</toolkit:TimePicker>-->
 							<TextBlock Margin="0" Grid.Row="15" Text="补打时间：" TextAlignment="Right" Height="25" />
-							<toolkit:TimePicker Value="{m:Bind Path=f_budatime}" IsEnabled="False" Grid.Column="1" Margin="0" Grid.Row="15"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" >
+							<!--<toolkit:TimePicker Value="{m:Bind Path=f_budatime}" IsEnabled="False" Grid.Column="1" Margin="0" Grid.Row="15"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_budatime" Value="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
 								</a:Data.Prop>
-							</toolkit:TimePicker>
+							</toolkit:TimePicker>-->
 							<TextBox Text="{m:Bind Path=f_apartment}" Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" IsReadOnly="True" Height="25" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_apartment" Value="{m:Exp Str=sellinggas.f_apartment\=&gt;Completed}" />
@@ -530,6 +537,12 @@
 							<TextBox Text="{m:Bind Path=f_benqizhye}" IsReadOnly="True" Grid.Column="3" Margin="0,3,0,2" Grid.Row="15" TextWrapping="Wrap" Height="25" Grid.ColumnSpan="1" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_benqizhye" Value="{m:Exp Str=sellinggas.f_benqizhye}" />
+								</a:Data.Prop>
+							</TextBox>
+							<TextBlock Text="卡      号：" Margin="0,2.5" TextWrapping="Wrap"  TextAlignment="Right" Height="25"/>
+							<TextBox x:Name="cardid" Text="{m:Bind Path=f_cardid}"  Grid.Column="1" Margin="0,2.5" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25"  >
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_cardid"  Value="{m:Exp Str=sellinggas.f_cardid\=&gt;Completed}"/>
 								</a:Data.Prop>
 							</TextBox>
 						</Grid>
