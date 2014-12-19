@@ -566,9 +566,46 @@
                                 <o:PropertySetter PropertyName="f_zhi" NoDependValue="{m:Exp Str=pipelinego.f_cmaddgas}"/>
                             </a:Data.Prop>
                         </TextBox>
-                      
-                        
-                        
+                        <TextBox Text="{m:Bind Path=f_comtype}" Visibility="Collapsed" Grid.Column="2" Margin="0,3,0,2" Grid.Row="17" TextWrapping="Wrap" VerticalAlignment="Stretch" IsReadOnly="True" Height="25" RenderTransformOrigin="0.851,0.64" HorizontalAlignment="Left" Width="35">
+                            <a:Data.Prop>
+                                <o:PropertySetter PropertyName="f_comtype" NotNull="True" Default="煤气公司"/>
+                            </a:Data.Prop>
+                        </TextBox>
+                        <TextBox Text="{m:Bind Path=klx}" Grid.Column="2" Visibility="Collapsed" Margin="2,3,0,2" Grid.Row="18" TextWrapping="Wrap" VerticalAlignment="Stretch" IsReadOnly="True" Height="25" Grid.RowSpan="1" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="10">
+                            <a:Data.Prop>
+                                <o:PropertySetter PropertyName="klx" NoDependValue="{m:Exp Str=CoboxPinpai.SelectedItem.klx}"/>
+                            </a:Data.Prop>
+                        </TextBox>
+                        <TextBox Text="{m:Bind Path=dqdm}" Grid.Column="2" Visibility="Collapsed" Margin="0,3,86,2" Grid.Row="18" TextWrapping="Wrap" VerticalAlignment="Stretch" IsReadOnly="True" Height="25" Grid.RowSpan="1" Grid.ColumnSpan="1" HorizontalAlignment="Right" Width="10">
+                            <a:Data.Prop>
+                                <o:PropertySetter PropertyName="dqdm" NoDependValue="{m:Exp Str=CoboxPinpai.SelectedItem.dqdm}"/>
+                            </a:Data.Prop>
+                        </TextBox>
+                        <TextBox Text="{m:Bind Path=yhh}" Grid.Column="2" Margin="0,3,74,2" Visibility="Collapsed" Grid.Row="18" TextWrapping="Wrap" VerticalAlignment="Stretch" IsReadOnly="True" Height="25" Grid.RowSpan="1" Grid.ColumnSpan="1" HorizontalAlignment="Right" Width="10">
+                            <a:Data.Prop>
+                                <o:PropertySetter PropertyName="yhh" NoDependValue="{m:Exp Str=CoboxPinpai.SelectedItem.yhh}"/>
+                            </a:Data.Prop>
+                        </TextBox>
+                        <TextBox Text="{m:Bind Path=bjql}" Grid.Column="2" Visibility="Collapsed" Margin="0,3,63,2" Grid.Row="18" TextWrapping="Wrap" VerticalAlignment="Stretch" IsReadOnly="True" Height="25" Grid.RowSpan="1" Grid.ColumnSpan="1" HorizontalAlignment="Right" Width="10">
+                            <a:Data.Prop>
+                                <o:PropertySetter PropertyName="bjql" NoDependValue="{m:Exp Str=CoboxPinpai.SelectedItem.bjql}"/>
+                            </a:Data.Prop>
+                        </TextBox>
+                        <TextBox Text="{m:Bind Path=czsx}" Grid.Column="2" Visibility="Collapsed" Margin="0,3,52,2" Grid.Row="18" TextWrapping="Wrap" VerticalAlignment="Stretch" IsReadOnly="True" Height="25" Grid.RowSpan="1" Grid.ColumnSpan="1" HorizontalAlignment="Right" Width="10">
+                            <a:Data.Prop>
+                                <o:PropertySetter PropertyName="czsx" NoDependValue="{m:Exp Str=CoboxPinpai.SelectedItem.czsx}"/>
+                            </a:Data.Prop>
+                        </TextBox>
+                        <TextBox Text="{m:Bind Path=tzed}" Grid.Column="2" Visibility="Collapsed" Margin="0,3,40,2" Grid.Row="18" TextWrapping="Wrap" VerticalAlignment="Stretch" IsReadOnly="True" Height="25" Grid.RowSpan="1" Grid.ColumnSpan="1" HorizontalAlignment="Right" Width="10" d:LayoutOverrides="HorizontalAlignment">
+                            <a:Data.Prop>
+                                <o:PropertySetter PropertyName="tzed" NoDependValue="{m:Exp Str=CoboxPinpai.SelectedItem.tzed}"/>
+                            </a:Data.Prop>
+                        </TextBox>
+                        <TextBox Text="{m:Bind Path=kmm}" Grid.Column="2" Visibility="Collapsed" Margin="0,3,28,2" Grid.Row="18" TextWrapping="Wrap" VerticalAlignment="Stretch" IsReadOnly="True" Height="25" Grid.RowSpan="1" Grid.ColumnSpan="1" HorizontalAlignment="Right" Width="10" d:LayoutOverrides="HorizontalAlignment">
+                            <a:Data.Prop>
+                                <o:PropertySetter PropertyName="kmm" NoDependValue="{m:Exp Str=CoboxPinpai.SelectedItem.kmm}"/>
+                            </a:Data.Prop>
+                        </TextBox>
                     </Grid>
                 </Grid>
             </c:BusyIndicatorEx>

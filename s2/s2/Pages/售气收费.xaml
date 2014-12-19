@@ -201,7 +201,7 @@
 		<oo:NewGeneralICCard Name="card"   
 		 CanSellGas="{m:Exp Str='SaveAction.State=>Completed==$End$ and kbfee.f_initcardsellgas!=$初始化卡购气标记$ and kbfee.f_initcardsellgas!=$补卡$' }"
 		 CanRewriteCard="{m:Exp Str='SaveAction.State=>Completed==$End$ and (kbfee.f_initcardsellgas==$初始化卡购气标记$ or kbfee.f_initcardsellgas==$补卡$)'}"
-		 CardId="{m:Exp Str=kbfee1.DataContext.f_cardid}"
+         CardId="{m:Exp Str='card=>Writing!= null:kbusers.f_cardid,null'}"
 		 Gas="{m:Exp Str=(kbfee.f_pregas+kbfee.f_surplusgas).ToInt()}"
 		 Klx="{m:Exp Str='kbusers != null\:kbusers.klx\,null'}"		
 		 Kzt="{m:Exp Str='kbusers=>DataLoaded!=null:(kbfee.f_initcardsellgas==$初始化卡购气标记$:0,1),0'}"
