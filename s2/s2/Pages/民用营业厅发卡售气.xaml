@@ -493,19 +493,19 @@
                             <TextBox Text="{m:Bind Path=f_upbuynum}" Grid.Column="3" Margin="0" Grid.Row="8" TextWrapping="Wrap" IsReadOnly="True" Height="25" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_upbuynum" 
-									Value="{m:Exp Str=userfiles1.f_zongleiji\=>Completed}" Default="0"/>
+									NoDependValue="{m:Exp Str=userfiles1.f_zongleiji\=>Completed}" Default="0"/>
                                 </a:Data.Prop>
                             </TextBox>
                             <TextBox Text="{m:Bind Path=f_metergasnums}"  Grid.Column="3" Margin="0" Grid.Row="9" TextWrapping="Wrap" IsReadOnly="True" Height="25" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_metergasnums" Default="0"
-									Value="{m:Exp Str=userfilego.f_premetergasnums+userfilego.f_pregas}"/>
+									NoDependValue="{m:Exp Str=userfilego.f_premetergasnums+userfilego.f_pregas}"/>
                                 </a:Data.Prop>
                             </TextBox>
                             <TextBox Text="{m:Bind Path=f_cumulativepurchase}"  Grid.Column="1" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="9" Height="25"  >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_cumulativepurchase" Default="0"
-									Value="{m:Exp Str=userfilego.f_upbuynum+userfilego.f_pregas}"/>
+									NoDependValue="{m:Exp Str=userfilego.f_upbuynum+userfilego.f_pregas}"/>
                                 </a:Data.Prop>
                             </TextBox>
 
@@ -524,13 +524,13 @@
                             <TextBox Text="{m:Bind Path=f_totalcost}" FontWeight="Bold" Foreground="Red" Grid.Column="3" Margin="0" Grid.Row="11" TextWrapping="Wrap" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_totalcost" Default="0"
-									Value="{m:Exp Str=userfilego.f_preamount+userfilego.f_cardfees+userfilego.f_cailiaofei}"/>
+									NoDependValue="{m:Exp Str=userfilego.f_preamount+userfilego.f_cardfees+userfilego.f_cailiaofei}"/>
                                 </a:Data.Prop>
                             </TextBox>
                             <TextBox Text="{m:Bind Path=f_limitbuygas}"  Grid.Column="1" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="10" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_limitbuygas" 
-									Value="{m:Exp Str='openxiangou.Result!=null:openxiangou.Result,userfile.DataContext.f_usertype==$民用$:(single[data.name\=\=$民用月限购气量$].ToObjectList().First().value.ToInt()),userfile.DataContext.f_usertype==$非民用$:gsxiangou.f_gscustomgas,0'}"/>
+									NoDependValue="{m:Exp Str='openxiangou.Result!=null:openxiangou.Result,userfile.DataContext.f_usertype==$民用$:(single[data.name\=\=$民用月限购气量$].ToObjectList().First().value.ToInt()),userfile.DataContext.f_usertype==$非民用$:gsxiangou.f_gscustomgas,0'}"/>
                                 </a:Data.Prop>
                             </TextBox>
                             <Button Content="修改"  Margin="0,0,0,1" Width="34" Grid.Row="10" Grid.Column="2"
