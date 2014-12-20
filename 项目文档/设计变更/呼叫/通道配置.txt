@@ -10,7 +10,7 @@
 <lines>
   <line num="1" starthour="19:00" endhour="07:59" />
 </lines>
-num 线路好   startConn=“19” endConn=“8”，值为24小时制，小时:分钟
+num 线路号   startConn=“19” endConn=“8”，值为24小时制，小时:分钟
 
 3程序修改
 WorkService中初始化通道时查找通道配置信息.
