@@ -559,7 +559,7 @@
                             <TextBox Text="{m:Bind Path=f_givechange}"  Grid.Column="5" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="11" Height="25" VerticalAlignment="Stretch"  >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_givechange" Default="0"
-								Value="{m:Exp Str=userfilego.f_grossproceeds-userfilego.f_totalcost}"/>
+								NoDependValue="{m:Exp Str=userfilego.f_grossproceeds-userfilego.f_totalcost}"/>
                                 </a:Data.Prop>
                             </TextBox>
 
