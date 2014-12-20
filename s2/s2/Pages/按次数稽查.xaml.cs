@@ -11,9 +11,9 @@ using Com.Aote.ObjectTools;
 
 namespace Com.Aote.Pages
 {
-    public partial class 稽查生成 : UserControl
+    public partial class 按次数稽查 : UserControl
     {
-        public 稽查生成()
+        public 按次数稽查()
         {
             InitializeComponent();
         }
