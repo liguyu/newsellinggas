@@ -176,7 +176,22 @@ namespace voice_card.entity
             get { return this.findInnerTimes; }
         }
 
-         
+        //设定自动接通的开始时间
+        private string startHour;
+        public string StartHour
+        {
+            set { startHour = value; }
+            get { return startHour; }
+        }
+
+        //设定自动接通的结束时间
+        private string endHour;
+        public string EndHour
+        {
+            set { endHour = value; }
+            get { return endHour; }
+        }
+
 
     }
 }
