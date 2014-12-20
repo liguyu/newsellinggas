@@ -3049,7 +3049,7 @@
     <Resource Include="icon\发票领用.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\gits\restv2\s2\s2DLL\s2DLL.csproj">
+    <ProjectReference Include="..\..\..\restv2\s2\s2DLL\s2DLL.csproj">
       <Project>{755bc4b3-86b8-4126-82c9-4f1bc5c8b07e}</Project>
       <Name>s2DLL</Name>
     </ProjectReference>
