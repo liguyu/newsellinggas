@@ -11,25 +11,15 @@
 
 	<context:annotation-config />
 	<context:component-scan base-package="com.aote.rs" />   
-	<!-- bean id="dataSource"
-		class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-
-		<property name="url" value="jdbc:sqlserver://127.0.0.1:1443;database=newsellinggas;" />
-		<property name="username" value="sa" />
-		<property name="password" value="123456" />
-	</bean-->
-
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-		<property name="url" value="jdbc:sqlserver://125.76.225.223:5223;database=sellinggas;" />
+		<property name="url" value="jdbc:sqlserver://127.0.0.1:1433;database=yangquangas;" />
 
 		<property name="username" value="sa" />
 
-		<property name="password" value="af@QFG123" />
+		<property name="password" value="000000" />
 	</bean>
 
 
