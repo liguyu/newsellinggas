@@ -14,6 +14,7 @@ using voice_card.helper;
 using System.ServiceModel.Web;
 using System.Windows.Forms;
 using System.Collections;
+using System.Xml.Linq;
 
 namespace voice_card.service
 {
@@ -31,6 +32,9 @@ namespace voice_card.service
         //服务主机
         private ServiceHost host;
 
+        //通道配置文件
+
+
     
         //加载驱动,obj是为外部显示集合，加载时会在lines和objs中都保存通道
         public void LoadDriver(ObservableCollection<LineInfo> objs)
@@ -43,6 +47,29 @@ namespace voice_card.service
                 return;
             }
             //设置每条通道初始状态
+            InitLines(objs);
+            //初始化信号音检测
+            InvokeVcDll.Sig_Init(0);
+            //本地保存引用
+            Lines = objs;
+            log.Debug("语音卡驱动加载成功");
+            log.Debug("加载语音分配策略");
+            LoadAssign();
+         }
+
+
+
+
+        /**
+         * 初始化语音通道
+         **/
+        public void InitLines(ObservableCollection<LineInfo> objs)
+        {
+            //加载语音通道配置文件
+            String currentDir = Environment.CurrentDirectory;
+            String path = System.IO.Path.Combine(currentDir, "lines.xml");
+            XElement lineConfig = XElement.Load(System.Xml.XmlReader.Create(path));
+
             ushort TotalLine = InvokeVcDll.CheckValidCh();
             for (int ch = 0; ch < TotalLine; ch++)
             {
@@ -63,22 +90,29 @@ namespace voice_card.service
                 line.IsKey = false;
                 line.Islink = "no";
                 line.ListenNum = -1;
+                //查找配置文件中内容，设置通道属性
+                if(lineConfig !=null)
+                {
+                    XElement element = lineConfig.Elements().Where(e => e.Attribute("num").Value == ch+"").FirstOrDefault();
+                    if(element !=null)
+                    {
+                        //设定通道自动接通的开始和结束小时
+                        string shour = (string)element.Attribute("starthour").Value;
+                        string ehour = (string)element.Attribute("endhour").Value;
+                        line.StartHour =shour;
+                        line.EndHour = ehour;
+                     }
+                 }
                 objs.Add(line);
             }
-
             //给每条通道分配初始语音缓冲区
             if (InvokeVcDll.EnableCard(TotalLine, 1024 * 128) != (long)0)
             {
                 InvokeVcDll.FreeDRV();
             }
-            //初始化信号音检测
-            InvokeVcDll.Sig_Init(0);
-            //本地保存引用
-            Lines = objs;
-            log.Debug("语音卡驱动加载成功");
-            log.Debug("加载语音分配策略");
-            LoadAssign();
-           }
+        }
+         
+        
 
         /**
          * 加载语音分配策略
