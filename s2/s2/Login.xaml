@@ -3,7 +3,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
 	xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit" 
-	
+	xmlns:c="clr-namespace:Com.Aote.Controls;assembly=s2DLL"
 	xmlns:a="clr-namespace:Com.Aote.Attachs;assembly=s2DLL"
     xmlns:o="clr-namespace:Com.Aote.ObjectTools;assembly=s2DLL"
     xmlns:b="clr-namespace:Com.Aote.Behaviors;assembly=s2DLL"
@@ -15,9 +15,10 @@
 	x:Class="Com.Aote.Pages.Login" 
 	FontFamily="Microsoft YaHei" FontSize="18.667" HorizontalAlignment="Center" VerticalAlignment="Center">
   <StackPanel x:Name="LayoutRoot" >
-    	<StackPanel>	
-        <TextBlock Visibility="{m:Exp Str='LoginUser.State==$LoadError$:$Visible$,$Collapsed$'}">用户名密码错误，请重新输入
-		</TextBlock>
+    	<StackPanel>
+            <!--<TextBlock Visibility="{m:Exp Str='LoginUser.State==$LoadError$:$Visible$,$Collapsed$'}">用户名密码错误，请重新输入
+		</TextBlock>-->
+            
 		<toolkit:BusyIndicator BusyContent="正在进行用户名/口令验证，请稍等" IsBusy="{m:Exp Str=LoginUser.IsBusy}">
 		<StackPanel>
 	<Grid   DataContext="{m:Res Key=LoginUser}" 
@@ -48,19 +49,21 @@
 				<Image Source="./image/loginbg.png" Grid.RowSpan="5" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				<sdk:Label HorizontalAlignment="Right" Margin="0" Grid.Row="1" VerticalAlignment="Center" Content="帐号：" FontSize="13.333" Foreground="#FFFFF6F6"/>
 				<sdk:Label HorizontalAlignment="Right" Margin="0,8,0,0" Grid.Row="2" VerticalAlignment="Center" Content="密码：" FontSize="13.333" Foreground="#FFFFF6F6"/>
-				<TextBox x:Name="name" Text="{m:Bind Path=ename}" a:ControlAttach.UpdateOnEnter="Text" 
+                                <TextBox x:Name="name" Text="{m:Bind Path=ename,UpdateOnChange=True}" a:ControlAttach.UpdateOnEnter="Text" 
 			a:ControlAttach.DefaultButton="okbutton" a:ControlAttach.FocusToOnEnter="password" Grid.Column="1" HorizontalAlignment="Left" Margin="0" Grid.Row="1" TextWrapping="Wrap"  Width="225" VerticalAlignment="Center" Height="30" FontSize="14.667" Style="{StaticResource LoginIDTextBoxStyle}"/>
 				<!--<TextBox x:Name="password" Text="{m:Bind Path=password}" a:ControlAttach.UpdateOnEnter="Password" 
 			a:ControlAttach.DefaultButton="okbutton" a:ControlAttach.FocusToOnEnter="password" Grid.Column="1" HorizontalAlignment="Left" Margin="0" Grid.Row="2" TextWrapping="Wrap" Width="225" FontSize="14.667" VerticalAlignment="Center" Style="{StaticResource LoginPasswordTextBoxStyle}"/>
 			   -->
-			   <PasswordBox x:Name="password" Password="{m:Bind Path=password}" a:ControlAttach.UpdateOnEnter="Password" 
+                                <PasswordBox x:Name="password" Password="{m:Bind Path=password,UpdateOnChange=True}" a:ControlAttach.UpdateOnEnter="Password" 
 			a:ControlAttach.DefaultButton="okbutton" a:ControlAttach.FocusToOnEnter="password" Grid.Column="1" HorizontalAlignment="Left" Margin="0" Grid.Row="2"  Width="225" FontSize="14.667" VerticalAlignment="Center" Style="{StaticResource LoginPasswordBoxStyle1}" Height="30"/>
 				<Button Name="okbutton" IsEnabled="{m:Exp Str='!LoginUser.HasErrors'}" Click="{m:Exp Str='LoginUser.Load()'}" Content="登  录" Grid.Column="1" HorizontalAlignment="Left" Margin="0,21,0,0" Grid.Row="3" Style="{StaticResource LoginButtonStyle}" Width="124" Cursor="Hand"/>
 				
 			</Grid>
 		</Border>
 	</Grid>
-	</StackPanel>
+                    <c:MessageTipObj Name="nouser" Tip="{m:Exp Str=$用户名或密码错误，请重新输入$}" 
+		        IsShow="{m:Exp Str=LoginUser.State\=\=$LoadError$}"/>
+                </StackPanel>
 	</toolkit:BusyIndicator>
 	 </StackPanel>
 		<toolkit:BusyIndicator IsBusy="{m:Exp Str='CustomTypes.IsBusy'}">

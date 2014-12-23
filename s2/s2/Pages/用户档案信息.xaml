@@ -110,7 +110,7 @@
                             </a:Data.Prop>
                         </ComboBox>
                         <Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="4" Grid.Column="8" Click="dansearchbutton_Click"  Margin="6,-4,0,4" FontSize="14" HorizontalAlignment="Left" Width="60"  />
-                        <Button Content=" 置  空"  Grid.Row="4" Grid.Column="8" Click="{m:Exp Str=daninfosearch.DataContext.f_bankname\=null;daninfosearch.DataContext.f_idofcard\=null;daninfosearch.DataContext.f_usermc\=null;daninfosearch.DataContext.f_yytdate11\=null;daninfosearch.DataContext.f_yytdate22\=null;daninfosearch.DataContext.f_inputtor\=null;daninfosearch.DataContext.f_gasmeterstyle\=null;daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_zhye\=null;daninfosearch.DataContext.f_cardid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_address\=null;daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null;tj5.SelectedValue\=null;tj6.SelectedValue\=null;tj9.SelectedValue\=null;tja.SelectedValue\=null;tjwangdian.SelectedValue\=null;tjb.SelectedValue\=null;daninfosearch.DataContext.f_districtname\=null}" Margin="70,-4,0,3" FontSize="14" HorizontalAlignment="Left" Width="60"  />
+                        <Button Content=" 置  空"  Grid.Row="4" Grid.Column="8" Click="{m:Exp Str=daninfosearch.DataContext.f_dibaohu\=null;daninfosearch.DataContext.f_wallhangboiler\=null;daninfosearch.DataContext.f_bankname\=null;daninfosearch.DataContext.f_idofcard\=null;daninfosearch.DataContext.f_usermc\=null;daninfosearch.DataContext.f_yytdate11\=null;daninfosearch.DataContext.f_yytdate22\=null;daninfosearch.DataContext.f_inputtor\=null;daninfosearch.DataContext.f_gasmeterstyle\=null;daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_zhye\=null;daninfosearch.DataContext.f_cardid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_address\=null;daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null;tj5.SelectedValue\=null;tj6.SelectedValue\=null;tj9.SelectedValue\=null;tja.SelectedValue\=null;tjwangdian.SelectedValue\=null;tjb.SelectedValue\=null;daninfosearch.DataContext.f_districtname\=null}" Margin="70,-4,0,3" FontSize="14" HorizontalAlignment="Left" Width="60"  />
                         <Button Content="导出Excel" Click="{m:Exp Str=toExcel.ToExcel()}" Grid.Column="8" Margin="9,-11,0,10" Grid.Row="3" HorizontalAlignment="Left" Width="80"/>
                         <c:Excel x:Name="toExcel" HQL="{m:Exp Str=$sql:\{daninfos.ItemsSource.HQL\}}" 
    							 Completed="{m:Exp Str=downLoad.Down()}"
@@ -197,6 +197,11 @@
                         <CheckBox x:Name="dbcheck" IsChecked="{m:Bind Path=f_wallhangboiler}" Content="有无壁挂炉" Margin="9,9,0,-9"  Grid.Row="1" Grid.Column="8" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.RowSpan="1" d:LayoutOverrides="HorizontalAlignment">
                             <a:Data.Prop>
                                 <o:PropertySetter PropertyName="f_wallhangboiler"  Operator="{m:Exp Str=dbcheck.IsChecked \:$f_wallhangboiler \= 1$ \,$f_wallhangboiler\=0$}" />
+                            </a:Data.Prop>
+                        </CheckBox>
+                        <CheckBox x:Name="dbhheck" IsChecked="{m:Bind Path=f_dibaohu}" Content="低保户" Margin="9,9,0,-9"  Grid.Row="1" Grid.Column="8" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Right"  Grid.RowSpan="1" d:LayoutOverrides="HorizontalAlignment">
+                            <a:Data.Prop>
+                                <o:PropertySetter PropertyName="f_dibaohu"  Operator="{m:Exp Str=dbhheck.IsChecked \:$f_dibaohu \= 1$ \,$f_dibaohu\=0$}" />
                             </a:Data.Prop>
                         </CheckBox>
                         <TextBlock TextWrapping="Wrap" Text="抄表员：" Grid.Column="6"  Margin="0,0,0,3" Height="25" TextAlignment="Right" Grid.Row="3" />
@@ -356,315 +361,314 @@ order by id
                 <StackPanel Margin="0" Orientation="Vertical" d:LayoutOverrides="Height" toolkit:DockPanel.Dock="Top">
                     <Button x:Name="back" Content="返回" Width="50" Height="25" HorizontalAlignment="Left" d:LayoutOverrides="Width, Height"/>
                 </StackPanel>
-                <StackPanel Grid.ColumnSpan="1" Margin="0" Grid.Row="5" Orientation="Horizontal" toolkit:DockPanel.Dock="Bottom">
-                    <TextBlock TextWrapping="Wrap" Text="网       点：" TextAlignment="Right" Height="25" d:LayoutOverrides="Height"/>
-                    <TextBox Text="{m:Bind Path=f_yytdepa}" Margin="0" TextWrapping="Wrap"  VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch" Height="25" Width="Auto" d:LayoutOverrides="Height" />
-                    <TextBlock TextWrapping="Wrap" Text="公       司：" TextAlignment="Right" Height="25" d:LayoutOverrides="Height"/>
-                    <TextBox Text="{m:Bind Path=f_filiale}" Margin="0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="Height"/>
-                    <TextBlock TextWrapping="Wrap" Text="操  作 人："  TextAlignment="Right" Height="25" d:LayoutOverrides="Height"/>
-                    <TextBox Text="{m:Bind Path=f_yytoper}" Margin="0" TextWrapping="Wrap"  VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch" Height="25" Width="Auto" d:LayoutOverrides="Height" />
-                    <TextBlock TextWrapping="Wrap" Text="建档日期：" TextAlignment="Right" Height="25" d:LayoutOverrides="Height" />
-                    <TextBox Text="{m:Bind Path=f_yytdate}" Margin="0" VerticalAlignment="Stretch" IsEnabled="False" Height="25" Width="Auto" d:LayoutOverrides="Height" HorizontalAlignment="Stretch" />
-                    <TextBlock TextWrapping="Wrap" Text="建档时间：" TextAlignment="Right" Height="25" d:LayoutOverrides="Height" />
-                    <TextBox Text="{m:Bind Path=f_yyttime}" Margin="0" VerticalAlignment="Stretch" IsEnabled="False" Height="25" Width="Auto" d:LayoutOverrides="Height" />
-                </StackPanel>
-                <Grid toolkit:DockPanel.Dock="Right">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto">
-                        <sdk:TabControl x:Name="基本信息" Margin="0" HorizontalAlignment="Stretch" Width="Auto" Height="Auto" VerticalAlignment="Stretch">
-                            <sdk:TabItem Header="基本信息">
-                                <Grid Background="#FFE5E5E5" Margin="0" Height="Auto">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="199*"/>
-                                        <ColumnDefinition Width="249*"/>
-                                        <ColumnDefinition Width="136*"/>
-                                        <ColumnDefinition Width="204*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="小区名称：" Margin="0" TextWrapping="Wrap" TextAlignment="Right"/>
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" toolkit:DockPanel.Dock="Top" >
+                    <Grid>
+                        <Grid toolkit:DockPanel.Dock="Right">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto">
+                                <sdk:TabControl x:Name="基本信息" Margin="0" HorizontalAlignment="Stretch" Width="Auto" Height="Auto" VerticalAlignment="Stretch">
+                                    <sdk:TabItem Header="基本信息">
+                                        <Grid Background="#FFE5E5E5" Margin="0" Height="Auto">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
 
-                                    <TextBox Text="{m:Bind Path=f_districtname}" Grid.Column="1" Margin="0" Grid.Row="0"  Grid.ColumnSpan="1"  TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" IsHitTestVisible="True" />
-                                    <TextBlock Text="证件类型：" Margin="0" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_credentials}"  Grid.Column="1" Margin="0" Grid.Row="1" Height="Auto" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" Grid.ColumnSpan="1" IsHitTestVisible="True" Grid.RowSpan="1" />
-                                    <TextBlock Text="用户姓名：" Margin="0" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_username}" Grid.Column="1" Margin="0" Grid.Row="2" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" Grid.ColumnSpan="1" IsHitTestVisible="True" />
-                                    <TextBlock Text="门 牌 号：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="3"/>
-                                    <TextBox Text="{m:Bind Path=f_apartment}"  Grid.Column="1" Margin="0" Grid.Row="3" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" IsHitTestVisible="True" />
-                                    <TextBlock Text="小区地址：" Margin="0" Grid.Row="4" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_address}"  Grid.Column="1" Margin="0" Grid.Row="4" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="Auto" VerticalAlignment="Stretch" IsReadOnly="True" IsHitTestVisible="True" Width="Auto" />
-                                    <TextBlock Text="用户类型：" Margin="0" Grid.Row="5" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_usertype}" Grid.Column="1" Margin="0" Grid.Row="5" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" IsHitTestVisible="True" />
-                                    <TextBlock Text="证件号码：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="6"/>
-                                    <TextBox Text="{m:Bind Path=f_idnumber}"  Grid.Column="1" Margin="0" Grid.Row="6" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" Grid.ColumnSpan="1" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto" IsHitTestVisible="True" />
-                                    <TextBlock Margin="0" Grid.Row="7" TextWrapping="Wrap" Text="用户状态：" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_userstate}" Grid.Column="1" Margin="0" Grid.Row="7" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" IsHitTestVisible="True"  />
-                                    <TextBlock Text="卡号：" Margin="0" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_cardid}" Grid.Column="1" Margin="0" Grid.Row="8" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" IsHitTestVisible="True" />
-                                    <TextBlock Text="电话：" Margin="0" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBox Text="{m:Bind Path=f_phone}"  Grid.Column="1" Margin="0" Grid.Row="9" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" IsReadOnly="True" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="Auto" IsHitTestVisible="True" />
-                                    <TextBlock Margin="0,2,0,23" TextWrapping="Wrap" Text="用户编号：" TextAlignment="Right" Grid.Row="10" Grid.RowSpan="2"/>
-                                    <TextBox Text="{m:Bind Path=f_userid}"  Grid.Column="1" Margin="0,2,0,23" Grid.Row="10" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="Auto" VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto" Grid.RowSpan="2"  />
-                                    <TextBlock Text="用气性质：" Margin="0,2,0,23" Grid.Row="11" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2"/>
-                                    <TextBox Text="{m:Bind Path=f_gasproperties}" IsReadOnly="True" Grid.Column="1" Margin="0,2,0,23" Grid.Row="11" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.RowSpan="2" />
-                                    <TextBlock Text="气价类型：" Grid.Column="2" Margin="0" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_gaspricetype}"  Grid.Column="3" Margin="0" Grid.Row="0" Height="Auto" VerticalAlignment="Stretch" Grid.ColumnSpan="1" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="气价：" Grid.Column="2" Margin="0" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_gasprice}"   Grid.Column="3" Margin="0" Grid.Row="1" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
-                                    <TextBlock Text="阶梯气价类型：" Grid.Column="2" Margin="0" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_stairtype}"   Grid.Column="3" Margin="0" Grid.Row="2" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
-                                    <TextBlock Text="阶段一气量：" Grid.Column="2" Margin="0" Grid.Row="3" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_stair1amount}"   Grid.Column="3" Margin="0" Grid.Row="3" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
-                                    <TextBlock Text="阶段一单价：" Grid.Column="2" Margin="0" Grid.Row="4" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_stair1price}"   Grid.Column="3" Margin="0" Grid.Row="4" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
-                                    <TextBlock Text="阶段二气量：" Grid.Column="2" Margin="0" Grid.Row="5" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_stair2amount}"   Grid.Column="3" Margin="0" Grid.Row="5" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
-                                    <TextBlock Text="阶段二单价：" Grid.Column="2" Margin="0" Grid.Row="6" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_stair2price}"   Grid.Column="3" Margin="0" Grid.Row="6" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
-                                    <TextBlock Text="阶段三气量：" Grid.Column="2" Margin="0" Grid.Row="7" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_stair3amount}"   Grid.Column="3" Margin="0" Grid.Row="7" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
-                                    <TextBlock Text="阶段三单价：" Grid.Column="2" Margin="0" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_stair3price}"   Grid.Column="3" Margin="0" Grid.Row="8" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
-                                    <TextBlock Text="阶段四单价：" Grid.Column="2" Margin="0" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_stair4price}"   Grid.Column="3" Margin="0" Grid.Row="9" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
-                                    <TextBlock Text="阶段月数：" Grid.Column="2" Margin="0" Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_stairmonths}"   Grid.Column="3" Margin="0" Grid.Row="10" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
-                                    <CheckBox IsChecked="{m:Bind Path=f_dibaohu}"  Content="低保户" Margin="8,-56,9,51" Grid.Row="0" Grid.Column="3" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.RowSpan="1"/>
-                                    <TextBlock Text="交费类型：" Grid.Row="12" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_payment}" IsReadOnly="True" Grid.Column="1" Margin="0" Grid.Row="12" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="账户名：" Grid.Row="13" TextWrapping="Wrap" TextAlignment="Right" Margin="0,3,0,22" Grid.RowSpan="2"/>
-                                    <TextBox Text="{m:Bind Path=f_usermc}" IsReadOnly="True" Grid.Column="1" Margin="0,3,0,22" Grid.Row="13" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.RowSpan="2" />
-                                    <TextBlock Text="账号：" Grid.Row="14" TextWrapping="Wrap" TextAlignment="Right" Margin="0,3,0,22" Grid.RowSpan="2"/>
-                                    <TextBox Text="{m:Bind Path=f_idofcard}" IsReadOnly="True" Grid.Column="1" Margin="0,3,0,22" Grid.Row="14" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.RowSpan="2" />
-                                    <TextBlock Text="银行：" Grid.Row="15" TextWrapping="Wrap" TextAlignment="Right" Margin="0,4,0,-4"/>
-                                    <TextBox Text="{m:Bind Path=f_bankname}" IsReadOnly="True" Grid.Column="1" Margin="0,4,0,-4" Grid.Row="15" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" />
-                                </Grid>
-                            </sdk:TabItem>
-                        </sdk:TabControl>
-                        <sdk:TabControl x:Name="用气设备" Margin="0" HorizontalAlignment="Stretch" Height="Auto" d:LayoutOverrides="Width">
-                            <sdk:TabItem Header="用气设备">
-                                <Grid Background="#FFE5E5E5">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="0.164*"/>
-                                        <RowDefinition Height="0.147*"/>
-                                        <RowDefinition Height="0.134*"/>
-                                        <RowDefinition Height="0.139*"/>
-                                        <RowDefinition Height="0.143*"/>
-                                        <RowDefinition Height="0.273*"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="55"/>
-                                        <ColumnDefinition Width="45"/>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="100"/>
-                                    </Grid.ColumnDefinitions>
-                                    <CheckBox IsChecked="{m:Bind Path=f_wallhangboiler}"  Content="有壁挂炉" Grid.Column="0" Margin="0,6,-11,8" Grid.Row="0" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="103" />
-                                    <TextBlock Grid.Column="1" Margin="-6,9,8,5" TextWrapping="Wrap" Text="数量：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_wallhangboilernum}" Grid.Column="2" Margin="2,8,1,6" Grid.Row="0" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="HorizontalAlignment"    />
-                                    <TextBlock Grid.Column="3" Margin="-1,6,3,8" TextWrapping="Wrap" Text="壁挂炉品牌：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_wallhangboilerbrand}" Grid.Column="4" Margin="0,5,0,9" Grid.Row="0" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.ColumnSpan="1"    />
-                                    <TextBlock Grid.Column="5" Margin="0,5,0,9" TextWrapping="Wrap" Text="壁挂炉型号：" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="100"/>
-                                    <TextBox Text="{m:Bind Path=f_wallhangboilermodel}" Grid.Column="6" Margin="1,5,0,9" Grid.Row="0" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Width="Auto" Grid.ColumnSpan="1"  />
-                                    <CheckBox IsChecked="{m:Bind Path=f_kitchen}"   Content="有灶具" Grid.Column="0" Margin="8,8,0,2" Grid.Row="1" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="92" />
-                                    <TextBlock Grid.Column="1" Margin="0,8,6,2" Grid.Row="1" TextWrapping="Wrap" Text="数量：" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="53"/>
-                                    <TextBox Text="{m:Bind Path=f_kitchennum}" Grid.Column="2" Margin="0,4,1,6" Grid.Row="1" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="HorizontalAlignment" RenderTransformOrigin="-0.286,-4.36"    />
-                                    <TextBlock Grid.Column="3" Margin="0,1,1,9" Grid.Row="1" TextWrapping="Wrap" Text="灶具品牌：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_kitchenbrand}" Grid.Column="4" Margin="0,5" Grid.Row="1"  HorizontalAlignment="Stretch" Height="25" VerticalAlignment="Stretch" Grid.ColumnSpan="1"  />
-                                    <TextBlock Grid.Column="5" Margin="0,10,0,0" Grid.Row="1" TextWrapping="Wrap" Text="灶具型号：" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="100"/>
-                                    <TextBox Text="{m:Bind Path=f_kitchenmodel}" Grid.Column="6" Margin="0,8,0,2" Grid.Row="1" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Grid.Column="3" Margin="-1,0,1,7" Grid.Row="2" TextWrapping="Wrap" Text="灶具品牌2：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_kitchenbrand2}" Grid.Column="4" Margin="0,0,0,7" Grid.Row="2"  HorizontalAlignment="Stretch" Height="25" VerticalAlignment="Stretch"  Grid.ColumnSpan="1"  />
-                                    <TextBlock Grid.Column="5" Margin="0,0,0,7" Grid.Row="2" TextWrapping="Wrap" Text="灶具型号2：" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="100"/>
-                                    <TextBox Text="{m:Bind Path=f_kitchenmodel2}" Grid.Column="6" Margin="-1,0,0,7" Grid.Row="2" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" />
-                                    <TextBlock Margin="0,3,3,5" Grid.Row="3" TextWrapping="Wrap" Text="灶具款式：" TextAlignment="Right" Grid.Column="5" Height="25" HorizontalAlignment="Right" Width="100"/>
-                                    <TextBox Text="{m:Bind Path=f_kitstyle}"  Grid.Column="6" Margin="0,8,0,0" Grid.Row="3" Height="25" VerticalAlignment="Stretch" Grid.RowSpan="1" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <CheckBox IsChecked="{m:Bind Path=f_waterheater}"  Content="有热水器" Grid.Column="0" Margin="7,8,4,1" Grid.Row="4" Height="25" VerticalAlignment="Stretch" />
-                                    <TextBlock Grid.Column="1" Margin="0,8,2,1" Grid.Row="4" TextWrapping="Wrap" Text="数量：" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="53"/>
-                                    <TextBox Text="{m:Bind Path=f_waterheaternum}" Grid.Column="2" Margin="0,4,1,5" Grid.Row="4" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="HorizontalAlignment"    />
-                                    <TextBlock Grid.Column="3" Margin="0,3,2,6" Grid.Row="4" TextWrapping="Wrap" Text="热水器品牌：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_waterheaterbrand}" Grid.Column="4" Margin="0,3,0,6" Grid.Row="4"  HorizontalAlignment="Stretch" Height="25" VerticalAlignment="Stretch" Grid.ColumnSpan="1" />
-                                    <TextBlock Grid.Column="5" Margin="0,4,0,5" Grid.Row="4" TextWrapping="Wrap" Text="热水器型号：" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="100"/>
-                                    <TextBox Text="{m:Bind Path=f_waterheatermodel}" Grid.Column="6" Margin="0,4,0,5" Grid.Row="4" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" d:LayoutOverrides="Width, GridBox" />
-                                </Grid>
-                            </sdk:TabItem>
-                        </sdk:TabControl>
-                    </StackPanel>
-                    <StackPanel Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Grid.Column="1">
-                        <sdk:TabControl x:Name="气表信息" Margin="0" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="Width" Height="Auto">
-                            <sdk:TabItem Header="气表信息">
-                                <Grid Background="#FFE5E5E5">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.175*"/>
-                                        <ColumnDefinition Width="0.305*"/>
-                                        <ColumnDefinition Width="0.082*"/>
-                                        <ColumnDefinition Width="0.438*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Margin="0" TextWrapping="Wrap" Text="表号：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_meternumber}"  Grid.Column="1" Margin="0" Grid.Row="0" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" />
-                                    <TextBlock Margin="0" Grid.Row="1" TextWrapping="Wrap" Text="表  封 号：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_metertitles}"  Grid.Column="1" Margin="0" Grid.Row="1" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" Grid.ColumnSpan="1" />
-                                    <TextBlock Margin="0" TextWrapping="Wrap" Text="气表品牌：" TextAlignment="Right" Grid.Row="2" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_gaswatchbrand}" Grid.Column="1" Margin="0" Grid.Row="2" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" Grid.ColumnSpan="1"   />
-                                    <TextBlock Margin="0" Grid.Row="3" TextWrapping="Wrap" Text="气表厂家：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_gasmetermanufacturers}"  Grid.Column="1" Margin="0" Grid.Row="3" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Margin="0" TextWrapping="Wrap" Text="气表型号：" TextAlignment="Right" Grid.Row="4" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_metertype}" Grid.Column="1" Margin="0" Grid.Row="4" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" Grid.ColumnSpan="1"/>
-                                    <TextBlock Margin="0" Grid.Row="5" TextWrapping="Wrap" Text="气表类型：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_gasmeterstyle}"  Grid.Column="1" Margin="0" Grid.Row="5" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch"  Width="Auto" Grid.ColumnSpan="1"  />
-                                    <TextBlock Margin="0" Grid.Row="6" TextWrapping="Wrap" Text="额定流量：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_flownum}"  Grid.Column="1" Margin="0" Grid.Row="6" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" Width="Auto" HorizontalAlignment="Stretch" />
-                                    <TextBlock Margin="0" Grid.Row="7" TextWrapping="Wrap" Text="脉冲(表系数)：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_maichong}"  Grid.Column="1" Margin="0" Grid.Row="7" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Margin="-44,0,0,0" Grid.Row="8" TextWrapping="Wrap" Text="当前表累计购气量：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_metergasnums}" Grid.Column="1" Margin="0" Grid.Row="8"   HorizontalAlignment="Stretch" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1"  />
-                                    <TextBlock Margin="0" Grid.Row="9" TextWrapping="Wrap" Text="海力表型编码：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_watchnum}"  Grid.Column="1" Margin="0" Grid.Row="9" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Margin="0" Grid.Row="10" TextWrapping="Wrap" Text="类型：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_type}"  Grid.Column="1" Margin="0" Grid.Row="10" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock TextWrapping="Wrap" Text="左  右 表：" TextAlignment="Right" Grid.Column="2" HorizontalAlignment="Left" d:LayoutOverrides="GridBox" Width="88" Margin="-23,0,0,0"/>
-                                    <TextBox Text="{m:Bind Path=f_aroundmeter}" IsReadOnly="True" Grid.Column="3" Grid.Row="0" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="Height" Margin="0" />
-                                    <TextBlock  Grid.Row="1" TextWrapping="Wrap" Text="气表底数：" TextAlignment="Right" Grid.Column="2" Height="25" Margin="-23,0,0,0"/>
-                                    <TextBox Text="{m:Bind Path=f_gasmeteraccomodations}" IsReadOnly="True" Grid.Column="3" Margin="0" Grid.Row="1" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="0.548,0.462" HorizontalAlignment="Stretch"  Width="Auto"  />
-                                    <TextBlock Margin="-23,0,0,0" Grid.Row="2" TextWrapping="Wrap" Text="气表位置：" TextAlignment="Right" Grid.Column="2"/>
-                                    <TextBox Text="{m:Bind Path=f_neiwaibiao}" IsReadOnly="True" Grid.Column="3" Margin="0" Grid.Row="2" Height="Auto" VerticalAlignment="Stretch" Grid.RowSpan="1" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Grid.Column="2" Margin="-23,0,0,0" Grid.Row="3" TextWrapping="Wrap" Text="别名：" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_aliasname}" Grid.Column="3" Margin="0" Grid.Row="3" TextWrapping="Wrap" IsReadOnly="True" Height="25" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" d:LayoutOverrides="HorizontalMargin" />
-                                    <CheckBox IsChecked="{m:Bind Path=f_closevalve}"  Content="有自闭阀" Margin="8,0,0,-5" Grid.Row="4" Grid.Column="3" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                                </Grid>
-                            </sdk:TabItem>
-                        </sdk:TabControl>
-                        <sdk:TabControl x:Name="状态信息" Margin="0" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                            <sdk:TabItem Header="状态信息">
-                                <Grid Background="#FFE5E5E5">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="100"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Margin="0,0,-1,0" TextWrapping="Wrap" Text="是否发折：" Height="25" FontSize="11" HorizontalAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_whethergivepassbook}"  Grid.Column="1" Margin="0" Grid.Row="0" TextWrapping="Wrap" IsReadOnly="True"  Height="25" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch" Grid.ColumnSpan="1"  />
-                                    <TextBlock Margin="0,2,0,-2" Grid.Row="1" TextWrapping="Wrap" Text="总累计购气量：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_cumulativepurchase}" Grid.Column="1" Margin="0" Grid.Row="1"  HorizontalAlignment="Stretch" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" />
-                                    <TextBlock Margin="0,4,0,-4" Grid.Row="2" TextWrapping="Wrap" Text="最后购气量：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_finallybought}"  Grid.Column="1" Margin="0" Grid.Row="2" TextWrapping="Wrap" HorizontalAlignment="Stretch" Grid.RowSpan="1" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" />
-                                    <TextBlock Margin="33,0,0,0" Grid.Row="3" TextWrapping="Wrap" Text="是否发卡：" TextAlignment="Right" Height="25"/>
-                                    <TextBox Text="{m:Bind Path=f_whethergivecard}"  Grid.Column="1" Margin="0" Grid.Row="3" TextWrapping="Wrap" IsReadOnly="True"  Height="Auto" HorizontalAlignment="Stretch" Width="Auto"  VerticalAlignment="Stretch" Grid.ColumnSpan="1"  />
-                                    <TextBlock Margin="0" Grid.Row="4" TextWrapping="Wrap" Text="最后购气日期：" TextAlignment="Right"/>
-                                    <TextBox Text="{Binding f_finabuygasdate, StringFormat=yyyy-MM-dd}"  Grid.Column="1" Margin="0" Grid.Row="4"  Grid.RowSpan="1" IsReadOnly="True" Height="25" />
-                                    <TextBlock Margin="0" Grid.Row="5" TextWrapping="Wrap" Text="开户日期：" TextAlignment="Right"/>
-                                    <TextBox Text="{Binding f_dateofopening, StringFormat=yyyy-MM-dd}"  Grid.Column="1" Grid.Row="5" Grid.RowSpan="1" IsReadOnly="True" Margin="0" />
-                                    <TextBlock Text="发卡日期：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="6"/>
-                                    <TextBox  Text="{Binding f_givecarddate, StringFormat=yyyy-MM-dd}"  Grid.Column="1" Margin="0" Grid.Row="6" IsReadOnly="True"/>
-                                    <TextBlock Margin="0" Grid.Row="7" TextWrapping="Wrap" Text="开户气量：" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=f_kaihuql}" Grid.Column="1" Margin="0" Grid.Row="7" TextWrapping="Wrap" Height="Auto" IsReadOnly="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1"/>
-                                    <TextBlock Margin="0,0,-4,0" Grid.Row="8" TextWrapping="Wrap" Text="维护费起始年月：" TextAlignment="Right" Height="25" VerticalAlignment="Bottom" d:LayoutOverrides="Height"/>
-                                    <TextBox Text="{Binding f_beginfee, StringFormat=yyyy-MM-dd}"  Grid.Column="1" Margin="0" Grid.Row="8" IsEnabled="True" Height="25" IsReadOnly="True"/>
-                                    <TextBlock Margin="0,0,8,0" Grid.Row="9" TextWrapping="Wrap" Text="计算气损：" TextAlignment="Right" Height="25" VerticalAlignment="Bottom" d:LayoutOverrides="Height"/>
-                                    <TextBox Text="{m:Bind Path=f_jsqs}" IsReadOnly="True" Grid.Column="1" Margin="0" Grid.Row="9" Height="25" VerticalAlignment="Stretch" Grid.RowSpan="1" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" />
-                                    <TextBox Text="{m:Bind Path=f_xiangou}" Visibility="Visible"  Grid.Column="1" Margin="0" Grid.Row="10" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1"  />
-                                    <TextBlock Margin="0,0,8,-4" Grid.Row="10" TextWrapping="Wrap" Text="限购：" TextAlignment="Right" Height="25" VerticalAlignment="Bottom" d:LayoutOverrides="Height"/>
-                                    <TextBox Text="{m:Bind Path=lastrecord}" Visibility="Visible"  Margin="0,2,-1,0" TextWrapping="Wrap" IsReadOnly="True"  Height="Auto"  VerticalAlignment="Stretch" Grid.Column="3"  />
-                                    <TextBlock Margin="0,1,25,-1" TextWrapping="Wrap" Text="抄表底数：" Height="25" FontSize="11" HorizontalAlignment="Right" Grid.Column="2"/>
-                                    <TextBox Text="{m:Bind Path=lastinputgasnum}" Visibility="Visible"  Margin="0,2,-1,0" TextWrapping="Wrap" IsReadOnly="True"  Height="Auto"  VerticalAlignment="Top" Grid.Column="3" Grid.Row="1"  />
-                                    <TextBlock Margin="0,4,8,-4" TextWrapping="Wrap" Text="上次抄表底数：" Height="25" FontSize="11" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="1" Width="84"/>
-                                    <TextBox Text="{m:Bind Path=lastinputdate}" Visibility="Visible"  Margin="1,2,-2,0" TextWrapping="Wrap" IsReadOnly="True"  Height="Auto"  VerticalAlignment="Top" Grid.Column="3" Grid.Row="2"  />
-                                    <TextBlock Margin="0,4,25,-4" TextWrapping="Wrap" Text="抄表日期：" Height="25" FontSize="11" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="2"/>
-                                    <TextBox Text="{m:Bind Path=f_cypregas}" Visibility="Visible"  Margin="0,0,-1,0" TextWrapping="Wrap" IsReadOnly="True" Grid.Column="3" Grid.Row="3"/>
-                                    <TextBlock Margin="0,7,25,-7" TextWrapping="Wrap" Text="超用气量：" Height="25" FontSize="11" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="3"/>
-                                </Grid>
-                            </sdk:TabItem>
-                        </sdk:TabControl>
-                        <sdk:TabControl x:Name="卡信息">
-                            <sdk:TabItem Header="卡信息">
-                                <Grid Background="#FFE5E5E5" Height="Auto">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.112*"/>
-                                        <ColumnDefinition Width="0.353*"/>
-                                        <ColumnDefinition Width="0.161*"/>
-                                        <ColumnDefinition Width="0.374*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Text="{m:Bind Path=yhh}" IsReadOnly="True" Margin="0" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="1.923,0.4" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible" Grid.Row="0" Grid.Column="1"  />
-                                    <TextBlock Margin="0" TextWrapping="Wrap" Text="用户号：" TextAlignment="Right" RenderTransformOrigin="0.777,-5.52"/>
-                                    <TextBox Text="{m:Bind Path=bjql}" IsReadOnly="True" Margin="0" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="1.923,0.4" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible" Grid.Row="0" d:LayoutOverrides="GridBox" Grid.ColumnSpan="1" Grid.Column="3"  />
-                                    <TextBlock Margin="0" TextWrapping="Wrap" Text="报警气量：" TextAlignment="Right" RenderTransformOrigin="0.777,-5.52" Grid.Column="2"/>
-                                    <TextBox Text="{m:Bind Path=czsx}" IsReadOnly="True" Margin="0" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="1.923,0.4" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible" Grid.Row="1" Grid.RowSpan="1" Grid.Column="1"  />
-                                    <TextBlock Margin="0" TextWrapping="Wrap" Text="充值上限：" TextAlignment="Right" RenderTransformOrigin="0.777,-5.52" Grid.Row="1"/>
-                                    <TextBox Text="{m:Bind Path=tzed}" IsReadOnly="True" Margin="0" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="1.923,0.4" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible" Grid.Row="1" Grid.Column="3"  />
-                                    <TextBlock Margin="0" TextWrapping="Wrap" Text="透支额度：" TextAlignment="Right" RenderTransformOrigin="0.777,-5.52" Grid.Column="2" Grid.Row="1"/>
-                                    <TextBox Text="{m:Bind Path=kmm}" IsReadOnly="True" Margin="0" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="1.923,0.4" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible" Grid.Row="2" Grid.Column="1"  />
-                                    <TextBlock Margin="0" TextWrapping="Wrap" Text="卡密码：" TextAlignment="Right" RenderTransformOrigin="0.777,-5.52" Grid.Row="2"/>
-                                    <TextBlock Margin="0" TextWrapping="Wrap" Text="地区代码：" FontSize="11" Grid.Column="2" Grid.Row="2" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=dqdm}" IsReadOnly="True" Grid.Column="3" Margin="0" Grid.Row="2" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-0.359,-4.32" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible"  />
-                                    <TextBlock Margin="0" TextWrapping="Wrap" Text="卡类型：" FontSize="11" Grid.Row="3" TextAlignment="Right"/>
-                                    <TextBox Text="{m:Bind Path=klx}" IsReadOnly="True" Grid.Column="1" Margin="0" Grid.Row="3" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="0.548,0.462" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible"  />
-                                    <TextBlock Margin="0" TextWrapping="Wrap" Text="写卡次数：" FontSize="11" Grid.Column="2" Grid.Row="3" TextAlignment="Right"/>
-                                    <TextBox Visibility="Visible" Text="{m:Bind Path=f_times}"  Margin="0" TextWrapping="Wrap" IsReadOnly="True" Grid.ColumnSpan="1" Grid.Column="3" Grid.Row="3" Height="Auto" Grid.RowSpan="1" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch"/>
-                                </Grid>
-                            </sdk:TabItem>
-                        </sdk:TabControl>
-                    </StackPanel>
-                </Grid>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.253*"/>
+                                                <ColumnDefinition Width="0.355*"/>
+                                                <ColumnDefinition Width="0.133*"/>
+                                                <ColumnDefinition Width="0.259*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="小区名称：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
+
+                                            <TextBox Text="{m:Bind Path=f_districtname}" Grid.Column="1" Margin="0" Grid.Row="0"  Grid.ColumnSpan="1"  TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" IsHitTestVisible="True" />
+                                            <TextBlock Text="证件类型：" Margin="0" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_credentials}"  Grid.Column="1" Margin="0" Grid.Row="1" Height="Auto" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" Grid.ColumnSpan="1" IsHitTestVisible="True" />
+                                            <TextBlock Text="用户姓名：" Margin="0" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_username}" Grid.Column="1" Margin="0" Grid.Row="2" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" Grid.ColumnSpan="1" IsHitTestVisible="True" />
+                                            <TextBlock Text="门 牌 号：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="3" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_apartment}"  Grid.Column="1" Margin="0" Grid.Row="3" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" IsHitTestVisible="True" />
+                                            <TextBlock Text="小区地址：" Margin="0" Grid.Row="4" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_address}"  Grid.Column="1" Margin="0" Grid.Row="4" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="Auto" VerticalAlignment="Stretch" IsReadOnly="True" IsHitTestVisible="True" Width="Auto" />
+                                            <TextBlock Text="用户类型：" Margin="0" Grid.Row="5" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_usertype}" Grid.Column="1" Margin="0" Grid.Row="5" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" IsHitTestVisible="True" />
+                                            <TextBlock Text="证件号码：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="6"/>
+                                            <TextBox Text="{m:Bind Path=f_idnumber}"  Grid.Column="1" Margin="0" Grid.Row="6" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" Grid.ColumnSpan="1" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto" IsHitTestVisible="True" />
+                                            <TextBlock Margin="0" Grid.Row="7" TextWrapping="Wrap" Text="用户状态：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_userstate}" Grid.Column="1" Margin="0" Grid.Row="7" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" IsHitTestVisible="True"  />
+                                            <TextBlock Text="卡　　号：" Margin="0" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_cardid}" Grid.Column="1" Margin="0" Grid.Row="8" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" IsHitTestVisible="True" />
+                                            <TextBlock Text="电　　话：" Margin="0" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right" Height="25" />
+                                            <TextBox Text="{m:Bind Path=f_phone}"  Grid.Column="1" Margin="0" Grid.Row="9" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" IsReadOnly="True" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="Auto" IsHitTestVisible="True" />
+                                            <TextBlock Text="协 议 号：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="10" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_xieyihao}" IsReadOnly="True" Grid.Column="1" Margin="0" Grid.Row="10" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" />
+                                            <TextBlock Margin="0" TextWrapping="Wrap" Text="用户编号：" TextAlignment="Right" Grid.Row="11" Height="25" d:LayoutOverrides="Width, GridBox"/>
+                                            <TextBox Text="{m:Bind Path=f_userid}"  Grid.Column="1" Margin="0" Grid.Row="11" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="Auto" VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto"  />
+                                            <TextBlock Text="用气性质：" Margin="0" Grid.Row="12" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_gasproperties}" IsReadOnly="True" Grid.Column="1" Margin="0" Grid.Row="12" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" />
+                                            <TextBlock Text="气价类型：" Grid.Column="2" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Height="25" d:LayoutOverrides="Height"/>
+                                            <TextBox Text="{m:Bind Path=f_gaspricetype}"  Grid.Column="3" Margin="0" Grid.Row="0" Height="Auto" VerticalAlignment="Stretch" Grid.ColumnSpan="1" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto" />
+                                            <TextBlock Text="气　　价：" Grid.Column="2" Margin="0" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Height="25" d:LayoutOverrides="Height"/>
+                                            <TextBox Text="{m:Bind Path=f_gasprice}"   Grid.Column="3" Margin="0" Grid.Row="1" TextWrapping="Wrap" IsReadOnly="True" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
+                                            <CheckBox IsChecked="{m:Bind Path=f_dibaohu}" IsEnabled="False" Content="低保户" Margin="64,0,57,23" Grid.Row="2" Grid.Column="2" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.RowSpan="3" Grid.ColumnSpan="2"/>
+                                        </Grid>
+                                    </sdk:TabItem>
+                                </sdk:TabControl>
+                                <sdk:TabControl x:Name="用气设备" Margin="0" HorizontalAlignment="Stretch" Height="Auto" d:LayoutOverrides="Width">
+                                    <sdk:TabItem Header="用气设备">
+                                        <Grid Background="#FFE5E5E5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="0.164*"/>
+                                                <RowDefinition Height="0.147*"/>
+                                                <RowDefinition Height="0.134*"/>
+                                                <RowDefinition Height="0.139*"/>
+
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="45"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="100"/>
+                                            </Grid.ColumnDefinitions>
+                                            <CheckBox IsChecked="{m:Bind Path=f_wallhangboiler}" IsEnabled="False" Content="有壁挂炉" Grid.Column="0" Margin="0,6,-11,8" Grid.Row="0" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="103" />
+                                            <TextBlock Margin="0,7,2,7" TextWrapping="Wrap" Text="数量：" TextAlignment="Right" Height="25" Grid.Column="1"/>
+                                            <TextBox Text="{m:Bind Path=f_wallhangboilernum}" IsReadOnly="True" Grid.Column="2" Margin="1,8,0,6" Grid.Row="0" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1"    />
+                                            <TextBlock Grid.Column="3" Margin="5,6,0,8" TextWrapping="Wrap" Text="壁挂炉品牌：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_wallhangboilerbrand}" IsReadOnly="True" Grid.Column="4" Margin="0,5,0,9" Grid.Row="0" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.ColumnSpan="1"    />
+                                            <TextBlock Grid.Column="5" Margin="0,5,0,9" TextWrapping="Wrap" Text="壁挂炉型号：" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="100"/>
+                                            <TextBox Text="{m:Bind Path=f_wallhangboilermodel}" IsReadOnly="True" Grid.Column="6" Margin="0,5,0,9" Grid.Row="0" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Width="Auto" Grid.ColumnSpan="1"  />
+                                            <CheckBox IsChecked="{m:Bind Path=f_kitchen}"  IsEnabled="False" Content="有灶具" Grid.Column="0" Margin="10,8,54,2" Grid.Row="1" Height="25" VerticalAlignment="Stretch" Grid.ColumnSpan="2" />
+                                            <TextBlock Margin="0,4,0,6" Grid.Row="1" TextWrapping="Wrap" Text="数量：" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="53" Grid.Column="1"/>
+                                            <TextBox Text="{m:Bind Path=f_kitchennum}" IsReadOnly="True" Grid.Column="2" Margin="0,4,0,6" Grid.Row="1" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" RenderTransformOrigin="-0.286,-4.36"    />
+                                            <TextBlock Grid.Column="3" Margin="0,4,0,6" Grid.Row="1" TextWrapping="Wrap" Text="灶具品牌：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_kitchenbrand}" IsReadOnly="True" Grid.Column="4" Margin="0,5" Grid.Row="1"  HorizontalAlignment="Stretch" Height="25" VerticalAlignment="Stretch" Grid.ColumnSpan="1"  />
+                                            <TextBlock Grid.Column="5" Margin="0,10,0,0" Grid.Row="1" TextWrapping="Wrap" Text="灶具型号：" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="100"/>
+                                            <TextBox Text="{m:Bind Path=f_kitchenmodel}" IsReadOnly="True" Grid.Column="6" Margin="0,8,0,2" Grid.Row="1" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" />
+                                            <TextBlock Grid.Column="3" Margin="0,0,0,7" Grid.Row="2" TextWrapping="Wrap" Text="灶具品牌2：" TextAlignment="Right"/>
+                                            <TextBox Text="{m:Bind Path=f_kitchenbrand2}" IsReadOnly="True" Grid.Column="4" Margin="0,4,0,3" Grid.Row="2"  HorizontalAlignment="Stretch" Height="25" VerticalAlignment="Stretch"  Grid.ColumnSpan="1"  />
+                                            <TextBlock Grid.Column="5" Margin="0,4,0,3" Grid.Row="2" TextWrapping="Wrap" Text="灶具型号2：" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="100"/>
+                                            <TextBox Text="{m:Bind Path=f_kitchenmodel2}" IsReadOnly="True" Grid.Column="6" Margin="0,4,0,3" Grid.Row="2" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" />
+                                            <TextBlock Margin="0,4,0,3" Grid.Row="2" TextWrapping="Wrap" Text="灶具款式：" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="80" Grid.Column="1"/>
+                                            <TextBox Text="{m:Bind Path=f_kitstyle}" IsReadOnly="True" Grid.Column="2" Margin="0,0,0,7" Grid.Row="2" Height="25" VerticalAlignment="Stretch" Grid.RowSpan="1" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" />
+                                            <CheckBox IsChecked="{m:Bind Path=f_waterheater}" IsEnabled="False" Content="有热水器" Grid.Column="0" Margin="10,8,0,1" Grid.Row="4" Height="25" VerticalAlignment="Stretch" Grid.ColumnSpan="1" />
+                                            <TextBlock Grid.Column="1" Margin="0,8,2,1" Grid.Row="4" TextWrapping="Wrap" Text="数量：" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="53"/>
+                                            <TextBox Text="{m:Bind Path=f_waterheaternum}" IsReadOnly="True" Grid.Column="2" Margin="0,8,0,1" Grid.Row="4" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1"    />
+                                            <TextBlock Grid.Column="3" Margin="0,5,0,4" Grid.Row="4" TextWrapping="Wrap" Text="热水器品牌：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_waterheaterbrand}" IsReadOnly="True" Grid.Column="4" Margin="0,5,0,4" Grid.Row="4"  HorizontalAlignment="Stretch" Height="25" VerticalAlignment="Stretch" Grid.ColumnSpan="1" />
+                                            <TextBlock Grid.Column="5" Margin="0,4,-8,5" Grid.Row="4" TextWrapping="Wrap" Text="热水器型号：" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="100"/>
+                                            <TextBox Text="{m:Bind Path=f_waterheatermodel}" IsReadOnly="True" Grid.Column="6" Margin="0,4,0,5" Grid.Row="4" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" />
+                                        </Grid>
+                                    </sdk:TabItem>
+                                </sdk:TabControl>
+                                <sdk:TabControl x:Name="卡信息">
+                                    <sdk:TabItem Header="卡信息">
+                                        <Grid Background="#FFE5E5E5" Height="Auto">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.112*"/>
+                                                <ColumnDefinition Width="0.353*"/>
+                                                <ColumnDefinition Width="0.161*"/>
+                                                <ColumnDefinition Width="0.374*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Text="{m:Bind Path=yhh}" IsReadOnly="True" Margin="0" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="1.923,0.4" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible" Grid.Row="0" Grid.Column="1"  />
+                                            <TextBlock Margin="0" TextWrapping="Wrap" Text="用户号：" TextAlignment="Right" RenderTransformOrigin="0.777,-5.52"/>
+                                            <TextBox Text="{m:Bind Path=bjql}" IsReadOnly="True" Margin="0" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="1.923,0.4" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible" Grid.Row="0" d:LayoutOverrides="GridBox" Grid.ColumnSpan="1" Grid.Column="3"  />
+                                            <TextBlock Margin="0" TextWrapping="Wrap" Text="报警气量：" TextAlignment="Right" RenderTransformOrigin="0.777,-5.52" Grid.Column="2"/>
+                                            <TextBox Text="{m:Bind Path=czsx}" IsReadOnly="True" Margin="0" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="1.923,0.4" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible" Grid.Row="1" Grid.RowSpan="1" Grid.Column="1"  />
+                                            <TextBlock Margin="0" TextWrapping="Wrap" Text="充值上限：" TextAlignment="Right" RenderTransformOrigin="0.777,-5.52" Grid.Row="1"/>
+                                            <TextBox Text="{m:Bind Path=tzed}" IsReadOnly="True" Margin="0" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="1.923,0.4" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible" Grid.Row="1" Grid.Column="3"  />
+                                            <TextBlock Margin="0" TextWrapping="Wrap" Text="透支额度：" TextAlignment="Right" RenderTransformOrigin="0.777,-5.52" Grid.Column="2" Grid.Row="1"/>
+                                            <TextBox Text="{m:Bind Path=kmm}" IsReadOnly="True" Margin="0" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="1.923,0.4" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible" Grid.Row="2" Grid.Column="1"  />
+                                            <TextBlock Margin="0" TextWrapping="Wrap" Text="卡密码：" TextAlignment="Right" RenderTransformOrigin="0.777,-5.52" Grid.Row="2"/>
+                                            <TextBlock Margin="0" TextWrapping="Wrap" Text="地区代码：" TextAlignment="Right" FontSize="11" Grid.Column="2" Grid.Row="2"/>
+                                            <TextBox Text="{m:Bind Path=dqdm}" IsReadOnly="True" Grid.Column="3" Margin="0" Grid.Row="2" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-0.359,-4.32" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible"  />
+                                            <TextBlock Margin="0" TextWrapping="Wrap" TextAlignment="Right" Text="卡类型：" FontSize="11" Grid.Row="3"/>
+                                            <TextBox Text="{m:Bind Path=klx}" IsReadOnly="True" Grid.Column="1" Margin="0" Grid.Row="3" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="0.548,0.462" HorizontalAlignment="Stretch" Width="Auto" Visibility="Visible"  />
+                                            <TextBlock Margin="0" TextWrapping="Wrap" TextAlignment="Right" Text="写卡次数：" FontSize="11" Grid.Column="2" Grid.Row="3"/>
+                                            <TextBox Visibility="Visible" Text="{m:Bind Path=f_times}"  Margin="0" TextWrapping="Wrap" IsReadOnly="True" Grid.ColumnSpan="1" Grid.Column="3" Grid.Row="3" Height="Auto" Grid.RowSpan="1" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch"/>
+                                        </Grid>
+                                    </sdk:TabItem>
+                                </sdk:TabControl>
+                            </StackPanel>
+                            <StackPanel Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Grid.Column="1">
+                                <sdk:TabControl x:Name="气表信息" Margin="0" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="Width" Height="Auto">
+                                    <sdk:TabItem Header="气表信息">
+                                        <Grid Background="#FFE5E5E5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.175*"/>
+                                                <ColumnDefinition Width="0.305*"/>
+                                                <ColumnDefinition Width="0.12*"/>
+                                                <ColumnDefinition Width="200"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Margin="0" TextWrapping="Wrap" Text="表　　号：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_meternumber}"  Grid.Column="1" Margin="0" Grid.Row="0" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" />
+                                            <TextBlock Margin="0" Grid.Row="1" TextWrapping="Wrap" Text="表  封 号：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_metertitles}"  Grid.Column="1" Margin="0" Grid.Row="1" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" Grid.ColumnSpan="1" />
+                                            <TextBlock Margin="0" TextWrapping="Wrap" Text="气表品牌：" TextAlignment="Right" Grid.Row="2" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_gaswatchbrand}" Grid.Column="1" Margin="0" Grid.Row="2" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" Grid.ColumnSpan="1"   />
+                                            <TextBlock Margin="0" Grid.Row="3" TextWrapping="Wrap" Text="气表厂家：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_gasmetermanufacturers}"  Grid.Column="1" Margin="0" Grid.Row="3" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="Auto" />
+                                            <TextBlock Margin="0" TextWrapping="Wrap" Text="气表型号：" TextAlignment="Right" Grid.Row="4" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_metertype}" Grid.Column="1" Margin="0" Grid.Row="4" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" Grid.ColumnSpan="1"/>
+                                            <TextBlock Margin="0" Grid.Row="5" TextWrapping="Wrap" Text="气表类型：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_gasmeterstyle}"  Grid.Column="1" Margin="0" Grid.Row="5" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch"  Width="Auto" Grid.ColumnSpan="1"  />
+                                            <TextBlock Margin="0" Grid.Row="6" TextWrapping="Wrap" Text="额定流量：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_flownum}"  Grid.Column="1" Margin="0" Grid.Row="6" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" Width="Auto" HorizontalAlignment="Stretch" />
+                                            <TextBlock Margin="0" Grid.Row="7" TextWrapping="Wrap" Text="脉冲(表系数)：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_maichong}"  Grid.Column="1" Margin="0" Grid.Row="7" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto" />
+                                            <TextBlock Margin="0" Grid.Row="8" TextWrapping="Wrap" Text="当前表累计购气量：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_metergasnums}" Grid.Column="1" Margin="0" Grid.Row="8"   HorizontalAlignment="Stretch" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1"  />
+                                            <TextBlock Margin="0" Grid.Row="9" TextWrapping="Wrap" Text="海力表型编码：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_watchnum}"  Grid.Column="1" Margin="0" Grid.Row="9" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto" />
+                                            <TextBlock Margin="0" Grid.Row="10" TextWrapping="Wrap" Text="类　　型：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_type}"  Grid.Column="1" Margin="0" Grid.Row="10" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto" />
+                                            <TextBlock TextWrapping="Wrap" Text="左右表：" TextAlignment="Right" Grid.Column="2" Margin="5,0,0,0" HorizontalAlignment="Left" Width="112"/>
+                                            <TextBox Text="{m:Bind Path=f_aroundmeter}" IsReadOnly="True" Grid.Column="3" Grid.Row="0" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="Height" Margin="0" />
+                                            <TextBlock  Grid.Row="1" TextWrapping="Wrap" Text="气表底数：" TextAlignment="Right" Grid.Column="1" Height="25" d:LayoutOverrides="Height" Grid.ColumnSpan="2" Margin="0,0,0,4"/>
+                                            <TextBox Text="{m:Bind Path=f_gasmeteraccomodations}" IsReadOnly="True" Grid.Column="3" Margin="0" Grid.Row="1" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="0.548,0.462" HorizontalAlignment="Stretch"  Width="Auto"  />
+                                            <TextBlock Margin="0" Grid.Row="2" TextWrapping="Wrap" Text="气表位置：" TextAlignment="Right" Grid.Column="2"/>
+                                            <TextBox Text="{m:Bind Path=f_neiwaibiao}" IsReadOnly="True" Grid.Column="3" Margin="0" Grid.Row="2" Height="Auto" VerticalAlignment="Stretch" Grid.RowSpan="1" HorizontalAlignment="Stretch" Width="Auto" />
+                                            <TextBlock Grid.Column="2" Margin="0" Grid.Row="3" TextWrapping="Wrap" Text="别　　名：" TextAlignment="Right"/>
+                                            <TextBox Text="{m:Bind Path=f_aliasname}" Grid.Column="3" Margin="0" Grid.Row="3" TextWrapping="Wrap" IsReadOnly="True" Height="25" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  d:LayoutOverrides="Height" />
+                                            <CheckBox IsChecked="{m:Bind Path=f_closevalve}" IsEnabled="False"  Content="有自闭阀" Margin="8,0,0,-5" Grid.Row="4" Grid.Column="3" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                                        </Grid>
+                                    </sdk:TabItem>
+                                </sdk:TabControl>
+                                <sdk:TabControl x:Name="状态信息" Margin="0" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+                                    <sdk:TabItem Header="状态信息">
+                                        <Grid Background="#FFE5E5E5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                                <RowDefinition Height="25"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="100"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Margin="0,0,-1,0" TextWrapping="Wrap" Text="是否发折：" Height="25" FontSize="11" HorizontalAlignment="Right"/>
+                                            <TextBox Text="{m:Bind Path=f_whethergivepassbook}"  Grid.Column="1" Margin="0" Grid.Row="0" TextWrapping="Wrap" IsReadOnly="True"  Height="25" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch" Grid.ColumnSpan="1"  />
+                                            <TextBlock Margin="0,2,0,-2" Grid.Row="1" TextWrapping="Wrap" Text="总累计购气量：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_cumulativepurchase}" Grid.Column="1" Margin="0" Grid.Row="1"  HorizontalAlignment="Stretch" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" />
+                                            <TextBlock Margin="0,4,0,-4" Grid.Row="2" TextWrapping="Wrap" Text="最后购气量：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_finallybought}"  Grid.Column="1" Margin="0" Grid.Row="2" TextWrapping="Wrap" HorizontalAlignment="Stretch" Grid.RowSpan="1" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" />
+                                            <TextBlock Margin="33,0,0,0" Grid.Row="3" TextWrapping="Wrap" Text="是否发卡：" TextAlignment="Right" Height="25"/>
+                                            <TextBox Text="{m:Bind Path=f_whethergivecard}"  Grid.Column="1" Margin="0" Grid.Row="3" TextWrapping="Wrap" IsReadOnly="True"  Height="Auto" HorizontalAlignment="Stretch" Width="Auto"  VerticalAlignment="Stretch" Grid.ColumnSpan="1"  />
+                                            <TextBlock Margin="0" Grid.Row="4" TextWrapping="Wrap" Text="最后购气日期：" TextAlignment="Right"/>
+                                            <TextBox Text="{Binding f_finabuygasdate, StringFormat=yyyy-MM-dd}"  Grid.Column="1" Margin="0" Grid.Row="4"  Grid.RowSpan="1" IsReadOnly="True" Height="25" />
+                                            <TextBlock Margin="0" Grid.Row="5" TextWrapping="Wrap" Text="开户日期：" TextAlignment="Right"/>
+                                            <TextBox Text="{Binding f_dateofopening, StringFormat=yyyy-MM-dd}"  Grid.Column="1" Grid.Row="5" IsReadOnly="True" />
+                                            <TextBlock Text="发卡日期：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="6"/>
+                                            <TextBox  Text="{Binding f_givecarddate, StringFormat=yyyy-MM-dd}"  Grid.Column="1" Margin="0" Grid.Row="6" IsReadOnly="True"/>
+                                            <TextBlock Margin="0" Grid.Row="7" TextWrapping="Wrap" Text="开户气量：" TextAlignment="Right"/>
+                                            <TextBox Text="{m:Bind Path=f_kaihuql}" Grid.Column="1" Margin="0" Grid.Row="7" TextWrapping="Wrap" Height="Auto" IsReadOnly="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1"/>
+                                            <TextBlock Margin="8,0,-4,0" Grid.Row="8" TextWrapping="Wrap" Text="维护费起始年月：" TextAlignment="Right" Height="25" VerticalAlignment="Bottom" d:LayoutOverrides="Height"/>
+                                            <TextBox Text="{Binding f_beginfee, StringFormat=yyyy-MM-dd}"  Grid.Column="1" Margin="0" Grid.Row="8" IsEnabled="True" Height="25" IsReadOnly="True"/>
+                                            <TextBlock Margin="0,0,8,0" Grid.Row="9" TextWrapping="Wrap" Text="计算气损：" TextAlignment="Right" Height="25" VerticalAlignment="Bottom" d:LayoutOverrides="Height"/>
+                                            <TextBox Text="{m:Bind Path=f_jsqs}" IsReadOnly="True" Grid.Column="1" Margin="0" Grid.Row="9" Height="25" VerticalAlignment="Stretch" Grid.RowSpan="1" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" />
+                                            <TextBox Text="{m:Bind Path=f_xiangou}" Visibility="Visible"  Grid.Column="1" Margin="0" Grid.Row="10" Height="25" VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1"  />
+                                            <TextBlock Margin="0,0,8,-4" Grid.Row="10" TextWrapping="Wrap" Text="限购：" TextAlignment="Right" Height="25" VerticalAlignment="Bottom" d:LayoutOverrides="Height"/>
+                                            <TextBox Text="{m:Bind Path=lastrecord}" Visibility="Visible"  Margin="0,2,-1,0" TextWrapping="Wrap" IsReadOnly="True"  Height="Auto"  VerticalAlignment="Stretch" Grid.Column="3"  />
+                                            <TextBlock Margin="0,1,0,24" TextWrapping="Wrap" TextAlignment="Right" Text="抄表底数：" Height="25" FontSize="11" HorizontalAlignment="Right" Grid.Column="2" Grid.RowSpan="2" Width="80"/>
+                                            <TextBox Text="{m:Bind Path=lastinputgasnum}" Visibility="Visible"  Margin="0,2,-1,0" TextWrapping="Wrap" IsReadOnly="True"  Height="Auto"  VerticalAlignment="Top" Grid.Column="3" Grid.Row="1"  />
+                                            <TextBlock Margin="0,4,0,21" TextWrapping="Wrap" TextAlignment="Right" Text="上次抄表底数：" Height="25" FontSize="11" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Width="99"/>
+                                            <TextBox Text="{Binding lastinputdate, StringFormat=yyyy-MM-dd}" Visibility="Visible"  Margin="0,1,-1,0" TextWrapping="Wrap" IsReadOnly="True"  Height="Auto"  VerticalAlignment="Top" Grid.Column="3" Grid.Row="2"  />
+                                            <TextBlock Margin="0,4,0,0" TextWrapping="Wrap" TextAlignment="Right" Text="抄表日期：" FontSize="11" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="2" Width="80"/>
+                                            <TextBox Text="{m:Bind Path=f_cypregas}" Visibility="Visible"  Margin="0,0,-1,0" TextWrapping="Wrap" IsReadOnly="True" Grid.Column="3" Grid.Row="3"/>
+                                            <TextBlock Margin="0,1,4,0" TextWrapping="Wrap" TextAlignment="Right" Text="超用气量：" FontSize="11" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="3" Width="76"/>
+                                            <TextBlock Grid.Row="5" TextWrapping="Wrap" Text="验收日期：" TextAlignment="Right" Grid.ColumnSpan="2" Grid.Column="2" Margin="1,0,99,0"/>
+                                            <TextBox Text="{Binding f_yanzhengdate, StringFormat=yyyy-MM-dd}"  Grid.Column="3" Grid.Row="5" Grid.RowSpan="1" IsReadOnly="True" Margin="1,0,-1,0" />
+                                            <TextBlock Grid.Row="4" TextWrapping="Wrap" Text="通气日期：" TextAlignment="Right" Grid.ColumnSpan="2" Grid.Column="2" Margin="1,0,99,0"/>
+                                            <TextBox Text="{Binding f_fireopening, StringFormat=yyyy-MM-dd}"  Grid.Column="3" Grid.Row="4" Grid.RowSpan="1" IsReadOnly="True" Margin="1,0,-1,0" />
+                                        </Grid>
+                                    </sdk:TabItem>
+                                </sdk:TabControl>
+                                <sdk:TabControl x:Name="操作记录" Height="108" Background="#FFE5E5E5">
+                                    <sdk:TabItem Header="操作记录">
+                                        <Grid Margin="0,0,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="117*"/>
+                                                <ColumnDefinition Width="111*"/>
+                                                <ColumnDefinition Width="108*"/>
+                                                <ColumnDefinition Width="116*"/>
+                                                <ColumnDefinition Width="127*"/>
+                                                <ColumnDefinition Width="205*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30"/>
+                                                <RowDefinition Height="30"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock TextWrapping="Wrap" Text="网   点：" Grid.Row="0" Grid.Column="0" TextAlignment="Right" Height="25"  Margin="0,3,0,2"/>
+                                            <TextBox Text="{m:Bind Path=f_yytdepa}" Margin="0,3,0,2" Grid.Column="1" TextWrapping="Wrap"  VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Stretch" Height="25" Width="Auto"  />
+                                            <TextBlock TextWrapping="Wrap" Text="分  公  司：" Grid.Column="2" TextAlignment="Right" Height="25"  Margin="0,3,0,2"/>
+                                            <TextBox Text="{m:Bind Path=f_filiale}" Margin="0,3,0,2" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto"  Grid.Column="3"/>
+                                            <TextBlock TextWrapping="Wrap" Text="操  作 人："  TextAlignment="Right" Height="25" Margin="10,3,0,2" Grid.Column="4"/>
+                                            <TextBox Text="{m:Bind Path=f_yytoper}" Margin="0,3,0,2" TextWrapping="Wrap"  VerticalAlignment="Stretch" IsReadOnly="True" HorizontalAlignment="Right" Height="25" Width="205" Grid.Column="5" />
+                                            <TextBlock TextWrapping="Wrap" Grid.Row="1" Text="建档日期：" TextAlignment="Right" Height="25"  Margin="0,3,0,2" />
+                                            <TextBox Text="{Binding f_yytdate, StringFormat=yyyy-MM-dd}" IsReadOnly="True" Grid.Row="1" Margin="0,3,0,2" VerticalAlignment="Stretch" IsEnabled="False" Height="25" Width="Auto" HorizontalAlignment="Stretch" Grid.Column="1" />
+                                            <TextBlock TextWrapping="Wrap" Grid.Row="1" Text="建档时间：" TextAlignment="Right" Height="25" Margin="0,3,0,2" Grid.Column="2" />
+                                            <TextBox Text="{Binding f_yyttime, StringFormat=hh:mm:ss tt}" IsReadOnly="True" Grid.Row="1" Margin="0,3,0,2" VerticalAlignment="Stretch" IsEnabled="False" Height="25" Width="Auto"  Grid.Column="3" />
+                                        </Grid>
+                                    </sdk:TabItem>
+                                </sdk:TabControl>
+                            </StackPanel>
+                        </Grid>
+
+                    </Grid>
+                </ScrollViewer>
             </toolkit:DockPanel>
         </Grid>
         <StackPanel HorizontalAlignment="Right" Height="40" Margin="0,0,-12,-18" VerticalAlignment="Bottom" Width="394"/>

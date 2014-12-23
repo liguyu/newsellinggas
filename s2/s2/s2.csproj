@@ -650,6 +650,9 @@
     <Compile Include="Pages\报建\非民用银行返单.xaml.cs">
       <DependentUpon>非民用银行返单.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\按次数稽查.xaml.cs">
+      <DependentUpon>按次数稽查.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\换表信息查询.xaml.cs">
       <DependentUpon>换表信息查询.xaml</DependentUpon>
     </Compile>
@@ -2050,6 +2053,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\报建\非民用银行返单.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\按次数稽查.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
