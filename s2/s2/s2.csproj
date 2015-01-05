@@ -212,8 +212,14 @@
     <Compile Include="Pages\安检汇总.xaml.cs">
       <DependentUpon>安检汇总.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\安检结果小区统计.xaml.cs">
+      <DependentUpon>安检结果小区统计.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\安检结果查看.xaml.cs">
       <DependentUpon>安检结果查看.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\安检结果用户统计.xaml.cs">
+      <DependentUpon>安检结果用户统计.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\安检计划.xaml.cs">
       <DependentUpon>安检计划.xaml</DependentUpon>
@@ -712,6 +718,15 @@
     </Compile>
     <Compile Include="Pages\用户用气量统计.xaml.cs">
       <DependentUpon>用户用气量统计.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\用气地址模式一.xaml.cs">
+      <DependentUpon>用气地址模式一.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\用气地址模式三.xaml.cs">
+      <DependentUpon>用气地址模式三.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\用气地址模式二.xaml.cs">
+      <DependentUpon>用气地址模式二.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\用气设备修改.xaml.cs">
       <DependentUpon>用气设备修改.xaml</DependentUpon>
@@ -1321,6 +1336,8 @@
     <Compile Include="Program\Behaviors\CreateReceiptAction.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Program\Behaviors\DataGridDoubleClickBehavior.cs" />
+    <Compile Include="Program\Behaviors\MouseClickManager.cs" />
     <Compile Include="Program\Behaviors\SaveForUserAction.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1328,7 +1345,11 @@
       <DependentUpon>DateTimePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Program\ObjectTools\GasADObject.cs" />
+    <Compile Include="Program\ObjectTools\GasADObject1.cs" />
+    <Compile Include="Program\ObjectTools\GasADObject2.cs" />
+    <Compile Include="Program\ObjectTools\GasADObject3.cs" />
     <Compile Include="Program\ObjectTools\NewGeneralICCard.cs" />
+    <Compile Include="Program\ObjectTools\PagedObjectList2.cs" />
     <Compile Include="Program\ObjectTools\RXCard.cs" />
     <Compile Include="Program\ObjectTools\SYICCard.cs" />
     <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
@@ -1472,7 +1493,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\安检结果小区统计.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\安检结果查看.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\安检结果用户统计.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2137,6 +2166,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\用户用气量统计.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\用气地址模式一.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\用气地址模式三.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\用气地址模式二.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2955,6 +2996,10 @@
     </Page>
     <Page Include="ResourceDictionary1.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionary_sale.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SampleData\SampleDataSource\SampleDataSource.xaml">

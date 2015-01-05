@@ -3,8 +3,8 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping >
-	<!--用气地址表-->
-	<class entity-name="t_gasaddress" table="t_gasaddress" dynamic-update="true">
+	<!--用气地址临时表-->
+	<class entity-name="t_gasaddresstemp" table="t_gasaddresstemp" dynamic-update="true">
 	   <id name="ID" type="string">
 			<generator class="uuid.hex"></generator>
 		</id>
@@ -41,15 +41,12 @@
 		<!-- 操作员 -->
 		<property name="f_operator" type="string"/>
 		<!-- 操作日期 -->
-		<!--property name="f_date" type="date"/-->
-		<property name="f_date" type="string"/>
+		<property name="f_date" type="date"/>
 		<!-- 分公司 -->
 		<property name="f_filiale" type="string"/>
 		<!--街道 -->
 		<property name="f_road" type="string"/>
-		
-		
-		<!-- 秦华增加是否删除 -->
-		<property name = "f_isdeleted" type="string"/>
+		<!--用气地址状态 -->
+		<property name="f_gasaddressstate" type="string"/>
 		</class>
 </hibernate-mapping>

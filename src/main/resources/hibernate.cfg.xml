@@ -167,7 +167,7 @@
    	     <mapping resource="营收/gonggao.hbm.xml"/>
    
    	      <!-- 临时地址 -->
-   	    <mapping resource="营收/gasaddress1.hbm.xml"/>
+   	    <mapping resource="营收/gasaddresstemp.hbm.xml"/>
    	     
         <!--导数据用的临时用户表1-->
    	    <!--mapping resource="营收/userfiles1.hbm.xml" /-->

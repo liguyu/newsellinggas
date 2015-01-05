@@ -40,7 +40,7 @@
             <b:HQLAction Name="MakeCheck" Type="sql"
 			HQL="{m:Exp Str=$
 			insert into T_IC_SAFECHECK_PAPER(id\, checkplanid \, UNIT_NAME \, ROAD \, CUS_DOM \, CUS_DY \, CUS_FLOOR \, CUS_ROOM)
-			select order by id()\, \'\{ybuserfilego.id\}\'\, f_districtname \,f_road \, f_cusDom \, f_cusDy \, f_cusFloor \, f_apartment from t_gasaddress
+			select newid()\, \'\{ybuserfilego.id\}\'\, f_districtname \,f_road \, f_cusDom \, f_cusDy \, f_cusFloor \, f_apartment from t_gasaddress
 			where \{userfilesearch.DataContext.Condition\}}"
 		/>
             <b:HQLAction Name="DeleteCheckPlan"  WebClientInfo="{StaticResource dbclient}" 
@@ -53,11 +53,7 @@
             <b:HQLAction Name="DeleteInspection"  WebClientInfo="{StaticResource dbclient}" 
 			HQL="{m:Exp Str=$delete from T_INSPECTION where CHECKPLAN_ID \= \'\{userfiles.SelectedItems.ToString(id)\=>SelectionChanged\}\'}">
             </b:HQLAction>
-            <b:HQLAction Name="DeleteInspectionLine"  WebClientInfo="{StaticResource dbclient}" 
-			HQL="{m:Exp Str=$delete from T_INSPECTION_LINE where INSPECTION_ID in ( select id from T_INSPECTION where CHECKPLAN_ID \= \'\{userfiles.SelectedItems.ToString(id)\=>SelectionChanged\}\')}">
-            </b:HQLAction>
             <b:BatchExcuteAction Name="DeleteAction" WebClientInfo="{StaticResource dbclient}">
-                <b:BatchInfo Source="{m:Exp Str=DeleteInspectionLine}" MethodName="InvokeToJson"/>
                 <b:BatchInfo Source="{m:Exp Str=DeleteInspection}" MethodName="InvokeToJson"/>
                 <b:BatchInfo Source="{m:Exp Str=DeleteCheckPaper}" MethodName="InvokeToJson"/>
                 <b:BatchInfo Source="{m:Exp Str=DeleteCheckPlan}" MethodName="InvokeToJson"/>
@@ -130,7 +126,7 @@
 								Operator=" substring(f_date,1,10) ^= substring('this',1,10)"/>
                                 </a:Data.Prop>
                             </sdk:DatePicker>
-                            <Button Content="查询" x:Name="searchbutton" Grid.Row="1" Grid.Column="4" Click="{m:Exp Str=userfilesearch.DataContext.Search()}" Margin="8,0,0,2" HorizontalAlignment="Left" Width="70"  FontSize="13.333" d:LayoutOverrides="Height"  />
+                            <Button Content="查询" x:Name="searchbutton" Grid.Row="1" Grid.Column="4" Click="{m:Exp Str=userfilesearch.DataContext.Search()}" Margin="8,0,0,2" HorizontalAlignment="Left" Width="70"  FontSize="13.333" d:LayoutOverrides="Height"  Style="{StaticResource 查询btn}"/>
                         </Grid>
                     </toolkit:DockPanel>
                     <sdk:DataGrid x:Name="userfiles" Margin="0,0,0,0"  FontSize="13.333"
@@ -139,6 +135,7 @@
                         <sdk:DataGrid.Columns>
                             <sdk:DataGridTextColumn d:IsLocked="True" Header="序  号" Binding="{Binding Index}"/>
                             <sdk:DataGridTextColumn Header="计划名称" Binding="{Binding f_name}"/>
+
                             <sdk:DataGridTextColumn Header="是否下发" Binding="{Binding f_issued}"/>
                             <sdk:DataGridTextColumn Header="时    间" Binding="{Binding f_date}"/>
                         </sdk:DataGrid.Columns>
@@ -152,6 +149,7 @@
                         <o:GeneralObject Name="PlanItem" WebClientInfo="{StaticResource dbclient}" 
 					EntityType="T_CHECKPLAN" Source="{m:Exp Str=userfiles.SelectedItem}" NotEmpty="True"
 					IsInit="{m:Exp Str='this.State\=\=$End$ |or| DeleteAction.State \=\= $End$ |or| SaveAction.State \=\= $End$'}"/>
+
                     </a:Data.Context>
                     <Grid  Margin="0,0,6,0" HorizontalAlignment="Stretch" Height="Auto" Width="Auto"  Background="#FFDBE4F3" toolkit:DockPanel.Dock="Top">
 
@@ -172,18 +170,24 @@
                                 <o:PropertySetter PropertyName="f_name" NotNull="True"/>
                             </a:Data.Prop>
                         </TextBox>
-                        <Button x:Name="save" Content="保存" Grid.Row="2" Grid.Column="2" FontSize="14" IsEnabled="{m:Exp Str=!ybuserfile.DataContext.HasErrors}" VerticalAlignment="Bottom"  
+                        <Button x:Name="save" Content="保存" Grid.Row="2" Grid.Column="2" FontSize="14" IsEnabled="{m:Exp Str=!ybuserfile.DataContext.HasErrors}" VerticalAlignment="Bottom"  Style="{StaticResource 保存btn}"
 							Click="{m:Exp Str=SaveAction.Invoke()}" Width="70" HorizontalAlignment="center" Height="25" Margin="50,0,0,0" />
-                        <Button Content="删除" x:Name="delete"  IsEnabled="{m:Exp Str=userfiles.SelectedItem!\=null}" VerticalAlignment="Top" Click="{m:Exp Str=deletettip.Show()}" Grid.Column="2" Width="70" HorizontalAlignment="right" Margin="0,0,20,0"  Height="25" Visibility="Collapsed"  d:LayoutOverrides="VerticalAlignment"/>
+                        <Button Content="删除" x:Name="delete"  Grid.Row="2"  IsEnabled="{m:Exp Str=userfiles.SelectedItem!\=null}" VerticalAlignment="Top" Click="{m:Exp Str=deletettip.Show()}" Grid.Column="2" Width="70" HorizontalAlignment="right" Margin="0,5,20,0"  Height="25" Style="{StaticResource 删除btn}"/>
+
                         <!--<TextBlock Text="日期：" Grid.Row="1" Margin="0,1,-0.25,4" TextWrapping="Wrap" TextAlignment="Right" Height="25" FontSize="13.333" d:LayoutOverrides="HorizontalMargin"/>
-						<TextBox Text="{m:Bind Path=f_date}" IsReadOnly="False" Grid.Row="1" Grid.Column="1" Margin="1,1,0,4"   TextWrapping="Wrap"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="25" FontSize="13.333" Grid.ColumnSpan="3" >						
+						<TextBox Text="{m:Bind Path=f_date}" IsReadOnly="False" Grid.Row="1" Grid.Column="1" Margin="1,1,0,4"   TextWrapping="Wrap"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="25" FontSize="13.333" Grid.ColumnSpan="3" >
+							
 						</TextBox>	-->
+
                         <TextBlock Text="是否下发：" Margin="0,1,-0.25,4" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right" Height="25" FontSize="13.333" d:LayoutOverrides="HorizontalMargin"/>
+
                         <ComboBox Name="searchxiafa"   SelectedValue="{m:Bind Path=f_issued}" Grid.Row="2" Grid.Column="1" ItemsSource="{m:Exp Str=yesornolist}" SelectedValuePath="name"  Margin="0" DisplayMemberPath="name"   Height="25" >
+
                             <a:Data.Prop>
                                 <o:PropertySetter PropertyName="f_issued"  />
                             </a:Data.Prop>
                         </ComboBox>
+
                     </Grid>
                     <StackPanel toolkit:DockPanel.Dock="Top">
                         <sdk:DataGrid x:Name="plans" Margin="0,0,5,25"  FontSize="13.333" 

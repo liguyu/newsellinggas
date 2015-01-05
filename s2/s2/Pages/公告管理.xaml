@@ -84,7 +84,7 @@
             				<o:PropertySetter PropertyName="title" Operator="title like '%this%'"/>               
             			</a:Data.Prop>
             		</TextBox>
-            		<Button Content="查询" x:Name="searchbutton" Click="{m:Exp Str=pipelinesearch.DataContext.Search()}" Margin="0" Grid.Column="2" Width="70"  Height="30"  />
+            		<Button Content="查询" x:Name="searchbutton" Click="{m:Exp Str=pipelinesearch.DataContext.Search()}" Margin="0" Grid.Column="2" Width="70"  Height="30"  Style="{StaticResource 查询btn}"/>
             	  </Grid>
 				</toolkit:DockPanel>
             	<sdk:DataGrid x:Name="pipelines" Margin="0,-22,0,0"  
@@ -165,9 +165,9 @@
 							
 						
             		<Button x:Name="save" Content="保存" Margin="0" Grid.Row="9" Grid.Column="4" 
-            			Click="{m:Exp Str=SaveAction.Invoke()}" Height="30" HorizontalAlignment="center" Width="70" FontSize="13.333"  />
-            		<Button Content="新建"  Click="{m:Exp Str=pipeline.DataContext.New()}"  HorizontalAlignment="left" Width="70" Height="30" Grid.Row="9" Grid.Column="5"  />
-                    <Button Content="删除" IsEnabled="{m:Exp Str=gonggao.id !\=null}"  Click="{m:Exp Str=DeleteAction.Invoke()}" Height="30" HorizontalAlignment="right" Width="70" Grid.Row="9"  Grid.Column="5"   Margin="0,0,30,0"/>
+            			Click="{m:Exp Str=SaveAction.Invoke()}" Height="30" HorizontalAlignment="center" Width="70" FontSize="13.333"  Style="{StaticResource 保存btn}"/>
+            		<Button Content="新建"  Click="{m:Exp Str=pipeline.DataContext.New()}"  HorizontalAlignment="left" Width="70" Height="30" Grid.Row="9" Grid.Column="5"  Style="{StaticResource 新增btn}"/>
+                    <Button Content="删除" IsEnabled="{m:Exp Str=gonggao.id !\=null}"  Click="{m:Exp Str=DeleteAction.Invoke()}" Height="30" HorizontalAlignment="right" Width="70" Grid.Row="9"  Grid.Column="5"  Style="{StaticResource 删除btn}" Margin="0,0,30,0"/>
 				</Grid>
             </Grid>
         </c:BusyIndicatorEx>
