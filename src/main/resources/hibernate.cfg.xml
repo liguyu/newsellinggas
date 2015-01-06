@@ -169,14 +169,7 @@
    	      <!-- 临时地址 -->
    	    <mapping resource="营收/gasaddresstemp.hbm.xml"/>
    	     
-        <!--导数据用的临时用户表1-->
-   	    <!--mapping resource="营收/userfiles1.hbm.xml" /-->
-   	    <!--导数据用的临时用户表2-->
-   	    <!--mapping resource="营收/userfiles2.hbm.xml" /-->
-   	    <!--导数据用的临时用户表3-->
-   	    <!--mapping resource="营收/userfiles3.hbm.xml" /-->
-   	    <!--导数据用的临时用户表4-->
-   	    <!--mapping resource="营收/userfiles4.hbm.xml" /-->
+      
    	    <!--订正气表品牌-->
    	    <mapping resource="营收/metertypeedit.hbm.xml" />
    	    <!--非民用抄表-->
