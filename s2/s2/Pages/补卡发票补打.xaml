@@ -103,7 +103,7 @@
 						<toolkit:DockPanel toolkit:DockPanel.Dock="Bottom"  Background="#FFC3E4FD" >
 							<StackPanel Orientation="Horizontal">
 								<Button x:Name="save" Content="保  存" Margin="5,0,5,5" 
-									IsEnabled="{m:Exp Str=userfile.DataContext.IsModified and !userfile.DataContext.HasErrors}"
+									IsEnabled="{m:Exp Str=userfile.DataContext.f_userid!\=null and userfile.DataContext.IsModified and !userfile.DataContext.HasErrors}"
 									Click="{m:Exp Str=SaveAction.Invoke()}" Width="50" Height="28" VerticalAlignment="Bottom" />
 								<Button Content="撤  销" Margin="5,0,5,5" FontSize="12" Click="{m:Exp Str=userfile.DataContext.New()}" Width="50" Height="28" VerticalAlignment="Bottom"/>
 							</StackPanel>

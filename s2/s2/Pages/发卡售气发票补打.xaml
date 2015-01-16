@@ -105,11 +105,12 @@
 						AutoGenerateColumns="False" Width="Auto" Background="{x:Null}" IsReadOnly="True" >
 						<a:Data.Items>
 							<o:PagedObjectList x:Name="userfileslist" WebClientInfo="{StaticResource dbclient}"
-								Path="{m:Exp Str=$from t_repair where \{userfilesearch.DataContext.Condition\}  and f_comtype \!\=\'银行\'  and f_reversaldate \=\'\{SysTime.Today.ToString($yyyy-MM-dd$)\}\' }"
+								Path="{m:Exp Str=$from t_repair where \{userfilesearch.DataContext.Condition\}  and f_comtype \!\=\'银行\' and f_reversaldate \=\'\{SysTime.Today.ToString($yyyy-MM-dd$)\}\'$ }"
 								IsOld="{m:Exp Str=SubmitAction.State\=\=$End$ or DeleteAction.State\=\=$End$ or userfile.DataContext.State\=\=$End$}"
-								PageIndex="{m:Exp Str=pager.PageIndex}" PageSize="{m:Exp Str=pager.PageSize}" SumNames="f_times"/>
+								PageIndex="{m:Exp Str=pager.PageIndex}" PageSize="{m:Exp Str=pager.PageSize}" SumNames="id"/>
 						</a:Data.Items>
-						<sdk:DataGrid.Columns>
+                        <!---->
+                        <sdk:DataGrid.Columns>
 							<sdk:DataGridTextColumn d:IsLocked="True" Header="序  号" Binding="{Binding Index}"/>
 							<sdk:DataGridTextColumn d:IsLocked="True" Header="用户编号" Binding="{Binding f_userid}"/>
 							<sdk:DataGridTextColumn d:IsLocked="True" Header="用户姓名" Binding="{Binding f_username}"/>

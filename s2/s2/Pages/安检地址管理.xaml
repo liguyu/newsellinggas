@@ -19,7 +19,7 @@
         <m:ResourceLoad Margin="0,0,-12,0">
 			
           <b:HQLAction Name="DeleteAction"  WebClientInfo="{StaticResource dbclient}" 
-			HQL="{m:Exp Str=$delete from t_gasaddress where ID \= \'\{applys.SelectedItems.ToString(ID)\=>SelectionChanged\}\'}">
+			HQL="{m:Exp Str=$delete from t_gasaddress1 where ID \= \'\{applys.SelectedItems.ToString(ID)\=>SelectionChanged\}\'}">
 			</b:HQLAction>
 		
 		  <b:BatchExcuteAction Name="SaveAction" WebClientInfo="{StaticResource dbclient}">
@@ -35,6 +35,9 @@
             </Grid.ColumnDefinitions>
             <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=applys.ItemsSource.IsBusy}">
                 <toolkit:DockPanel >
+                    <a:Data.Context>
+                        <o:SearchObject  ></o:SearchObject>
+                    </a:Data.Context>
                     <Grid Background="#FFDBE4F3" toolkit:DockPanel.Dock="Top"  Name="applysearch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -48,9 +51,7 @@
                             <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
 
-                        <a:Data.Context>
-                            <o:SearchObject  ></o:SearchObject>
-                        </a:Data.Context>
+                        
 
                         <TextBlock TextWrapping="Wrap" Text="小区名称：" Margin="5,4,0,4" FontSize="13.333" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" />
                         <TextBox TextWrapping="Wrap" Text="{m:Bind Path=f_districtname}" Width="150" Margin="0" Height="25"  Grid.Row="0" Grid.Column="1">
@@ -73,7 +74,7 @@
                         <TextBlock TextWrapping="Wrap" Text="楼层：" Margin="5,4,0,4" FontSize="13.333"  Grid.Row="1" Grid.Column="2"  HorizontalAlignment="Right"/>
                         <TextBox TextWrapping="Wrap" Text="{m:Bind Path=f_cusFloor}" Width="150" Margin="0" Height="25"  Grid.Row="1" Grid.Column="3">
                             <a:Data.Prop>
-                                <o:PropertySetter PropertyName="f_cusFloor"  Operator="  f_cusFloor like 'this%'"/>
+                                <o:PropertySetter PropertyName="f_cusFloor"  Operator="f_cusFloor like '%this%'"/>
                             </a:Data.Prop>
                         </TextBox>
                         <TextBlock TextWrapping="Wrap" Text="房号：" Margin="5,4,0,4" FontSize="13.333"  Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Right"/>
@@ -83,7 +84,7 @@
                             </a:Data.Prop>
                         </TextBox>
 
-                        <Button Content="查 询" Click="{m:Exp Str=applysearch.DataContext.Search()}"  Height="30" Width="70" Style="{StaticResource 查询btn}"  Grid.Row="2" Grid.Column="3"/>
+                        <Button Content="查 询" Click="{m:Exp Str=applysearch.DataContext.Search()}"  Height="30" Width="70"   Grid.Row="2" Grid.Column="3"/>
                     </Grid>
                     <toolkit:DockPanel  Background="#94a8cd" toolkit:DockPanel.Dock="Bottom" Margin="0"  Height="25" >
                         <!--信息列表翻页-->
@@ -94,7 +95,7 @@
 				AutoGenerateColumns="False"  Background="{x:Null}" IsReadOnly="True" >
                         <a:Data.Items>
                             <o:PagedObjectList x:Name="applyslist" WebClientInfo="{StaticResource dbclient}"
-                      Path="{m:Exp Str=$from t_gasaddress where \{applysearch.DataContext.Condition\}}"
+                      Path="{m:Exp Str=$from t_gasaddress1 where \{applysearch.DataContext.Condition\}}"
 					 IsOld="{m:Exp Str=apply.DataContext.State\=\=$End$ |or| DeleteAction.State \=\= $End$ |or| SaveAction.State \=\= $End$}"
 					 PageIndex="{m:Exp Str=pager.PageIndex}" PageSize="{m:Exp Str=pager.PageSize}" SumNames=","/>
 						
@@ -119,7 +120,7 @@
                     <a:Data.Context>
                         <o:GasADObject  Name="applygo" WebClientInfo="{StaticResource dbclient}" 
 						Source= "{m:Exp Str=applys.SelectedItem}"
-						EntityType="t_gasaddress" IsInit="{m:Exp Str='this.State\=\=$End$ |or| DeleteAction.State \=\= $End$ |or| SaveAction.State \=\= $End$'}"
+						EntityType="t_gasaddress1" IsInit="{m:Exp Str='this.State\=\=$End$ |or| DeleteAction.State \=\= $End$ |or| SaveAction.State \=\= $End$'}"
 						>
                         </o:GasADObject>
                     </a:Data.Context>
@@ -193,9 +194,9 @@
 
                         <Button x:Name="save" Content="保存" Margin="5" 
             			IsEnabled="{m:Exp Str=apply.DataContext.IsModified and !apply.DataContext.HasErrors}"
-            			Click="{m:Exp Str=SaveAction.Invoke()}" Width="70" Height="30"  Style="{StaticResource 保存btn}"/>
-                        <Button Content="撤销" Margin="5" Click="{m:Exp Str=apply.DataContext.New()}" Width="70"  Height="30"  Style="{StaticResource 取消btn}"/>
-						 <Button Content="删除" Margin="5" IsEnabled="{m:Exp Str=applys.SelectedItem!\=null}" Click="{m:Exp Str=DeleteAction.Invoke()}" Width="70"  Height="30"  Style="{StaticResource 删除btn}"/>
+            			Click="{m:Exp Str=SaveAction.Invoke()}" Width="70" Height="30"  />
+                        <Button Content="撤销" Margin="5" Click="{m:Exp Str=apply.DataContext.New()}" Width="70"  Height="30"  />
+						 <Button Content="删除" Margin="5" IsEnabled="{m:Exp Str=applys.SelectedItem!\=null}" Click="{m:Exp Str=DeleteAction.Invoke()}" Width="70"  Height="30"  />
 						 
                     </StackPanel>
                 </Grid>
