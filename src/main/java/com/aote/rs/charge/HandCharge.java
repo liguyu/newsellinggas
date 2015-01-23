@@ -75,7 +75,7 @@ public class HandCharge {
 	@Path("download")
 	public String downLoadRecord(String condition) {
 		
-		String sql = "select top 1000 u.f_userid,u.f_username,u.f_districtname,u.lastinputgasnum " +
+		String sql = "select top 1000 u.f_userid,u.f_username,u.f_address,u.lastinputgasnum " +
 				"from t_handplan h left join t_userfiles u on h.f_userid = u.f_userid where h.shifoujiaofei='否' and u.f_userstate!='注销' and h.f_state='未抄表' and " 
 				+ condition + "	order by u.f_address,u.f_apartment";
 		List<Object> list = this.hibernateTemplate.executeFind(new HibernateSQLCall(sql));
@@ -91,7 +91,7 @@ public class HandCharge {
 			item+="{";
 			item+="f_userid:'"+map.get("f_userid")+"',";
 			item+="f_username:'"+map.get("f_username")+"',";
-			item+="f_districtname:'"+map.get("f_districtname")+"',";
+			item+="f_address:'"+map.get("f_address")+"',";
 			item+="lastinputgasnum:"+map.get("lastinputgasnum");
 			item+="}";
 			
@@ -115,7 +115,6 @@ public class HandCharge {
 			@PathParam("sgoperator") String sgoperator,
 			@PathParam("lastinputdate") String lastinputdate,
 			@PathParam("handdate") String handdate) {
-		Map<String,String> singles = getSingles();// 获取所有单值
 		double chargenum = 0;
 		double stair1num = 0;
 		double stair2num = 0;
@@ -128,10 +127,10 @@ public class HandCharge {
 		double sumamont = 0;
 		try {
 			String hql = "";
-			final String sql = "select u.f_userid f_userid, u.f_zhye f_zhye , u.lastinputgasnum lastinputgasnum, u.f_gasprice , u.f_username  f_username,"
-					+ "u.f_stair1amount,u.f_stair2amount,u.f_stair3amount,u.f_stair1price,u.f_stair2price,u.f_stair3price,u.f_stair4price,u.f_stairmonths,isnull(u.f_stairtype,'未设')f_stairtype,"
-					+ "u.f_address f_address,u.f_districtname f_districtname,u.f_gasmeterstyle f_gasmeterstyle, u.f_idnumber f_idnumber, u.f_gaswatchbrand f_gaswatchbrand, u.f_usertype f_usertype, "
-					+ "u.f_gasproperties f_gasproperties,u.f_dibaohu f_dibaohu, u.f_payment f_payment,u.f_zerenbumen f_zerenbumen,u.f_menzhan f_menzhan,u.f_inputtor f_inputtor, isnull(q.c,0) c,"
+			final String sql = "select isnull(u.f_userid,'') f_userid, isnull(u.f_zhye,'') f_zhye , isnull(u.lastinputgasnum,'') lastinputgasnum, isnull(u.f_gasprice,0) f_gasprice, isnull(u.f_username,'')  f_username,"
+					+ "isnull(u.f_stair1amount,0)f_stair1amount,isnull(u.f_stair2amount,0)f_stair2amount,isnull(u.f_stair3amount,0)f_stair3amount,isnull(u.f_stair1price,0)f_stair1price,isnull(u.f_stair2price,0)f_stair2price,isnull(u.f_stair3price,0)f_stair3price,isnull(u.f_stair4price,0)f_stair4price,isnull(u.f_stairmonths,0)f_stairmonths,isnull(u.f_stairtype,'未设')f_stairtype,"
+					+ "isnull(u.f_address,'')f_address ,isnull(u.f_districtname,'')f_districtname,isnull(u.f_gasmeterstyle,'') f_gasmeterstyle, isnull(u.f_idnumber,'') f_idnumber, isnull(u.f_gaswatchbrand,'')f_gaswatchbrand, isnull(u.f_usertype,'')f_usertype, "
+					+ "isnull(u.f_gasproperties,'')f_gasproperties,isnull(u.f_dibaohu,0)f_dibaohu,isnull(u.f_payment,'')f_payment,isnull(u.f_zerenbumen,'')f_zerenbumen,isnull(u.f_menzhan,'')f_menzhan,isnull(u.f_inputtor,'')f_inputtor, isnull(q.c,0) c,"
 					+ "u.lastinputgasnum lastinputgasnum, h.id id from (select * from t_handplan where f_state='未抄表' and f_userid='"
 					+ userid
 					+ "') h "
@@ -283,6 +282,14 @@ public class HandCharge {
 			//该用户未设置阶梯气价
 			}else{
 				chargenum = gas*gasprice;
+				stair1num = 0;
+				stair2num = 0;
+				stair3num = 0;
+				stair4num = 0;
+				stair1fee = 0;
+				stair2fee = 0;
+				stair3fee = 0;
+				stair4fee = 0;
 			}
 			if(chargenum<f_zhye && items<1){
 				//自动下账
@@ -312,7 +319,7 @@ public class HandCharge {
 				sell.put("f_payment", "现金"); // 付款方式
 				sell.put("f_sgnetwork", sgnetwork); // 网点
 				sell.put("f_sgoperator", sgoperator); // 操 作 员
-				sell.put("f_filiale", "新康天然气公司"); // 分公司
+				sell.put("f_filiale", "淄博绿川天然气有限公司"); // 分公司
 				sell.put("f_useful", handid); // 抄表id
 				sell.put("f_stair1amount", stair1num);
 				sell.put("f_stair2amount", stair2num);
@@ -332,7 +339,7 @@ public class HandCharge {
 				int sellid = (Integer)hibernateTemplate.save("t_sellinggas", sell);
 				hql = "update t_userfiles set f_zhye=?,lastinputgasnum=?," +
 				// 本次抄表日期
-						"  lastinputdate=? f_sellid=?" +
+						"  lastinputdate=? " +
 						// 当前表累计购气量 （暂） 总累计购气量
 						// "f_metergasnums= f_metergasnums + ?, f_cumulativepurchase=f_cumulativepurchase+? ,"
 						// 最后购气量 最后购气日期 最后购气时间
@@ -340,13 +347,13 @@ public class HandCharge {
 						"where f_userid=?";
 
 				hibernateTemplate.bulkUpdate(hql, new Object[] {
-						f_zhye-chargenum,reading, lastinputDate,sellid,userid });
-
+						f_zhye-chargenum,reading, lastinputDate,userid });
+				String sellId = sellid+"";
 				// 更新抄表记录
 				hql = "update t_handplan set f_state ='已抄表',shifoujiaofei='是',f_handdate=?,f_stairtype=?,"
 						+ "lastinputdate=?,   f_zerenbumen=?, f_menzhan=?, f_inputtor=?,lastrecord=? ,oughtamount=? ,oughtfee=? ,f_address=?, f_username=?, f_zhye=?, f_bczhye=?,"
 						+ "f_stair1amount=?,f_stair2amount=?,f_stair3amount=?,f_stair4amount=?,f_stair1fee=?,f_stair2fee=?,f_stair3fee=?,f_stair4fee=?,f_stair1price=?,f_stair2price=?,f_stair3price=?,f_stair4price=?,"
-						+ "f_stardate=?,f_enddate=?,f_allamont=? "
+						+ "f_stardate=?,f_enddate=?,f_allamont=? ,f_sellid=?"
 						+ "where f_userid=? and f_state='未抄表'";
 				hibernateTemplate.bulkUpdate(hql, new Object[] { handDate,stairtype,
 						lastinputDate,zerenbumen, menzhan, inputtor,reading,
@@ -354,7 +361,7 @@ public class HandCharge {
 						stair1num,stair2num,stair3num,stair4num,
 						stair1fee,stair2fee,stair3fee,stair4fee,
 						stair1price,stair2price,stair3price,stair4price,
-						stardate,enddate,sumamont,
+						stardate,enddate,sumamont,sellId,
 						userid });
 			}else{
 				// 更新用户档案

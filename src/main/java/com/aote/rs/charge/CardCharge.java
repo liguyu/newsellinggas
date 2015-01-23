@@ -68,6 +68,8 @@ public class CardCharge {
 	
 	private double sumamont;
 
+	
+	//根据前台录入购气量计算各阶梯气量金额
 	@GET
 	@Path("/num/{userid}/{pregas}")
 	public JSONObject pregas(
@@ -87,7 +89,6 @@ public class CardCharge {
 			SearchStair(userid);
 			//针对设置阶梯气价的用户运算
 			if(!stairtype.equals("未设")){
-				CountAmount(userid);
 				//累计购气量
 				double allamont = sumamont+pregas;
 				//当前购气量在第一阶梯
@@ -165,6 +166,14 @@ public class CardCharge {
 			//该用户未设置阶梯气价
 			}else{
 				chargenum = pregas*gasprice;
+				stair1num = 0;
+				stair2num = 0;
+				stair3num = 0;
+				stair4num = 0;
+				stair1fee = 0;
+				stair2fee = 0;
+				stair3fee = 0;
+				stair4fee = 0;
 			}
 			Map sell = new HashMap();
 			sell.put("f_stair1amount", stair1num);
@@ -214,8 +223,6 @@ public class CardCharge {
 			prefee+=zhye;
 			//针对设置阶梯气价的用户运算
 			if(!stairtype.equals("未设")){
-		        //查询本月总购气量
-				CountAmount(userid);
 				//当前购气量在第一阶梯
 				if(sumamont<stair1amount){
 					//阶段一剩下气量的金额大于本次购气金额  直接按阶梯一的价格算出气量
@@ -305,6 +312,14 @@ public class CardCharge {
 			//该用户未设置阶梯气价
 			}else{
 				chargeamont = prefee/gasprice;
+				stair1num = 0;
+				stair2num = 0;
+				stair3num = 0;
+				stair4num = 0;
+				stair1fee = 0;
+				stair2fee = 0;
+				stair3fee = 0;
+				stair4fee = 0;
 			}
 			Map sell = new HashMap();
 			sell.put("f_stair1amount", stair1num);
@@ -333,14 +348,14 @@ public class CardCharge {
 	}
 	
 	//查询用户阶梯气价信息
-	private void SearchStair(String userid){
+	public void SearchStair(String userid){
 		try{
-			//查出该用户阶梯气价信息
-			final String usersql = "select isnull(f_stairtype,'未设')f_stairtype, isnull(f_gasprice,0)f_gasprice, isnull(f_stair1amount,0)f_stair1amount,isnull(f_stair2amount,0)f_stair2amount," +
+			final String usersql = "select isnull(f_stairtype,'未设')f_stairtype, isnull(f_gasprice,0)f_gasprice, " +
+					"isnull(f_stair1amount,0)f_stair1amount,isnull(f_stair2amount,0)f_stair2amount," +
 					"isnull(f_stair3amount,0)f_stair3amount,isnull(f_stair1price,0)f_stair1price," +
-					"isnull(f_stair2price,0)f_stair2price,isnull(f_stair3price,0)f_stair3price,isnull(f_stair4price,0)f_stair4price," +
-					"isnull(f_stairmonths,0)f_stairmonths,isnull(f_zhye,0)f_zhye " +
-					" from t_userfiles where f_userid='"+userid+"'";
+					"isnull(f_stair2price,0)f_stair2price,isnull(f_stair3price,0)f_stair3price," +
+					"isnull(f_stair4price,0)f_stair4price,isnull(f_stairmonths,0)f_stairmonths,isnull(f_zhye,0)f_zhye " +
+					"from t_userfiles where f_userid = '"+userid+"'";
 			List<Map<String, Object>> userlist =(List<Map<String, Object>>) hibernateTemplate.execute(new HibernateCallback() {
 				public Object doInHibernate(Session session)throws HibernateException {
 					Query q = session.createSQLQuery(usersql);
@@ -365,13 +380,31 @@ public class CardCharge {
 			stair4price = Double.parseDouble(usermap.get("f_stair4price").toString());
 			stairmonths = Integer.parseInt(usermap.get("f_stairmonths").toString());
 			zhye = Double.parseDouble(usermap.get("f_zhye").toString());
+			CountDate();
+			//查出该用户阶梯气价信息
+			final String sellsql = "select isnull(sum(f_pregas),0)f_pregas from " +
+					"t_sellinggas where f_userid='"+userid+"' and f_deliverydate>='"+stardate+"' and f_deliverydate<='"+enddate+"'";
+			List<Map<String, Object>> selllist =(List<Map<String, Object>>) hibernateTemplate.execute(new HibernateCallback() {
+				public Object doInHibernate(Session session)throws HibernateException {
+					Query q = session.createSQLQuery(sellsql);
+					q.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+					List result = q.list();
+					return result;
+				}
+			});
+			if (selllist.size() != 1) {
+				// 查询到多条数据，抛出异常
+				throw new WebApplicationException(500);
+			}
+			Map<String, Object> sellmap = (Map<String, Object>) selllist.get(0);
+			sumamont = Double.parseDouble(sellmap.get("f_pregas").toString());
 		}catch(Exception e){
 			log.debug("查询用户阶梯信息失败" + e.getMessage());
 			throw new WebApplicationException(500);
 		}
 		
 	}
-	//计算开始时间方法
+	//计算开始结束时间方法
 	private	void CountDate(){
 		//计算当前月在哪个阶梯区间
 		Calendar cal = Calendar.getInstance();
@@ -405,30 +438,7 @@ public class CardCharge {
 	        enddate = format.format(cal.getTime());
 		}
 	}
-	//查询本月总购气量
-	private void CountAmount(String userid){
-		try{
-		//先计算开始和技术时间
-		CountDate();
-		
-        final String gassql = " select sum(isnull(f_pregas,0))f_pregas from t_sellinggas " +
-        		"where f_userid='"+userid+"' and f_deliverydate>='"+stardate+"' and f_deliverydate<='"+enddate+"'";
-		List<Map<String, Object>> gaslist =(List<Map<String, Object>>) hibernateTemplate.execute(new HibernateCallback() {
-			public Object doInHibernate(Session session)throws HibernateException {
-				Query q = session.createSQLQuery(gassql);
-				q.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-				List result = q.list();
-				return result;
-			}
-		});
-		Map<String, Object> gasmap = (Map<String, Object>) gaslist.get(0);
-		//当前购气量
-		sumamont = Double.parseDouble(gasmap.get("f_pregas").toString());
-		}catch(Exception e){
-			log.debug("查询本月总购气量失败" + e.getMessage());
-			throw new WebApplicationException(500);
-		}
-	}
+	
 	// 把单个map转换成JSON对象
 	private JSONObject MapToJson(Map<String, Object> map) {
 		JSONObject json = new JSONObject();
