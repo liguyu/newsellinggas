@@ -581,7 +581,7 @@
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
 											
 								<Button x:Name="save2" Content="保  存" Margin="5" 
-												
+												IsEnabled="{m:Exp Str=!kbfee.HasErrors}"
 									Click="save2_Click" Width="50" />
 											
 											

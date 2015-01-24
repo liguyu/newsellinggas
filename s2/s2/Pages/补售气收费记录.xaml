@@ -32,9 +32,8 @@
 		  		Path="{m:Exp Str=$one/from t_singlevalue where name \= \'总公司名称\'}"   >
         </o:GeneralObject>
 			<!--历史交费列表-->
-			<o:ObjectList Name="kbsellgas" WebClientInfo="{StaticResource dbclient}"
-										Path="{m:Exp Str=kbusers.f_userid !\= null:$from t_sellinggas where f_userid\=\'\{kbfee.f_userid\}\' order by f_deliverydate desc $\,$abc$}"
-										IsOld="{m:Exp Str=SaveAction.State\=\=$End$}" />
+            <o:ObjectList Name="kbsellgas" WebClientInfo="{StaticResource dbclient}" IsClear="{m:Exp Str='SaveAction.State\=\=$End$'}"
+										Path="{m:Exp Str=kbusers.f_userid !\= null:$from t_sellinggas where f_userid\=\'\{kbfee.f_userid\}\' order by f_deliverydate desc $\,$abc$}"/>
 			<!--本月有效费列表,目的是计算用户本月已经购买的气量-->
 			<o:ObjectList Name="kbbysellgas" WebClientInfo="{StaticResource dbclient}"
 										Path="{m:Exp Str=kbusers.f_userid !\= null:$from t_sellinggas where f_userid\=\'\{kbfee.f_userid\}\' and f_payfeevalid\=\'有效\' and year(f_deliverydate) \=\'\{SysTime.Today.ToString($yyyy$)\}\' and month(f_deliverydate) \=\'\{SysTime.Today.ToString($MM$)\}\'$\,$abc$ }"
@@ -90,7 +89,7 @@
 			</o:GeneralObject-->
 			<!--卡表收费对象 -->
         	<o:GeneralObject Name="kbfee" EntityType="t_sellinggas" WebClientInfo="{StaticResource dbclient}"
-              IsInit="{m:Exp Str=SaveAction.State\=\=$End$}">
+              IsInit="{m:Exp Str=SaveAction.State\=\=$End$}" Source="{m:Exp Str=userfiles.SelectedItem !\=null:userfiles.SelectedItem\,null}">
 			</o:GeneralObject>
 			<!--超用对象 >
         	<o:GeneralObject Name="cyqfee"   EntityType="t_sellinggas" WebClientInfo="{StaticResource dbclient}"
