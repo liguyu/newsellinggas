@@ -32,7 +32,7 @@
     <LinkedServerProject>
     </LinkedServerProject>
     <Utf8Output>true</Utf8Output>
-    <ExpressionBlendVersion>4.1.20402.0</ExpressionBlendVersion>
+    <ExpressionBlendVersion>12.0.41002.1</ExpressionBlendVersion>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -212,14 +212,8 @@
     <Compile Include="Pages\安检汇总.xaml.cs">
       <DependentUpon>安检汇总.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\安检结果小区统计.xaml.cs">
-      <DependentUpon>安检结果小区统计.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\安检结果查看.xaml.cs">
       <DependentUpon>安检结果查看.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\安检结果用户统计.xaml.cs">
-      <DependentUpon>安检结果用户统计.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\安检计划.xaml.cs">
       <DependentUpon>安检计划.xaml</DependentUpon>
@@ -677,8 +671,17 @@
     <Compile Include="Pages\收费记录修改.xaml.cs">
       <DependentUpon>收费记录修改.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\更改抄表人.xaml.cs">
+      <DependentUpon>更改抄表人.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\更改抄表员.xaml.cs">
+      <DependentUpon>更改抄表员.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\机表交费阶梯.xaml.cs">
       <DependentUpon>机表交费阶梯.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\机表补卡.xaml.cs">
+      <DependentUpon>机表补卡.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\来电信息管理.xaml.cs">
       <DependentUpon>来电信息管理.xaml</DependentUpon>
@@ -707,6 +710,9 @@
     <Compile Include="Pages\民用一步建档.xaml.cs">
       <DependentUpon>民用一步建档.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\民用抄表批量录入.xaml.cs">
+      <DependentUpon>民用抄表批量录入.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\气价类型变更查看.xaml.cs">
       <DependentUpon>气价类型变更查看.xaml</DependentUpon>
     </Compile>
@@ -718,15 +724,6 @@
     </Compile>
     <Compile Include="Pages\用户用气量统计.xaml.cs">
       <DependentUpon>用户用气量统计.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\用气地址模式一.xaml.cs">
-      <DependentUpon>用气地址模式一.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\用气地址模式三.xaml.cs">
-      <DependentUpon>用气地址模式三.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\用气地址模式二.xaml.cs">
-      <DependentUpon>用气地址模式二.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\用气设备修改.xaml.cs">
       <DependentUpon>用气设备修改.xaml</DependentUpon>
@@ -1071,8 +1068,8 @@
     <Compile Include="Pages\民用小区管理.xaml.cs">
       <DependentUpon>民用小区管理.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\民用抄表批量录入.xaml.cs">
-      <DependentUpon>民用抄表批量录入.xaml</DependentUpon>
+    <Compile Include="Pages\民用卡表抄表批量录入.xaml.cs">
+      <DependentUpon>民用卡表抄表批量录入.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\民用抄表核查下账.xaml.cs">
       <DependentUpon>民用抄表核查下账.xaml</DependentUpon>
@@ -1493,15 +1490,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\安检结果小区统计.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Pages\安检结果查看.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\安检结果用户统计.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2113,8 +2102,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\更改抄表人.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\更改抄表员.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\机表交费阶梯.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\机表补卡.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\来电信息管理.xaml">
@@ -2153,6 +2154,10 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\民用抄表批量录入.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\气价类型变更查看.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
@@ -2166,18 +2171,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\用户用气量统计.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\用气地址模式一.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\用气地址模式三.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\用气地址模式二.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2641,7 +2634,7 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\民用抄表批量录入.xaml">
+    <Page Include="Pages\民用卡表抄表批量录入.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2996,10 +2989,6 @@
     </Page>
     <Page Include="ResourceDictionary1.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ResourceDictionary_sale.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SampleData\SampleDataSource\SampleDataSource.xaml">
