@@ -96,7 +96,7 @@
 			<!--用户对象-->
 			<o:GeneralObject Name="kbusers" EntityType="t_userfiles" WebClientInfo="{StaticResource dbclient}"
              Path="{m:Exp Str=card.CardId !\= null and card.Factory !\=null and card.Factory \=\=$jinka$ :$one/from t_userfiles where f_userstate !\=\'注销\' and f_cardid\=\'\{card.CardId\}\' and dqdm \= \'\{card.Dqdm\}\' and f_aliasname\=\'\{card.Factory\}\'$\,card.CardId !\= null and card.Factory !\=null:$one/from t_userfiles where f_cardid\=\'\{card.CardId\}\' and f_aliasname\=\'\{card.Factory\}\'$\,$null$}" 
-			 IsInit="{m:Exp Str=SaveAction\=\=$Error$ |or| zzprint.State\=\=$End$}">
+			 IsInit="{m:Exp Str=SaveAction\=\=$Error$}">
 				<!--折子号-->
 				<o:PropertySetter PropertyName="f_zherownum" 
 				NoDependValue="{m:Exp Str=SaveAction\=>Saving!\=null:kbfee.f_zherownum.ToInt()\,0}"></o:PropertySetter>        		
@@ -122,7 +122,7 @@
 			
 			<!--收费对象-->
         	<o:GeneralObject Name="kbfee" EntityType="t_sellinggas" WebClientInfo="{StaticResource dbclient}"
-            IsInit="{m:Exp Str=SaveAction\=\=$Error$ |or| zzprint.State\=\=$End$}">
+            IsInit="{m:Exp Str=SaveAction\=\=$Error$}">
 	  			<o:PropertySetter PropertyName="f_zherownum" NoDependValue="{m:Exp Str=kbusers !\= null and kbusers.f_zherownum !\= null and kbusers.f_zherownum.ToInt()^24:kbusers.f_zherownum+1\,1}"/>
 				<o:PropertySetter PropertyName="f_pregas" NotNull="True"  
 					Validation="{m:Exp Str= value ^\= kbfee1.DataContext.f_limitbuygas}"  ErrorMessage="购买气量超出限购气量，不能购气！"
@@ -136,7 +136,7 @@
 			<!--发票对象-->
         	<o:GeneralObject Name="fpinfosobj" EntityType="t_fapiaoinfos" WebClientInfo="{StaticResource dbclient}" 
             Path="{m:Exp Str=$one/from t_fapiaoinfos where f_invoicenum\=\'\{kbfee1.DataContext.f_invoicenum\}\'}"  
-			IsInit="{m:Exp Str=SaveAction\=\=$Error$ |or| card.State\=\=$Error$ |or| zzprint.State\=\=$End$}">
+			IsInit="{m:Exp Str=SaveAction\=\=$Error$ |or| card.State\=\=$Error$}">
         		<o:PropertySetter PropertyName="f_username" Value="{m:Exp Str=kbfee1.DataContext.f_username}"/>
 				<o:PropertySetter PropertyName="f_invoicenum" Value="{m:Exp Str=kbfee1.DataContext.f_invoicenum}"/>
 				<o:PropertySetter PropertyName="f_userid" Value="{m:Exp Str=kbfee1.DataContext.f_userid}" />
@@ -157,7 +157,7 @@
 			<!--补气对象-->	
 			<o:GeneralObject  Name="fillgas" WebClientInfo="{StaticResource dbclient}" 
     		EntityType="t_fillgas" 
-    		IsInit="{m:Exp Str=SaveAction\=\=$Error$ |or| zzprint.State\=\=$End$}" >
+    		IsInit="{m:Exp Str=SaveAction\=\=$Error$}" >
 				<o:PropertySetter PropertyName="f_username" Value="{m:Exp Str=kbusers.f_username}" />
 				<o:PropertySetter PropertyName="f_usertype" Value="{m:Exp Str=kbusers.f_usertype}" />
 				<o:PropertySetter PropertyName="f_userid" Value="{m:Exp Str=kbusers.f_userid}"/>
@@ -181,7 +181,7 @@
 				<o:PropertySetter PropertyName="f_filiale6" Default="{m:Exp Str=LoginUser.f_fengongsi}"/>
 				<o:PropertySetter PropertyName="f_yi" Default="0"/>
 				<o:PropertySetter PropertyName="f_addgastype" Default="换表补气"/>
-				<o:PropertySetter PropertyName="f_comtype" Default="天然气公司"/>
+				<o:PropertySetter PropertyName="f_comtype" Default="{m:Exp Str=LoginUser.f_comtype}"/>
     		</o:GeneralObject>
 		
 		    <!--保存-->
@@ -421,7 +421,7 @@
 							</TextBox>
 							<TextBox Text="{m:Bind Path=f_upbuynum}" Grid.Column="1" Margin="0" Grid.Row="6" TextWrapping="Wrap" IsReadOnly="True" HorizontalAlignment="Stretch" Height="25" VerticalAlignment="Stretch" >
 								<a:Data.Prop>
-									<o:PropertySetter PropertyName="f_upbuynum" NoDependValue="{m:Exp Str=kbusers.f_cumulativepurchase\=&gt;Completed}" NotNull="True"/>
+                                    <o:PropertySetter PropertyName="f_upbuynum" NoDependValue="{m:Exp Str=kbusers.f_cumulativepurchase\=&gt;Completed}" NotNull="True"/>
 								</a:Data.Prop>
 							</TextBox>
 							<TextBox Text="{m:Bind Path=f_limitbuygas}"  Grid.Column="5" Margin="0,6,34,6" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="3" Height="25"  >
@@ -490,7 +490,7 @@
 							</ComboBox>
 							<TextBox Text="{m:Bind Path=f_grossproceeds}" Grid.Column="3" Margin="0" Grid.Row="11" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" >
 								<a:Data.Prop>
-									<o:PropertySetter PropertyName="f_grossproceeds" NotNull="True"/>
+                                    <o:PropertySetter PropertyName="f_grossproceeds" NotNull="True" Value="{m:Exp Str=kbfee.f_totalcost}"/>
 								</a:Data.Prop>
 							</TextBox>	
 							
@@ -597,7 +597,7 @@
 											<!--上次表累计购气量-->
 							<TextBox Text="{m:Bind Path=f_premetergasnums}"  Grid.Column="3" Margin="0" Grid.Row="6" HorizontalAlignment="Stretch" Width="Auto" Height="25" IsReadOnly="True" VerticalAlignment="Stretch" >
 								<a:Data.Prop>
-									<o:PropertySetter PropertyName="f_premetergasnums" NoDependValue="{m:Exp Str=kbusers.f_metergasnums\=&gt;Completed}" NotNull="True"/>
+                                    <o:PropertySetter PropertyName="f_premetergasnums" NoDependValue="{m:Exp Str=kbusers.f_metergasnums\=&gt;Completed}" NotNull="True"/>
 								</a:Data.Prop>
 							</TextBox>
 							
@@ -714,11 +714,11 @@
 							</TextBox>
 							<TextBlock Text="表上次累计购气量：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="6" Grid.Column="2" Height="25"/>
 							<TextBlock Grid.Column="4" Margin="0" Grid.Row="15" TextWrapping="Wrap" TextAlignment="Right" Height="25"><Run Text="交费"/><Run Text="时间"/><Run Text="："/></TextBlock>
-							<!--toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="5" Margin="0" Grid.Row="15"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
+							<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="5" Margin="0" Grid.Row="15"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_deliverytime" Value="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
 								</a:Data.Prop>
-							</-->
+							</toolkit:TimePicker>
 							<TextBlock Text="卡内气量：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="1" Grid.Column="4" Height="25"/>
 							<TextBox Text="{Binding f_beginfeebj, StringFormat=yyyy-MM-dd}" Grid.Column="2" Margin="18.167,6,0,6" Grid.Row="11" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Left" Width="43"  Visibility="Collapsed" >
 								<a:Data.Prop>
@@ -770,7 +770,7 @@
 							</TextBox>
 							<TextBox Text="{m:Bind Path=f_comtype}" Grid.Column="5" Margin="55,0,0,0" Grid.Row="0" TextWrapping="Wrap"  HorizontalAlignment="Left" Height="25" VerticalAlignment="Stretch" Width="Auto" IsReadOnly="True" >
 								<a:Data.Prop>
-									<o:PropertySetter PropertyName="f_comtype" Default="天然气公司" NotNull="True"/>
+									<o:PropertySetter PropertyName="f_comtype" Default="{m:Exp Str=LoginUser.f_comtype}" NotNull="True"/>
 								</a:Data.Prop>
 							</TextBox>
 							<TextBox Text="{m:Bind Path=f_repairnumfei}" Grid.Column="4" Margin="0,18,0,-6" Grid.Row="6" TextWrapping="Wrap" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="31" Visibility="Collapsed">
@@ -787,7 +787,7 @@
 							<TextBlock Text="上期结余：" Grid.Column="2" Margin="0" Grid.Row="13" TextWrapping="Wrap" TextAlignment="Right" Height="25" VerticalAlignment="Center"/>
 							<TextBox Text="{m:Bind Path=f_zhye}"  Grid.Column="3" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="13"  HorizontalAlignment="Stretch" Height="25" VerticalAlignment="Stretch" >
 								<a:Data.Prop>
-									<o:PropertySetter PropertyName="f_zhye" NoDependValue="{m:Exp Str=kbusers.f_zhye\=&gt;Completed}" NotNull="True"/>
+                                    <o:PropertySetter PropertyName="f_zhye" NoDependValue="{m:Exp Str=kbusers.f_zhye\=&gt;Completed}" NotNull="True"/>
 								</a:Data.Prop>
 							</TextBox>
 						</Grid>
@@ -966,7 +966,83 @@
 		
 		</Grid>
 		<!--奥枫发票打印-->
-		<Grid Name="aofengprint" Background="b" Margin="-1630,0,0,-488"  Width="1125" Height="346" VerticalAlignment="Bottom" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left">
+		<Grid Name="aofengprint" Background="b" Margin="-1640,0,0,-498"  Width="1125" Height="346" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+		<a:Data.Context>
+			<o:GeneralObject  x:Name="fkprint1" WebClientInfo="{StaticResource dbclient}" EntityType="t_sellinggas"  />
+		</a:Data.Context>
+		
+			<Path Data="M17,186 L492.26941,186" Height="1" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" VerticalAlignment="Top" 
+Margin="215,54.704,442,0"/>
+			<Path Data="M72,0 L72,276.02899" Margin="273.983,0,0,96.31" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" 
+HorizontalAlignment="Left" Width="1" Height="34.309" VerticalAlignment="Bottom"/>
+<Path Data="M72,0 L72,276.02899" Margin="381.983,0,0,97.31" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" 
+HorizontalAlignment="Left" Width="1" Height="33.309" VerticalAlignment="Bottom"/>
+			<Path Data="M72,0 L72,276.02899" Margin="0,231.715,489.013,200.285" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" 
+HorizontalAlignment="Right" Width="1"/>
+			<Path Data="M17,186 L492.26941,186" Height="1" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" VerticalAlignment="Top" Margin="18.667,82.704,381.139,0"/>
+            <Path Data="M72,0 L72,276.02899" Margin="18.631,82.602,0,96.31" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" HorizontalAlignment="Left" Width="1"/>
+            <Path Data="M17,186 L492.26941,186" Height="1" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" VerticalAlignment="Top" 
+Margin="18.667,112.038,381.139,0"/>
+			<Path Data="M72,0 L72,276.02899" Margin="129.623,82.602,0,96.31" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" 
+HorizontalAlignment="Left" Width="1"/>
+			<Path Data="M17,186 L492.26941,186" Height="1" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" VerticalAlignment="Top" 
+Margin="18.667,142.706,381.139,0"/>
+  			<Path Data="M72,0 L72,276.02899" Margin="0,80.602,380.377,96.31" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" 
+HorizontalAlignment="Right" Width="1"/>
+			<Path Data="M17,186 L492.26941,186" Height="1" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" VerticalAlignment="Bottom" 
+Margin="18.667,0,382.139,167.285" d:LayoutOverrides="VerticalAlignment"/>
+			<Path Data="M72,0 L72,276.02899" Margin="274.97,82.602,0,0" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" 
+HorizontalAlignment="Left" Width="1" Height="96.113" VerticalAlignment="Top"/>
+			<Path Data="M72,0 L72,276.02899" Margin="382.306,84.602,0,0" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" 
+HorizontalAlignment="Left" Width="1" Height="94.113" VerticalAlignment="Top"/>
+			<Path Data="M17,186 L492.26941,186" Height="1" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" VerticalAlignment="Bottom" 
+Margin="18.667,0,381.139,130.619"/>
+			<Path Data="M72,0 L72,276.02899" Margin="0,116,491.345,95" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" HorizontalAlignment="Right" Width="2" RenderTransformOrigin="0.5,0.5">
+				<Path.RenderTransform>
+					<CompositeTransform ScaleX="-1"/>
+				</Path.RenderTransform>
+			</Path>
+			<Path Data="M17,186 L492.26941,186" Height="1" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" VerticalAlignment="Top" 
+Margin="18.667,248.69,381.139,0"/>
+			<Path Data="M72,0 L72,276.02899" Margin="530.987,113.038,0,96.31" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" HorizontalAlignment="Left" Width="1"/>
+			<sdk:Label Height="20" Margin="317,33,555,0" Content="梅 河 口 燃 气 有 限 公 司 收 费 票 据" VerticalAlignment="Top" FontSize="15" />
+            <sdk:Label  Content="年" HorizontalAlignment="Left" Height="16" Margin="113,66,0,0"  VerticalAlignment="Top" Width="17"/>
+			<sdk:Label  Content="月" HorizontalAlignment="Left" Height="16" Margin="159,66,0,0"  VerticalAlignment="Top" Width="15"/>
+			<sdk:Label HorizontalAlignment="Left" Content="日" Height="16" Margin="210,66,0,0" VerticalAlignment="Top" Width="13"/>
+			<sdk:Label HorizontalAlignment="Left" Content="合计(大写)" FontSize="15" Margin="33,186,0,139" Width="73"/>
+			<sdk:Label Content="用户名称" FontSize="15" Height="22" Margin="41,87,1002,0" VerticalAlignment="Top"/>
+			<sdk:Label HorizontalAlignment="Left" Content="用户地址" FontSize="15" Height="22" Margin="295,87,0,0" VerticalAlignment="Top" Width="63"/>
+			<sdk:Label Content="合     计:" FontSize="15" Margin="549,188,504,135"/>
+			<sdk:Label Content="开  票  人：" FontSize="15" Margin="531,0,509,70" Height="22" VerticalAlignment="Bottom"/>
+			<sdk:Label  Content="网　点"   HorizontalAlignment="Left" Height="25" Margin="289,0,0,101" FontSize="15" VerticalAlignment="Bottom" Width="61"/>
+			<sdk:Label HorizontalAlignment="Left" Content="数       量" FontSize="15" Height="22" Margin="43,148,0,0" VerticalAlignment="Top" Width="59"/>
+			<sdk:Label HorizontalAlignment="Left" Content="公    　司" FontSize="15" Height="22" Margin="36,0,0,102" VerticalAlignment="Bottom" Width="67"/>
+			<sdk:Label Content=" 单　    价" FontSize="15" Height="22" Margin="287,149,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="92"/>
+			<sdk:Label Content="金　额(元)" FontSize="15" Height="22" Margin="546,151,500,0" VerticalAlignment="Top"/>
+			<TextBlock Text="{m:Exp Str=SysTime.Now.ToString($yyyy$)}" Grid.Column="0"  HorizontalAlignment="Left" Margin="59,63,0,0" TextWrapping="Wrap" Width="52" Height="18" VerticalAlignment="Top" d:LayoutOverrides="Height, GridBox"/>
+			<TextBlock Text="{m:Exp Str=SysTime.Now.ToString($MM$)}"  HorizontalAlignment="Left" Margin="133,65,0,0" TextWrapping="Wrap" Width="25" Height="18" VerticalAlignment="Top" d:LayoutOverrides="Height, GridBox"/>
+			<TextBlock Text="{m:Exp Str=SysTime.Now.ToString($dd$)}"  HorizontalAlignment="Left" Margin="181,65,0,0" TextWrapping="Wrap" Width="27" Height="18" VerticalAlignment="Top" d:LayoutOverrides="Height, GridBox"/>
+			<TextBlock Text="{m:Exp Str=kbfee.f_pregas}" Margin="132,150,0,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top" Grid.ColumnSpan="1" d:LayoutOverrides="Height, GridBox" HorizontalAlignment="Left" Width="142"/>
+			<TextBlock Text="{m:Exp Str=LoginUser.f_fapiaotaitu}" Margin="130,0,0,103" TextWrapping="Wrap" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="143"/>
+			<TextBlock Text="{m:Exp Str=kbfee.f_gasprice}" Margin="379,153,0,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147"/>
+			<TextBlock Text="{m:Exp Str=kbfee.f_grossproceeds.ToChinaMoney()}"  HorizontalAlignment="Left" Margin="132,189,0,137" TextWrapping="Wrap" Width="399" Height="20"/>
+			<TextBlock Text="{m:Exp Str=kbfee.f_username}" Margin="0,88,849,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="143"/>
+			<TextBlock Text="{m:Exp Str=kbfee.f_address}"  HorizontalAlignment="Stretch" Margin="385,87,381,0"  Width="Auto" Height="20" VerticalAlignment="Top"/>
+			<TextBlock Text="{m:Exp Str=kbfee.f_preamount}"  HorizontalAlignment="Right" Margin="0,152,383,0"  Width="106" Height="20" VerticalAlignment="Top" d:LayoutOverrides="Height, GridBox"/>
+			<TextBlock Text="{m:Exp Str=kbfee.f_totalcost}"  HorizontalAlignment="Right" Margin="0,190,384,136" TextWrapping="Wrap" Width="106" Height="20" Grid.ColumnSpan="1"/>
+			<TextBlock Text="{m:Exp Str=kbfee.f_sgnetwork}" Margin="385,0,0,103" TextWrapping="Wrap" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="145"/>
+			<TextBlock Text="{m:Exp Str=kbfee.f_sgoperator}"  HorizontalAlignment="Right" Margin="0,0,383,71" TextWrapping="Wrap" Width="107" Height="20" VerticalAlignment="Bottom"/>
+			<sdk:Label HorizontalAlignment="Left" Content="行业类别" FontSize="15" Height="22" Margin="43,116,0,0" VerticalAlignment="Top" Width="59"/>
+			<sdk:Label Content=" 规格型号" FontSize="15" Height="22" Margin="287,117,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="92"/>
+			<sdk:Label Content="单        位" FontSize="15" Height="22" Margin="546,119,500,0" VerticalAlignment="Top"/>
+			<TextBlock Text="天然气" Margin="176,118,0,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="42"/>
+			<TextBlock Text="立方米" Margin="430,119,0,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="44"/>
+			<TextBlock Text="元/立方米"  HorizontalAlignment="Right" Margin="0,120,383,0"  Width="106" Height="20" VerticalAlignment="Top"/>
+			<sdk:Label HorizontalAlignment="Left" Content="开票日期：" FontSize="15" Height="22" Margin="36,0,0,68" VerticalAlignment="Bottom" Width="75"/>
+			<TextBlock Text="{m:Exp Str=SysTime.Now}" Margin="130,0,0,69" TextWrapping="Wrap" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="143"/>
+		
+		</Grid>
+		<!--<Grid Name="aofengprint" Background="b" Margin="-1630,0,0,-488"  Width="1125" Height="346" VerticalAlignment="Bottom" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left">
 		<a:Data.Context>
 			<o:GeneralObject  x:Name="fkprint1" WebClientInfo="{StaticResource dbclient}" EntityType="t_sellinggas"  />
 		</a:Data.Context>
@@ -1009,7 +1085,7 @@ Margin="18.667,0,381.139,132.294" Height="1" VerticalAlignment="Bottom"/>
 			<Path Data="M17,186 L492.26941,186" Height="1" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" VerticalAlignment="Top" 
 Margin="18.667,280.706,381.139,0"/>
 			<Path Data="M72,0 L72,276.02899" Margin="530.987,143.602,0,31.294" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" HorizontalAlignment="Left" Width="1" d:LayoutOverrides="VerticalAlignment"/>
-			<sdk:Label Height="20" Margin="250,33,523,0" Content="阿 拉 善 盟 昆 仑 燃 气  有 限 责 任 公 司 收 费 票 据" VerticalAlignment="Top" FontSize="15" />
+			<sdk:Label Height="20" Margin="317,33,555,0" Content="梅 河 口 燃 气 有 限 公 司 收 费 票 据" VerticalAlignment="Top" FontSize="15" />
             <sdk:Label  Content="年" HorizontalAlignment="Left" Height="16" Margin="113,66,0,0"  VerticalAlignment="Top" Width="17"/>
 			<sdk:Label  Content="月" HorizontalAlignment="Left" Height="16" Margin="159,66,0,0"  VerticalAlignment="Top" Width="15"/>
 			<sdk:Label HorizontalAlignment="Left" Content="日" Height="16" Margin="210,66,0,0" VerticalAlignment="Top" Width="13"/>
@@ -1063,7 +1139,7 @@ Margin="18.667,280.706,381.139,0"/>
 			<sdk:Label Content="用户表号" FontSize="15" Height="22" Margin="296,87,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="82"/>
 			<TextBlock Text="{m:Exp Str=kbusers.f_meternumber}" Margin="387,88,0,0" Height="20" VerticalAlignment="Top" d:LayoutOverrides="Height, GridBox" HorizontalAlignment="Left" Width="139"/>
 		
-		</Grid>
+		</Grid>-->
 		<!--折子打印-->
 		<Grid x:Name="zheziprint"  Background="White"  HorizontalAlignment="Left" Width="523"  VerticalAlignment="Bottom" Margin="-475,0,0,-766" d:LayoutOverrides="VerticalAlignment">
 		<a:Data.Context>
@@ -1123,14 +1199,14 @@ Margin="18.667,280.706,381.139,0"/>
 		<c:MessageTipObj Tip="{m:Exp Str=$连接服务器失败，请重试！如果继续失败，请联系系统管理员。$}" IsShow="{m:Exp Str=SaveAction.State\=\=$Error}"/>
 		
 		<!--打印收费票据-->
-		<c:PrintObj Name="print" 
+        <c:PrintObj Name="print" 
 		Message="是否打印发票"
 	    Area="{m:Res Key=aofengprint}" />
-		<c:PrintObj Name="print1" 
+        <c:PrintObj Name="print1" 
 		Message="是否打印发票"
 		IsPrint="{m:Exp Str=card.State\=\=$End$ and fapiaogeshi.value\=\=$国税发票格式$}" Area="{m:Res Key=guoshuiprint}" />
-		<c:PrintObj Name="zzprint" 
+        <!--<c:PrintObj Name="zzprint" 
 		Message="是否打印购气证"
-		IsPrint="{m:Exp Str=print.State\=\=$End$ or print1.State\=\=$End$}" Area="{m:Res Key=zheziprint}" />
-	</Grid>
+		IsPrint="{m:Exp Str=print.State\=\=$End$ or print1.State\=\=$End$}" Area="{m:Res Key=zheziprint}" />-->
+    </Grid>
 </UserControl>
