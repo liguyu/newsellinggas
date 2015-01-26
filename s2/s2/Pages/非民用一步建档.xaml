@@ -805,7 +805,11 @@
 												<o:PropertySetter PropertyName="f_payment"  Value="{m:Exp Str=userfilego.f_payment}" NotNull="True"/>
 											</a:Data.Prop> 
 										</ComboBox>
-											
+											<CheckBox IsChecked="{m:Bind Path=f_dibaohu}" Visibility="Collapsed"  Content="低保户" Margin="58,2,0,3" Grid.Row="6" Grid.Column="4" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="62" Grid.RowSpan="1">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_dibaohu" Default="{m:Exp Str=False}"/>
+								</a:Data.Prop>
+							</CheckBox>
 											</Grid>
 						
 											<sdk:DataGrid ItemsSource="{m:Exp Str=devicelist}" AutoGenerateColumns="False" x:Name="devices" HorizontalAlignment="Stretch"  Margin="0" >
