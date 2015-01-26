@@ -73,8 +73,6 @@ namespace Card
             public int ValveOffOnLowPower;			// 保留            
         }
 
-
-
         public unsafe struct PUserCard
         {
             public int cbSize;					// 本结构的长度
@@ -101,11 +99,9 @@ namespace Card
         }
         #endregion
 
-
-
         #region ICard Members
         //检测卡函数
-        public int CheckGasCard(short com, int baud)
+        public unsafe int CheckGasCard(short com, int baud)
         {
             int rs = -1;
             try
@@ -119,16 +115,32 @@ namespace Card
                 };
 
                 PUserCard puc1 = new PUserCard();
+                //string kh = new string((sbyte*)puc1.CardNO);
+                //string dqdm = new string((sbyte*)puc1.UserNO);
                 int istrue = 0;
-                Log.Debug("LanBaoShi CheckGasCard start");
+                
+                Log.Debug("LanBaoShi CheckGasCard start;端口号：" + pcr1.dwPort + "波特率：" + pcr1.dwBaud);
+                
                 rs = CheckLibrary(ref pcr1, ref puc1, ref istrue);
-                Log.Debug("LanBaoShi CheckGasCard end,return:" + rs);
-                if (1 == istrue)
+                
+                //string kh = new string((sbyte*)puc1.CardNO);
+                //string dqdm = new string((sbyte*)puc1.UserNO);
+                Log.Debug("LanBaoShi CheckGasCard end,返回值return:" + rs + " istrue：" + istrue);
+                
+                //是蓝宝石卡
+                if (istrue == 1)
                 {
                     int pti = 0;
-                    Log.Debug("LanBaoShi ReadGasCard start");
+                    Log.Debug("LanBaoShi check ReadGasCard start。");
+                    
                     rs = ReadUserCard(ref pcr1, ref puc1, pti);
-                    Log.Debug("LanBaoShi ReadGasCard end,return:" + rs);
+                    
+                    string kh = new string((sbyte*)puc1.CardNO);
+                    string dqdm = new string((sbyte*)puc1.UserNO);
+                    
+                    Log.Debug("LanBaoShi check ReadGasCard end,返回值return:" + rs + "卡号：" + kh + "区域号：" + dqdm + "气量：" + puc1.RechargeAmount + "购气次数：" + puc1.RechargeTimes + "卡类型" + puc1.MecMeterType);
+                    
+                    //是蓝宝石民用卡
                     if (puc1.MecMeterType == 0)
                     {
                         Log.Debug("此卡是蓝宝石民用卡！");
@@ -137,7 +149,7 @@ namespace Card
                     Log.Debug("此卡不是蓝宝石民用卡！");
                     return -1;
                 }
-                Log.Debug("此卡不是蓝宝石民用卡！");
+                Log.Debug("此卡不是蓝宝石卡！");
                 return -1;
             }
             catch (Exception e)
@@ -148,7 +160,7 @@ namespace Card
         }
 
         //格式化卡函数
-        public int FormatGasCard(short com, int baud, string kmm, string kh, string dqdm)
+        public unsafe int FormatGasCard(short com, int baud, string kmm, string kh, string dqdm)
         {
             int rs = -1;
             try
@@ -163,9 +175,16 @@ namespace Card
 
                 PUserCard puc1 = new PUserCard();
                 int pti = 0;
-                Log.Debug("LanBaoShi FormatGasCard start");
+                //string kh1 = new string((sbyte*)puc1.CardNO);
+                //string dqdm1 = new string((sbyte*)puc1.UserNO);
+
+                Log.Debug("LanBaoShi FormatGasCard start;端口号：" + pcr1.dwPort + "波特率：" + pcr1.dwBaud);
+                
                 rs = RecycleUserCard(ref pcr1, ref puc1, pti);
-                Log.Debug("LanBaoShi FormatGasCard end,return:" + rs);
+
+                //kh1 = new string((sbyte*)puc1.CardNO);
+                //dqdm1 = new string((sbyte*)puc1.UserNO);
+                Log.Debug("LanBaoShi FormatGasCard end,返回值return:" + rs);
                 if (rs == 0)
                 {
                     Log.Debug("蓝宝石擦卡成功！");
@@ -183,8 +202,6 @@ namespace Card
             }
             return rs;
         }
-
- 
 
         public string Name
         {
@@ -207,6 +224,7 @@ namespace Card
                     dwBaud = baud,
                     dv_beep = 0
                 };
+
                 PLtMeterStruct pms1 = new PLtMeterStruct()
                 {
                     cbSize = 0,
@@ -241,14 +259,28 @@ namespace Card
                     RechargeMoney = 0,
                     MecMeterType = 0
                 };
+
+                //给卡号、用户号赋值
                 FillBytes(puc1.CardNO, kh);
                 FillBytes(puc1.UserNO, dqdm);
 
                 int pti = 0;
+
+                //正常购气
                 if (ql != 0)
                 {
+                    //气量
                     puc1.RechargeAmount = ql * 10000;
+                    string kh2 = new string((sbyte*)puc1.CardNO);
+                    string dqdm2 = new string((sbyte*)puc1.UserNO);
+
+                    Log.Debug("LanBaoShi WriteGasCard start:卡号：" + kh2 + "区域号：" + dqdm2 + "气量：" + puc1.RechargeAmount + "购气次数：" + puc1.RechargeTimes + "卡类型" + puc1.MecMeterType);
+                    
                     rs = RechargeUserCard(ref pcr1, ref puc1, pti);
+
+                    //kh2 = new string((sbyte*)puc1.CardNO);
+                    //dqdm2 = new string((sbyte*)puc1.UserNO);
+                    Log.Debug("LanBaoShi WriteGasCard start:返回值return:" + rs + "卡号：" + kh2 + "区域号：" + dqdm2 + "气量：" + puc1.RechargeAmount + "购气次数：" + puc1.RechargeTimes + "卡类型" + puc1.MecMeterType);
                     if (rs == 0)
                     {
                         Log.Debug("蓝宝石购气成功！");
@@ -260,12 +292,32 @@ namespace Card
                         return -1;
                     }
                 }
+                //退气
                 else
                 {
+                    //读取卡上气量
                     int rt = ReadUserCard(ref pcr1, ref puc1, pti);
+                    string kh2 = new string((sbyte*)puc1.CardNO);
+                    string dqdm2 = new string((sbyte*)puc1.UserNO);
+
+                    Log.Debug("LanBaoShi 退气 ReadUserCard end:返回值：" + rt + "区域号：" + dqdm2 + "气量：" + puc1.RechargeAmount + "购气次数：" + puc1.RechargeTimes + "卡类型" + puc1.MecMeterType);
+
+                    //退气时读卡失败
+                    if (rt != 0)
+                    {
+                        return -1;
+                    }
+
                     int gas = (int)puc1.RechargeAmount;
+
                     puc1.RechargeAmount = -gas;
+
+                    Log.Debug("LanBaoShi 退气 WriteGasCard start:卡号：" + kh2 + "区域号：" + dqdm2 + "气量：" + puc1.RechargeAmount + "购气次数：" + puc1.RechargeTimes + "卡类型" + puc1.MecMeterType);
+                    
                     rs = RechargeUserCard(ref pcr1, ref puc1, pti);
+                    //kh2 = new string((sbyte*)puc1.CardNO);
+                    //dqdm2 = new string((sbyte*)puc1.UserNO);
+                    Log.Debug("LanBaoShi 退气 WriteGasCard end:返回值return:" + rs + "卡号：" + kh2 + "区域号：" + dqdm2 + "气量：" + puc1.RechargeAmount + "购气次数：" + puc1.RechargeTimes + "卡类型" + puc1.MecMeterType);
                     if (rs == 0)
                     {
                         Log.Debug("蓝宝石冲正成功！");
@@ -301,22 +353,27 @@ namespace Card
                 PUserCard puc1 = new PUserCard();
 
                 int pti = 0;
-                Log.Debug("LanBaoShi ReadGasCard start");
+                //string kh4 = new string((sbyte*)puc1.CardNO);
+                //string dqdm4 = new string((sbyte*)puc1.UserNO);
+                Log.Debug("LanBaoShi ReadGasCard start:端口号：" + pcr1.dwPort + "波特率：" + pcr1.dwBaud);
                 rs = ReadUserCard(ref pcr1, ref puc1, pti);
-                Log.Debug("LanBaoShi ReadGasCard end,return:" + rs);
+                
                 cs = (short)puc1.RechargeTimes;
                 ql = (int)puc1.RechargeAmount / 10000;
                 dqdm = new string((sbyte*)puc1.UserNO);
-                string cardid = new string((sbyte*)puc1.CardNO);
-                string str = cardid.Substring(0, 2);
-                if (str != "??")
-                {
-                    kh = cardid;
-                }
-                else
-                {
-                    kh = cardid.Remove(0, 2);
-                }
+                kh = new string((sbyte*)puc1.CardNO);
+                
+                Log.Debug("LanBaoShi ReadGasCard end,返回值return:" + rs + "卡号：" + kh + "区域号：" + dqdm + "气量：" + puc1.RechargeAmount + "购气次数：" + puc1.RechargeTimes + "卡类型" + puc1.MecMeterType);
+                
+                //string str = cardid.Substring(0, 2);
+                //if (str != "??")
+                //{
+                //    kh = cardid;
+                //}
+                //else
+                //{
+                //    kh = cardid.Remove(0, 2);
+                //}
                 if (rs == 0)
                 {
                     Log.Debug("蓝宝石读卡成功！");
@@ -382,16 +439,24 @@ namespace Card
                     RechargeMoney = 0,
                     MecMeterType = 0
                 };
+
                 FillBytes(puc1.CardNO, kh);
                 FillBytes(puc1.UserNO, dqdm);
+                
                 //写卡之前先格式化卡
-                Log.Debug("write card ql=" + ql + ",kagas=" + puc1.RechargeAmount);
+                Log.Debug("write card 清卡 start");
+                
                 int pti = 0;
                 rs = RecycleUserCard(ref pcr1, ref puc1, pti);
-                Log.Debug("clear card rs=" + rs);
-                Log.Debug("LanBaiShi WriteNewCard start");
+                
+                Log.Debug("write card 清卡 end: rs=" + rs);
+
+                Log.Debug("LanBaiShi WriteNewCard start:卡号：" + kh + "区域号：" + dqdm + "气量：" + puc1.RechargeAmount + "购气次数：" + puc1.RechargeTimes + "卡类型" + puc1.MecMeterType);
+                
                 rs = IssueUserCard(ref pcr1, ref puc1, pti);
+
                 Log.Debug("LanBaiShi WriteNewCard end, return:" + rs);
+                
                 if (rs == 0)
                 {
                     Log.Debug("蓝宝石卡写新卡成功！");
