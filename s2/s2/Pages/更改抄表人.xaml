@@ -145,7 +145,7 @@
 
 									Grid.Column="1" Grid.ColumnSpan="1" d:LayoutOverrides="Height" Grid.Row="1" >
 									<a:Data.Prop>
-										<o:PropertySetter PropertyName="f_cusDy" Operator="u.f_cusDy like 'this%'"/>           
+										<o:PropertySetter PropertyName="f_cusDy" Operator="u.f_cusDy = 'this'"/>           
 									</a:Data.Prop>
 								</TextBox>
 								<TextBlock TextWrapping="Wrap" Text="楼栋号："  Margin="21,1,0,0" Height="25" TextAlignment="Right" HorizontalAlignment="Left" Width="54" VerticalAlignment="Top" Grid.Column="2" d:LayoutOverrides="Height" Grid.Row="1" />
@@ -153,7 +153,7 @@
 
 									Grid.Column="3" Grid.ColumnSpan="1" d:LayoutOverrides="Height" Grid.Row="1" >
 									<a:Data.Prop>
-										<o:PropertySetter PropertyName="f_cusDom" Operator="u.f_cusDom like 'this%'"/>           
+										<o:PropertySetter PropertyName="f_cusDom" Operator="u.f_cusDom = 'this'"/>           
 									</a:Data.Prop>
 								</TextBox>
 							
