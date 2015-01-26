@@ -55,7 +55,81 @@
 			</Grid.ColumnDefinitions>
 			<c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=userfiles.ItemsSource.IsBusy}" >
 				<toolkit:DockPanel >
-					<toolkit:DockPanel x:Name="userfilesearch"  Background="#FFCFEFFF" toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" >
+					<Grid x:Name="usersearch" toolkit:DockPanel.Dock="Top" Margin="0,0,0,5" Background="#FFCFEFFF"    >
+    					
+							<Grid.RowDefinitions>
+							<RowDefinition Height="28"/>
+							<RowDefinition Height="28"/>
+							<RowDefinition Height="28"/>
+							<RowDefinition Height="28"/>
+							<RowDefinition Height="28"/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="100"/>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="100"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+    					<a:Data.Context>
+    						<o:SearchObject />        	
+    					</a:Data.Context>
+    				
+    						<TextBlock TextWrapping="Wrap" Text="用户编号：" Margin="0" Height="25" TextAlignment="Right" />
+    						<TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_userid}" Width="Auto" Margin="0,2,0,1" Height="25" >
+    							<a:Data.Prop>
+    								<o:PropertySetter PropertyName="f_userid"  Operator="f_userid = 'this'"/>          
+    							</a:Data.Prop>
+    						</TextBox>
+    					
+    					
+    						<TextBlock TextWrapping="Wrap" Grid.Row="3" Text="卡　　号：" Margin="0" Height="25" TextAlignment="Right" Grid.Column="2"/>
+    						<TextBox TextWrapping="Wrap" Grid.Row="3" Grid.Column="3" Text="{m:Bind Path=f_cardid}" Width="Auto" Margin="0,2,0,1" Height="25" >
+    							<a:Data.Prop>
+    								<o:PropertySetter PropertyName="f_cardid"  Operator="f_cardid = 'this'"/>          
+    							</a:Data.Prop>
+    						</TextBox>
+    						<Button Content="查  询" Grid.Row="4" Grid.Column="3" x:Name="dasearchbutton" Click="{m:Exp Str=usersearch.DataContext.Search()}" Margin="0,0,5,0" HorizontalAlignment="Right" Width="50" d:LayoutOverrides="Height"/>
+    				
+    					
+    						<TextBlock TextWrapping="Wrap" Text="用户姓名：" Margin="0" Height="25" TextAlignment="Right" Grid.Column="2"/>
+    						<TextBox TextWrapping="Wrap" Grid.Row="0" Grid.Column="3" Text="{m:Bind Path=f_username}" Width="Auto" Margin="0,2,0,1" Height="25" >
+    							<a:Data.Prop>
+    								<o:PropertySetter PropertyName="f_username"  Operator="f_username like '%this%'"/>          
+    							</a:Data.Prop>
+    						</TextBox>
+    						<TextBlock TextWrapping="Wrap" Grid.Row="1" Text="地　　址：" Margin="0" Height="25" TextAlignment="Right"/>
+    						<TextBox TextWrapping="Wrap" Grid.Row="1" Grid.Column="1" Text="{m:Bind Path=f_address}" Width="Auto" Margin="0" Height="25" VerticalAlignment="Stretch" >
+    							<a:Data.Prop>
+    								<o:PropertySetter PropertyName="f_address"  Operator="f_address like '%this%'"/>          
+    							</a:Data.Prop>
+    						</TextBox>
+    						<TextBlock TextWrapping="Wrap" Grid.Row="1" Text="小　　区：" Margin="0" Height="25" TextAlignment="Right" Grid.Column="2"/>
+    						<TextBox TextWrapping="Wrap" Grid.Row="1" Grid.Column="3" Text="{m:Bind Path=f_districtname}" Width="Auto" Margin="0" Height="25" VerticalAlignment="Stretch" >
+    							<a:Data.Prop>
+    								<o:PropertySetter PropertyName="f_districtname"  Operator="f_districtname like '%this%'"/>          
+    							</a:Data.Prop>
+    						</TextBox>
+    						<TextBlock TextWrapping="Wrap" Grid.Row="3" Text="门 牌 号：" Margin="0" Height="25" TextAlignment="Right"/>
+    						<TextBox TextWrapping="Wrap" Grid.Row="3" Grid.Column="1" Text="{m:Bind Path=f_apartment}" Width="Auto" Margin="0" Height="25" VerticalAlignment="Stretch" >
+    							<a:Data.Prop>
+    								<o:PropertySetter PropertyName="f_apartment"  Operator="f_apartment = 'this'"/>          
+    							</a:Data.Prop>
+    						</TextBox>
+    						<TextBlock TextWrapping="Wrap" Grid.Row="2" Text="楼    号：" Margin="0,1.5" Height="25" TextAlignment="Right"/>
+    						<TextBox TextWrapping="Wrap" Grid.Row="2" Grid.Column="1" Text="{m:Bind Path=f_cusDom}" Width="Auto" Margin="0,1.5" Height="25" VerticalAlignment="Stretch" >
+    							<a:Data.Prop>
+    								<o:PropertySetter PropertyName="f_cusDom"  Operator="f_cusDom = 'this'"/>          
+    							</a:Data.Prop>
+    						</TextBox>
+    						<TextBlock TextWrapping="Wrap" Grid.Row="2" Text="单    元：" Margin="0,1.5" Height="25" TextAlignment="Right" Grid.Column="2"/>
+    						<TextBox TextWrapping="Wrap" Grid.Row="2" Grid.Column="3" Text="{m:Bind Path=f_cusDy}" Width="Auto" Margin="0,1.5" Height="25" VerticalAlignment="Stretch" >
+    							<a:Data.Prop>
+    								<o:PropertySetter PropertyName="f_cusDy"  Operator="f_cusDy = 'this'"/>          
+    							</a:Data.Prop>
+    						</TextBox>
+    					
+    				</Grid>
+					<!--<toolkit:DockPanel x:Name="userfilesearch"  Background="#FFCFEFFF" toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" >
 						<a:Data.Context>
 							<o:SearchObject />        	
 						</a:Data.Context>
@@ -68,14 +142,14 @@
 						<Button Content="查  询" x:Name="searchbutton" Click="{m:Exp Str=userfilesearch.DataContext.Search()}" Margin="0,5,5,0" HorizontalAlignment="Right" Width="50" />
 					</toolkit:DockPanel>
 					<toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="33">
-						<TextBlock TextWrapping="Wrap" Margin="5" Text="{m:Exp Str=$共\{userfiles.ItemsSource.Count\}项}" Width="Auto" HorizontalAlignment="Stretch" Foreground="#FF140000" Height="33"/>
+						<TextBlock TextWrapping="Wrap" Margin="5" Text="{m:Exp Str=$共\{userfiles.ItemsSource.Count\}项}" Width="Auto" HorizontalAlignment="Stretch" Foreground="#FF140000" Height="33"/>-->
 						
-					</toolkit:DockPanel>
+					
 					<sdk:DataGrid x:Name="userfiles" Margin="0,0,0,26"  
 						AutoGenerateColumns="False" Width="Auto" Background="{x:Null}" IsReadOnly="True" >
 						<a:Data.Items>
 							<o:PagedObjectList Name="userfileslist" WebClientInfo="{StaticResource dbclient}"
-								Path="{m:Exp Str=$from t_bucardfapiao where \{userfilesearch.DataContext.Condition\} and f_reversaldate \=\'\{SysTime.Today.ToString($yyyy-MM-dd$)\}\'}"
+								Path="{m:Exp Str=$from t_bucardfapiao where \{usersearch.DataContext.Condition\} and f_reversaldate \=\'\{SysTime.Today.ToString($yyyy-MM-dd$)\}\'}"
     						    IsOld="{m:Exp Str=SaveAction.State\=\=$End$ or userfile.DataContext.State\=\=$End$ }"
 								PageIndex="{m:Exp Str=pager.PageIndex}" PageSize="{m:Exp Str=pager.PageSize}" SumNames="id"/>
 						</a:Data.Items>
@@ -299,7 +373,7 @@
 					</toolkit:DockPanel>
 				</Grid>
 			</c:BusyIndicatorEx>
-			<sdk:DataPager x:Name="pager" Source="{Binding Path=ItemsSource.Count,ElementName=userfiles,Converter={StaticResource DataPagerConverter}}"  Margin="1,0,0,34" PageSize="15" Height="24" VerticalAlignment="Bottom"/>
+			<sdk:DataPager x:Name="pager" Source="{Binding Path=ItemsSource.Count,ElementName=userfiles,Converter={StaticResource DataPagerConverter}}"  Margin="1,0,0,0" PageSize="15" Height="24" VerticalAlignment="Bottom"/>
 		</Grid>
 		<!--userfiles
 		<Grid x:Name="bukaprint"  Background="White"  HorizontalAlignment="Left" Width="737"  VerticalAlignment="Bottom" Margin="312,0,0,-276" d:LayoutOverrides="Width" Height="231">
@@ -469,7 +543,7 @@
 			</Path>
 			<Path Data="M17,186 L492.26941,186" Height="1" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" VerticalAlignment="Top" Margin="18.667,280.706,381.139,0"/>
 			<Path Data="M72,0 L72,276.02899" Margin="530.987,143.602,0,31.294" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" HorizontalAlignment="Left" Width="1" d:LayoutOverrides="VerticalAlignment"/>
-			<sdk:Label Height="20" Margin="346,33,524,0" Content="安顺达 天 然 气 收 费 收 据" VerticalAlignment="Top" FontSize="15" />
+			<sdk:Label Height="20" Margin="346,33,578,0" Content="梅 河 口 天 然 气 收 费 收 据" VerticalAlignment="Top" FontSize="15" />
             <sdk:Label  Content="年" HorizontalAlignment="Left" Height="16" Margin="113,66,0,0"  VerticalAlignment="Top" Width="17"/>
 			<sdk:Label  Content="月" HorizontalAlignment="Left" Height="16" Margin="159,66,0,0"  VerticalAlignment="Top" Width="15"/>
 			<sdk:Label HorizontalAlignment="Left" Content="日" Height="16" Margin="210,66,0,0" VerticalAlignment="Top" Width="13"/>
@@ -510,7 +584,9 @@
 			<TextBlock Text="{m:Exp Str=userfilego.f_rcoperator1}"  HorizontalAlignment="Right" Margin="0,0,383,39" TextWrapping="Wrap" Width="107" Height="20" VerticalAlignment="Bottom" d:LayoutOverrides="VerticalAlignment, Height, GridBox"/>
 		
 		</Grid>
-			<c:PrintObj Name="print" Message="是否打印发票" IsPrint="{m:Exp Str=SaveAction.State\=\=$End$ and fapiaogeshi.value\=\=$奥枫发票格式$}" Area="{m:Res Key=aofengprint}"/>
-	    <c:PrintObj Name="print1" Message="是否打印发票" IsPrint="{m:Exp Str=SaveAction.State\=\=$End$ and fapiaogeshi.value\=\=$国税发票格式$}" Area="{m:Res Key=guoshuiprint}"/>
+			<c:PrintObj Name="print" Message="是否打印收据" IsPrint="{m:Exp Str=SaveAction.State\=\=$End$ and fapiaogeshi.value\=\=$奥枫发票格式$}" Area="{m:Res Key=aofengprint}"/>
+        <c:PrintObj Name="print1" Message="是否打印发票" IsPrint="{m:Exp Str=SaveAction.State\=\=$End$ and fapiaogeshi.value\=\=$国税发票格式$}" Area="{m:Res Key=guoshuiprint}"/>
+        <c:MessageTipObj Name="success" Tip="{m:Exp Str=$补卡发票补打成功$}" 
+		IsShow="{m:Exp Str=print.State\=\=$End$}"/>
 	</Grid>
 </UserControl>
