@@ -74,6 +74,8 @@
 		<property name="oughtfee" type="double"/>
 		<!--本次抄表底数-->
 		<property name="lastrecord" type="double"/>
+		<!--卡表剩余气量-->
+		<property name="f_leftgas" type="double"/>
 		<!--上次抄表底数-->
 		<property name="lastinputgasnum" type="double"/>
 		<!--比较录入的上次指数-->

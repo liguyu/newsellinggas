@@ -193,6 +193,8 @@
 		<property name="lastinputgasnum" type="double"/>
 		<!--本次抄表底数-->
 		<property name="lastrecord" type="double"/>
+		<!--卡表剩余气量-->
+		<property name="f_leftgas" type="double"/>
 		<!--本次总累计购气量-->
 		<property name="f_cumulativepurchase" type="double"/>
 		<!--表本次累计购气量-->
