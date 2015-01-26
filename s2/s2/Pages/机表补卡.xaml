@@ -377,7 +377,7 @@
     								<o:PropertySetter PropertyName="f_username"  Operator="f_username like '%this%'"/>          
     							</a:Data.Prop>
     						</TextBox>
-    						<TextBlock TextWrapping="Wrap" Grid.Row="2" Text="单      元：" Margin="0" Height="25" TextAlignment="Right"/>
+    						<TextBlock TextWrapping="Wrap" Grid.Row="2" Text="单    元：" Margin="0" Height="25" TextAlignment="Right"/>
     						<TextBox TextWrapping="Wrap" Grid.Row="2" Grid.Column="1" Text="{m:Bind Path=f_cusDy}" Width="Auto" Margin="0" Height="25" VerticalAlignment="Stretch" >
     							<a:Data.Prop>
     								<o:PropertySetter PropertyName="f_cusDy"  Operator="f_cusDy = 'this'"/>          
@@ -395,7 +395,7 @@
     								<o:PropertySetter PropertyName="f_apartment"  Operator="f_apartment = 'this'"/>          
     							</a:Data.Prop>
     						</TextBox>
-    						<TextBlock TextWrapping="Wrap" Grid.Row="1" Text="楼      号：" Margin="0,1.5" Height="25" TextAlignment="Right" Grid.Column="2"/>
+    						<TextBlock TextWrapping="Wrap" Grid.Row="1" Text="楼    号：" Margin="0,1.5" Height="25" TextAlignment="Right" Grid.Column="2"/>
     						<TextBox TextWrapping="Wrap" Grid.Row="1" Grid.Column="3" Text="{m:Bind Path=f_cusDom}" Width="Auto" Margin="0,1.5" Height="25" VerticalAlignment="Stretch" >
     							<a:Data.Prop>
     								<o:PropertySetter PropertyName="f_cusDom"  Operator="f_cusDom = 'this'"/>          

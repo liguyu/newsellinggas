@@ -66,6 +66,8 @@
 <!--隐藏域 -->	
 		<!--补卡标记-->
 		<property name="f_buka" type="string"/>
+		<!--补卡类型：机表补卡、卡表补卡-->
+		<property name="f_renewalcardtype" type="string"/>
 		<!--厂家别名-->
 		<property name="f_aliasname" type="string"/>
 		<!--气量-->
