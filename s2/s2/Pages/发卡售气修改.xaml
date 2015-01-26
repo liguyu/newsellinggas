@@ -24,7 +24,7 @@
 					 PageIndex="{m:Exp Str=pager.PageIndex}" PageSize="{m:Exp Str=pager.PageSize}"
 					  SumNames=","/>
             <!--抄表对象-->
-            <o:GeneralObject Name="scbdw" WebClientInfo="{StaticResource dbclient}"   EntityType="t_myfaka"              
+            <o:GeneralObject Name="scbdw" WebClientInfo="{StaticResource dbclient}"   EntityType="t_myfaka"
 				  IsInit="{m:Exp Str=SaveAction.State\=\=$End$}" Source="{m:Exp Str=FaKaUserUnits.SelectedItem}"/>
             <!--批处理-->
             <b:BatchExcuteAction Name="SaveAction"  WebClientInfo="{StaticResource dbclient}">
@@ -44,36 +44,69 @@
                     <RowDefinition Height="0.916*"/>
                     <RowDefinition Height="0.084*"/>
                 </Grid.RowDefinitions>
-                <StackPanel x:Name="searchFaKaUserUnit"  Height="46" VerticalAlignment="Top" Orientation="Horizontal" Margin="8,34,0,0" HorizontalAlignment="Stretch" Grid.Row="1" >
+                <StackPanel x:Name="searchFaKaUserUnit"  Height="149" VerticalAlignment="Top" Orientation="Horizontal" Margin="8,0,0,0" HorizontalAlignment="Stretch" Grid.Row="1" >
                     <a:Data.Context>
                         <o:SearchObject></o:SearchObject>
                     </a:Data.Context>
-                    <Grid Margin="0,-36,0,0" Width="857" Height="84" VerticalAlignment="Top">
+                    <Grid Margin="0" Width="857" Height="Auto" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.135*"/>
+                            <ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="0.225*"/>
+							<ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="0.64*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="0.44*"/>
-                            <RowDefinition Height="0.56*"/>
+                            <RowDefinition Height="25"/>
+							<RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+							<RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
-                        <sdk:Label Content="用户编号：" Margin="0,13,0,6" RenderTransformOrigin="0.5,0.5"  HorizontalAlignment="Right" />
-                        <TextBox Text="{m:Bind Path=f_userid}"  Margin="0,10,-1,5" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch" Height="Auto" Grid.Column="1"  >
+                        <sdk:Label Content="用户编号：" Margin="0" RenderTransformOrigin="0.5,0.5"  HorizontalAlignment="Right" />
+                        <TextBox Text="{m:Bind Path=f_userid}"  Margin="0" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch" Height="Auto" Grid.Column="1"  >
                             <a:Data.Prop>
                                 <o:PropertySetter PropertyName="f_userid" Operator="f_userid = 'this'"/>
                             </a:Data.Prop>
                         </TextBox>
-                        <sdk:Label Content="小区名称：" Margin="0,6,0,23" HorizontalAlignment="Right" Grid.Row="1" />
-                        <TextBox  Text="{m:Bind Path=f_districtname}"  Margin="0,3,-1,22" Width="Auto" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1"  >
+                        <sdk:Label Content="小区名称：" Margin="0" HorizontalAlignment="Right" Grid.Row="1" />
+                        <TextBox  Text="{m:Bind Path=f_districtname}"  Margin="0" Width="Auto" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1"  >
                             <a:Data.Prop>
-                                <o:PropertySetter PropertyName="f_districtname" Operator="f_districtname like 'this%'"/>
+                                <o:PropertySetter PropertyName="f_districtname" Operator="f_districtname like '%this%'"/>
                             </a:Data.Prop>
                         </TextBox>
-                        <Button Content="查询" x:Name="searchbutton" Click="{m:Exp Str=searchFaKaUserUnit.DataContext.Search()}" Width="100" Margin="9,3,0,19" HorizontalAlignment="Left"  Grid.Column="2"  Grid.Row="1"/>
+                        <Button Content="查询" x:Name="searchbutton" Click="{m:Exp Str=searchFaKaUserUnit.DataContext.Search()}" Width="100" Margin="0" HorizontalAlignment="Left"  Grid.Column="3"  Grid.Row="3"/>
+                        <sdk:Label Content="用户姓名：" Margin="0" RenderTransformOrigin="0.5,0.5"  HorizontalAlignment="Right" Grid.Column="2" />
+                        <TextBox Text="{m:Bind Path=f_username}"  Margin="0" HorizontalAlignment="Left" Width="195" VerticalAlignment="Stretch" Height="Auto" Grid.Column="3"  >
+                        	<a:Data.Prop>
+                        		<o:PropertySetter PropertyName="f_username" Operator="f_username = 'this'"/>
+                        	</a:Data.Prop>
+                        </TextBox>
+                        <sdk:Label Content="楼    号：" Margin="0" RenderTransformOrigin="0.5,0.5"  HorizontalAlignment="Right" Grid.Column="2" Grid.Row="1" />
+                        <TextBox Text="{m:Bind Path=f_cusDom}"  Margin="0" HorizontalAlignment="Left" Width="195" VerticalAlignment="Stretch" Height="Auto" Grid.Column="3" Grid.Row="1"  >
+                        	<a:Data.Prop>
+                        		<o:PropertySetter PropertyName="f_cusDom" Operator="f_cusDom = 'this'"/>
+                        	</a:Data.Prop>
+                        </TextBox>
+                        <sdk:Label Content="门 牌 号：" Margin="0" RenderTransformOrigin="0.5,0.5"  HorizontalAlignment="Right" Grid.Column="2" Grid.Row="2" />
+                        <TextBox Text="{m:Bind Path=f_apartment}"  Margin="0" HorizontalAlignment="Left" Width="195" VerticalAlignment="Stretch" Height="Auto" Grid.Column="3" Grid.Row="2"  >
+                        	<a:Data.Prop>
+                        		<o:PropertySetter PropertyName="f_apartment" Operator="f_apartment = 'this'"/>
+                        	</a:Data.Prop>
+                        </TextBox>
+                        <sdk:Label Content="单    元：" Margin="0" HorizontalAlignment="Right" Grid.Row="2" />
+                        <TextBox  Text="{m:Bind Path=f_cusDy}"  Margin="0" Width="Auto" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="2"  >
+                        	<a:Data.Prop>
+                        		<o:PropertySetter PropertyName="f_cusDy" Operator="f_cusDy = 'this'"/>
+                        	</a:Data.Prop>
+                        </TextBox>
+                        <sdk:Label Content="卡   号：" Margin="0" HorizontalAlignment="Right" Grid.Row="3" />
+                        <TextBox  Text="{m:Bind Path=f_cardid}"  Margin="0" Width="Auto" VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="3"  >
+                        	<a:Data.Prop>
+                        		<o:PropertySetter PropertyName="f_cardid" Operator="f_cardid = 'this'"/>
+                        	</a:Data.Prop>
+                        </TextBox>
                     </Grid>
                 </StackPanel>
-                <sdk:DataGrid x:Name="FaKaUserUnits" ItemsSource="{m:Exp Str=personlist}" IsReadOnly="True" AutoGenerateColumns="False" Margin="8,80,315,1.333" HorizontalAlignment="Stretch" Width="Auto" Grid.Row="1" d:LayoutOverrides="VerticalAlignment" Grid.RowSpan="2">
+                <sdk:DataGrid x:Name="FaKaUserUnits" ItemsSource="{m:Exp Str=personlist}" IsReadOnly="True" AutoGenerateColumns="False" Margin="8,104,315,194" HorizontalAlignment="Stretch" Width="Auto" Grid.Row="1" Grid.RowSpan="3">
                   
                     <sdk:DataGrid.Columns>
                         <sdk:DataGridTextColumn Header="序   号" d:IsLocked="True" Binding="{Binding Index}" />
@@ -218,9 +251,9 @@
                         <a:Data.Prop>
                             <o:PropertySetter PropertyName="f_updatenote" NotNull="True"/>
                         </a:Data.Prop>
-                    </TextBox>                  
+                    </TextBox>
                     <Button Content="保存"	
-                    IsEnabled="{m:Exp Str=FaKaUserUnits.SelectedItem!\=null and !FaKaUserUnit.DataContext.HasErrors}"      
+                    IsEnabled="{m:Exp Str=FaKaUserUnits.SelectedItem!\=null and !FaKaUserUnit.DataContext.HasErrors}"        
 					Click="Button_Click" RenderTransformOrigin="1.7,0.6" Grid.Row="18" Grid.RowSpan="1"  Height="25" VerticalAlignment="Bottom" Grid.Column="3" HorizontalAlignment="Left" Width="62"/>
                     <Button Content="撤销" Margin="0,0,75,0" Click="{m:Exp Str=FaKaUserUnit.DataContext.New()}" Grid.Row="18" Grid.Column="1"  Grid.RowSpan="1" HorizontalAlignment="Right" Width="66"  Height="25" VerticalAlignment="Bottom"/>
 
