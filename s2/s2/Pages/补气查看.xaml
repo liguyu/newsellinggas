@@ -152,7 +152,7 @@
 								AutoGenerateColumns="False" Width="Auto" Background="{x:Null}" >
 								<a:Data.Items>
 									<o:PagedObjectList x:Name="daninfoslist" WebClientInfo="{StaticResource dbclient}"
-									Path="{m:Exp Str=LoginUser.f_fengongsi \=\= zonggongsi.value:$from t_fillgas where \{daninfosearch.DataContext.Condition\}$\, LoginUser.f_fengongsi \!\= zonggongsi.value:$from t_fillgas where \{daninfosearch.DataContext.Condition\} and t_fillgas \=\'\{LoginUser.f_fengongsi\}\'$\,$abc$}"
+									Path="{m:Exp Str=LoginUser.f_fengongsi \=\= zonggongsi.value:$from t_fillgas where \{daninfosearch.DataContext.Condition\}$\, LoginUser.f_fengongsi \!\= zonggongsi.value:$from t_fillgas where \{daninfosearch.DataContext.Condition\} and f_filiale6 \=\'\{LoginUser.f_fengongsi\}\'$\,$abc$}"
 										 PageIndex="{m:Exp Str=pager2.PageIndex}" PageSize="{m:Exp Str=pager2.PageSize}" SumNames="id"/>
 								</a:Data.Items>
 								<sdk:DataGrid.Columns>
