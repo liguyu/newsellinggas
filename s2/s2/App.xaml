@@ -16,7 +16,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="LogConfig.xaml"></ResourceDictionary>
 				<ResourceDictionary Source="ResourceDictionary1.xaml"/>
-                <ResourceDictionary Source="ResourceDictionary_sale.xaml"/>
+           <!--     <ResourceDictionary Source="ResourceDictionary_sale.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
         
         </ResourceDictionary>
