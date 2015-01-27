@@ -164,7 +164,7 @@ public class HandCharge {
 		String stairtype = map.get("f_stairtype").toString();
 		double stair1amount = Double.parseDouble(map.get("f_stair1amount").toString());
 		double stair2amount = Double.parseDouble(map.get("f_stair2amount").toString());
-		double stair3amount = Double.parseDouble(map.get("f_stair3amount").toString());
+		double  stair3amount = Double.parseDouble(map.get("f_stair3amount").toString());
 		double stair1price = Double.parseDouble(map.get("f_stair1price").toString());
 		double stair2price = Double.parseDouble(map.get("f_stair2price").toString());
 		double stair3price = Double.parseDouble(map.get("f_stair3price").toString());
@@ -198,12 +198,16 @@ public class HandCharge {
 		Date lastinputDate=df.parse(dateStr);
 		//取出抄表日期得到缴费截止日期DateFormat.parse(String s) 
 		Date date=endDate(lastinputdate);//缴费截止日期
-		//录入日期
+		//录入日期  
 		Date inputdate=new Date();
 		//计划月份
 		DateFormat hd=new SimpleDateFormat("yyyy-MM");
 		String dateStr1=handdate.substring(0, 7);
 		Date handDate=hd.parse(dateStr1);
+		//当前表累计购气量 （暂）
+		double f_metergasnums =Double.parseDouble(map.get("f_metergasnums")+""); 
+		//f_cumulativepurchase 总累计购气量
+		double f_cumulativepurchase =Double.parseDouble(map.get("f_cumulativepurchase")+"");
 		//针对设置阶梯气价的用户运算
 		CountDate();
 		if(!stairtype.equals("未设")){
@@ -355,19 +359,19 @@ public class HandCharge {
 			// 本次抄表日期
 					"  lastinputdate=? " +
 					// 当前表累计购气量 （暂） 总累计购气量
-					 "f_metergasnums= f_metergasnums + ?, f_cumulativepurchase=f_cumulativepurchase+? ,"
+					 ",f_metergasnums=  ?, f_cumulativepurchase= ? ,"
 					// 最后购气量 最后购气日期 最后购气时间
 					+ "f_finallybought= ?, f_finabuygasdate=?, f_finabuygastime=? "
 					+ "where f_userid=?";
 
 			hibernateTemplate.bulkUpdate(hql, new Object[] {
-					f_zhye-chargenum,reading, lastinputDate,gas,gas,gas,new Date(),new Date(),userid });
+					f_zhye-chargenum,reading, lastinputDate,f_metergasnums+gas,f_cumulativepurchase+gas,gas,inputdate,inputdate,userid });
 			String sellId = sellid+"";
 			// 更新抄表记录
 			hql = "update t_handplan set f_state ='已抄表',shifoujiaofei='是',f_handdate=?,f_stairtype=?,"
 					+ "lastinputdate=?,   f_zerenbumen=?, f_menzhan=?, f_inputtor=?,lastrecord=? ,oughtamount=? ,oughtfee=? ,f_address=?, f_username=?, f_zhye=?, f_bczhye=?,"
 					+ "f_stair1amount=?,f_stair2amount=?,f_stair3amount=?,f_stair4amount=?,f_stair1fee=?,f_stair2fee=?,f_stair3fee=?,f_stair4fee=?,f_stair1price=?,f_stair2price=?,f_stair3price=?,f_stair4price=?,"
-					+ "f_stardate=?,f_enddate=?,f_allamont=? ,f_sellid=?, f_leftgas=? "
+					+ "f_stardate=?,f_enddate=?,f_allamont=? ,f_sellid=?, f_leftgas=? , f_inputdate=?,f_network=?,f_operator=?  "
 					+ "where f_userid=? and f_state='未抄表'";
 			hibernateTemplate.bulkUpdate(hql, new Object[] { handDate,stairtype,
 					lastinputDate,zerenbumen, menzhan, inputtor,reading,
@@ -375,7 +379,7 @@ public class HandCharge {
 					stair1num,stair2num,stair3num,stair4num,
 					stair1fee,stair2fee,stair3fee,stair4fee,
 					stair1price,stair2price,stair3price,stair4price,
-					stardate,enddate,sumamont,sellId, leftgas,
+					stardate,enddate,sumamont,sellId, leftgas,inputdate,sgnetwork,sgoperator,
 					userid });
 		}else{
 			// 更新用户档案
