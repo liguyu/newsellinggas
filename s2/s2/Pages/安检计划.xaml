@@ -34,14 +34,14 @@
 
             <!--查询出的地址列表-->
             <o:ObjectList Name="userfileslist" WebClientInfo="{StaticResource dbclient}"
-			Path="{m:Exp Str=$from t_gasaddress1 where \{userfilesearch.DataContext.Condition\} order by len(f_cusDom)\, f_cusDom\, len(f_cusDy)\, f_cusDy\,len(f_cusFloor)\, f_cusFloor\, len(f_apartment)\, f_apartment$}"/>
+			Path="{m:Exp Str=$from t_gasaddress where \{userfilesearch.DataContext.Condition\} order by len(f_cusDom)\, f_cusDom\, len(f_cusDy)\, f_cusDy\,len(f_cusFloor)\, f_cusFloor\, len(f_apartment)\, f_apartment$}"/>
 
             <o:ObjectList Name="target" EntityType="T_IC_SAFECHECK_PAPER"  WebClientInfo="{StaticResource dbclient}"  
           TempObj="{m:Res Key=tempobj}" TempletObject="{m:Res Key=tobj}"
           SelectObject="{x:Null}" RemoveObjects="{x:Null}"
 		  ClearOnAdd="false"
 		/>
-            <o:GeneralObject Name="tempobj" EntityType="t_gasaddress1"></o:GeneralObject>
+            <o:GeneralObject Name="tempobj" EntityType="t_gasaddress"></o:GeneralObject>
 
             <o:GeneralObject Name="tobj" EntityType="T_IC_SAFECHECK_PAPER" WebClientInfo="{StaticResource dbclient}">
                 <!--用户姓名-->
@@ -96,28 +96,28 @@
                                 <ColumnDefinition Width="150"/>
                                 <ColumnDefinition Width="50*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock TextWrapping="Wrap" Text="开始楼号：" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0"/>
+                            <TextBlock TextWrapping="Wrap" Text="楼号：" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0"/>
                             <TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_cusDom}" Width="Auto" Margin="0,3,1,0" Height="25" FontSize="13.333" Grid.Row="1" >
                                 <a:Data.Prop>
-                                    <o:PropertySetter PropertyName="f_cusDom"  Operator="(f_cusDom) >= 'this'"/>
+                                    <o:PropertySetter PropertyName="f_cusDom"  Operator="f_cusDom = 'this'"/>
                                 </a:Data.Prop>
                             </TextBox>
-                            <TextBlock TextWrapping="Wrap" Text=" 开始单元：" Grid.Row="2" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Column="0"/>
-                            <TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_cusDy}" Grid.Row="2" Width="Auto" Margin="0,3,0,0" Height="25" FontSize="13.333"  >
+                            <TextBlock TextWrapping="Wrap" Text=" 开始楼层：" Grid.Row="2" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Column="0"/>
+                            <TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_cusFloor}" Grid.Row="2" Width="Auto" Margin="0,3,0,0" Height="25" FontSize="13.333"  >
                                 <a:Data.Prop>
-                                    <o:PropertySetter PropertyName="f_cusDy"  Operator="(f_cusDy) >= 'this'"/>
+                                    <o:PropertySetter PropertyName="f_cusFloor"  Operator="cast(f_cusFloor as int) >= 'this'"/>
                                 </a:Data.Prop>
                             </TextBox>
-                            <TextBlock TextWrapping="Wrap" Text="结束楼号：" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="2" />
-                            <TextBox TextWrapping="Wrap" Grid.Column="3" Text="{m:Bind Path=f_cusDom2}" Width="Auto" Margin="0,3,1,0" Height="25" FontSize="13.333" Grid.Row="1" >
+                            <TextBlock TextWrapping="Wrap" Text="单元：" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="2" />
+                            <TextBox TextWrapping="Wrap" Grid.Column="3" Text="{m:Bind Path=f_cusDy}" Width="Auto" Margin="0,3,1,0" Height="25" FontSize="13.333" Grid.Row="1" >
                                 <a:Data.Prop>
-                                    <o:PropertySetter PropertyName="f_cusDom2"  Operator="(f_cusDom) ^= 'this'"/>
+                                    <o:PropertySetter PropertyName="f_cusDy"  Operator="f_cusDy = 'this'"/>
                                 </a:Data.Prop>
                             </TextBox>
-                            <TextBlock TextWrapping="Wrap" Text=" 结束单元：" Grid.Row="2" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Column="2" />
-                            <TextBox TextWrapping="Wrap" Grid.Column="3" Text="{m:Bind Path=f_cusDy2}" Grid.Row="2" Width="Auto" Margin="0,3,0,0" Height="25" FontSize="13.333"  >
+                            <TextBlock TextWrapping="Wrap" Text=" 结束楼层：" Grid.Row="2" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Column="2" />
+                            <TextBox TextWrapping="Wrap" Grid.Column="3" Text="{m:Bind Path=f_cusFloor2}" Grid.Row="2" Width="Auto" Margin="0,3,0,0" Height="25" FontSize="13.333"  >
                                 <a:Data.Prop>
-                                    <o:PropertySetter PropertyName="f_cusDy2"  Operator="(f_cusDy) ^= 'this'"/>
+                                    <o:PropertySetter PropertyName="f_cusFloor2"  Operator="cast(f_cusFloor as int) ^= 'this'"/>
                                 </a:Data.Prop>
                             </TextBox>
                             <TextBlock TextWrapping="Wrap" Text="小区名称：" Margin="5,4,0,4" Height="25" FontSize="13.333" HorizontalAlignment="Right" />
@@ -130,7 +130,7 @@
                             <Button Content="获取小区" Grid.Column="2" Grid.Row="0" Height="25" Click="{m:Exp Str=openchild.IsOpen\=True}" Width="60" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,0,0,0" FontSize="13.333"/>
 
 
-                            <Button Content="查询" x:Name="searchbutton" Grid.Row="3" Grid.Column="3" Click="{m:Exp Str=userfilesearch.DataContext.Search()}"  HorizontalAlignment="center" Width="100"  FontSize="13.333" IsEnabled="{m:Exp Str=!userfilesearch.DataContext.HasErrors}"   Margin="56,0,77,0"/>
+                            <Button Content="查询" x:Name="searchbutton" Grid.Row="3" Width="120" Grid.Column="3" Click="{m:Exp Str=userfilesearch.DataContext.Search()}"  HorizontalAlignment="center"   FontSize="13.333" IsEnabled="{m:Exp Str=!userfilesearch.DataContext.HasErrors}"  Style="{StaticResource 查询btn}" />
                         </Grid>
                     </toolkit:DockPanel>
                     <sdk:DataGrid x:Name="userfiles" Margin="0,0,0,25"  FontSize="13.333"
@@ -139,10 +139,8 @@
                         <sdk:DataGrid.Columns>
                             <sdk:DataGridTextColumn d:IsLocked="True" Header="序  号" Binding="{Binding Index}"/>
                             <sdk:DataGridTextColumn Header="街    道" Binding="{Binding f_road}"/>
-
                             <sdk:DataGridTextColumn Header="小区名称" Binding="{Binding f_districtname}"/>
                             <sdk:DataGridTextColumn Header="楼    号" Binding="{Binding f_cusDom}"/>
-
                             <sdk:DataGridTextColumn Header="单    元" Binding="{Binding f_cusDy}"/>
                             <sdk:DataGridTextColumn Header="楼    层" Binding="{Binding f_cusFloor}"/>
                             <sdk:DataGridTextColumn Header="房    号" Binding="{Binding f_apartment}"/>
@@ -170,9 +168,9 @@
                                 </TextBlock.RenderTransform>
                             </TextBlock>
                             <Button   Content="新建"  FontSize="14" Grid.Row="0" Grid.Column="1"
-							Click="{m:Exp Str=ybuserfile.DataContext.New()}"   Width="70" HorizontalAlignment="Stretch" Height="30"  />
+							Click="{m:Exp Str=ybuserfile.DataContext.New()}"   Width="70" HorizontalAlignment="Stretch" Height="30"  Style="{StaticResource 新增btn}"/>
                             <Button x:Name="save" Content="保存"  FontSize="14"  Grid.Row="0" Grid.Column="2" IsEnabled="{m:Exp Str=!ybuserfile.DataContext.HasErrors}"
-							Click="{m:Exp Str=SaveAction.Invoke()}" Width="70" HorizontalAlignment="Left" Height="30"  Margin="0,0,0,0"  />
+							Click="{m:Exp Str=SaveAction.Invoke()}" Width="70" HorizontalAlignment="Left" Height="30"  Margin="0,0,0,0"  Style="{StaticResource 保存btn}"/>
                         </Grid>
                     </toolkit:DockPanel>
                     <toolkit:DockPanel toolkit:DockPanel.Dock="Top">
@@ -204,17 +202,13 @@
                         <sdk:DataGrid.Columns>
                             <sdk:DataGridTextColumn d:IsLocked="True" Header="序  号" Binding="{Binding Index}"/>
                             <sdk:DataGridTextColumn Header="街    道" Binding="{Binding ROAD}"/>
-
                             <sdk:DataGridTextColumn Header="小区名称" Binding="{Binding UNIT_NAME}"/>
                             <sdk:DataGridTextColumn Header="楼    号" Binding="{Binding CUS_DOM}"/>
-
                             <sdk:DataGridTextColumn Header="单    元" Binding="{Binding CUS_DY}"  />
                             <sdk:DataGridTextColumn Header="楼    层" Binding="{Binding CUS_FLOOR}"/>
                             <sdk:DataGridTextColumn Header="房    号" Binding="{Binding CUS_ROOM}"/>
                         </sdk:DataGrid.Columns>
                     </sdk:DataGrid>
-
-
                 </toolkit:DockPanel>
             </c:BusyIndicatorEx>
             <Grid Grid.Column="1">

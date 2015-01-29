@@ -144,26 +144,58 @@
 							<Grid.RowDefinitions>
 								<RowDefinition Height="28"/>
 								<RowDefinition Height="28"/>
+								<RowDefinition Height="28"/>
+								<RowDefinition Height="28"/>
 							</Grid.RowDefinitions>
 						<TextBlock TextWrapping="Wrap" Text="用户编号：" Margin="5,6,0,6" HorizontalAlignment="Right"/>
 						<TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_userid}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0,1" Height="25" >
 							<a:Data.Prop>
-								<o:PropertySetter PropertyName="f_userid" Operator="f_userid like 'this%'"/>               
+								<o:PropertySetter PropertyName="f_userid" Operator="f_userid = 'this'"/>               
 							</a:Data.Prop>
 						</TextBox>
-						<TextBlock TextWrapping="Wrap" Grid.Row="1" Text="卡　　号：" Margin="5,6,0,6" HorizontalAlignment="Right"/>
-						<TextBox TextWrapping="Wrap" Grid.Row="1" Grid.Column="1" Text="{m:Bind Path=f_cardid}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0,1" Height="25" >
+						<TextBlock TextWrapping="Wrap" Grid.Row="3" Text="卡　　号：" Margin="5,6,0,6" HorizontalAlignment="Right"/>
+						<TextBox TextWrapping="Wrap" Grid.Row="3" Grid.Column="1" Text="{m:Bind Path=f_cardid}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0,1" Height="25" >
 							<a:Data.Prop>
-								<o:PropertySetter PropertyName="f_cardid" Operator="f_cardid like '%this%'"/>               
+								<o:PropertySetter PropertyName="f_cardid" Operator="f_cardid = 'this'"/>               
 							</a:Data.Prop>
 						</TextBox>
-						<Button Content="查  询" x:Name="searchbutton" Grid.Row="1" Grid.Column="2" Click="{m:Exp Str=userfilesearch.DataContext.Search()}" Margin="3,0,0,0" HorizontalAlignment="Right" Width="80" />
-						<TextBlock TextWrapping="Wrap" Text="公司类型：" Margin="0,4,0,0" HorizontalAlignment="Right" Grid.Column="2" Width="81" TextAlignment="Right"/>
+						<Button Content="查  询" x:Name="searchbutton" Grid.Row="3" Grid.Column="3" Click="{m:Exp Str=userfilesearch.DataContext.Search()}" Margin="3,0,0,0" HorizontalAlignment="Right" Width="80" />
+						<TextBlock TextWrapping="Wrap" Text="用户姓名：" Margin="0,6" HorizontalAlignment="Right" Grid.Column="2"/>
+						<TextBox TextWrapping="Wrap" Grid.Column="3" Text="{m:Bind Path=f_username}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0,1.5" Height="25" >
+							<a:Data.Prop>
+								<o:PropertySetter PropertyName="f_username" Operator="f_username like '%this%'"/>               
+							</a:Data.Prop>
+						</TextBox>
+						<TextBlock TextWrapping="Wrap" Text="小区名称：" Margin="0,6" HorizontalAlignment="Right" Grid.Row="1"/>
+						<TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_districtname}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0,1.5" Height="25" Grid.Row="1" >
+							<a:Data.Prop>
+								<o:PropertySetter PropertyName="f_districtname" Operator="f_districtname like '%this%'"/>               
+							</a:Data.Prop>
+						</TextBox>
+						<TextBlock TextWrapping="Wrap" Text="楼    号：" Margin="0,6" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="1"/>
+						<TextBox TextWrapping="Wrap" Grid.Column="3" Text="{m:Bind Path=f_cusDom}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0,1.5" Height="25" Grid.Row="1" >
+							<a:Data.Prop>
+								<o:PropertySetter PropertyName="f_cusDom" Operator="f_cusDom = 'this'"/>               
+							</a:Data.Prop>
+						</TextBox>
+						<TextBlock TextWrapping="Wrap" Text="单    元：" Margin="0,6" HorizontalAlignment="Right" Grid.Row="2"/>
+						<TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_cusDy}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0,1.5" Height="25" Grid.Row="2" >
+							<a:Data.Prop>
+								<o:PropertySetter PropertyName="f_cusDy" Operator="f_cusDy = 'this'"/>               
+							</a:Data.Prop>
+						</TextBox>
+						<TextBlock TextWrapping="Wrap" Text="门 牌 号：" Margin="0,6" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="2"/>
+						<TextBox TextWrapping="Wrap" Grid.Column="3" Text="{m:Bind Path=f_apartment}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0,1.5" Height="25" Grid.Row="2" >
+							<a:Data.Prop>
+								<o:PropertySetter PropertyName="f_apartment" Operator="f_apartment = 'this'"/>               
+							</a:Data.Prop>
+						</TextBox>
+						<!--<TextBlock TextWrapping="Wrap" Text="公司类型：" Margin="0,4,0,0" HorizontalAlignment="Right" Grid.Column="2" Width="81" TextAlignment="Right"/>
 						<ComboBox x:Name="tjczy_Copy"  SelectedValue="{m:Bind Path=f_comtype}" Grid.Column="3" ItemsSource="{m:Exp Str=gongsitypelist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="Auto">
 									<a:Data.Prop>
 										<o:PropertySetter PropertyName="f_comtype"  Operator="f_comtype = 'this'"/>          
 									</a:Data.Prop>
-								</ComboBox>
+								</ComboBox>-->
 					</Grid>
 					</toolkit:DockPanel>
 					<toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="33">
@@ -493,17 +525,17 @@
 									</a:Data.Prop>
 								</TextBox>
 								<TextBlock Grid.Column="2" Margin="0" Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right" Height="25"><Run Text="交费"/><Run Text="时间"/><Run Text="："/></TextBlock>
-								<!--toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="3" Margin="0" Grid.Row="10"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" >
+								<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="3" Margin="0" Grid.Row="10"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" >
 									<a:Data.Prop>
 										<o:PropertySetter PropertyName="f_deliverytime" />
 									</a:Data.Prop>
-								</toolkit:TimePicker-->
+								</toolkit:TimePicker>
 								<TextBlock Grid.Column="2" Margin="0" Grid.Row="13" Text="冲正时间：" TextAlignment="Right" Height="25"></TextBlock>
-								<!--toolkit:TimePicker Value="{m:Bind Path=f_reversaltime}" IsEnabled="False" Grid.Column="3" Margin="0" Grid.Row="13"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" >
+								<toolkit:TimePicker Value="{m:Bind Path=f_reversaltime}" IsEnabled="False" Grid.Column="3" Margin="0" Grid.Row="13"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" >
 									<a:Data.Prop>
 										<o:PropertySetter PropertyName="f_reversaltime" Value="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
 									</a:Data.Prop>
-								</-->
+								</toolkit:TimePicker>
 								<TextBlock Text="卡　　号：" Grid.Column="4" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
 								<TextBlock Text="卡里气量：" Margin="0" Grid.Row="11" TextWrapping="Wrap" TextAlignment="Right" Grid.Column="4" Height="25"/>
 								<TextBox Text="{m:Bind Path=f_gas}" IsReadOnly="True" Grid.Column="5" Margin="0" Grid.Row="11" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" >

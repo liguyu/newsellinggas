@@ -54,12 +54,10 @@
   <ItemGroup>
     <Compile Include="MingHua.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="先锋\巴彦淖尔\XianFengBYNE.cs" />
     <Compile Include="金卡\巴彦淖尔\JinKaBYNE.cs" />
     <Compile Include="金卡\巴彦淖尔\JinKaGYBYNE.cs" />
-    <Compile Include="先锋\黄河燃气\XianFeng.cs" />
-    <Compile Include="金卡\黄河燃气\JinKaGY.cs" />
-    <Compile Include="金卡\黄河燃气\JinKaMY.cs" />
+    <Compile Include="蓝宝石\LanBaoShiGY.cs" />
+    <Compile Include="蓝宝石\LanBaoShi.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LocalService\LocalService.csproj">

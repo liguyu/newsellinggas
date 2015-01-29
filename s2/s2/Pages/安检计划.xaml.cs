@@ -15,13 +15,13 @@ using Com.Aote.ObjectTools;
 
 namespace Com.Aote.Pages
 {
-	public partial class 安检计划 : UserControl
-	{
-		public 安检计划()
-		{
-			// 为初始化变量所必需
-			InitializeComponent();
-		}
+    public partial class 安检计划 : UserControl
+    {
+        public 安检计划()
+        {
+            // 为初始化变量所必需
+            InitializeComponent();
+        }
 
         private void alltoleft_Click(object sender, RoutedEventArgs e)
         {
@@ -43,9 +43,9 @@ namespace Com.Aote.Pages
                 list.Add(obj);
             Com.Aote.ObjectTools.ObjectList target = GetTarget();
             //if (target.selectObject == null)
-                target.SelectObject = list;
+            target.SelectObject = list;
             //else
-                //(target.selectObject as IList).Add(userfiles.SelectedItem);
+            //(target.selectObject as IList).Add(userfiles.SelectedItem);
 
             foreach (Object obj in list)
                 c.Remove(obj);
@@ -55,8 +55,8 @@ namespace Com.Aote.Pages
         private ObjectTools.ObjectList GetTarget()
         {
             System.Collections.Generic.IList<Com.Aote.ObjectTools.IName> list = this.pageResource.Res;
-            foreach(Com.Aote.ObjectTools.IName name in list)
-                if(name.Name.Equals("target"))
+            foreach (Com.Aote.ObjectTools.IName name in list)
+                if (name.Name.Equals("target"))
                     return name as ObjectTools.ObjectList;
             return null;
         }

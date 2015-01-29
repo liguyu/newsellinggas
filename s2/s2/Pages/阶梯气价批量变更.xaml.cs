@@ -25,6 +25,11 @@ namespace Com.Aote.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (ui_SearchUserList.Count < 1 || CoboxStair.SelectedValue == null || "".Equals(CoboxStair.SelectedValue))
+            {
+                MessageBox.Show("请选择要修改用户和阶梯气价");
+                return;
+            }
             ui_searchBusy.IsBusy = true;
             search.Search();
 

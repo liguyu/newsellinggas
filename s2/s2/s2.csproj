@@ -32,7 +32,7 @@
     <LinkedServerProject>
     </LinkedServerProject>
     <Utf8Output>true</Utf8Output>
-    <ExpressionBlendVersion>4.1.20402.0</ExpressionBlendVersion>
+    <ExpressionBlendVersion>12.0.41002.1</ExpressionBlendVersion>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -671,8 +671,17 @@
     <Compile Include="Pages\收费记录修改.xaml.cs">
       <DependentUpon>收费记录修改.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\更改抄表人.xaml.cs">
+      <DependentUpon>更改抄表人.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\更改抄表员.xaml.cs">
+      <DependentUpon>更改抄表员.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\机表交费阶梯.xaml.cs">
       <DependentUpon>机表交费阶梯.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\机表补卡.xaml.cs">
+      <DependentUpon>机表补卡.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\来电信息管理.xaml.cs">
       <DependentUpon>来电信息管理.xaml</DependentUpon>
@@ -700,6 +709,9 @@
     </Compile>
     <Compile Include="Pages\民用一步建档.xaml.cs">
       <DependentUpon>民用一步建档.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\民用抄表批量录入.xaml.cs">
+      <DependentUpon>民用抄表批量录入.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\气价类型变更查看.xaml.cs">
       <DependentUpon>气价类型变更查看.xaml</DependentUpon>
@@ -1056,8 +1068,8 @@
     <Compile Include="Pages\民用小区管理.xaml.cs">
       <DependentUpon>民用小区管理.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\民用抄表批量录入.xaml.cs">
-      <DependentUpon>民用抄表批量录入.xaml</DependentUpon>
+    <Compile Include="Pages\民用卡表抄表批量录入.xaml.cs">
+      <DependentUpon>民用卡表抄表批量录入.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\民用抄表核查下账.xaml.cs">
       <DependentUpon>民用抄表核查下账.xaml</DependentUpon>
@@ -1321,6 +1333,8 @@
     <Compile Include="Program\Behaviors\CreateReceiptAction.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Program\Behaviors\DataGridDoubleClickBehavior.cs" />
+    <Compile Include="Program\Behaviors\MouseClickManager.cs" />
     <Compile Include="Program\Behaviors\SaveForUserAction.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1328,7 +1342,11 @@
       <DependentUpon>DateTimePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Program\ObjectTools\GasADObject.cs" />
+    <Compile Include="Program\ObjectTools\GasADObject1.cs" />
+    <Compile Include="Program\ObjectTools\GasADObject2.cs" />
+    <Compile Include="Program\ObjectTools\GasADObject3.cs" />
     <Compile Include="Program\ObjectTools\NewGeneralICCard.cs" />
+    <Compile Include="Program\ObjectTools\PagedObjectList2.cs" />
     <Compile Include="Program\ObjectTools\RXCard.cs" />
     <Compile Include="Program\ObjectTools\SYICCard.cs" />
     <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
@@ -2084,8 +2102,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\更改抄表人.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\更改抄表员.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\机表交费阶梯.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\机表补卡.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\来电信息管理.xaml">
@@ -2121,6 +2151,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\民用一步建档.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\民用抄表批量录入.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2600,7 +2634,7 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\民用抄表批量录入.xaml">
+    <Page Include="Pages\民用卡表抄表批量录入.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

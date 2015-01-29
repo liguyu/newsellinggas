@@ -163,8 +163,8 @@ namespace Com.Aote.Pages
                         go.SetPropertyValue("f_userid", f_userid, false);
                         string f_username = (string)json["f_username"];//用户名
                         go.SetPropertyValue("f_username", f_username, false);
-                        string f_districtname = (string)json["f_districtname"];//地址
-                        go.SetPropertyValue("f_districtname", f_districtname, false);
+                        string f_address = (string)json["f_address"];//地址
+                        go.SetPropertyValue("f_address", f_address, false);
                         decimal lastinputgasnum = (decimal)json["lastinputgasnum"];//上期指数
                         go.SetPropertyValue("lastinputgasnum", lastinputgasnum, false);
                         list.Add(go);

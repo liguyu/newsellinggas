@@ -49,7 +49,7 @@ public class SellSer {
 			String fengongnum = loginUser.get("f_fengongsinum").toString();
 
 			// 根据用户编号找到用户档案中的信息,以及抄表记录
-			String sql = " select u.f_zhye f_zhye, u.f_username f_username, u.f_address f_address,u.f_beginfee f_beginfee, u.f_metergasnums f_metergasnums, u.f_cumulativepurchase f_cumulativepurchase,u.f_districtname f_districtname,"
+			String sql = " select u.f_zhye f_zhye, u.f_username f_username,u.f_cardid f_cardid, u.f_address f_address,u.f_beginfee f_beginfee, u.f_metergasnums f_metergasnums, u.f_cumulativepurchase f_cumulativepurchase,u.f_districtname f_districtname,"
 					+ "u.f_idnumber f_idnumber, u.f_gaspricetype f_gaspricetype, u.f_gasprice f_gasprice, u.f_usertype f_usertype,"
 					+ "u.f_gasproperties f_gasproperties, u.f_userid f_userid, h.id handid, h.oughtamount oughtamount, h.lastinputgasnum lastinputgasnum,"
 					+ "h.lastrecord lastrecord, h.shifoujiaofei shifoujiaofei, h.oughtfee oughtfee from t_userfiles u "
@@ -180,7 +180,14 @@ public class SellSer {
 			sell.put("f_gaspricetype", userinfo.get("f_gaspricetype")); // 气价类型
 			sell.put("f_gasprice", userinfo.get("f_gasprice")); // 气价
 			sell.put("f_usertype", userinfo.get("f_usertype")); // 用户类型
-			sell.put("f_gasproperties", userinfo.get("f_gasproperties")); // 用气性质
+			sell.put("f_gasproperties", userinfo.get("f_gasproperties"));// 用气性质
+			//机表中，将卡号作为存储折子号，磁条卡的信息字段
+			if(userinfo.containsKey("f_cardid")&& userinfo.get("f_cardid")!=null)
+			{
+			  String kh = userinfo.get("f_cardid").toString();
+			  sell.put("f_cardid", kh);
+			}
+				
 			sell.put("f_pregas", gasSum.setScale(1, BigDecimal.ROUND_HALF_UP)
 					.doubleValue()); // 气量
 			sell.put("f_preamount", feeSum

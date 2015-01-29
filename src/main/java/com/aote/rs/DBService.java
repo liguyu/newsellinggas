@@ -145,7 +145,7 @@ public class DBService {
 		for (Object obj : list) {
 			// 把单个map转换成JSON对象
 			Map<String, Object> map = (Map<String, Object>) obj;
-			JSONObject json = MapToJson(map);
+			JSONObject json =  (JSONObject) new JsonTransfer().MapToJson(map);
 			array.put(json);
 		}
 		log.debug(array.toString());
@@ -193,7 +193,7 @@ public class DBService {
 		}
 		// 把单个map转换成JSON对象
 		Map<String, Object> map = (Map<String, Object>) list.get(0);
-		result = MapToJson(map);
+		result =  (JSONObject) new JsonTransfer().MapToJson(map);
 		log.debug(result.toString());
 		return result;
 	}
@@ -212,7 +212,7 @@ public class DBService {
 		}
 		// 把单个map转换成JSON对象
 		Map<String, Object> map = (Map<String, Object>) list.get(0);
-		result = MapToJson(map);
+		result =  (JSONObject) new JsonTransfer().MapToJson(map);
 		long attrVal = Long.parseLong(map.get(attrname).toString());
 		map.put(attrname, attrVal + 1 + "");
 		this.hibernateTemplate.update(map);
@@ -233,14 +233,14 @@ public class DBService {
 		for (Object obj : list) {
 			// 把单个map转换成JSON对象
 			Map<String, Object> map = (Map<String, Object>) obj;
-			JSONObject json = MapToJson(map);
+			JSONObject json = (JSONObject) new JsonTransfer().MapToJson(map);
 			array.put(json);
 		}
 		return array;
 	}
 
 	// 执行分页查询
-	public class HibernateCall implements HibernateCallback {
+	class HibernateCall implements HibernateCallback {
 		String hql;
 		int page;
 		int rows;
@@ -259,6 +259,7 @@ public class DBService {
 		}
 	}
 
+	/**
 	// 把单个map转换成JSON对象
 	private JSONObject MapToJson(Map<String, Object> map) {
 		JSONObject json = new JSONObject();
@@ -308,6 +309,7 @@ public class DBService {
 		}
 		return array;
 	}
+	**/
 
 	@GET
 	@Path("{hql}/{sumNames}")
@@ -375,11 +377,13 @@ public class DBService {
 	}
 
 	/*
-	 * 执行一批对象操作，包括保存，删除，hql语句，hql批量对象语句等。用json串表示。 json串格式为 [一批语句]， 语句格式为
-	 * {operator:'语句类型', entity:'实体类型', data:数据, name:前台配置的名字} 语句类型有 save 保存,
-	 * delete 删除, hql 执行hql, hqlAll 对一批对象执行hql 实体类型 当执行hql语句的时候，可以没有 数据
-	 * 保存为一般json串，删除时为id号，执行hql时为hql语句 执行批量hql时数据 {hql:'hql语句'，ids:['id',
-	 * 'id']}，主要原因是如果id太多，不能一次执行完，目前先不做
+	 * 执行一批对象操作，包括保存，删除，hql语句，hql批量对象语句, sql语句等。
+	 * 用json串表示。 json串格式为 [一批语句]， 语句格式为
+	 * {operator:'语句类型', entity:'实体类型', data:数据, name:前台配置的名字} 
+	 * 语句类型有 save 保存, delete 删除, hql 执行hql, hqlAll 对一批对象执行hql, sql 执行sql, reference 在主对象和从对象之间建立关联 
+	 * 实体类型 当执行hql语句或者sql语句的时候，为空。
+	 * 数据 保存时为一般json串，删除时为id号，执行hql时为hql语句，执行sql时为sql语句
+	 * 批量hql执行未作，设定的格式为 {hql:'hql语句'，ids:['id','id']}
 	 */
 	@POST
 	public JSONObject excute(String values) {
@@ -414,6 +418,8 @@ public class DBService {
 				} else if (oper.equals("hqlAll")) {
 					// 执行批量hql
 					throw new NotImplementedException();
+				} else if (oper.equals("reference")) {
+					MasterDetailAssociationHandler(object);
 				} else {
 					throw new WebApplicationException(500);
 				}
@@ -422,6 +428,48 @@ public class DBService {
 		} catch (JSONException e) {
 			throw new WebApplicationException(500);
 		}
+	}
+
+	/**
+	 * 保存主对象得到ID
+	 * 根据sql/hql取得从对象集
+	 * 根据hibernate配置建立主从关联，并保存从对象
+	 * @param object
+	 */
+	private void MasterDetailAssociationHandler(JSONObject object) throws JSONException{
+		JSONObject row = object.getJSONObject("data");
+		String entity = object.getString("entity");
+		String entity2 = object.getString("entity2");
+		//先保存主对象，得到id
+		JSONObject obj = save(entity, row);
+		if(obj.has("ID"))
+			row.put("ID", obj.get("ID"));
+		if(obj.has("id"))
+			row.put("id", obj.get("id"));
+		//把从对象集赋给这个属性prop
+		String prop = object.getString("reference");	
+		//是sql还是hql
+		String type = object.getString("path");
+		//取出执行的语句
+		String hql = object.getString("hql");
+		if(type.equals("sql"))
+		{
+			//sql，根据列取回对象集
+			JSONArray array = this.postSQLPage(object.getString("names"), 9999999, 0, hql);
+			for(int i=0; i<array.length(); i++)
+			{
+				array.getJSONObject(i).put("EntityType", entity2);
+			}
+			row.put(prop, array);
+		}
+		else if(type.equals("hql"))
+		{
+			row.put(prop, this.query(hql));
+		}
+		else
+			throw new WebApplicationException(500);
+		//更新主对象，建立关联
+		save(entity, row);
 	}
 
 	@POST
@@ -1048,7 +1096,7 @@ public class DBService {
 					Object obj = list.get(j);
 					// 把单个map转换成JSON对象
 					Map<String, Object> map = (Map<String, Object>) obj;
-					JSONObject json = MapToJson(map);
+					JSONObject json =  (JSONObject) new JsonTransfer().MapToJson(map);
 					rowNum++;
 					row = sheet.createRow((short) rowNum);
 					for (int z = 0; z < colsStr.length; z++) {
@@ -1142,7 +1190,7 @@ public class DBService {
 
 					// 把单个map转换成JSON对象
 					Map<String, Object> map = (Map<String, Object>) obj;
-					JSONObject json = MapToJson(map);
+					JSONObject json =  (JSONObject) new JsonTransfer().MapToJson(map);
 					// 添加单个发票元素
 					Element record = xsRecords.addElement("xsRecord");
 					Element head = record.addElement("xsHead");

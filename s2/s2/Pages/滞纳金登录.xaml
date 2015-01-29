@@ -85,7 +85,7 @@
                     <GradientStop Color="#FFDDF2FD" Offset="1"/>
                 </LinearGradientBrush>
             </Grid.Background>
-            <Grid  x:Name="apply" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" >
+            <Grid  Name="apply" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" >
                 <a:Data.Context>
                     <o:GeneralObject  Name="applygo" WebClientInfo="{StaticResource dbclient}" 
 						EntityType="t_zhinajin"         	/>

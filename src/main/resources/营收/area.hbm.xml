@@ -83,5 +83,14 @@
 		<property name="f_fengongsinum" type="string"/>
 			<!-- 状态 -->
 		<property name="f_state" type="string"/>
+		
+		
+		
+		<!-- 归口单位 -->
+		<property name="f_guikouunit" type="string"/>
+		<!-- 网格编码 -->
+		<property name="f_gridcode" type="string"/>
+		<!-- 联系方式 -->
+		<property name="f_phone" type="string"/>
 	</class>
 </hibernate-mapping>

@@ -76,7 +76,7 @@
                             <o:SearchObject />
                         </a:Data.Context>
                         <Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="4" Grid.Column="5" Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="2,1,0,0" FontSize="14" HorizontalAlignment="Left" Width="60"  />
-                        <Button Content="导出Excel" Click="{m:Exp Str=toExcel.ToExcel()}" Grid.Row="4" Grid.Column="5" FontSize="14" HorizontalAlignment="Left" Width="70" Background="white " Margin="65,0,0,0"/>
+                        <Button Content="导出Excel"  IsEnabled="{m:Exp Str=daninfos.ItemsSource.Count>0}" Click="{m:Exp Str=toExcel.ToExcel()}" Grid.Row="4" Grid.Column="5" FontSize="14" HorizontalAlignment="Left" Width="70" Background="white " Margin="65,0,0,0"/>
                         <c:Excel x:Name="toExcel" HQL="{m:Exp Str=$sql:\{daninfos.ItemsSource.HQL\}}" 
    							 Completed="{m:Exp Str=downLoad.Down()}"
    							         Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户名称|f_address:地址|f_usertype:用户类型|f_gasmeterstyle:气表类型|gas:购气量|f_filiale:所属部门$}"/>

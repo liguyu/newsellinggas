@@ -44,7 +44,7 @@ namespace Com.Aote.Pages
                //获取基础地址
             WebClientInfo wci = (WebClientInfo)Application.Current.Resources["server"];
              // 提交
-            string str = wci.BaseAddress + "/sell/" + f_userid.Text + "/" + shoukuan.Text + "/"
+            string str = wci.BaseAddress + "/sell/" + f_userid.Text + "/"  + shoukuan.Text + "/"
                 + f_zhinajin.Text + "/" + f_payment.SelectedValue + "/" + loginid;
             Uri uri = new Uri(str);
             WebClient client = new WebClient();
