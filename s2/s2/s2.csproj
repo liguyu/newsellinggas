@@ -133,12 +133,6 @@
     <Compile Include="Pages\低保户审核.xaml.cs">
       <DependentUpon>低保户审核.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\修改状态.xaml.cs">
-      <DependentUpon>修改状态.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\停气公告管理.xaml.cs">
-      <DependentUpon>停气公告管理.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\公告管理.xaml.cs">
       <DependentUpon>公告管理.xaml</DependentUpon>
     </Compile>
@@ -182,17 +176,71 @@
     <Compile Include="Pages\发票领用明细查询.xaml.cs">
       <DependentUpon>发票领用明细查询.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\呼叫\修改状态.xaml.cs">
+      <DependentUpon>修改状态.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\停气公告管理.xaml.cs">
+      <DependentUpon>停气公告管理.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\大屏显示.xaml.cs">
+      <DependentUpon>大屏显示.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\大屏显示设置.xaml.cs">
+      <DependentUpon>大屏显示设置.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\批量派单.xaml.cs">
+      <DependentUpon>批量派单.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\报修分类统计.xaml.cs">
+      <DependentUpon>报修分类统计.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\报表页面.xaml.cs">
+      <DependentUpon>报表页面.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\接入号码查询.xaml.cs">
+      <DependentUpon>接入号码查询.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\来电报修信息.xaml.cs">
+      <DependentUpon>来电报修信息.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\来电管理.xaml.cs">
+      <DependentUpon>来电管理.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\电话记录查询.xaml.cs">
+      <DependentUpon>电话记录查询.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\知识库管理.xaml.cs">
+      <DependentUpon>知识库管理.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\维修人员统计.xaml.cs">
+      <DependentUpon>维修人员统计.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\维修情况查看.xaml.cs">
+      <DependentUpon>维修情况查看.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\维修情况查看2.xaml.cs">
+      <DependentUpon>维修情况查看2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\维修结果记录.xaml.cs">
+      <DependentUpon>维修结果记录.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\维修记录查询.xaml.cs">
+      <DependentUpon>维修记录查询.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\营业所灶具中心维修界面.xaml.cs">
+      <DependentUpon>营业所灶具中心维修界面.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\话务员界面.xaml.cs">
+      <DependentUpon>话务员界面.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\话务员绩效统计.xaml.cs">
+      <DependentUpon>话务员绩效统计.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\呼叫系统修改密码.xaml.cs">
       <DependentUpon>呼叫系统修改密码.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\呼叫系统报表页面.xaml.cs">
       <DependentUpon>呼叫系统报表页面.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\大屏显示.xaml.cs">
-      <DependentUpon>大屏显示.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\大屏显示设置.xaml.cs">
-      <DependentUpon>大屏显示设置.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\安检人员查询.xaml.cs">
       <DependentUpon>安检人员查询.xaml</DependentUpon>
@@ -686,12 +734,6 @@
     <Compile Include="Pages\来电信息管理.xaml.cs">
       <DependentUpon>来电信息管理.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\来电报修信息.xaml.cs">
-      <DependentUpon>来电报修信息.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\来电管理.xaml.cs">
-      <DependentUpon>来电管理.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\机表欠费查询.xaml.cs">
       <DependentUpon>机表欠费查询.xaml</DependentUpon>
     </Compile>
@@ -734,12 +776,6 @@
     <Compile Include="Pages\用气设备登记.xaml.cs">
       <DependentUpon>用气设备登记.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\电话记录查询.xaml.cs">
-      <DependentUpon>电话记录查询.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\知识库管理.xaml.cs">
-      <DependentUpon>知识库管理.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\票证补打信息.xaml.cs">
       <DependentUpon>票证补打信息.xaml</DependentUpon>
     </Compile>
@@ -749,12 +785,6 @@
     <Compile Include="Pages\维修单查询.xaml.cs">
       <DependentUpon>维修单查询.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\维修情况查看.xaml.cs">
-      <DependentUpon>维修情况查看.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\维修结果记录.xaml.cs">
-      <DependentUpon>维修结果记录.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\获取小区.xaml.cs">
       <DependentUpon>获取小区.xaml</DependentUpon>
     </Compile>
@@ -763,9 +793,6 @@
     </Compile>
     <Compile Include="Pages\获取计划.xaml.cs">
       <DependentUpon>获取计划.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\营业所灶具中心维修界面.xaml.cs">
-      <DependentUpon>营业所灶具中心维修界面.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\街道管理.xaml.cs">
       <DependentUpon>街道管理.xaml</DependentUpon>
@@ -778,9 +805,6 @@
     </Compile>
     <Compile Include="Pages\补卡撤销查询.xaml.cs">
       <DependentUpon>补卡撤销查询.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\话务员界面.xaml.cs">
-      <DependentUpon>话务员界面.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\过户信息查看.xaml.cs">
       <DependentUpon>过户信息查看.xaml</DependentUpon>
@@ -892,9 +916,6 @@
     </Compile>
     <Compile Include="Pages\其他收费发票补打.xaml.cs">
       <DependentUpon>其他收费发票补打.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\其他收费查看.xaml.cs">
-      <DependentUpon>其他收费查看.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\其他补气查看.xaml.cs">
       <DependentUpon>其他补气查看.xaml</DependentUpon>
@@ -1015,9 +1036,6 @@
     </Compile>
     <Compile Include="Pages\抄表计划.xaml.cs">
       <DependentUpon>抄表计划.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\报表页面.xaml.cs">
-      <DependentUpon>报表页面.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\换卡.xaml.cs">
       <DependentUpon>换卡.xaml</DependentUpon>
@@ -1178,9 +1196,6 @@
     </Compile>
     <Compile Include="Pages\补卡发票补打.xaml.cs">
       <DependentUpon>补卡发票补打.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\补售气收费记录.xaml.cs">
-      <DependentUpon>补售气收费记录.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\补折.xaml.cs">
       <DependentUpon>补折.xaml</DependentUpon>
@@ -1382,14 +1397,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\修改状态.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\停气公告管理.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Pages\公告管理.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1450,19 +1457,91 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\呼叫\修改状态.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\停气公告管理.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\大屏显示.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\大屏显示设置.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\批量派单.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\报修分类统计.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\报表页面.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\接入号码查询.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\来电报修信息.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\来电管理.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\电话记录查询.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\知识库管理.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\维修人员统计.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\维修情况查看.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\维修情况查看2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\维修结果记录.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\维修记录查询.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\营业所灶具中心维修界面.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\话务员界面.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\话务员绩效统计.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\呼叫系统修改密码.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\呼叫系统报表页面.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\大屏显示.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\大屏显示设置.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2122,14 +2201,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\来电报修信息.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\来电管理.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Pages\机表欠费查询.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
@@ -2186,14 +2257,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\电话记录查询.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\知识库管理.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Pages\票证补打信息.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -2206,14 +2269,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\维修情况查看.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\维修结果记录.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Pages\获取小区.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -2223,10 +2278,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\获取计划.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\营业所灶具中心维修界面.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2243,10 +2294,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\补卡撤销查询.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\话务员界面.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2395,10 +2442,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\其他收费发票补打.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\其他收费查看.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2559,10 +2602,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\抄表计划.xaml">
-      <Generator>MSBuild:MarkupCompilePass1</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\报表页面.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2779,10 +2818,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\补卡发票补打.xaml">
-      <Generator>MSBuild:MarkupCompilePass1</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\补售气收费记录.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -3094,6 +3129,10 @@
       <Project>{755bc4b3-86b8-4126-82c9-4f1bc5c8b07e}</Project>
       <Name>s2DLL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\loginbgHJ.jpg" />
+    <Resource Include="image\loginbgHJ.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
