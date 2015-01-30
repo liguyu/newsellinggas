@@ -182,6 +182,9 @@
     <Compile Include="Pages\呼叫\停气公告管理.xaml.cs">
       <DependentUpon>停气公告管理.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\呼叫\外拨电话.xaml.cs">
+      <DependentUpon>外拨电话.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\呼叫\大屏显示.xaml.cs">
       <DependentUpon>大屏显示.xaml</DependentUpon>
     </Compile>
@@ -235,6 +238,9 @@
     </Compile>
     <Compile Include="Pages\呼叫\话务员绩效统计.xaml.cs">
       <DependentUpon>话务员绩效统计.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\呼叫\调度中心补单页面.xaml.cs">
+      <DependentUpon>调度中心补单页面.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\呼叫系统修改密码.xaml.cs">
       <DependentUpon>呼叫系统修改密码.xaml</DependentUpon>
@@ -1465,6 +1471,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\呼叫\外拨电话.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\呼叫\大屏显示.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1534,6 +1544,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\呼叫\话务员绩效统计.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\呼叫\调度中心补单页面.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
