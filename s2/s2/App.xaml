@@ -16,16 +16,15 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="LogConfig.xaml"></ResourceDictionary>
 				<ResourceDictionary Source="ResourceDictionary1.xaml"/>
+                <!-- <ResourceDictionary Source="ResourceDictionaryHJ.xaml"/> -->
            <!--     <ResourceDictionary Source="ResourceDictionary_sale.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
         
         </ResourceDictionary>
-
-
         <SolidColorBrush x:Key="Red" Color="Red"></SolidColorBrush>
         <SolidColorBrush x:Key="Black" Color="Black"></SolidColorBrush>
+        <SolidColorBrush x:Key="DataGridText" Color="#FF064687"></SolidColorBrush>
         <o:DataPagerConverter x:Key="DataPagerConverter"/>
-        <o:DataPagerConverter x:Key="PagerConverter"/>
 
 
         <!--开发环境
@@ -41,6 +40,7 @@
         <o:WebClientInfo x:Key="noteserver" BaseAddress="http://127.0.0.1:83/rs/sms"/>
         <o:WebClientInfo x:Key="chargeserver"  BaseAddress="http://127.0.0.1:81/rs/charge"/>-->
 
+        <!-- 
         <o:WebClientInfo x:Key="ldapaddress" BaseAddress="http://127.0.0.1:82/rs"/>
         <o:WebClientInfo x:Key="reportaddress" BaseAddress="http://127.0.0.1:8080/rs/report"/>
         <o:WebClientInfo x:Key="saveuser" BaseAddress="http://127.0.0.1:82/rs/user/entity"/>
@@ -54,7 +54,21 @@
         <o:WebClientInfo x:Key="chargeserver"  BaseAddress="http://127.0.0.1:8080/rs/charge"/>
         
         
-        <o:WebClientInfo x:Key="tunnelurl"  BaseAddress="http://127.0.0.1:8080/rs/tunnel"/>
+        <o:WebClientInfo x:Key="tunnelurl"  BaseAddress="http://127.0.0.1:8080/rs/tunnel"/> -->
+        
+        <!-- 远程服务器 -->
+        <o:WebClientInfo x:Key="ldapaddress" BaseAddress="http://125.76.225.223:3000/newsellingres/rs"/>
+        <o:WebClientInfo x:Key="reportaddress" BaseAddress="http://125.76.225.223:3000/newsellinggas/rs/report"/>
+        <o:WebClientInfo x:Key="saveuser" BaseAddress="http://125.76.225.223:3000/newsellingres/rs/user/entity"/>
+        <o:WebClientInfo x:Key="reportclient" BaseAddress="http://125.76.225.223:3000/newsellingres/jsp/pagenologin.jsp?"/>
+        <o:WebClientInfo x:Key="bank"  BaseAddress="http://125.76.225.223:3000/newsellinggas/rs/bank"/>
+        <o:WebClientInfo x:Key="server"  BaseAddress="http://125.76.225.223:3000/newsellinggas/rs"/>
+        <o:WebClientInfo x:Key="dbclient"  BaseAddress="http://125.76.225.223:3000/newsellinggas/rs/db"/>
+        <o:WebClientInfo x:Key="bankaddress" BaseAddress="http://125.76.225.223:3000/newsellinggas/rs/bc"/>
+        <o:WebClientInfo x:Key="reportclient2" BaseAddress="http://125.76.225.223:3000/newsellinggas/"/>
+        <o:WebClientInfo x:Key="noteserver" BaseAddress="http://125.76.225.223:3000/newsellingres/rs/sms"/>
+        <o:WebClientInfo x:Key="chargeserver"  BaseAddress="http://125.76.225.223:3000/newsellinggas/rs/charge"/>
+        <o:WebClientInfo x:Key="tunnelurl"  BaseAddress="http://125.76.225.223:3000/newsellinggas/rs/tunnel"/>
 
         <!--黄河燃气环境
         <o:WebClientInfo x:Key="ldapaddress" BaseAddress="http://60.214.209.189:83/huangheres/rs"/>
