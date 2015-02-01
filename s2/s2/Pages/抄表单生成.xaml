@@ -45,11 +45,11 @@
 			insert into t_handplan(f_userid\, f_username\, lastinputgasnum\, f_gaswatchbrand\, f_metertype\,
 				f_address\, f_districtname\, f_usertype\, f_gasprice\, f_gaspricetype\, f_dibaohu\, f_apartment\,
 				f_phone\, scinputdate\, f_inputtor\, f_yhxz\, f_weizhi\, f_menzhan\,
-				f_zerenbumen\, f_state\, shifoujiaofei\, users)
+				f_zerenbumen\, f_state\, shifoujiaofei\, users\, f_cusDom\, f_cusDy)
 			select f_userid\, f_username\, lastinputgasnum\, f_gaswatchbrand\, f_metertype\,
 				f_address\, f_districtname\, f_usertype\, f_gasprice\, f_gaspricetype\, f_dibaohu\, f_apartment\,
 				f_phone\, lastinputdate\, f_inputtor\, f_yhxz\, f_weizhi\, f_menzhan\,
-				f_zerenbumen\, \'未抄表\'\, \'否\'\, id
+				f_zerenbumen\, \'未抄表\'\, \'否\'\, id\, f_cusDom\, f_cusDy 
 			from t_userfiles where f_userstate\=\'正常\' and \{search.Condition\} and f_userid not in
 			(select distinct f_userid from t_handplan where f_state\=\'未抄表\')}"/>
 			<!--生成抄表单-->

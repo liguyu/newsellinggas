@@ -87,9 +87,9 @@
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
 			<StackPanel Width="auto" Orientation="Horizontal" VerticalAlignment="bottom" Grid.ColumnSpan="4" Margin="1,0,0,0" Grid.Row="6" d:LayoutOverrides="Height" HorizontalAlignment="stretch" Grid.Column="0">
-				<Button Content="保存" x:Name="save" Margin="60,0,0,0" IsEnabled="{m:Exp Str=!roadmanege.DataContext.HasErrors}" Click="{m:Exp Str=SaveAction.Invoke()}" Width="70" HorizontalAlignment="Left"  Height="30" d:LayoutOverrides="Height, GridBox"  Style="{StaticResource 保存btn}"/>
-				<Button Content="新建" x:Name="save_Copy"  Click="{m:Exp Str=roadmanege.DataContext.New()}" Width="70" HorizontalAlignment="center" Margin="6,0,0,0" Height="30" d:LayoutOverrides="Height"  Style="{StaticResource 新增btn}"/>
-				<Button Content="删除" x:Name="delete" IsEnabled="{m:Exp Str=roads.SelectedItem!\=null}" Click="{m:Exp Str=DeleteAction.Invoke()}" Width="70" HorizontalAlignment="Right" Margin="6,0,0,0" VerticalAlignment="Stretch" Height="30" d:LayoutOverrides="Height"  Style="{StaticResource 删除btn}"/>
+				<Button Content="保存" x:Name="save" Margin="60,0,0,0" IsEnabled="{m:Exp Str=!roadmanege.DataContext.HasErrors}" Click="{m:Exp Str=SaveAction.Invoke()}" Width="70" HorizontalAlignment="Left"  Height="30" d:LayoutOverrides="Height, GridBox"  />
+				<Button Content="新建" x:Name="save_Copy"  Click="{m:Exp Str=roadmanege.DataContext.New()}" Width="70" HorizontalAlignment="center" Margin="6,0,0,0" Height="30" d:LayoutOverrides="Height"  />
+				<Button Content="删除" x:Name="delete" IsEnabled="{m:Exp Str=roads.SelectedItem!\=null}" Click="{m:Exp Str=DeleteAction.Invoke()}" Width="70" HorizontalAlignment="Right" Margin="6,0,0,0" VerticalAlignment="Stretch" Height="30" d:LayoutOverrides="Height"  />
 			</StackPanel>
 			<TextBlock Text="街道名称：" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,6,0,5"/>
                     <TextBlock Text="街道范围：" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Margin="0" />
@@ -155,7 +155,7 @@
                                      <o:PropertySetter PropertyName="f_road"  Operator="f_road like '%this%'" />          
     							</a:Data.Prop>
     						</TextBox>
-    						<Button Content="查询" Grid.Column="2" x:Name="searchbutton" Click="{m:Exp Str=roadsearch.DataContext.Search()}" Margin="5,0,0,3" HorizontalAlignment="Left" Width="70" Height="30" VerticalAlignment="Center"  Style="{StaticResource 查询btn}"/>
+    						<Button Content="查询" Grid.Column="2" x:Name="searchbutton" Click="{m:Exp Str=roadsearch.DataContext.Search()}" Margin="5,0,0,3" HorizontalAlignment="Left" Width="70" Height="30" VerticalAlignment="Center" />
     						</Grid>
     				<sdk:DataGrid x:Name="roads" Margin="0"  IsReadOnly="True"
     					AutoGenerateColumns="False" Width="Auto" Background="{x:Null}" >

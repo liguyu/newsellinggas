@@ -19,7 +19,8 @@
         <m:ResourceLoad Margin="0,0,-12,0">
             <!--卡对象-->
             <oo:NewGeneralICCard Name="card"  ></oo:NewGeneralICCard>
-
+            <!--用气性质-->
+            <o:ObjectList Name="usegaslist" WebClientInfo="{StaticResource dbclient}" Path="{m:Exp Str=$from gasproper as gasproper left join fetch gasproper.pricetype}"/>
             <o:ObjectList Name="fgslist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='分公司'"/>
             <!--用户类型查询用-->
             <o:ObjectList Name="usertypelist" WebClientInfo="{StaticResource dbclient}"  Path="from paramvalue where param.name='用户类型查询用' order by id" EntityType="paramvalue" HasEmptyRow="True"/>
