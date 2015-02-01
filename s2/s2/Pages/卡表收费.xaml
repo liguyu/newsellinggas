@@ -1030,7 +1030,7 @@
 		    <TextBlock Text="{m:Exp Str=kbfee.f_userid}" Grid.Column="2" Margin="0,0,0,1" Grid.Row="7" TextWrapping="Wrap"/>
 		</Grid>-->
         <!--国税发票打印-->
-        <Grid x:Name="guoshuiprint"  Background="White"  HorizontalAlignment="Left" Width="800"  VerticalAlignment="Bottom" Margin="67,0,0,-626" d:LayoutOverrides="Width, Height" Height="571">
+        <Grid x:Name="guoshuiprint"  Background="White"  HorizontalAlignment="Left" Width="800"  VerticalAlignment="Bottom" Margin="169,0,0,-840" Height="571">
             <a:Data.Context>
                 <o:GeneralObject  x:Name="fkprint" WebClientInfo="{StaticResource dbclient}" EntityType="t_sellinggas"  />
             </a:Data.Context>
@@ -1069,49 +1069,40 @@
                 <ColumnDefinition Width="0.319*"/>
             </Grid.ColumnDefinitions>
             <!--<TextBlock Text="{m:Exp Str='SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now.ToString($HH:mm:ss$),$$'}" Grid.Column="2" Margin="-54,4,-19,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Stretch" d:LayoutOverrides="HorizontalAlignment"/>-->
-            <sdk:Label HorizontalAlignment="Right" Margin="0,0,43,8" Width="14" Content="日" Grid.Column="1" Grid.Row="3" d:LayoutOverrides="HorizontalAlignment" RenderTransformOrigin="0.214,0.526"/>
-            <sdk:Label HorizontalAlignment="Right" Margin="0,0,114,0" Width="14" Content="年" RenderTransformOrigin="0.406,0.694" Height="15" Grid.Row="3" VerticalAlignment="Top" Grid.Column="1"/>
-            <sdk:Label HorizontalAlignment="Right" Margin="0,0,76,8" Width="15" Content="月" Grid.Column="1" Grid.Row="3" RenderTransformOrigin="-0.5,0.455"/>
-            <sdk:Label Margin="0,8,1,4" Content="用户姓名：" FontSize="13.333" Grid.Row="4" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
-            <sdk:Label Content="单　　价：" FontSize="13.333" Grid.Row="7" Grid.Column="4" Height="20" HorizontalAlignment="Right" VerticalContentAlignment="Top" Margin="0,14,-23,1" d:LayoutOverrides="HorizontalAlignment" Width="63"/>
-            <sdk:Label Margin="0,2,0,0" Content="地　　址：" Height="20" FontSize="13.333" Grid.Row="5" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
-            <TextBlock Text="{m:Exp Str=SysTime.Now.ToString($yyyy$)}"  HorizontalAlignment="Left" Margin="-5,0,0,8" Grid.Row="3" TextWrapping="Wrap" Width="36" Grid.Column="1" d:LayoutOverrides="HorizontalAlignment"/>
-            <TextBlock Text="{m:Exp Str=SysTime.Now.ToString($MM$)}" Grid.Column="1"  HorizontalAlignment="Right" Margin="0,0,92,8" Grid.Row="3" TextWrapping="Wrap" Width="18" Height="15" VerticalAlignment="Bottom"/>
-            <TextBlock Text="{m:Exp Str=SysTime.Now.ToString($dd$)}" Grid.Column="1" Margin="83,0,57,8" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Stretch"/>
-            <sdk:Label Content="购 气 量：" FontSize="13.333" Grid.Row="6"  Height="17" VerticalContentAlignment="Top" Margin="0,0,-26,0" HorizontalAlignment="Right" Width="66" Grid.Column="4" VerticalAlignment="Bottom" d:LayoutOverrides="HorizontalAlignment"/>
-            <sdk:Label Content="卡　　费：" FontSize="13.333" Grid.Row="6" Height="20" VerticalContentAlignment="Top" HorizontalAlignment="Right" Margin="0,13,0,2" d:LayoutOverrides="HorizontalAlignment"/>
-            <sdk:Label Content="用户编号：" FontSize="13.333" Grid.Row="4" Grid.Column="3" VerticalContentAlignment="Top" Margin="0,8,0,4" HorizontalAlignment="Right"/>
-            <TextBlock Text="61059070996822X" Grid.Column="3"  HorizontalAlignment="Stretch" Margin="-1,16,70,-1" Grid.Row="9" TextWrapping="Wrap" Width="Auto" Height="20" Grid.ColumnSpan="2"/>
-            <TextBlock Text="{m:Exp Str=LoginUser.f_fapiaotaitu}" Grid.Column="1"  HorizontalAlignment="Stretch" Margin="0,15,0,0" Grid.Row="9" TextWrapping="Wrap" Width="Auto" Height="20"/>
-            <TextBlock Text="{m:Exp Str=LoginUser.f_fgsdianhua}" Grid.Column="3" Margin="-1,15,70,0" Grid.Row="5" TextWrapping="Wrap" Height="20" Grid.ColumnSpan="2"/>
-            <TextBlock Text="{m:Exp Str=kbfee.f_pregas}" Grid.Column="6" Margin="-40,0,0,0" Grid.Row="6" TextWrapping="Wrap" Height="17" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="111"/>
-            <TextBlock Text="  0" Grid.Column="1" Margin="1,14,4,1" Grid.Row="6" TextWrapping="Wrap" Height="20" Grid.ColumnSpan="2"/>
-            <!--<TextBlock Text="{m:Exp Str=whfdate.Text}" Grid.Column="4"  HorizontalAlignment="Stretch" Margin="0,1,48,1" Grid.Row="7" TextWrapping="Wrap" Width="Auto" Height="20" VerticalAlignment="Stretch" Grid.ColumnSpan="1"/>-->
-            <TextBlock Text="{m:Exp Str=kbfee.f_gasprice}" Grid.Column="5" Margin="24,0,-22,1" Grid.Row="7" TextWrapping="Wrap" Height="20" VerticalAlignment="Bottom" d:LayoutOverrides="Height"/>
-            <TextBlock Text="{m:Exp Str=kbfee.f_preamount.ToChinaMoney()}" Grid.Column="1"  HorizontalAlignment="Stretch" Margin="6,13,6,2" Grid.Row="8" TextWrapping="Wrap" Width="Auto" Height="20"/>
-            <TextBlock Text="{m:Exp Str=kbusers.f_userid}" Grid.Column="4"  HorizontalAlignment="Stretch" Margin="0,8,0,4" Grid.Row="4" TextWrapping="Wrap" Width="Auto" Height="20" VerticalAlignment="Stretch" Grid.ColumnSpan="1"/>
-            <TextBlock Text="{m:Exp Str=kbusers.f_username}" Grid.Column="1"  HorizontalAlignment="Stretch" Margin="0,8,-1,4" Grid.Row="4"  Width="Auto" VerticalAlignment="Stretch" Grid.ColumnSpan="2"/>
-            <!--<TextBlock Text="{m:Exp Str=kbfee1.DataContext.f_beginfee.ToString($yyyy-MM-dd$)}" Grid.Column="1"  HorizontalAlignment="Stretch" Margin="0,1,1,1" Grid.Row="7"  Width="Auto" Height="20" VerticalAlignment="Stretch" Grid.ColumnSpan="2"/>-->
-            <!--<TextBlock Text="{m:Exp Str=kbfee.f_amountmaintenance}" Grid.Column="1"  HorizontalAlignment="Stretch" Margin="-1,1,1,0" Grid.Row="8"  Width="Auto" Height="20" VerticalAlignment="Stretch" Grid.ColumnSpan="2"/>-->
-            <TextBlock Text="{m:Exp Str='(kbusers.f_districtname\=\=null or kbusers.f_apartment\=\=null):$\{kbusers.f_address\}$\,$\{kbusers.f_address\}\{kbusers.f_districtname\}\{kbusers.f_apartment\}$'}" Grid.Column="1"  HorizontalAlignment="Stretch" Margin="0,9,0,6" Grid.Row="5"  Width="Auto" Height="20" VerticalAlignment="Stretch" Grid.ColumnSpan="3"/>
-            <!--<TextBlock Text="{m:Exp Str=whfdate.Text}"  Grid.Column="4"  HorizontalAlignment="Left" Margin="1,0,47,2" Grid.Row="7"  Height="20" VerticalAlignment="Stretch" Width="55"/>-->
-            <TextBlock Text="{m:Exp Str=kbfee.f_preamount}" Grid.Column="5"  HorizontalAlignment="Stretch" Margin="27,8,40,7" Grid.Row="8"  Width="Auto" Height="20" Grid.ColumnSpan="2"/>
-            <sdk:Label Margin="0,7,-27,8" Content="气费金额：" FontSize="13.333" Grid.Row="8" Grid.Column="4" Height="20" HorizontalAlignment="Right" VerticalContentAlignment="Top" d:LayoutOverrides="HorizontalAlignment"/>
-            <sdk:Label Content="大　　写：" FontSize="13.333" Grid.Row="8" Height="20" HorizontalAlignment="Right" VerticalContentAlignment="Top" Margin="0,13,3,2"/>
-            <TextBlock Text="{m:Exp Str=kbfee.f_usertype}" Grid.Column="5"  HorizontalAlignment="Stretch" Margin="27,13,40,-1" Grid.Row="5" TextWrapping="Wrap" Width="Auto" Grid.ColumnSpan="2"/>
-            <sdk:Label Margin="0,15,0,0" Content="公　　司：" FontSize="13.333" Grid.Row="9"  Height="20" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
-            <sdk:Label Margin="7,4,73,0" Content="网　　点：" FontSize="13.333" Grid.Row="3" VerticalContentAlignment="Top" Grid.Column="4" d:LayoutOverrides="Width"/>
-            <sdk:Label Margin="0,4,0,-1" Content="操 作 员：" FontSize="13.333" Height="20" Grid.Row="5" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
-            <TextBlock Text="{m:Exp Str=LoginUser.name}" Grid.Column="1"  HorizontalAlignment="Stretch" Margin="0,4,0,-1" Grid.Row="5" TextWrapping="Wrap" Width="Auto" Height="20"/>
-            <TextBlock Text="{m:Exp Str=LoginUser.f_parentname}" Grid.Column="5" Margin="-63,4,-33,0" Grid.Row="3" TextWrapping="Wrap"/>
-            <!--<sdk:Label Margin="0,1" Content="维护费起始年月：" Height="20" FontSize="13.333" Grid.Row="7" HorizontalAlignment="Right" VerticalContentAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
-			<sdk:Label Margin="0,0,0,1" Content="维护费金额：" Height="20" FontSize="13.333" Grid.Row="8" HorizontalAlignment="Right" VerticalContentAlignment="Top" d:LayoutOverrides="VerticalAlignment"/>
-			<TextBlock Text="{m:Exp Str=kbfee1.DataContext.f_beginfee}" Grid.Column="1" Margin="0,1" Grid.Row="7"  Height="20" VerticalAlignment="Stretch"  Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="55"  />
-			<TextBlock Text="{m:Exp Str=kbfee1.DataContext.f_amountmaintenance}" Grid.Column="1" Margin="0,1,0,0" Grid.Row="8"  Height="20" VerticalAlignment="Stretch"  Grid.ColumnSpan="1"  />
-			<sdk:Label Content="维护费截至年月：" FontSize="13.333" Grid.Row="7" Height="20" Grid.Column="3" HorizontalAlignment="Right" VerticalContentAlignment="Top" d:LayoutOverrides="VerticalAlignment" Margin="0,1"/>-->
-            <sdk:Label Content="小　　计：" FontSize="13.333" Grid.Row="9" Grid.Column="4" Height="20" HorizontalAlignment="Right" VerticalContentAlignment="Top" Margin="0,8,-27,7" d:LayoutOverrides="HorizontalAlignment"/>
-            <sdk:Label Content="用户类型：" FontSize="13.333" Grid.Row="5" Grid.Column="4" HorizontalAlignment="Right" VerticalContentAlignment="Top" Margin="0,13,-27,-1" Width="67" d:LayoutOverrides="HorizontalAlignment"/>
-            <TextBlock Text="{m:Exp Str=kbfee.f_preamount}" Grid.Column="5"  HorizontalAlignment="Stretch" Margin="27,8,88,7" Grid.Row="9" TextWrapping="Wrap" Width="Auto" Height="20" Grid.ColumnSpan="2"/>
+            <sdk:Label Margin="0,0,57,4" Content="发票号码：" FontSize="10" Grid.Row="3" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
+
+            <TextBlock Text="{m:Exp Str=kbfee1.DataContext.f_invoicenum.FormatInvoce($D8$)}" FontSize="10" Margin="97,0,0,3" Grid.Row="3" TextWrapping="Wrap" Height="20" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="111" Grid.ColumnSpan="2"/>
+
+            <sdk:Label Margin="0,1,57,17" Content="收款单位：" FontSize="10" Grid.Row="4" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
+            <sdk:Label Margin="0,2,71,14" Content="东营市黄河燃气有限责任公司" FontSize="10" Grid.Row="4" HorizontalAlignment="Right" VerticalContentAlignment="Top" Grid.ColumnSpan="2"/>
+            <sdk:Label Margin="0,24,57,29" Content="开票日期：" FontSize="10" Grid.Row="4" HorizontalAlignment="Right" VerticalContentAlignment="Top" Grid.RowSpan="2"/>
+
+            <TextBlock Text="{m:Exp Str=SysTime.Today}"  FontSize="10" Margin="97,26,0,29" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="111" RenderTransformOrigin="0.459,0.35" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+            <TextBlock Text="{m:Exp Str=kbusers.f_gasprice}"  FontSize="10" Margin="97,0,0,19" Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="29"/>
+            <TextBlock Text="{m:Exp Str=kbfee.f_pregas}"  FontSize="10"  Grid.Column="1" Margin="10,32,0,22" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="29" Grid.RowSpan="2"/>
+            <TextBlock Text="{m:Exp Str=kbfee.f_totalcost}"  FontSize="10"  Grid.Column="1" Margin="68,31,0,19" Grid.Row="6" TextWrapping="Wrap" Height="20" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="29" Grid.RowSpan="2"/>
+
+            <sdk:Label Margin="0,8,87,10" Content="项目" FontSize="10" Grid.Row="6" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
+            <sdk:Label Margin="0,8,22,13" Content="单价" FontSize="10" Grid.Row="6" HorizontalAlignment="Right" VerticalContentAlignment="Top" RenderTransformOrigin="0.35,1.609"/>
+            <sdk:Label Margin="0,5,129,16" Content="数量" FontSize="10" Grid.Row="6" HorizontalAlignment="Right" VerticalContentAlignment="Top" Grid.Column="1" RenderTransformOrigin="0.25,1.478"/>
+            <sdk:Label Margin="0,3,71,16" Content="金额" FontSize="10" Grid.Row="6" HorizontalAlignment="Right" VerticalContentAlignment="Top" Grid.Column="1"/>
+            <sdk:Label Margin="0,22,47,31" Content="合计(小写):￥" FontSize="10" Grid.Row="7" HorizontalAlignment="Right" VerticalContentAlignment="Top" Grid.RowSpan="2"/>
+            <sdk:Label Margin="0,10,47,7" Content="合计(大写):￥" FontSize="10" Grid.Row="8" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
+            <TextBlock Text="{m:Exp Str=kbfee.f_grossproceeds}"  FontSize="10" Margin="97,22,0,31" Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="111" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+            <TextBlock Text="{m:Exp Str=kbfee.f_grossproceeds.ToChinaMoney()}"  FontSize="10" Margin="97,10,0,10" Grid.Row="8" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="130" Grid.ColumnSpan="2"/>
+
+
+
+
+
+
+            <sdk:Label Margin="0,0,87,19" Content="气费" FontSize="10" Grid.Row="7" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
+            <sdk:Label Margin="0,10,57,1" Content="用户编号：" FontSize="10" Grid.Row="2" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
+            <TextBlock Text="{m:Exp Str=kbfee.f_userid}" FontSize="10" Margin="97,9,0,1" Grid.Row="2" TextWrapping="Wrap" Height="20" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="111" Grid.ColumnSpan="2"/>
+            <sdk:Label Margin="0,11,71,7" Content="税  号：" FontSize="10" Grid.Row="5" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
+            <sdk:Label Margin="0,11,76,10" Content="370502743355064" FontSize="10" Grid.Row="5" HorizontalAlignment="Right" VerticalContentAlignment="Top" RenderTransformOrigin="0.35,1.609" Width="125" Grid.ColumnSpan="2"/>
+            <sdk:Label Margin="0,33,64,19" Content="收费网点:" FontSize="10" Grid.Row="8" HorizontalAlignment="Right" VerticalContentAlignment="Top" Grid.RowSpan="2"/>
+            <TextBlock Text="{m:Exp Str=kbfee.f_sgoperator}"  FontSize="10" Margin="97,33,0,22" Grid.Row="8" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="130" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
 
         </Grid>
         <!--奥枫发票打印-->
