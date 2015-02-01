@@ -64,8 +64,8 @@
 						<ColumnDefinition Width="10*"/>
 						<ColumnDefinition Width="0*"/>
 					</Grid.ColumnDefinitions>
-					<c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=userfiles.IsBusy or CreateHandplan.IsBusy}">
-						<toolkit:DockPanel>
+            <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=toExcel.IsBusy or userfiles.IsBusy or CreateHandplan.IsBusy}">
+                <toolkit:DockPanel>
 							<StackPanel x:Name="daninfosearch" DataContext="{m:Exp Str=search}" toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" Width="Auto" HorizontalAlignment="Stretch" Orientation="Vertical" >
 								<StackPanel Orientation="Horizontal" Margin="0">
 									<Grid>
