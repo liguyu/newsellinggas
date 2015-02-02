@@ -174,19 +174,19 @@
                                     </a:Data.Prop>
                                 </sdk:DatePicker>
                                 <TextBlock Grid.Column="4" Margin="0,6,0,0" TextWrapping="Wrap" Text="申 请 人：" TextAlignment="Right"/>
-                                <TextBox Text="{m:Bind Path=f_username}"  Grid.Column="5" Margin="0,2" TextWrapping="Wrap" Height="Auto" Width="Auto">
+                                <TextBox IsReadOnly="True" Text="{m:Bind Path=f_username}"  Grid.Column="5" Margin="0,2" TextWrapping="Wrap" Height="Auto" Width="Auto">
                                     <a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_username"/>
                                     </a:Data.Prop>
                                 </TextBox>
                                 <TextBlock Margin="0,6,0,0" Grid.Row="1" TextWrapping="Wrap" Text="电 话：" TextAlignment="Right"/>
-                                <TextBox Text="{m:Bind Path=f_phone}"  Grid.Column="1" Margin="0,2" Grid.Row="1" TextWrapping="Wrap" Height="Auto" Width="Auto">
+                                <TextBox IsReadOnly="True" Text="{m:Bind Path=f_phone}"  Grid.Column="1" Margin="0,2" Grid.Row="1" TextWrapping="Wrap" Height="Auto" Width="Auto">
                                     <a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_phone"/>
                                     </a:Data.Prop>
                                 </TextBox>
                                 <TextBlock Grid.Column="2" Margin="0,6,0,0" Grid.Row="1" TextWrapping="Wrap" Text="用气地址：" TextAlignment="Right"/>
-                                <TextBox Text="{m:Bind Path=f_address}"  Grid.Column="3" Margin="0,2" Grid.Row="1" TextWrapping="Wrap" Height="Auto" Width="Auto">
+                                <TextBox IsReadOnly="True"  Text="{m:Bind Path=f_address}"  Grid.Column="3" Margin="0,2" Grid.Row="1" TextWrapping="Wrap" Height="Auto" Width="Auto">
                                     <a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_address"/>
                                     </a:Data.Prop>
@@ -231,7 +231,7 @@
                                         <o:PropertySetter PropertyName="f_surveydate" />
                                     </a:Data.Prop>
                                 </sdk:DatePicker>
-                                <TextBox Text="{m:Bind Path=f_installnum}" Grid.Column="5" Margin="0,2" Grid.Row="3" TextWrapping="Wrap" Height="Auto" Width="Auto" >
+                                <TextBox IsReadOnly="True" Text="{m:Bind Path=f_installnum}" Grid.Column="5" Margin="0,2" Grid.Row="3" TextWrapping="Wrap" Height="Auto" Width="Auto" >
                                     <a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_installnum" NotNull="True" />
                                     </a:Data.Prop>

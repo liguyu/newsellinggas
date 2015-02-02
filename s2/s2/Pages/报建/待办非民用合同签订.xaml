@@ -494,7 +494,7 @@
                                     </a:Data.Prop>
                                 </TextBox>
                                 <TextBlock Margin="0,6,0,0" TextWrapping="Wrap" Text="用气性质：" TextAlignment="Right" RenderTransformOrigin="0.393,2.625" Grid.Column="2" Grid.Row="14" HorizontalAlignment="Right" Width="67"/>
-                                <ComboBox  DisplayMemberPath="name" SelectedValuePath="name" ItemsSource="{m:Exp Str=fusegastypelist}" SelectedValue="{m:Bind Path=f_gastype}" Grid.Column="3" Margin="0" Grid.Row="14"  Height="25" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" RenderTransformOrigin="-0.417,3.56">
+                                <ComboBox IsEnabled="True" DisplayMemberPath="name" SelectedValuePath="name" ItemsSource="{m:Exp Str=fusegastypelist}" SelectedValue="{m:Bind Path=f_gastype}" Grid.Column="3" Margin="0" Grid.Row="14"  Height="25" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" RenderTransformOrigin="-0.417,3.56">
                                     <a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_gastype" NotNull="True"/>
                                     </a:Data.Prop>

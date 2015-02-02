@@ -26,7 +26,8 @@
             PageIndex="{m:Exp Str=fmyxckcPager.PageIndex}" PageSize="{m:Exp Str=fmyxckcPager.PageSize}" SumNames="id" />
             <o:ObjectList Name="devicelist_fmyxckc" WebClientInfo="{StaticResource dbclient}" IsOld="{m:Exp Str='fmyxckcInfo.DataContext.State==$End$ or fmyxckcBack=>Click!=null'}"
 			Path="{m:Exp Str='fmyxckcInfo.DataContext.id!=null:$from t_device where applyid={fmyxckcInfo.DataContext.id}$,null'}" EntityType="t_device" HasEmptyRow="True" />
-            <o:ObjectList Name="userimagelist_fmyxckc" Source="{m:Exp Str=device_fmyxckc.SelectedItem.f_image}" EntityType="t_deviceimage" HasEmptyRow="True" />
+            <o:ObjectList Name="userimagelist_fmyxckc"  EntityType="t_deviceimage" WebClientInfo="{StaticResource dbclient}"
+			Path="{m:Exp Str='device_fmyxckc.SelectedItem.id!=null:$from t_deviceimage where deviceid={device_fmyxckc.SelectedItem.id}$,null'}" HasEmptyRow="True" />
             <o:ObjectList Name="imagelist_fmyxckc" WebClientInfo="{StaticResource dbclient}" IsOld="{m:Exp Str='fmyxckcInfo.DataContext.State==$End$ or fmyxckcBack=>Click!=null'}"
             Path="{m:Exp Str='fmyxckcInfo.DataContext.id!=null:$from t_applyimage where applyid={fmyxckcInfo.DataContext.id}$,null'}" EntityType="t_applyimage" />
 
@@ -60,7 +61,7 @@
                         <TextBlock TextWrapping="Wrap" Text="片区：" Margin="5,0,0,0"/>
                         <TextBox TextWrapping="Wrap" Text="{m:Bind Path=f_area}" MinWidth="30" Margin="5,0,0,0" Height="22">
                             <a:Data.Prop>
-                                <o:PropertySetter PropertyName="f_area" Operator="f_area = 'this'"/>
+                                <o:PropertySetter PropertyName="f_area" Operator="f_area like 'this%'"/>
                             </a:Data.Prop>
                         </TextBox>
                         <TextBlock TextWrapping="Wrap" Text="单位：" Margin="5,0,0,0"/>
@@ -275,7 +276,7 @@
                                         </a:Data.Prop>
                                     </TextBox>
                                     <TextBlock Margin="0" TextWrapping="Wrap" Text="报建备注：" TextAlignment="Right" RenderTransformOrigin="0.393,2.625" Grid.Row="7" VerticalAlignment="Center"/>
-                                    <TextBox Text="{m:Bind Path=f_baojbeizhu}" Grid.Column="1" Margin="0,2" Grid.Row="7" TextWrapping="Wrap" Grid.ColumnSpan="3" Height="Auto" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="Width, GridBox" >
+                                    <TextBox IsReadOnly="True" Text="{m:Bind Path=f_baojbeizhu}" Grid.Column="1" Margin="0,2" Grid.Row="7" TextWrapping="Wrap" Grid.ColumnSpan="3" Height="Auto" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="Width, GridBox" >
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_baojbeizhu" />
                                         </a:Data.Prop>
@@ -287,13 +288,20 @@
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                 <toolkit:DockPanel LastChildFill="True">
                                     <StackPanel  toolkit:DockPanel.Dock="Bottom"   DataContext="{Binding Path=SelectedItem, ElementName=device_fmyxckc}" VerticalAlignment="Top">
-                                       <!-- <ListBox ItemsSource="{m:Exp Str=userimagelist_fmyxckc}" Margin="0" Height="Auto">
+                                       <!----> <ListBox ItemsSource="{m:Exp Str=userimagelist_fmyxckc}" Margin="0" Height="Auto">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel>
                                                         <Image Name="Image" Source="{m:Exp Str=$\{dbclient.BaseAddress\}/file/\{data.id\}$}" Width="50" Height="50"/>
                                                         <StackPanel Orientation="Horizontal">
                                                             <c:FileLoad x:Name="FileLoad" EntityName="t_blob" BlobId="{Binding id, Mode=TwoWay}" Path="{m:Exp Str=$\{dbclient.BaseAddress\}/savefile$}" Height="18"/>
+															<!-- Visibility="Collapsed" Value="{m:Exp Str=device_fmyxckc.SelectedItem.id}"-->
+															<TextBox Text="{m:Bind Path=deviceid}" TextWrapping="Wrap" Height="Auto" IsReadOnly="True" Width="Auto" Visibility="Collapsed">
+																<a:Data.Prop>
+																	<o:PropertySetter PropertyName="deviceid" NotNull="True" 
+															Default="{m:Exp Str=device_fmyxckc.SelectedItem.id}" />
+																</a:Data.Prop>
+															</TextBox>
                                                             <Button Content="X" 
 					 								                Visibility="{m:Exp Str=data\=\=data.List.EmptyRow:$Collapsed$\,$Visible$}" 
 					 								                Click="{m:Exp Str=data.Remove()}"/>
@@ -310,9 +318,9 @@
                                                     <toolkit:WrapPanel />
                                                 </ItemsPanelTemplate>
                                             </ListBox.ItemsPanel>
-                                        </ListBox>-->
+                                        </ListBox>
                                         <StackPanel Orientation="Horizontal">
-                                            <!--  <Button Width="50" Click="{m:Exp Str=userimagelist_fmyxckc.ToSource()}" Content="确 认" HorizontalAlignment="Center" Margin="100,0,0,0"/>-->
+                                            <!---->  <Button Width="50" Click="{m:Exp Str=userimagelist_fmyxckc.Save()}" Content="确 认" HorizontalAlignment="Center" Margin="100,0,0,0"/>
                                             <!--     <Button Width="112" Click="{m:Exp Str=sbprint_fmyxckc.Print()}" Content="打印用气设备" HorizontalAlignment="Center" Margin="50,0,0,0"/>-->
                                             <sdk:DataGrid x:Name="printdevice_fmyxckc" Margin="0,0,0,-600" AutoGenerateColumns="False"  Grid.Column="2" Grid.ColumnSpan="1" VerticalAlignment="Bottom"   Background="{x:Null}" RowBackground="{x:Null}"
                                         	Style="{StaticResource PrintDataGrid}" ColumnHeaderStyle="{StaticResource PrintDataGridColumnHeader}" CellStyle="{StaticResource PrintDataGridCell}" RowHeaderStyle="{StaticResource PrintDataGridRowHeader}" RowStyle="{StaticResource PrintDataGridRow}" Height="24" >

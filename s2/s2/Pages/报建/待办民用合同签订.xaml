@@ -204,7 +204,7 @@
                                             </a:Data.Prop>
                                         </sdk:DatePicker>
                                         <TextBlock Margin="0,6,0,0" TextWrapping="Wrap" Text="用气类型：" TextAlignment="Right" RenderTransformOrigin="0.393,2.625" Grid.Column="4" Grid.Row="3"/>
-                                        <ComboBox  DisplayMemberPath="name" SelectedValuePath="name" ItemsSource="{m:Exp Str=usegastypelist}" SelectedValue="{m:Bind Path=f_gastype}" Grid.Column="5" Margin="0,3" Grid.Row="3"   Height="Auto" RenderTransformOrigin="-4.833,0.84" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1">
+                                        <ComboBox IsEnabled="False"  DisplayMemberPath="name" SelectedValuePath="name" ItemsSource="{m:Exp Str=usegastypelist}" SelectedValue="{m:Bind Path=f_gastype}" Grid.Column="5" Margin="0,3" Grid.Row="3"   Height="Auto" RenderTransformOrigin="-4.833,0.84" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1">
                                             <a:Data.Prop>
                                                 <o:PropertySetter PropertyName="f_gastype" NotNull="True"/>
                                             </a:Data.Prop>

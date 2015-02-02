@@ -61,7 +61,7 @@
                         <TextBlock TextWrapping="Wrap" Text="片区：" Margin="5,0,0,0"/>
                         <TextBox TextWrapping="Wrap" Text="{m:Bind Path=f_area}" MinWidth="30" Margin="5,0,0,0" Height="22">
                             <a:Data.Prop>
-                                <o:PropertySetter PropertyName="f_area" Operator="f_area = 'this'"/>
+                                <o:PropertySetter PropertyName="f_area" Operator="f_area like 'this%'"/>
                             </a:Data.Prop>
                         </TextBox>
                         <TextBlock TextWrapping="Wrap" Text="电 话：" Margin="5,0,0,0"/>
@@ -412,7 +412,7 @@
                         <Button Content="  通气完成  " Margin="5" IsEnabled="{m:Exp Str=!data.HasErrors}" 
                                         Click="{m:Exp Str=savesubmittip.Show()}" />
                         <c:MessageTipObj Name="savesubmittip" Tip="您确认要提交该报建信息吗？" 
-						OK="{m:Exp Str=fmytqInfo.DataContext.f_state\=$完工$;fmytqInfo.DataContext.f_substate\=null;fmytqInfo.DataContext.Save();fmytqPopup.BringToDown();fmytqPopup.IsOpen\=False}" />
+						OK="{m:Exp Str=fmytqInfo.DataContext.f_isdownloads\=$否$;fmytqInfo.DataContext.f_state\=$完工$;fmytqInfo.DataContext.f_substate\=null;fmytqInfo.DataContext.Save();fmytqPopup.BringToDown();fmytqPopup.IsOpen\=False}" />
 						<Button Name="fmytqBack" Content="  返  回  " Click="{m:Exp Str=fmytqPopup.BringToDown();fmytqPopup.IsOpen\=False}" Margin="5" Width="60" />
                         <Button Content=" 打印用气设备 " Margin="5" Click="{m:Exp Str=listprint_fmytq.Print()}"/>
                         <c:PrintObj x:Name="listprint_fmytq" UseDefaultPrinter="False" Area="{m:Res Key=listprint1_fmytq}" Grid.ColumnSpan="4" />

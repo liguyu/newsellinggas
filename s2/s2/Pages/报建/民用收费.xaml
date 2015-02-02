@@ -19,6 +19,7 @@
 
     <Grid x:Name="LayoutRoot">
         <m:ResourceLoad d:IsHidden="True">
+            <o:ObjectList Name="paytype" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='报建付款方式'"/>
             <o:ObjectList Name="mygastype" WebClientInfo="{StaticResource dbclient}" Path="{m:Exp Str=$from gasproperties as gasproperties left join fetch gasproperties.qijiatype}" EntityType="t_gasproperties" />
             <o:ObjectList Name="mypricetype" Source="{m:Exp Str=CoboxPinps.SelectedItem.qijiatype}" EntityType="t_qijiatype" />
             <!--报装选中对象-->
@@ -37,6 +38,7 @@
                 IsInit="{m:Exp Str='SaveAction.State==$End$'}">
                 <!--对应报装id-->
                 <o:PropertySetter PropertyName="applyid" Default="{m:Exp Str=mysfbzObj.id}" NoDependValue="{m:Exp Str=mysfbzObj.id}"/>
+                <o:PropertySetter PropertyName="f_state" Default="有效"/>
             </o:GeneralObject>
 
             <o:ObjectList Name="userlist_mysfbz" WebClientInfo="{StaticResource dbclient}" IsOld="{m:Exp Str='mysfbzInfo.DataContext.State==$End$'}"
@@ -102,7 +104,7 @@
                             <sdk:DataGridTextColumn Header="片区" Binding="{Binding f_area}"/>
                             <sdk:DataGridTextColumn Header="用户类型" Binding="{Binding f_usertype}"/>
                             <sdk:DataGridTextColumn Header="申请户数" Binding="{Binding f_applycount}"/>
-                            <sdk:DataGridTextColumn Header="报建日期" Binding="{Binding f_date}"/>
+                            <sdk:DataGridTextColumn Header="报建日期" Binding="{Binding f_date,StringFormat=yyyy-MM-dd}"/>
                         </sdk:DataGrid.Columns>
                     </sdk:DataGrid>
                 </c:BusyIndicatorEx>
@@ -265,7 +267,7 @@
                                                 <o:ObjectList WebClientInfo="{StaticResource dbclient}"  Path="from paramvalue where param.name='合同约定'" />
                                             </a:Data.Items>
                                             <a:Data.Prop>
-                                                <o:PropertySetter PropertyName="f_htyuding"  NotNull="True" />
+                                                <o:PropertySetter PropertyName="f_htyuding"  NotNull="True" Default="{m:Exp Str=data.f_actualfee>\=data.f_totalfee:$费用交清$\,$费用未交清$}" Value="{m:Exp Str=data.f_actualfee>\=data.f_totalfee:$费用交清$\,$费用未交清$}"/>
                                             </a:Data.Prop>
                                         </ComboBox>
                                         <TextBlock Margin="0" TextWrapping="Wrap" Text="报建备注：" TextAlignment="Right" RenderTransformOrigin="0.393,2.625" Grid.Row="9"/>
@@ -550,29 +552,74 @@
                         <sdk:TabItem Header="收费明细">
                         	<sdk:DataGrid AutoGenerateColumns="False" x:Name="user1" IsReadOnly="True"
                         		ItemsSource="{m:Exp Str=paydetails}" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                        		<sdk:DataGrid.Columns>
-                        			<sdk:DataGridTemplateColumn Header="序号" d:IsLocked="True" >
-                        				<sdk:DataGridTemplateColumn.CellTemplate>
-                        					<DataTemplate>
-                        						<TextBox Text="{m:Exp Str=data.Index}" Style="{StaticResource TextBoxDatagridStyle}"/>
-                        					</DataTemplate>
-                        				</sdk:DataGridTemplateColumn.CellTemplate>
-                        			</sdk:DataGridTemplateColumn>
-                        			<sdk:DataGridTextColumn Header="金额" Binding="{Binding f_fee}"/>
-                        			<sdk:DataGridTextColumn Header="付款方式" Binding="{Binding f_paytype}"/>
-									
-									<sdk:DataGridTextColumn Header="交款人" Binding="{Binding f_jiaokuanren}"/>
-                        			<sdk:DataGridTextColumn Header="交费日期" Binding="{Binding f_payfeedate, StringFormat=yyyy-MM-dd}"/>
-                        			<sdk:DataGridTextColumn Header="部门" Binding="{Binding f_department}"/>
-                        			<sdk:DataGridTextColumn Header="负责人" Binding="{Binding f_opertor}"/>
+                                <sdk:DataGrid.Columns>
+                                    <sdk:DataGridTemplateColumn Header="序号">
+                                        <sdk:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{m:Exp Str=data.Index}" IsReadOnly="True" Foreground="{m:Exp Str=data.f_state!\=$有效$:Red\,Black}"/>
+                                            </DataTemplate>
+                                        </sdk:DataGridTemplateColumn.CellTemplate>
+                                    </sdk:DataGridTemplateColumn>
+                                    <sdk:DataGridTemplateColumn Header="金额">
+                                        <sdk:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding f_fee}" IsReadOnly="True" Foreground="{m:Exp Str=data.f_state!\=$有效$:Red\,Black}"/>
+                                            </DataTemplate>
+                                        </sdk:DataGridTemplateColumn.CellTemplate>
+                                    </sdk:DataGridTemplateColumn>
+                                    <sdk:DataGridTemplateColumn Header="付款方式">
+                                        <sdk:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding f_paytype}" IsReadOnly="True" Foreground="{m:Exp Str=data.f_state!\=$有效$:Red\,Black}"/>
+                                            </DataTemplate>
+                                        </sdk:DataGridTemplateColumn.CellTemplate>
+                                    </sdk:DataGridTemplateColumn>
+                                    <sdk:DataGridTemplateColumn Header="交款人">
+                                        <sdk:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding f_jiaokuanren}" IsReadOnly="True" Foreground="{m:Exp Str=data.f_state!\=$有效$:Red\,Black}"/>
+                                            </DataTemplate>
+                                        </sdk:DataGridTemplateColumn.CellTemplate>
+                                    </sdk:DataGridTemplateColumn>
+                                    <sdk:DataGridTemplateColumn Header="交费日期">
+                                        <sdk:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding f_payfeedate,StringFormat=yyyy-MM-dd}" IsReadOnly="True" Foreground="{m:Exp Str=data.f_state!\=$有效$:Red\,Black}"/>
+                                            </DataTemplate>
+                                        </sdk:DataGridTemplateColumn.CellTemplate>
+                                    </sdk:DataGridTemplateColumn>
+                                    <sdk:DataGridTemplateColumn Header="部门">
+                                        <sdk:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding f_department}" IsReadOnly="True" Foreground="{m:Exp Str=data.f_state!\=$有效$:Red\,Black}"/>
+                                            </DataTemplate>
+                                        </sdk:DataGridTemplateColumn.CellTemplate>
+                                    </sdk:DataGridTemplateColumn>
+                                    <sdk:DataGridTemplateColumn Header="负责人">
+                                        <sdk:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding f_opertor}" IsReadOnly="True" Foreground="{m:Exp Str=data.f_state!\=$有效$:Red\,Black}"/>
+                                            </DataTemplate>
+                                        </sdk:DataGridTemplateColumn.CellTemplate>
+                                    </sdk:DataGridTemplateColumn>
+                                    <sdk:DataGridTemplateColumn Header="是否有效">
+                                        <sdk:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding f_state}" IsReadOnly="True" Foreground="{m:Exp Str=data.f_state!\=$有效$:Red\,Black}">
+                                                </TextBox>
+                                            </DataTemplate>
+                                        </sdk:DataGridTemplateColumn.CellTemplate>
+                                    </sdk:DataGridTemplateColumn>
                         		</sdk:DataGrid.Columns>
                         	</sdk:DataGrid>
                         </sdk:TabItem>
                     </sdk:TabControl>
 
-                    <StackPanel  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="586" >
-                        <Button Name="SaveButton" Content="  保  存  " Margin="130,5,378,5" IsEnabled="{m:Exp Str=!fee.HasErrors}" 
+                    <StackPanel   Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="586" >
+                        <Button Name="SaveButton" Content="  保  存  " Margin="5" IsEnabled="{m:Exp Str=!fee.HasErrors}" 
 						/>
+						 <Button Content=" 打印收据 " Margin="5" Click="{m:Exp Str=print_mysfbz.Print()}"/>
+                       
                         <Grid  x:Name="print1_mysfbz"  Margin="420,0,-584,-1204" HorizontalAlignment="Left" Width="750" Height="1039" VerticalAlignment="Bottom" Visibility="Visible" OpacityMask="{x:Null}">
                         	<a:Data.Context>
                         		<o:GeneralObject WebClientInfo="{StaticResource dbclient}" EntityType="t_apply" Source="{m:Exp Str=mysfbzInfo.DataContext}" IsInit="{m:Exp Str=this.State\=\=$End}"/>
@@ -648,7 +695,7 @@
                         	<sdk:DatePicker SelectedDate="{m:Exp Str=fee.f_payfeedate}" x:Name="交款日期1"  Grid.Column="1" Height="24" Margin="0,0,436,898" Grid.Row="1"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="166" SelectedDateFormat="Long"/>
                         	<StackPanel  Grid.ColumnSpan="2" Margin="100,181,46,648" Grid.RowSpan="2">
 
-                        		<TextBlock x:Name="入户安装费" Text="{m:Exp Str=mysfbzInfo.DataContext.f_materialfee!\=0:$入住安装费：\{mysfbzInfo.DataContext.f_materialfee\}元$\,$$}" Visibility="{m:Exp Str=mysfbzInfo.DataContext.f_materialfee!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="18" Margin="5,5,5,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="558"/>
+                                <TextBlock x:Name="入户安装费" Text="{m:Exp Str=mysfbzInfo.DataContext.f_materialfee!\=0:$入户安装费：\{mysfbzInfo.DataContext.f_materialfee\}元$\,$$}" Visibility="{m:Exp Str=mysfbzInfo.DataContext.f_materialfee!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="18" Margin="5,5,5,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="558"/>
                         		<TextBlock x:Name="自闭阀费" Text="{m:Exp Str=mysfbzInfo.DataContext.f_selfclosfee!\=0:$自闭阀费：\{mysfbzInfo.DataContext.f_selfclosfee\}元$\,$$}" Visibility="{m:Exp Str=mysfbzInfo.DataContext.f_selfclosfee!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="18" Margin="5,5,5,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="558"/>
                         		<TextBlock x:Name="报警器费" Text="{m:Exp Str=mysfbzInfo.DataContext.f_alarmfee!\=0:$报警器费：\{mysfbzInfo.DataContext.f_alarmfee\}元$\,$$}" Visibility="{m:Exp Str=mysfbzInfo.DataContext.f_alarmfee!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="18" Margin="5,5,5,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="558"/>
                         		<TextBlock x:Name="壁挂锅炉安装费" Text="{m:Exp Str=mysfbzInfo.DataContext.f_bgglf!\=0:$壁挂锅炉安装费：\{mysfbzInfo.DataContext.f_bgglf\}元$\,$$}" Visibility="{m:Exp Str=mysfbzInfo.DataContext.f_bgglf!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="18" Margin="5,5,5,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="558"/>
@@ -730,7 +777,7 @@
                         	<sdk:DatePicker SelectedDate="{m:Exp Str=fee.f_payfeedate}" x:Name="交款日期1_Copy"  Grid.Column="1" Height="24" Margin="0,0,436,404" Grid.Row="1"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="166" SelectedDateFormat="Long"/>
                         	<StackPanel  Grid.ColumnSpan="2" Margin="100,675,46,154" Grid.RowSpan="2">
 
-                        		<TextBlock x:Name="入户安装费1" Text="{m:Exp Str=mysfbzInfo.DataContext.f_materialfee!\=0:$入住安装费：\{mysfbzInfo.DataContext.f_materialfee\}元$\,$$}" Visibility="{m:Exp Str=mysfbzInfo.DataContext.f_materialfee!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="18" Margin="5,5,5,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="558"/>
+                                <TextBlock x:Name="入户安装费1" Text="{m:Exp Str=mysfbzInfo.DataContext.f_materialfee!\=0:$入户安装费：\{mysfbzInfo.DataContext.f_materialfee\}元$\,$$}" Visibility="{m:Exp Str=mysfbzInfo.DataContext.f_materialfee!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="18" Margin="5,5,5,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="558"/>
                         		<TextBlock x:Name="自闭阀费1" Text="{m:Exp Str=mysfbzInfo.DataContext.f_selfclosfee!\=0:$自闭阀费：\{mysfbzInfo.DataContext.f_selfclosfee\}元$\,$$}" Visibility="{m:Exp Str=mysfbzInfo.DataContext.f_selfclosfee!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="18" Margin="5,5,5,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="558"/>
                         		<TextBlock x:Name="报警器费1" Text="{m:Exp Str=mysfbzInfo.DataContext.f_alarmfee!\=0:$报警器费：\{mysfbzInfo.DataContext.f_alarmfee\}元$\,$$}" Visibility="{m:Exp Str=mysfbzInfo.DataContext.f_alarmfee!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="18" Margin="5,5,5,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="558"/>
                         		<TextBlock x:Name="壁挂锅炉安装费1" Text="{m:Exp Str=mysfbzInfo.DataContext.f_bgglf!\=0:$壁挂锅炉安装费：\{mysfbzInfo.DataContext.f_bgglf\}元$\,$$}" Visibility="{m:Exp Str=mysfbzInfo.DataContext.f_bgglf!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="18" Margin="5,5,5,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="558"/>
@@ -751,7 +798,6 @@
                         	<TextBlock Grid.Column="1" Height="19" Margin="0,898,309,0" Grid.Row="1" TextWrapping="Wrap" Text="减免合计" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Right" Width="74" RenderTransformOrigin="0.5,0.5"/>
                         	<TextBlock x:Name="减免合计_Copy" Text="{m:Exp Str=$\{mysfbzInfo.DataContext.f_jmhj\}元$}" Grid.Column="1" Height="23" Margin="0,898,28,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Right" Width="266" RenderTransformOrigin="0.484,2.24"/>
 					    </Grid>
-                        <Button Content=" 打印收据 " Margin="223,-30,269,5" Click="{m:Exp Str=print_mysfbz.Print()}"/>
                         <c:PrintObj x:Name="print_mysfbz" UseDefaultPrinter="False" Area="{m:Res Key=print1_mysfbz}" />
                         <!--收费收据a4打印模版-->
                         <!--打印确认单-->

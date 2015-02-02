@@ -110,7 +110,7 @@
                 		<TextBlock TextWrapping="Wrap" Text="报建日期：" Height="22" Margin="0" Grid.Column="2" Grid.Row="3" TextAlignment="Right"/>
                 		<sdk:DatePicker  SelectedDate="{m:Bind Path=f_date}" a:ControlAttach.DefaultButton="searchbutton"  Margin="0,-1,0,11" HorizontalAlignment="Stretch" Grid.Column="3" Grid.RowSpan="1" Height="22" Grid.ColumnSpan="1" VerticalAlignment="Stretch" Grid.Row="3" Width="Auto">
                 			<a:Data.Prop>
-                				<o:PropertySetter PropertyName="f_date" Operator="apply.f_area = '%this%'"/>               
+                				<o:PropertySetter PropertyName="f_date" Operator="apply.f_date = '%this%'"/>               
                 			</a:Data.Prop>	
                 		</sdk:DatePicker>
                 		<TextBlock TextWrapping="Wrap" Text="报建编号：" Height="22" Margin="0,8,0,0" TextAlignment="Right" Grid.Column="2"/>
@@ -173,7 +173,7 @@
 			 <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=persons.ItemsSource.IsBusy}">
 			 <sdk:DataGrid x:Name="people" Margin="0"    AutoGenerateColumns="False" SelectionMode="Single"  IsReadOnly="True">
 			 	<a:Data.Items><!--榆林防线人5253534-->
-			 		<o:ObjectList WebClientInfo="{StaticResource dbclient}" Path="select new map(u.id as id, u.name as name, count(survey) as icount) from t_user as u left join u.f_applysurvey as survey  where roles like '5253534%' group by u.id,u.name" 
+			 		<o:ObjectList WebClientInfo="{StaticResource dbclient}" Path="select new map(u.id as id, u.name as name, count(survey) as icount) from t_userbz as u left join u.f_applysurvey as survey  where roles like '%5253534%' group by u.id,u.name" 
 					 IsOld="{m:Exp Str='surveyAction.State\=\=$End$ or unsurveyAction.State\=\=$End$'}" />	
 			 	</a:Data.Items>
 			 	<sdk:DataGrid.Columns>
@@ -196,7 +196,7 @@
 			 <c:BusyIndicatorEx  BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=persons.ItemsSource.IsBusy}"   >
 			 <sdk:DataGrid x:Name="designer" Margin="0" MaxHeight="200" IsReadOnly="True"  AutoGenerateColumns="False" SelectionMode="Single" >
 			 	<a:Data.Items><!-- 榆林设计人 5253539-->
-			 		<o:ObjectList WebClientInfo="{StaticResource dbclient}" Path="select new map(u.id as id, u.name as name, count(designer) as icount) from t_user as u left join u.f_applydesigner as designer  where roles like '5253539%' group by u.id,u.name"
+			 		<o:ObjectList WebClientInfo="{StaticResource dbclient}" Path="select new map(u.id as id, u.name as name, count(designer) as icount) from t_userbz as u left join u.f_applydesigner as designer  where roles like '%5253539%' group by u.id,u.name"
 					 IsOld="{m:Exp Str='designersAction.State\=\=$End$ or undesignersAction.State\=\=$End$' }"/>	
 			 	</a:Data.Items>
                      <sdk:DataGrid.Columns>
