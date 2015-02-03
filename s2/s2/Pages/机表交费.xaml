@@ -109,7 +109,7 @@
 				<!--分公司编号-->
 				<o:PropertySetter PropertyName="f_fengongsinum" Default="{m:Exp Str=LoginUser.f_fengongsinum}"/>
 				<!--公司类型，分为天然气公司、银行 -->
-				<o:PropertySetter PropertyName="f_comtype" Default="{m:Exp Str=LoginUser.f_comtype}" Value="{m:Exp Str=LoginUser.f_comtype}" NotNull="True"/>
+                <o:PropertySetter PropertyName="f_comtype" Default="{m:Exp Str=LoginUser.f_fengongsi}" Value="{m:Exp Str=LoginUser.f_fengongsi}" NotNull="True"/>
 			</o:GeneralObject>
 			
 			<!--发票对象-->
@@ -119,8 +119,19 @@
         		<o:PropertySetter PropertyName="f_userid" Value="{m:Exp Str=kbfee1.DataContext.f_userid}" />
 			</o:GeneralObject>
 
-			
-			<!--打印完成后，重新获取发票号-->
+            <!--<o:ObjectList Name="pastamount" WebClientInfo="{StaticResource dbclient}"
+             	Path="{m:Exp Str=userfiles.SelectedItem.f_userid !\= null\:$from t_sellinggas where f_userid \=\{userfiles.SelectedItem.f_userid\}$\,$null$}"/>-->
+            <!--金额合计-->
+            
+			<o:GeneralObject Name="heji" EntityType="t_sellinggas" WebClientInfo="{StaticResource dbclient}"
+				Path="{m:Exp Str=userfiles.SelectedItem.f_userid !\= null:$one/select new Map(Sum(f_grossproceeds) as f_grossproceeds) from t_sellinggas where f_userid \=\{userfiles.SelectedItem.f_userid\}$\,$0$}"
+				IsOld="{m:Exp Str=heji.State\=\=$End$}" >
+			</o:GeneralObject>
+            <!--<o:ObjectList Name="heji" WebClientInfo="{StaticResource dbclient}"
+             LoadOnPathChanged="False"
+             Path="{m:Exp Str=userfiles.SelectedItem.f_userid !\= null:$sql/select Sum(f_grossproceeds) as f_grossproceeds from t_sellinggas where f_userid \=\'\{userfiles.SelectedItem.f_userid\}\'$\,$0$}"/>-->
+
+            <!--打印完成后，重新获取发票号-->
             <b:ScriptAction Name="loadfapiao" CanRun="{m:Exp Str=print.State\=\=$End$}" Start="{m:Exp Str=LoginUserfapiao.IsOld\=True}"></b:ScriptAction>
 		    <o:SearchObject Name="search"/>
 			
@@ -519,11 +530,11 @@
 							</StackPanel>
 							<TextBlock Text="表上次累计购气量：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="6" Grid.Column="2" Height="25"/>
 							<TextBlock Grid.Column="4" Margin="0,6" Grid.Row="14" TextWrapping="Wrap" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="130"><Run Text="交费"/><Run Text="时间"/><Run Text="："/></TextBlock>
-							<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="5" Margin="0" Grid.Row="14"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
+							<!--<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="5" Margin="0" Grid.Row="14"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_deliverytime" Value="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
 								</a:Data.Prop>
-							</toolkit:TimePicker>
+							</toolkit:TimePicker>-->
 							<TextBlock Text="发 票 号：" Grid.Column="2" Margin="0,6,0,6" Grid.Row="14" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
 							<TextBox Text="{m:Bind Path=f_invoicenum}" Grid.Column="3" Margin="0,6" Grid.Row="14" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" Grid.RowSpan="1" >
 								<a:Data.Prop>
@@ -576,14 +587,17 @@
 								</a:Data.Prop>
 							</TextBox>
 							<TextBlock Text="电      话：" Margin="0,6" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Grid.Column="4" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-							<TextBox x:Name="ui_f_phone" Text="{m:Bind Path=f_phone}" Grid.Column="5" Margin="0,6" Grid.Row="1"  HorizontalAlignment="Stretch" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" Width="Auto"   >
+                                <TextBox x:Name="ui_f_phone" Text="{m:Bind Path=f_phone}" Grid.Column="5" Margin="0,6" Grid.Row="1"  HorizontalAlignment="Stretch" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" Width="Auto"   >
 
-								<a:Data.Prop>
-									<o:PropertySetter PropertyName="f_phone" Value="{m:Exp Str=kbusers.f_phone}"/>
-								</a:Data.Prop>	
-							</TextBox>
-						</Grid>
-						<toolkit:DockPanel  Background="#FFC3E4FD" Margin="0"     >
+                                    <a:Data.Prop>
+                                        <o:PropertySetter PropertyName="f_phone" Value="{m:Exp Str=kbusers.f_phone}"/>
+                                    </a:Data.Prop>
+                                </TextBox>
+                                <TextBlock Text="历史收费金额：" Margin="0,6" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right" Grid.Column="4" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <TextBox Text="{m:Exp Str=$\{heji.f_grossproceeds\!\=null:heji.f_grossproceeds\,$0$\}}"  Grid.Column="5" Margin="-1,6,1,6" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="2" Height="25" VerticalAlignment="Stretch">
+                                </TextBox>
+                            </Grid>
+						<toolkit:DockPanel  Background="#FFC3E4FD" Margin="0">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
 								<Button x:Name="save2" a:ControlAttach.FocusToOnEnter="f_userid" Content="保   存" Margin="5" 
 									IsEnabled="{m:Exp Str=kbfee.f_benqizhye&gt;\=0 and !kbfee.HasErrors}"
