@@ -7232,7 +7232,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                             </Grid>
                         </Grid>
                     </toolkit:BusyIndicator>
-                    <sdk:DataPager x:Name="pager24" Source="{Binding Path=ItemsSource.Count,ElementName=pipelines24,Converter={StaticResource DataPagerConverter}}"   Margin="1,0,0,45" PageSize="22" Height="24" VerticalAlignment="Bottom"/>
+                    <sdk:DataPager x:Name="pager24" Source="{Binding Path=ItemsSource.Count,ElementName=pipelines24,Converter={StaticResource DataPagerConverter}}"   Margin="-6,0,10,10" PageSize="22" Height="24" VerticalAlignment="Bottom"/>
                 </Grid>
             </sdk:TabItem>
 
