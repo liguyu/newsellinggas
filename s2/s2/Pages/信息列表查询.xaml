@@ -5487,9 +5487,8 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
             		AutoGenerateColumns="False"  IsReadOnly="True">
                                 <a:Data.Items>
                                     <o:PagedObjectList x:Name="pipelineslisty" WebClientInfo="{StaticResource dbclient}"
-            			
+            			    
             				Path="{m:Exp Str=LoginUser.f_fengongsi \=\= zonggongsi.value:$from t_metertypeedity where \{pipelinesearchy.DataContext.Condition\}$\, LoginUser.f_fengongsi \!\= zonggongsi.value:$from t_metertypeedity where \{pipelinesearchy.DataContext.Condition\} and f_filiale \=\'\{LoginUser.f_fengongsi\}\'$\,$abc$}"
-							
 							PageIndex="{m:Exp Str=pager.PageIndex}" PageSize="{m:Exp Str=pager.PageSize}" SumNames="id"/>
                                 </a:Data.Items>
 
@@ -5740,7 +5739,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                             </Grid>
                         </Grid>
                     </toolkit:BusyIndicator>
-                    <sdk:DataPager x:Name="pager" Source="{Binding Path=ItemsSource.Count,ElementName=pipelines,Converter={StaticResource DataPagerConverter}}"   Margin="1,0,0,45" PageSize="22" Height="24" VerticalAlignment="Bottom"/>
+                    <sdk:DataPager x:Name="pager" Source="{Binding Path=ItemsSource.Count,ElementName=pipelinesy,Converter={StaticResource DataPagerConverter}}"   Margin="1,0,0,45" PageSize="22" Height="24" VerticalAlignment="Bottom"/>                   
                 </Grid>
             </sdk:TabItem>
 
