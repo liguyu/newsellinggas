@@ -68,7 +68,7 @@
                         </sdk:DatePicker>
 
                         <Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="0" Grid.Column="6" Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="20,0,0,0" FontSize="14"  />
-                        <Button Content=" 置  空"  Grid.Row="0" Grid.Column="7" Click="{m:Exp Str=daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null}" FontSize="14" HorizontalAlignment="Left" Width="60"  />
+                        <Button Content=" 置  空"  Grid.Row="0" Grid.Column="7" Click="{m:Exp Str=daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_sellinggasdate\=null;daninfosearch.DataContext.f_yytdate2\=null}" FontSize="14" HorizontalAlignment="Left" Width="60"  />
                         <TextBlock TextWrapping="Wrap" Text="操作日期："  Grid.Column="3" Margin="60,6,10,-3" Height="25" TextAlignment="Right"/>
                         <!--Button Content="导出Excel"  Click="{m:Exp Str=toExcel.ToExcel()}"	Margin="64,2,0,1" toolkit:DockPanel.Dock="Right" Background="white" Grid.Column="7" Grid.Row="1"/>
                         <c:Excel x:Name="toExcel" HQL="{m:Exp Str=$sql:\{daninfos.ItemsSource.HQL\}}" 
