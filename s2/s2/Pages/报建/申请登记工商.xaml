@@ -95,7 +95,7 @@
         				IsEnabled="{m:Exp Str=persons.SelectedItem!\=null}" Width="50" />
 			      </toolkit:DockPanel>
                 <sdk:DataGrid x:Name="persons" Margin="0"  AutoGenerateColumns="False" IsReadOnly="True"
-				 SelectedItem="{m:Exp Str='main.DataContext.IsInit or ybpersons.SelectedItem !=null:null,persons.SelectedItem'}">
+				 SelectedItem="{m:Exp Str='main.DataContext.IsInit:null,persons.SelectedItem'}">
                 	<a:Data.Items>
                 		<o:ObjectList Name="personslist" WebClientInfo="{StaticResource dbclient}"
                              Path="{m:Exp Str=$select distinct apply from t_apply as apply left join fetch apply.f_device left join fetch apply.f_applyimage  where \{personsearch.DataContext.Condition\} and f_usertype \=\'非民用\' and f_state \=\'报建登记\' }"
@@ -113,7 +113,6 @@
                         <sdk:DataGridTextColumn Header="地址" Binding="{Binding f_address}"/>
 						<sdk:DataGridTextColumn Header="用气性质" Binding="{Binding f_gastype}"/>
 						<sdk:DataGridTextColumn Header="片区" Binding="{Binding f_area}"/>
-						<sdk:DataGridTextColumn Header="用气性质" Binding="{Binding f_gastype}"/>
 						<sdk:DataGridTextColumn Header="申请安装几处" Binding="{Binding f_applycount}"/>
                     </sdk:DataGrid.Columns>
                 </sdk:DataGrid>
@@ -121,7 +120,7 @@
 			</toolkit:DockPanel>
         </c:BusyIndicatorEx>
 				</sdk:TabItem>
-				<sdk:TabItem Header=" 已 办	">
+				<!--<sdk:TabItem Header=" 已 办	">
 					<toolkit:DockPanel LastChildFill="True">
 						<StackPanel x:Name="ybpersonsearch"  Background="{x:Null}" toolkit:DockPanel.Dock="Top" Margin="0,0,0,5" Orientation="Horizontal" >
                    <a:Data.Context>
@@ -150,7 +149,7 @@
                 <sdk:DataGrid x:Name="ybpersons" Margin="0"  AutoGenerateColumns="False" IsReadOnly="True" MinHeight="250"  >
                 	<a:Data.Items>
                 		<o:ObjectList Name="ybpersonslist" WebClientInfo="{StaticResource dbclient}"
-                             Path="{m:Exp Str=$select distinct apply from t_apply as apply left join fetch apply.f_device left join fetch apply.f_applyimage   where \{ybpersonsearch.DataContext.Condition\} and f_usertype \=\'非民用\' and f_state \!\=\'报建登记\' and  f_opertor is not null }"
+                             Path="{m:Exp Str=$select distinct apply from t_apply as apply left join fetch apply.f_device left join fetch apply.f_applyimage   where \{ybpersonsearch.DataContext.Condition\} and f_usertype \=\'非民用\' and f_state \!\=\'报建登记\'   and  apply.f_opertor is not null }"
 					         IsOld="{m:Exp Str='SubmitAction.State\=\=$End$ or DeleteAction.State==$End$ or BatchSave.State==$End$'}">
                 		</o:ObjectList>
 					</a:Data.Items>
@@ -167,7 +166,7 @@
                     </sdk:DataGrid.Columns>
                 </sdk:DataGrid>
 					</toolkit:DockPanel>
-				</sdk:TabItem>
+				</sdk:TabItem>-->
 			</sdk:TabControl>
 		</Grid>
 
@@ -176,10 +175,10 @@
         		<a:Data.Context>
         			<o:GeneralObject  Name="persongo" WebClientInfo="{StaticResource dbclient}" 
         				EntityType="t_apply" 
-						Source="{m:Exp Str='persons.SelectedItem !=null:persons.SelectedItem,ybpersons.SelectedItem !=null:ybpersons.SelectedItem,null'}"
+						Source="{m:Exp Str='persons.SelectedItem !=null:persons.SelectedItem,null'}"
         				IsInit="{m:Exp Str='BatchSave.State==$End$'}">
         				<o:PropertySetter PropertyName="f_state" Default="报建登记"/>
-						<o:PropertySetter  PropertyName="f_substate" Default="{m:Exp Str='ybpersons.SelectedItem != null:null,$完成$'}"/>
+						<o:PropertySetter  PropertyName="f_substate" Default="完成"/>
         				<o:PropertySetter PropertyName="f_issurvey" Default="{m:Exp Str=False}"/>
         				<o:PropertySetter PropertyName="f_isdesigners" Default="{m:Exp Str=True}"/>
 						<o:PropertySetter PropertyName="f_device" Default="{m:Exp Str=devicelist}"/> 
@@ -329,7 +328,7 @@
 										<sdk:DataGridTemplateColumn Header="序号" d:IsLocked="True" >
 										  <sdk:DataGridTemplateColumn.CellTemplate>
 											<DataTemplate>
-												<TextBox Text="{m:Exp Str='data==data.List.EmptyRow:$*$,data.Index'}">
+												<TextBox Text="{m:Exp Str='data==data.List.EmptyRow:$*$,data.Index'}" IsReadOnly="True">
 												</TextBox> 
 											</DataTemplate>
 											</sdk:DataGridTemplateColumn.CellTemplate>
@@ -463,7 +462,7 @@
 										<sdk:DataGridTemplateColumn Header="申请单位"  >
 											<sdk:DataGridTemplateColumn.CellTemplate>
 												<DataTemplate>
-													<TextBox Text="{Binding Path=f_applydept,Mode=OneWay}">
+													<TextBox Text="{Binding Path=f_applydept,Mode=OneWay}" IsReadOnly="True">
 														<a:Data.Prop>
         													<o:PropertySetter PropertyName="f_applydept"  Default="{m:Exp Str=main.DataContext.f_applydept}"/>
         												</a:Data.Prop>

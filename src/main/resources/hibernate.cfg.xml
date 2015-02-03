@@ -253,6 +253,24 @@
    	    <mapping resource="报装/tunnel.hbm.xml" />
    	    <!-- 报装中用户信息 -->
    	    <mapping resource="报装/userbz.hbm.xml" />
+
+	  <!-- 冲正记录 -->
+   	    <mapping resource="报装/reversalmx.hbm.xml" />
+   	    <!-- 补打记录 -->
+   	    <mapping resource="报装/makemissing.hbm.xml" />
+   	     <!-- 工作日志 -->
+   	    <mapping resource="报装/worklog.hbm.xml" />
+
+
+
+
+
+
+
+
+
+
+
    	    <!-- 卡号重复 -->
    	    <mapping resource="系统/cardrepeat.hbm.xml" />
    	    <!-- 交费记录维护 -->

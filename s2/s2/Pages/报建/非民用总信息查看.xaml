@@ -28,6 +28,9 @@
 		<o:ObjectList Name="devicelist" EntityType="t_device" HasEmptyRow="False"></o:ObjectList>
 		<o:ObjectList Name="image" EntityType="t_applyimage" HasEmptyRow="False"></o:ObjectList>
 		<!--批量删除语句-->
+		<o:ObjectList Name="projectlist" WebClientInfo="{StaticResource dbclient}"  
+		Path="{m:Exp Str='apply.DataContext.id!=null:$from t_projectplan where applyid={apply.DataContext.id}$,null'}" EntityType="t_projectplan"   />
+	
         <b:HQLAction Name="DeleteAction"  WebClientInfo="{StaticResource dbclient}" 
 		HQL="{m:Exp Str='$delete from t_apply where id in ({applys.SelectedItems.ToString(id)=>SelectionChanged})'}">
 		</b:HQLAction>
@@ -157,7 +160,7 @@
 				</a:Data.Context>
 		<Grid HorizontalAlignment="Left" >
             <sdk:TabControl TabStripPlacement="Right" Margin="0,0,0,8" HorizontalAlignment="Left" Width="830" Background="{x:Null}" >
-			<sdk:TabItem Header="报建登记　　" Height="Auto" HorizontalAlignment="Left" >
+			<sdk:TabItem Header="报建登记　  　" Height="Auto" HorizontalAlignment="Left" >
 				  <Grid Width="700">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="30"/>
@@ -226,7 +229,7 @@
 				    </TextBox>
 					</Grid>	
 			</sdk:TabItem>
-			<sdk:TabItem Header="现场勘查　　" HorizontalAlignment="Left">
+			<sdk:TabItem Header="现场勘查　　  " HorizontalAlignment="Left">
 				 <Grid Margin="0" HorizontalAlignment="Stretch" Width="700" >
 					<Grid.RowDefinitions>
 						<RowDefinition Height="30"/>
@@ -306,7 +309,7 @@
 						</TextBox>
 				  </Grid>
 			</sdk:TabItem>
-			<sdk:TabItem Header="设计审核　　" HorizontalAlignment="Left">
+			<sdk:TabItem Header="设计审核　  　" HorizontalAlignment="Left">
 				 <Grid HorizontalAlignment="Stretch" Width="700">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="97"/>
@@ -594,7 +597,7 @@
 				</Grid>
 			</sdk:TabItem>
 			
-			<sdk:TabItem Header="安装通知审核">
+			<sdk:TabItem Header="安装通知审核" HorizontalAlignment="Left" >
 				<Grid Width="700">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="86"/>
@@ -699,7 +702,7 @@
 				</Grid>
 			</sdk:TabItem>
 			
-			<sdk:TabItem Header="定表型　　　" Margin="0" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left">
+			<sdk:TabItem Header="定表型　　   　" Margin="0" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left">
 				 <Grid Margin="0" HorizontalAlignment="Stretch" Width="700" >
 						<Grid.RowDefinitions>
 							<RowDefinition Height="30"/>
@@ -792,7 +795,7 @@
 						<TextBox  Text="{m:Bind Path=f_pressure}" IsReadOnly="True"  Grid.Column="1" Margin="0" Grid.Row="5"  Height="25"/>
 				</Grid>
 			</sdk:TabItem>
-			<sdk:TabItem Header="设计出图　　" Margin="0" HorizontalAlignment="Left">
+			<sdk:TabItem Header="设计出图　  　" Margin="0" HorizontalAlignment="Left">
 				<Grid Margin="0,0,0,3" HorizontalAlignment="Stretch"  Width="700" d:LayoutOverrides="Height"  >
 						<Grid.RowDefinitions>
 							<RowDefinition Height="30"/>
@@ -961,7 +964,7 @@
 						</TextBox>	
 					</Grid>
 			</sdk:TabItem>
-			<sdk:TabItem Header="开材料　　　" Margin="0" HorizontalAlignment="Left">
+			<sdk:TabItem Header="开材料　　   　" Margin="0" HorizontalAlignment="Left">
 				 <Grid Margin="0" HorizontalAlignment="Stretch" Width="700" >
 						<Grid.RowDefinitions>
 							<RowDefinition Height="30"/>
@@ -1063,7 +1066,7 @@
 					</Grid>
 			</sdk:TabItem>
 			
-			<sdk:TabItem Header="派工单　　　" Margin="0" HorizontalAlignment="Left">
+			<sdk:TabItem Header="派工单　　   　" Margin="0" HorizontalAlignment="Left">
 				<Grid Margin="0,0,0,3" HorizontalAlignment="Stretch"  Width="700" d:LayoutOverrides="Height"  >
 					<Grid.RowDefinitions>
 						<RowDefinition Height="30"/>
@@ -1204,7 +1207,7 @@
 				</Grid>
 			</sdk:TabItem>
 			
-			<sdk:TabItem Header="施工　　　　" Margin="0" HorizontalAlignment="Left">
+			<sdk:TabItem Header="施工　　    　　" Margin="0" HorizontalAlignment="Left">
 				 <Grid Margin="0" HorizontalAlignment="Stretch" Width="700" >
 					<Grid.RowDefinitions>
 							<RowDefinition Height="0.091*"/>
@@ -1345,8 +1348,154 @@
 						</TextBox>
 					</Grid>
 			</sdk:TabItem>
-			
-			<sdk:TabItem Header="开通气单　　" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+			<sdk:TabItem Header="施工日志　  　" Height="Auto"  HorizontalAlignment="Left"  >
+            		<StackPanel Margin="0">
+            			<Grid Width="700" Height="Auto" Margin="10,0,0,0" DataContext="{m:Exp Str=sgrz.SelectedItem}">
+            				<Grid.RowDefinitions>
+								<RowDefinition Height="30"/>
+								<RowDefinition Height="30"/>
+								<RowDefinition Height="50"/>
+								<RowDefinition Height="60"/>
+								<RowDefinition Height="60"/>
+								<RowDefinition Height="60"/>
+								<RowDefinition Height="60"/>
+								<RowDefinition Height="30"/>
+        					</Grid.RowDefinitions>
+        					<Grid.ColumnDefinitions>
+        						<ColumnDefinition Width="70"/>
+								<ColumnDefinition Width="120"/>
+								<ColumnDefinition Width="70"/>
+								<ColumnDefinition Width="100"/>
+								<ColumnDefinition Width="70"/>
+								<ColumnDefinition Width="100"/>
+								<ColumnDefinition Width="70"/>
+								<ColumnDefinition Width="100"/>
+        					</Grid.ColumnDefinitions>
+							<TextBlock Text="日期：" Margin="0,3,0,2" HorizontalAlignment="Right" Height="25"/>
+							<sdk:DatePicker IsEnabled="False" SelectedDate="{m:Bind Path=f_workdate}" Grid.Column="1" Margin="0,3,45,2" Height="25" Grid.ColumnSpan="2">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_workdate" />
+								</a:Data.Prop>
+							</sdk:DatePicker>
+							<TextBlock Text="星期：" Margin="31,3,0,2" Height="25" Grid.Column="2" d:LayoutOverrides="Width"/>
+							<TextBox IsReadOnly="True" Text="{m:Bind Path=f_week}" Grid.Column="3" Margin="0" Height="25">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_week" />
+								</a:Data.Prop>		
+							</TextBox>
+							<TextBlock Text="上午天气：" Margin="0,3,0,2" Height="25" Grid.Column="4" HorizontalAlignment="Right"/>
+							<TextBox IsReadOnly="True" Text="{m:Bind Path=f_morweather}" Grid.Column="5" Margin="0" Height="25">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_morweather" />
+								</a:Data.Prop>		
+							</TextBox>
+							<TextBlock Text="下午天气：" Margin="0,3,0,2" Height="25" Grid.Column="6" HorizontalAlignment="Right"/>
+							<TextBox IsReadOnly="True" Text="{m:Bind Path=f_noonweather}" Grid.Column="7" Margin="0" Height="25">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_noonweather" />
+								</a:Data.Prop>		
+							</TextBox>
+							<TextBlock Text="施工地点：" Margin="0,3,0,2" Height="25" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="2"/>
+							<TextBox IsReadOnly="True" Text="{m:Bind Path=f_wordplace}" Grid.Column="3" Margin="0,2,0,3" Grid.Row="1" Grid.ColumnSpan="3" Height="25">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_wordplace" />
+								</a:Data.Prop>		
+							</TextBox>
+							<TextBlock Text="温度：" Margin="0,2,0,3" Height="25" Grid.Column="6" HorizontalAlignment="Right" Grid.Row="1"/>
+							<TextBox IsReadOnly="True" Text="{m:Bind Path=f_temperature}" Grid.Column="7" Margin="0,2,0,3" Height="25" VerticalAlignment="Stretch" Grid.Row="1">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_temperature" />
+								</a:Data.Prop>		
+							</TextBox>
+							<TextBlock Text="突发事件：" Height="25" HorizontalAlignment="Right" Grid.Row="2" Margin="0,2,0,3"/>
+							<TextBox IsReadOnly="True" Text="{m:Bind Path=f_emergency}" Grid.Column="1" Margin="0,3" Grid.Row="2" Grid.ColumnSpan="7" Height="Auto" VerticalAlignment="Stretch">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_emergency" />
+								</a:Data.Prop>		
+							</TextBox>
+							<TextBlock Text="生产记录：" HorizontalAlignment="Right" Grid.Row="3"  Margin="0,16,0,9"/>
+							<TextBox IsReadOnly="True" Text="{m:Bind Path=f_workinfo}" Grid.Column="1" Margin="0,2" Grid.Row="3" Grid.ColumnSpan="7" Height="Auto" VerticalAlignment="Stretch" AcceptsReturn="True" TextWrapping="Wrap">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_workinfo" />
+								</a:Data.Prop>		
+							</TextBox>
+							<TextBlock Text="安全记录：" HorizontalAlignment="Right" Grid.Row="4"  Margin="0,16,0,9"/>
+							<TextBox IsReadOnly="True" Text="{m:Bind Path=f_safeinfo}" Grid.Column="1" Margin="0,2" Grid.Row="4" Grid.ColumnSpan="7" Height="Auto" VerticalAlignment="Stretch" AcceptsReturn="True" TextWrapping="Wrap">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_safeinfo" />
+								</a:Data.Prop>		
+							</TextBox>
+							<TextBlock Text="隐蔽工程：" HorizontalAlignment="Right" Grid.Row="5"  Margin="0,16,0,9"/>
+							<TextBox IsReadOnly="True" Text="{m:Bind Path=f_concealinfo}" Grid.Column="1" Margin="0,2" Grid.Row="5" Grid.ColumnSpan="7" Height="Auto" VerticalAlignment="Stretch" AcceptsReturn="True" TextWrapping="Wrap">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_concealinfo" />
+								</a:Data.Prop>		
+							</TextBox>
+							<TextBlock Text="备注：" Height="25" HorizontalAlignment="Right" Grid.Row="6" Margin="0,16,0,9"/>
+							<TextBox IsReadOnly="True" Text="{m:Bind Path=f_remark}" Grid.Column="1" Margin="0,2" Grid.Row="6" Grid.ColumnSpan="7" Height="Auto" VerticalAlignment="Stretch">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_remark" />
+								</a:Data.Prop>		
+							</TextBox>
+							<TextBlock Text="日期：" Margin="30,2,1,3" Height="25" Grid.Column="2" Grid.Row="7" d:LayoutOverrides="Width"/>
+							<sdk:DatePicker IsEnabled="False" SelectedDate="{m:Bind Path=f_recorderdate}" Grid.Column="2" Margin="69,2,45,3" Height="25" Grid.Row="7" Grid.ColumnSpan="3">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_recorderdate" />
+								</a:Data.Prop>
+							</sdk:DatePicker>
+							<TextBlock Text="记录人：" Margin="0,3,0,2" Height="25" Grid.Row="7" HorizontalAlignment="Right"/>
+							<TextBox IsReadOnly="True" Text="{m:Bind Path=f_recorder}" Grid.Column="1" Margin="0,2,0,3" Height="25" Grid.Row="7">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_recorder" />
+								</a:Data.Prop>		
+							</TextBox>
+							<TextBlock Text="工程名称：" Margin="0,3,0,2" Height="25" HorizontalAlignment="Right" Grid.Row="1"/>
+							<TextBox IsReadOnly="True" Text="{m:Bind Path=f_projectname}" Grid.Column="1" Margin="0,2,0,3" Height="25" Grid.Row="1">
+								<a:Data.Prop>
+									<o:PropertySetter PropertyName="f_projectname" />
+								</a:Data.Prop>		
+							</TextBox>
+						</Grid>
+            			<sdk:DataGrid x:Name="sgrz" AutoGenerateColumns="False" ItemsSource="{m:Exp Str=projectlist}" Margin="0,0,8,0" Height="175" >
+            				<sdk:DataGrid.Columns>
+            					<sdk:DataGridTemplateColumn Header="序号" d:IsLocked="True" >
+            						<sdk:DataGridTemplateColumn.CellTemplate>
+            							<DataTemplate>
+            								<TextBox   Width="50" Text="{m:Exp Str=data\=\=data.List.EmptyRow:$*$\,data.Index}"/> 
+            							</DataTemplate>
+            						</sdk:DataGridTemplateColumn.CellTemplate>
+            					</sdk:DataGridTemplateColumn>
+            					<sdk:DataGridTextColumn Header="施工日志日期" Binding="{Binding f_workdate, StringFormat=yyyy-MM-dd}"/>
+            					<sdk:DataGridTemplateColumn Header="工程名称">
+            						<sdk:DataGridTemplateColumn.CellTemplate>
+            							<DataTemplate>
+            								<TextBox  IsReadOnly="True"  Text="{m:Bind Path=f_projectname}" Style="{StaticResource TextBoxDatagridStyle}"/>
+            							</DataTemplate>
+            						</sdk:DataGridTemplateColumn.CellTemplate>
+            					</sdk:DataGridTemplateColumn>
+            					<sdk:DataGridTemplateColumn Header="工程地点">
+            						<sdk:DataGridTemplateColumn.CellTemplate>
+            							<DataTemplate>
+            								<TextBox IsReadOnly="True" Text="{m:Bind Path=f_wordplace}" Style="{StaticResource TextBoxDatagridStyle}"/> 
+            							</DataTemplate>
+            						</sdk:DataGridTemplateColumn.CellTemplate>
+            					</sdk:DataGridTemplateColumn>
+						
+				  		
+						
+            					<sdk:DataGridTemplateColumn Header="记录人">
+            						<sdk:DataGridTemplateColumn.CellTemplate>
+            							<DataTemplate>
+            								<TextBox IsReadOnly="True"  Text="{m:Bind Path=f_recorder}" Style="{StaticResource TextBoxDatagridStyle}"/> 
+            							</DataTemplate>
+            						</sdk:DataGridTemplateColumn.CellTemplate>
+            					</sdk:DataGridTemplateColumn>
+            				</sdk:DataGrid.Columns>
+            			</sdk:DataGrid>
+            		
+            		</StackPanel>
+            	</sdk:TabItem>
+			<sdk:TabItem Header="开通气单　　  " HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
 				<sdk:TabItem.RenderTransform>
 					<CompositeTransform SkewX="2.291" TranslateX="0.46"/>
 				</sdk:TabItem.RenderTransform>
@@ -1584,7 +1733,7 @@
 				</Grid>
 			</sdk:TabItem-->
 			
-			<sdk:TabItem Header="通气管理　　" HorizontalAlignment="Left" Height="23" VerticalAlignment="Top">
+			<sdk:TabItem Header="通气管理　　  " HorizontalAlignment="Left" Height="23" VerticalAlignment="Top">
 				<Grid Width="700">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="40"/>
@@ -1716,7 +1865,7 @@
 			<sdk:TabItem Header="用气设备明细" HorizontalAlignment="Left">
 				<toolkit:DockPanel>
 					<StackPanel>
-				<sdk:DataGrid AutoGenerateColumns="False"  ItemsSource="{m:Exp Str=devicelist}" Height="393" VerticalAlignment="Top" Width="680" HorizontalAlignment="Left">
+				<sdk:DataGrid AutoGenerateColumns="False"  ItemsSource="{m:Exp Str=devicelist}" Height="550" VerticalAlignment="Top" Width="710" HorizontalAlignment="Left">
 					<sdk:DataGrid.Columns>			
 						<sdk:DataGridTemplateColumn Header="序号" d:IsLocked="True" >
 							<sdk:DataGridTemplateColumn.CellTemplate>
@@ -1832,8 +1981,8 @@
 				</StackPanel>
 				</toolkit:DockPanel>
 			</sdk:TabItem>
-			<sdk:TabItem Header="    图片     "  HorizontalAlignment="Left" Width="100">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+			<sdk:TabItem Header="图片            "  HorizontalAlignment="Left"   VerticalAlignment="Top">
+                            <ScrollViewer  Width="700" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                 <ListBox ItemsSource="{m:Exp Str=image}" Margin="0" MinHeight="200" MinWidth="200">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
@@ -1859,8 +2008,8 @@
                             </ScrollViewer>
 							
                         </sdk:TabItem>
-		<sdk:TabItem Header=" 附件       " >
-                        	<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+		<sdk:TabItem Header="附件            " HorizontalAlignment="Left"  VerticalAlignment="Top" >
+                        	<ScrollViewer Width="700" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         	<ListBox ItemsSource="{m:Exp Str=annexlist}"  Margin="0" MinHeight="200" MinWidth="200">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>

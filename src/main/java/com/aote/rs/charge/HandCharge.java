@@ -142,7 +142,7 @@ public class HandCharge {
 		String hql = "";
 		final String sql = "select isnull(u.f_userid,'') f_userid, isnull(u.f_zhye,'') f_zhye , isnull(u.lastinputgasnum,'') lastinputgasnum, isnull(u.f_gasprice,0) f_gasprice, isnull(u.f_username,'')  f_username,"
 				+ "isnull(u.f_stair1amount,0)f_stair1amount,isnull(u.f_stair2amount,0)f_stair2amount,isnull(u.f_stair3amount,0)f_stair3amount,isnull(u.f_stair1price,0)f_stair1price,isnull(u.f_stair2price,0)f_stair2price,isnull(u.f_stair3price,0)f_stair3price,isnull(u.f_stair4price,0)f_stair4price,isnull(u.f_stairmonths,0)f_stairmonths,isnull(u.f_stairtype,'未设')f_stairtype,"
-				+ "isnull(u.f_address,'')f_address ,isnull(u.f_districtname,'')f_districtname,isnull(u.f_gasmeterstyle,'') f_gasmeterstyle, isnull(u.f_idnumber,'') f_idnumber, isnull(u.f_gaswatchbrand,'')f_gaswatchbrand, isnull(u.f_usertype,'')f_usertype, "
+				+ "isnull(u.f_address,'')f_address ,isnull(u.f_districtname,'')f_districtname,isnull(u.f_cusDom,'')f_cusDom,isnull(u.f_cusDy,'')f_cusDy,isnull(u.f_gasmeterstyle,'') f_gasmeterstyle, isnull(u.f_idnumber,'') f_idnumber, isnull(u.f_gaswatchbrand,'')f_gaswatchbrand, isnull(u.f_usertype,'')f_usertype, "
 				+ "isnull(u.f_gasproperties,'')f_gasproperties,isnull(u.f_dibaohu,0)f_dibaohu,isnull(u.f_payment,'')f_payment,isnull(u.f_zerenbumen,'')f_zerenbumen,isnull(u.f_menzhan,'')f_menzhan,isnull(u.f_inputtor,'')f_inputtor, isnull(q.c,0) c,"
 				+ "u.lastinputgasnum lastinputgasnum,u.f_metergasnums f_metergasnums,u.f_cumulativepurchase f_cumulativepurchase, "
 				+ "u.f_finallybought f_finallybought, h.id id from (select * from t_handplan where f_state='未抄表' and f_userid='"
@@ -327,6 +327,8 @@ public class HandCharge {
 			sell.put("f_username", map.get("f_username")); // 用户/单位名称
 			sell.put("f_address", map.get("f_address")); // 地址
 			sell.put("f_districtname", map.get("f_districtname")); // 小区名称
+			sell.put("f_cusDom", map.get("f_cusDom")); // 楼号
+			sell.put("f_cusDy", map.get("f_cusDy")); // 单元
 			sell.put("f_idnumber", map.get("f_idnumber")); // 身份证号
 			sell.put("f_gaswatchbrand", map.get("f_gaswatchbrand")); // 气表品牌
 			sell.put("f_gaspricetype", map.get("f_gaspricetype")); // 气价类型

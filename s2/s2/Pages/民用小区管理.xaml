@@ -119,7 +119,7 @@
                     	</a:Data.Prop>
 						</ComboBox>-->
 							
-							<Button Content="查询" x:Name="searchbutton" Grid.Row="1" Grid.Column="3" Click="{m:Exp Str=userfilesearch.DataContext.Search()}" Margin="0,0,33,0" HorizontalAlignment="right" Width="70"  FontSize="13.333" d:LayoutOverrides="HorizontalAlignment" Height="25" Style="{StaticResource 查询btn}"/>
+							<Button Content="查询" x:Name="searchbutton" Grid.Row="1" Grid.Column="3" Click="{m:Exp Str=userfilesearch.DataContext.Search()}" Margin="0,0,33,0" HorizontalAlignment="right" Width="70"  FontSize="13.333" d:LayoutOverrides="HorizontalAlignment" Height="25" />
 						</Grid>
 						</toolkit:DockPanel>
 					<sdk:DataGrid x:Name="userfiles" Margin="0"  FontSize="13.333"
@@ -229,11 +229,11 @@
 								
 							  	<Button   Content="新建" Margin="30,0,10,50"  FontSize="14"  Grid.Row="8"  VerticalAlignment="Bottom"
 							Grid.Column="2"
-							Click="{m:Exp Str=ybuserfile.DataContext.New()}" HorizontalAlignment="left"  Width="70"   Height="30"  d:LayoutOverrides="VerticalAlignment" Style="{StaticResource 新增btn}"/>
+							Click="{m:Exp Str=ybuserfile.DataContext.New()}" HorizontalAlignment="left"  Width="70"   Height="30"  d:LayoutOverrides="VerticalAlignment" />
 							  	<Button x:Name="save" Content="保存" Margin="0,0,0,50"  FontSize="14"  Grid.Row="8" 
-							  		Grid.Column="1" IsEnabled="{m:Exp Str=!ybuserfile.DataContext.HasErrors}" Style="{StaticResource 保存btn}"
+							  		Grid.Column="1" IsEnabled="{m:Exp Str=!ybuserfile.DataContext.HasErrors}" 
 							  		Click="{m:Exp Str=SaveAction.Invoke()}" Width="70" HorizontalAlignment="right" Height="30" VerticalAlignment="bottom" d:LayoutOverrides="VerticalAlignment, Width" />
-							<Button Content="删除" x:Name="deletebutton" Grid.Row="78" Grid.Column="2" Click="{m:Exp Str=DeleteAction.Invoke()}" VerticalAlignment="bottom"  IsEnabled="{m:Exp Str='userfiles.SelectedItems.Count=>SelectionChanged!=0'}"  HorizontalAlignment="left" Width="70"  FontSize="13.333" Height="30" Style="{StaticResource 删除btn}" Margin="120,0,0,50"/>
+							<Button Content="删除" x:Name="deletebutton" Grid.Row="78" Grid.Column="2" Click="{m:Exp Str=DeleteAction.Invoke()}" VerticalAlignment="bottom"  IsEnabled="{m:Exp Str='userfiles.SelectedItems.Count=>SelectionChanged!=0'}"  HorizontalAlignment="left" Width="70"  FontSize="13.333" Height="30"  Margin="120,0,0,50"/>
 							</Grid>
 							
 						</Grid>

@@ -124,6 +124,7 @@
 							<RowDefinition Height="50"/>
 							<RowDefinition Height="50"/>
 							<RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
 							<RowDefinition Height="80"/>
 							<RowDefinition Height="50"/>
 							<RowDefinition Height="30"/>
@@ -180,7 +181,17 @@
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_usertype"/>
 							</a:Data.Prop>
-						</TextBox>		 
+						</TextBox>
+						<TextBlock Margin="0,13,0,10" TextWrapping="Wrap" Text="验收人员：" TextAlignment="Right" RenderTransformOrigin="0.393,2.625" Grid.Row="6" Grid.Column="4"/>
+
+                                        <ComboBox DisplayMemberPath="name" SelectedValuePath="name" SelectedValue="{m:Bind Path=f_tqy}" Grid.Column="5" Margin="0,10" Grid.Row="6" Height="Auto" Width="Auto" Grid.ColumnSpan="1">
+                                            <a:Data.Items>
+                                                <o:ObjectList WebClientInfo="{StaticResource dbclient}"  Path="from paramvalue where param.name='验收员'"/>
+                                            </a:Data.Items>
+                                            <a:Data.Prop>
+                                                <o:PropertySetter PropertyName="f_tqy"  NotNull="True" />
+                                            </a:Data.Prop>
+                                        </ComboBox>		 
 						<TextBlock Grid.Column="2" Margin="0" Grid.Row="2" TextWrapping="Wrap" Text="申请单位：" Height="25" TextAlignment="Right"/>
 						<TextBox Text="{m:Bind Path=f_applydept}" Grid.Column="3" Margin="0" Grid.Row="2" TextWrapping="Wrap" Height="25" IsReadOnly="True">
 							<a:Data.Prop>
@@ -236,36 +247,36 @@
 								/>
 							</a:Data.Prop>
 						</sdk:DatePicker>
-						<TextBlock Margin="0" Grid.Row="15" TextWrapping="Wrap" Text="部 门：" Height="22" TextAlignment="Right"/>
-						<TextBox Text="{m:Bind Path=f_senddepartment}" Grid.Column="1" Margin="0" Grid.Row="15" TextWrapping="Wrap" Height="22" IsReadOnly="True" VerticalAlignment="Stretch">
+						<TextBlock Margin="0" Grid.Row="16" TextWrapping="Wrap" Text="部 门：" Height="22" TextAlignment="Right"/>
+						<TextBox Text="{m:Bind Path=f_senddepartment}" Grid.Column="1" Margin="0" Grid.Row="16" TextWrapping="Wrap" Height="22" IsReadOnly="True" VerticalAlignment="Stretch">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_senddepartment" NotNull="True" 
 									Default="{m:Exp Str=LoginUser.f_parentname}"/>
 							</a:Data.Prop>
 						</TextBox>
 						
-	<TextBlock Margin="0,8,0,7" TextWrapping="Wrap" Text="报建备注：" TextAlignment="Right" 		RenderTransformOrigin="0.393,2.625"   Height="25" Grid.Row="14"/>
-	<TextBox Text="{m:Bind Path=f_baojbeizhu}" IsReadOnly="True" Grid.Column="1" Margin="1,1,0,1" Grid.Row="14" 	TextWrapping="Wrap" Grid.ColumnSpan="3" Height="58" HorizontalAlignment="Left" Width="371" >
+	<TextBlock Margin="0,8,0,7" TextWrapping="Wrap" Text="报建备注：" TextAlignment="Right" RenderTransformOrigin="0.393,2.625"   Height="25" Grid.Row="15"/>
+	<TextBox Text="{m:Bind Path=f_baojbeizhu}" IsReadOnly="True" Grid.Column="1" Margin="1,1,0,1" Grid.Row="15" TextWrapping="Wrap" Grid.ColumnSpan="3" Height="58" HorizontalAlignment="Left" Width="530" >
 		<a:Data.Prop>
 		<o:PropertySetter PropertyName="f_baojbeizhu" />
 		</a:Data.Prop>
 		</TextBox>
-						<TextBlock Grid.Column="2" Margin="0" Grid.Row="15" TextWrapping="Wrap" Text="操 作 人：" Height="22" TextAlignment="Right"/>
-						<TextBox Text="{m:Bind Path=f_sendopertor}" Grid.Column="3" Margin="0" Grid.Row="15" TextWrapping="Wrap" Height="22" IsReadOnly="True" VerticalAlignment="Stretch">
+						<TextBlock Grid.Column="2" Margin="0" Grid.Row="16" TextWrapping="Wrap" Text="操 作 人：" Height="22" TextAlignment="Right"/>
+						<TextBox Text="{m:Bind Path=f_sendopertor}" Grid.Column="3" Margin="0" Grid.Row="16" TextWrapping="Wrap" Height="22" IsReadOnly="True" VerticalAlignment="Stretch">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_sendopertor" NotNull="True"  
 									 Default="{m:Exp Str=LoginUser.name}"/>
 							</a:Data.Prop>
 						</TextBox>
-						<TextBlock Grid.Column="4" Margin="0" Grid.Row="15" TextWrapping="Wrap" Text="日 期：" Height="22" TextAlignment="Right"/>
-						<sdk:DatePicker SelectedDate="{m:Bind Path=f_senddate}" IsEnabled="False" Grid.Column="5" Margin="0" Grid.Row="15"  Height="22" IsTodayHighlighted="True" IsDropDownOpen="False" SelectedDateFormat="Short" VerticalAlignment="Stretch" >
+						<TextBlock Grid.Column="4" Margin="0" Grid.Row="16" TextWrapping="Wrap" Text="日 期：" Height="22" TextAlignment="Right"/>
+						<sdk:DatePicker SelectedDate="{m:Bind Path=f_senddate}" IsEnabled="False" Grid.Column="5" Margin="0" Grid.Row="16"  Height="22" IsTodayHighlighted="True" IsDropDownOpen="False" SelectedDateFormat="Short" VerticalAlignment="Stretch" >
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_senddate" NotNull="True" 
 									Default="{m:Exp Str=SysTime.Today}"/>
 							</a:Data.Prop>
 						</sdk:DatePicker>
-						<TextBlock Margin="0" Grid.Row="13" TextWrapping="Wrap" Text="施工单位：" Height="22" TextAlignment="Right"/>
-						<TextBox Text="{m:Bind Path=f_constructionunit}"  Grid.Column="1" Margin="0,4" Grid.Row="13"  Height="22" IsReadOnly="True">
+						<TextBlock Margin="0" Grid.Row="14" TextWrapping="Wrap" Text="施工单位：" Height="22" TextAlignment="Right"/>
+						<TextBox Text="{m:Bind Path=f_constructionunit}"  Grid.Column="1" Margin="0,4" Grid.Row="14"  Height="22" IsReadOnly="True">
 						      <a:Data.Prop>
 				                  <o:PropertySetter PropertyName="f_constructionunit" />
 			                  </a:Data.Prop>	
@@ -279,89 +290,113 @@
 						<CheckBox Content="材料已开" IsChecked="{m:Bind Path=f_ifmaterial}" IsEnabled="False" Grid.Column="3" Margin="0" Grid.Row="5" Height="25" RenderTransformOrigin="3.385,-1" >
 						</CheckBox>
 						<TextBlock Margin="0" Grid.Row="7" TextWrapping="Wrap" Text="工程部审核意见：" Height="25" TextAlignment="Right"></TextBlock>
-						<TextBox Text="{m:Bind Path=f_opinion}" IsReadOnly="True" Grid.Column="1"  Margin="1,1,0,1" Grid.Row="7" TextWrapping="Wrap" Height="48" Grid.ColumnSpan="3" Width="397" HorizontalAlignment="Left" d:LayoutOverrides="GridBox">
+						<TextBox Text="{m:Bind Path=f_opinion}" IsReadOnly="True" Grid.Column="1"  Margin="1,1,0,1" Grid.Row="7" TextWrapping="Wrap" Height="48" Grid.ColumnSpan="3" Width="529" HorizontalAlignment="Left">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_opinion"/>
 							</a:Data.Prop>	
 						</TextBox>
 						<TextBlock Margin="0" Grid.Row="6" TextWrapping="Wrap" Text="现场勘查意见：" Height="25" TextAlignment="Right"></TextBlock>
-						<TextBox Text="{m:Bind Path=f_gcbkcopinion}" IsReadOnly="True" Grid.Column="1"  Margin="1,1,0,1" Grid.Row="6" TextWrapping="Wrap" Height="48" Grid.ColumnSpan="3" Width="396" HorizontalAlignment="Left">
+						<TextBox Text="{m:Bind Path=f_gcbkcopinion}" IsReadOnly="True" Grid.Column="1"  Margin="1,1,0,1" Grid.Row="6" TextWrapping="Wrap" Height="48" Grid.ColumnSpan="3" Width="529" HorizontalAlignment="Left">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_gcbkcopinion"/>
 							</a:Data.Prop>	
 						</TextBox>
 						<TextBlock Margin="0" Grid.Row="8" TextWrapping="Wrap" Height="25" TextAlignment="Right"><Run Text="开材料"/><Run Text="意见"/><Run Text="："/></TextBlock>
-						<TextBox Text="{m:Bind Path=f_materialmark}" IsReadOnly="True" Grid.Column="1"  Margin="1,1,0,1" Grid.Row="8" TextWrapping="Wrap" Height="48" Grid.ColumnSpan="3" Width="398" HorizontalAlignment="Left" d:LayoutOverrides="GridBox">
+						<TextBox Text="{m:Bind Path=f_materialmark}" IsReadOnly="True" Grid.Column="1"  Margin="1,1,0,1" Grid.Row="8" TextWrapping="Wrap" Height="48" Grid.ColumnSpan="3" Width="529" HorizontalAlignment="Left">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_materialmark"/>
 							</a:Data.Prop>	
 						</TextBox>
-						<TextBlock Margin="0" Grid.Row="10" TextWrapping="Wrap" Text="工程内容及工作量：" Height="25" TextAlignment="Center"/>
-						<TextBox Text="{m:Bind Path=f_projectcontent}" Grid.Column="1" Margin="1,1,0,1" Grid.Row="10"  TextWrapping="Wrap" Height="Auto" Grid.ColumnSpan="3" Width="396" HorizontalAlignment="Left">
+                                    <TextBlock Grid.Column="4" Margin="0" Grid.Row="8" TextWrapping="Wrap" Text="工程编号：" Height="25" TextAlignment="Right"/>
+                                    <TextBox Text="{m:Bind Path=f_pgdgcbh}" Grid.Column="5" Margin="0" Grid.Row="8" TextWrapping="Wrap" Height="25">
+                                        <a:Data.Prop>
+                                            <o:PropertySetter PropertyName="f_pgdgcbh"/>
+                                        </a:Data.Prop>
+                                    </TextBox>
+                                    <TextBlock Margin="0" Grid.Row="10" TextWrapping="Wrap" Text="工作量：" Height="25" TextAlignment="Right"/>
+                                    <TextBox Text="{m:Bind Path=f_pgdgzl}" Grid.Column="1" Margin="1,1,0,1" Grid.Row="10"  TextWrapping="Wrap" Height="Auto" Grid.ColumnSpan="3" Width="529" HorizontalAlignment="Left">
+                                        <a:Data.Prop>
+                                            <o:PropertySetter PropertyName="f_pgdgzl"/>
+                                        </a:Data.Prop>
+                                    </TextBox>
+                                    <TextBlock Grid.Column="4" Margin="0,3,0,2" Grid.Row="10" TextWrapping="Wrap" Text="计划竣工日期：" Height="25" TextAlignment="Right"/>
+                                    <sdk:DatePicker SelectedDate="{m:Bind Path=f_jgysdjhjgdate}" Grid.Column="5" Margin="0,3,0,2" Grid.Row="10"  Height="25" IsTodayHighlighted="True" IsDropDownOpen="False" SelectedDateFormat="Short" VerticalAlignment="Stretch" >
+                                        <a:Data.Prop>
+                                            <o:PropertySetter PropertyName="f_jgysdjhjgdate" NotNull="True"/>
+                                        </a:Data.Prop>
+                                    </sdk:DatePicker>
+                                    <TextBlock Margin="0" Grid.Row="11" TextWrapping="Wrap" Text="工程内容：" Height="25" TextAlignment="Right"/>
+						<TextBox Text="{m:Bind Path=f_projectcontent}" Grid.Column="1" Margin="1,1,0,1" Grid.Row="11"  TextWrapping="Wrap" Height="Auto" Grid.ColumnSpan="3" Width="529" HorizontalAlignment="Left">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_projectcontent" Default="[餐饮X处：火眼X个，XXXX表1块。现场代表：XXX。(备注:图纸1份,料单1份。如不具备通气条件，工单请勿返回，返回均视为可通气。)]
 								
 [锅炉X处X台（XT），XXXX表1块。现场代表：XXX。(备注:图纸1份,料单1份。如不具备通气条件，工单请勿返回，返回均视为可通气。)]"/>
 							</a:Data.Prop>	
 						</TextBox>
-						<TextBlock Margin="0" Grid.Column="4" Grid.Row="10" TextWrapping="Wrap" Height="25" Text="现场代表：" TextAlignment="Right"></TextBlock>
-						<ComboBox DisplayMemberPath="name" SelectedValuePath="name" ItemsSource="{m:Exp Str=userxcdb}" SelectedValue="{m:Bind Path=f_inbuildsign}" Grid.Column="5" Margin="0,28,0,27" Grid.Row="10"   Height="25" RenderTransformOrigin="-4.833,0.84" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1">
+						<TextBlock Margin="0" Grid.Column="4" Grid.Row="11" TextWrapping="Wrap" Height="25" Text="现场代表：" TextAlignment="Right"></TextBlock>
+						<ComboBox DisplayMemberPath="name" SelectedValuePath="name" ItemsSource="{m:Exp Str=userxcdb}" SelectedValue="{m:Bind Path=f_inbuildsign}" Grid.Column="5" Margin="0,28,0,27" Grid.Row="11"   Height="25" RenderTransformOrigin="-4.833,0.84" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1">
         							<a:Data.Prop>
         								<o:PropertySetter PropertyName="f_inbuildsign" />
         							</a:Data.Prop>	
         						</ComboBox>	
-						<TextBlock Margin="0" Grid.Row="12" TextWrapping="Wrap" Text="派工类型：" Height="25" TextAlignment="Right"/>
-						<CheckBox IsChecked="{m:Bind Path=f_indoortype}" IsEnabled="False"  Content="民用户内" Grid.Column="1" Margin="0" Grid.Row="12" Height="22" RenderTransformOrigin="0.51,-0.909" >
+						<TextBlock Margin="0" Grid.Row="13" TextWrapping="Wrap" Text="派工类型：" Height="25" TextAlignment="Right"/>
+						<CheckBox IsChecked="{m:Bind Path=f_indoortype}" IsEnabled="False"  Content="民用户内" Grid.Column="1" Margin="0" Grid.Row="13" Height="22" RenderTransformOrigin="0.51,-0.909" >
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_indoortype" Default="{m:Exp Str=False}"/>
 							</a:Data.Prop>
 						</CheckBox>
-						<CheckBox IsChecked="{m:Bind Path=f_outdoortype}" IsEnabled="False" Content="民用庭院" Grid.Column="2" Margin="0" Grid.Row="12" Height="25">
+						<CheckBox IsChecked="{m:Bind Path=f_outdoortype}" IsEnabled="False" Content="民用庭院" Grid.Column="2" Margin="0" Grid.Row="13" Height="25">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_outdoortype" Default="{m:Exp Str=False}"/>
 							</a:Data.Prop>
 						</CheckBox>
-						<CheckBox IsChecked="{m:Bind Path=f_catertype}"  Content="餐饮" Grid.Column="3" Margin="0" Grid.Row="12" Height="25">
+						<CheckBox IsChecked="{m:Bind Path=f_catertype}"  Content="餐饮" Grid.Column="3" Margin="0" Grid.Row="13" Height="25">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_catertype" Default="{m:Exp Str=False}"/>
 							</a:Data.Prop>
 						</CheckBox>
-						<CheckBox IsChecked="{m:Bind Path=f_boilertype}"  Content="锅炉" Grid.Column="4" Margin="0" Grid.Row="12" Height="25">
+						<CheckBox IsChecked="{m:Bind Path=f_boilertype}"  Content="锅炉" Grid.Column="4" Margin="0" Grid.Row="13" Height="25">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_boilertype" Default="{m:Exp Str=False}"/>
 							</a:Data.Prop>
 						</CheckBox>
-						<CheckBox IsChecked="{m:Bind Path=f_pipelinetype}" IsEnabled="False" Content="管线" Grid.Column="5" Margin="0" Grid.Row="12" Height="25">
+						<CheckBox IsChecked="{m:Bind Path=f_pipelinetype}" IsEnabled="False" Content="管线" Grid.Column="5" Margin="0" Grid.Row="13" Height="25">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_pipelinetype" Default="{m:Exp Str=False}"/>
 							</a:Data.Prop>
 						</CheckBox>
-						<TextBlock Grid.Column="2" Margin="0" Grid.Row="13" TextWrapping="Wrap" Text="监理单位：" Height="22" TextAlignment="Right"/>
-						<ComboBox DisplayMemberPath="name" SelectedValuePath="name" SelectedValue="{m:Bind Path=f_supervisionunit}" ItemsSource="{m:Exp Str=jianlidw}" Grid.Column="3" Margin="0" Grid.Row="13" Height="25" VerticalAlignment="Stretch" Width="145">
+						<TextBlock Grid.Column="2" Margin="0" Grid.Row="14" TextWrapping="Wrap" Text="监理单位：" Height="22" TextAlignment="Right"/>
+						<ComboBox DisplayMemberPath="name" SelectedValuePath="name" SelectedValue="{m:Bind Path=f_supervisionunit}" ItemsSource="{m:Exp Str=jianlidw}" Grid.Column="3" Margin="0" Grid.Row="14" Height="25" VerticalAlignment="Stretch" Width="145">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_supervisionunit" Default="{m:Exp Str='jianlidw.Count > 0 :jianlidw.First().name,null'}"/>
 							</a:Data.Prop>	
 						</ComboBox>	
-						<TextBlock Grid.Column="4" Margin="0" Grid.Row="13" TextWrapping="Wrap" Text="建设单位：" Height="22" TextAlignment="Right"/>
-						<ComboBox DisplayMemberPath="name" SelectedValuePath="name" SelectedValue="{m:Bind Path=f_buildunit}" ItemsSource="{m:Exp Str=jianshedw}" Grid.Column="5" Margin="0" Grid.Row="13" Height="25" VerticalAlignment="Stretch">
+						<TextBlock Grid.Column="4" Margin="0" Grid.Row="14" TextWrapping="Wrap" Text="建设单位：" Height="22" TextAlignment="Right"/>
+						<ComboBox DisplayMemberPath="name" SelectedValuePath="name" SelectedValue="{m:Bind Path=f_buildunit}" ItemsSource="{m:Exp Str=jianshedw}" Grid.Column="5" Margin="0" Grid.Row="14" Height="25" VerticalAlignment="Stretch">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_buildunit" Default="{m:Exp Str='jianshedw.Count > 0 :jianshedw.First().name,null'}"/>
 							</a:Data.Prop>
 						</ComboBox>
-						<TextBlock Margin="0" Grid.Row="11" TextWrapping="Wrap" Text="本工程相关要求：" Height="25" TextAlignment="Right"/>
-						<TextBox Text="{m:Bind Path=f_gongchengyaoqiu}" Grid.Column="1" Margin="1" Grid.Row="11" TextWrapping="Wrap" Height="Auto" Grid.ColumnSpan="4" Width="480" HorizontalAlignment="Left">
+						<TextBlock Margin="0" Grid.Row="12" TextWrapping="Wrap" Text="本工程相关要求：" Height="25" TextAlignment="Right"/>
+						<TextBox Text="{m:Bind Path=f_gongchengyaoqiu}" Grid.Column="1" Margin="1" Grid.Row="12" TextWrapping="Wrap" Height="Auto" Grid.ColumnSpan="4" Width="530" HorizontalAlignment="Left">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_gongchengyaoqiu"/>
 							</a:Data.Prop>	
 						</TextBox>
 						<TextBlock Margin="0" Grid.Row="9" TextWrapping="Wrap" Text="签订合同意见：" Height="25" TextAlignment="Right"/>
-						<TextBox Text="{m:Bind Path=f_beizhu}" IsReadOnly="True" Grid.Column="1" Margin="1,1,0,1" Grid.Row="9" TextWrapping="Wrap" Height="48" Grid.ColumnSpan="3" Width="399" HorizontalAlignment="Left" d:LayoutOverrides="GridBox">
+						<TextBox Text="{m:Bind Path=f_beizhu}" IsReadOnly="True" Grid.Column="1" Margin="1,1,0,1" Grid.Row="9" TextWrapping="Wrap" Height="48" Grid.ColumnSpan="3" Width="529" HorizontalAlignment="Left">
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_beizhu"/>
 							</a:Data.Prop>	
 						</TextBox>
-						<TextBlock Grid.Column="4" Margin="0" Grid.Row="14" TextWrapping="Wrap" Text="换算吨位合计：" Height="22" TextAlignment="Right"/>
-						<TextBox Text="{m:Bind Path=f_dunweiheji}" Grid.Column="5" Margin="0" Grid.Row="14" TextWrapping="Wrap" Height="22" IsReadOnly="True" VerticalAlignment="Stretch">
+                                    <TextBlock Grid.Column="4" Margin="0,3,0,2" Grid.Row="9" TextWrapping="Wrap" Text="计划开工日期：" Height="25" TextAlignment="Right"/>
+                                    <sdk:DatePicker SelectedDate="{m:Bind Path=f_jgysdjhkgdate}" Grid.Column="5" Margin="0,3,0,2" Grid.Row="9"  Height="25" IsTodayHighlighted="True" IsDropDownOpen="False" SelectedDateFormat="Short" VerticalAlignment="Stretch" >
+                                        <a:Data.Prop>
+                                            <o:PropertySetter PropertyName="f_jgysdjhkgdate" NotNull="True"/>
+                                        </a:Data.Prop>
+                                    </sdk:DatePicker>
+                                    <TextBlock Grid.Column="4" Margin="0" Grid.Row="15" TextWrapping="Wrap" Text="换算吨位合计：" Height="22" TextAlignment="Right"/>
+						<TextBox Text="{m:Bind Path=f_dunweiheji}" Grid.Column="5" Margin="0" Grid.Row="15" TextWrapping="Wrap" Height="22" IsReadOnly="True" VerticalAlignment="Stretch">
 							
 						</TextBox>
 							
@@ -504,16 +539,16 @@
                                         </sdk:DataGridTemplateColumn>
                                 </sdk:DataGrid.Columns>
                             </sdk:DataGrid>
-							<!--/ScrollViewer-->
+                            <!--/ScrollViewer   -->
 					    </sdk:TabItem>
                     </sdk:TabControl>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="980">
+                    <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Width="980">
                         <Button Content="  保  存  " Margin="5" Width="60" IsEnabled="{m:Exp Str=!data.HasErrors}" 
                                         Click="{m:Exp Str=fmypgdInfo.DataContext.f_substate\=$完成$;fmypgdInfo.DataContext.Save();fmypgdPopup.BringToDown();fmypgdPopup.IsOpen\=False}" />
                         <Button Content="  保存并提交施工  " Margin="5" IsEnabled="{m:Exp Str=!data.HasErrors}" 
                                         Click="{m:Exp Str=savesubmittip.Show()}" />
                         <c:MessageTipObj Name="savesubmittip" Tip="您确认要提交该报建信息吗？" 
-						OK="{m:Exp Str=fmypgdInfo.DataContext.f_state\=$施工$;fmypgdInfo.DataContext.f_substate\=null;fmypgdInfo.DataContext.Save();fmypgdPopup.BringToDown();fmypgdPopup.IsOpen\=False}" />
+						OK="{m:Exp Str=fmypgdInfo.DataContext.f_isdownloads\=$是$;fmypgdInfo.DataContext.f_state\=$施工$;fmypgdInfo.DataContext.f_substate\=null;fmypgdInfo.DataContext.Save();fmypgdPopup.BringToDown();fmypgdPopup.IsOpen\=False}" />
 						<Button Content="  保存并返回开材料  " Margin="5" IsEnabled="{m:Exp Str=!data.HasErrors}" 
                                         Click="{m:Exp Str=backsubmittip.Show()}" />
                         <c:MessageTipObj Name="backsubmittip" Tip="您确认要返回该报建信息吗？" 
@@ -529,97 +564,99 @@
                         <c:PrintObj x:Name="glhnprint_fmypgd" UseDefaultPrinter="False" Area="{m:Res Key=glhnprint1_fmypgd }" />
                         <c:PrintObj x:Name="gltyprint_fmypgd" UseDefaultPrinter="False" Area="{m:Res Key=gltyprint1_fmypgd }" />
                         <c:PrintObj x:Name="print_fmypgd" UseDefaultPrinter="False" Area="{m:Res Key=printdevice_fmypgd }" />
-						<sdk:DataGrid Name="printdevice_fmypgd" Margin="104,0,180,-1204" AutoGenerateColumns="False"  ItemsSource="{m:Exp Str=devicelist_fmypgd}" Background="{x:Null}" RowBackground="{x:Null}"
-						 Style="{StaticResource PrintDataGrid}" ColumnHeaderStyle="{StaticResource PrintDataGridColumnHeader}" CellStyle="{StaticResource PrintDataGridCell}" RowHeaderStyle="{StaticResource PrintDataGridRowHeader}" RowStyle="{StaticResource PrintDataGridRow}">
+                    
+                        <sdk:DataGrid x:Name="printdevice_fmypgd" Margin="150,100,5,-1204" ItemsSource="{m:Exp Str=devicelist_fmypgd}"		   
+                	AutoGenerateColumns="False" Width="Auto"  IsReadOnly="True" Height="Auto" VerticalAlignment="Bottom" Background="{x:Null}" RowBackground="{x:Null}"
+                    Style="{StaticResource PrintDataGrid}" ColumnHeaderStyle="{StaticResource PrintDataGridColumnHeader}" CellStyle="{StaticResource PrintDataGridCell}" RowHeaderStyle="{StaticResource PrintDataGridRowHeader}" RowStyle="{StaticResource PrintDataGridRow}">
                                 <sdk:DataGrid.Columns>
-                                    <sdk:DataGridTemplateColumn Header="序号" d:IsLocked="True" >
-                                        <sdk:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{m:Exp Str='data==data.List.EmptyRow:$*$,data.Index'}" Style="{StaticResource PrintTextBox}" />
-                                            </DataTemplate>
-                                        </sdk:DataGridTemplateColumn.CellTemplate>
-                                    </sdk:DataGridTemplateColumn>
-                                    <sdk:DataGridTemplateColumn Header="第几处">
-                                        <sdk:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{m:Bind Path=f_dijichu}" Style="{StaticResource PrintTextBox}" />
-                                            </DataTemplate>
-                                        </sdk:DataGridTemplateColumn.CellTemplate>
-                                    </sdk:DataGridTemplateColumn>
-                                    <sdk:DataGridTemplateColumn Header="设备名称">
-                                        <sdk:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{m:Bind Path=f_name}" Style="{StaticResource PrintTextBox}" />
-                                            </DataTemplate>
-                                        </sdk:DataGridTemplateColumn.CellTemplate>
-                                    </sdk:DataGridTemplateColumn>
-                                    <sdk:DataGridTemplateColumn Header="功率/台" >
-                                        <sdk:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{m:Bind Path=f_usegasnum}" Style="{StaticResource PrintTextBox}" />
-                                            </DataTemplate>
-                                        </sdk:DataGridTemplateColumn.CellTemplate>
-                                    </sdk:DataGridTemplateColumn>
-                                    <sdk:DataGridTemplateColumn Header="用气设备单位">
-                                        <sdk:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{m:Bind Path=f_unit}" Style="{StaticResource PrintTextBox}" />
-                                            </DataTemplate>
-                                        </sdk:DataGridTemplateColumn.CellTemplate>
-                                    </sdk:DataGridTemplateColumn>
-                                    <sdk:DataGridTemplateColumn Header="数量">
-                                        <sdk:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{m:Bind Path=f_count}" Style="{StaticResource PrintTextBox}" />
-                                            </DataTemplate>
-                                        </sdk:DataGridTemplateColumn.CellTemplate>
-                                    </sdk:DataGridTemplateColumn>
-                                    <sdk:DataGridTemplateColumn Header="吨/台">
-                                        <sdk:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{m:Bind Path=f_dunwei}" Style="{StaticResource PrintTextBox}" />
-                                            </DataTemplate>
-                                        </sdk:DataGridTemplateColumn.CellTemplate>
-                                    </sdk:DataGridTemplateColumn>
-                                    <sdk:DataGridTemplateColumn Header="气表品牌">
-                                        <sdk:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox  Text="{m:Bind Path=f_gaswatchbrand}" Style="{StaticResource PrintTextBox}" />
-                                            </DataTemplate>
-                                        </sdk:DataGridTemplateColumn.CellTemplate>
-                                    </sdk:DataGridTemplateColumn>
-                                    <sdk:DataGridTemplateColumn Header="气表型号">
-                                        <sdk:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{m:Bind Path=f_metertype}" Style="{StaticResource PrintTextBox}" />
-                                            </DataTemplate>
-                                        </sdk:DataGridTemplateColumn.CellTemplate>
-                                    </sdk:DataGridTemplateColumn>
-                                    <sdk:DataGridTemplateColumn Header="表号">
-                                        <sdk:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{m:Bind Path=f_deviceno}" Width="80" Style="{StaticResource PrintTextBox}" />
-                                            </DataTemplate>
-                                        </sdk:DataGridTemplateColumn.CellTemplate>
-                                    </sdk:DataGridTemplateColumn>
-                                    <sdk:DataGridTemplateColumn Header="表封号">
-                                        <sdk:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{m:Bind Path=f_devicetitle}" Width="80" Style="{StaticResource PrintTextBox}" />
-                                            </DataTemplate>
-                                        </sdk:DataGridTemplateColumn.CellTemplate>
-                                    </sdk:DataGridTemplateColumn>
-                                    <sdk:DataGridTemplateColumn Header="表底数">
-                                        <sdk:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{m:Bind Path=f_gasmeteraccomodations}" Width="80" Style="{StaticResource PrintTextBox}" />
-                                            </DataTemplate>
-                                        </sdk:DataGridTemplateColumn.CellTemplate>
-                                    </sdk:DataGridTemplateColumn>
-                                </sdk:DataGrid.Columns>
-                            </sdk:DataGrid>
+                                <sdk:DataGridTemplateColumn Header="序号" d:IsLocked="True" >
+                                    <sdk:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{m:Exp Str=data\=\=data.List.EmptyRow:$*$\,data.Index}" Style="{StaticResource PrintTextBox}" />
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellTemplate>
+                                </sdk:DataGridTemplateColumn>
+                                <sdk:DataGridTemplateColumn Header="第几处">
+                                    <sdk:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{m:Bind Path=f_dijichu}" Style="{StaticResource PrintTextBox}" />
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellTemplate>
+                                </sdk:DataGridTemplateColumn>
+                                <sdk:DataGridTemplateColumn Header="设备名称">
+                                    <sdk:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{m:Bind Path=f_name}" Style="{StaticResource PrintTextBox}" />
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellTemplate>
+                                </sdk:DataGridTemplateColumn>
+                                <sdk:DataGridTemplateColumn Header="功率/台" >
+                                    <sdk:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{m:Bind Path=f_usegasnum}" Style="{StaticResource PrintTextBox}" />
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellTemplate>
+                                </sdk:DataGridTemplateColumn>
+                                <sdk:DataGridTemplateColumn Header="用气设备单位">
+                                    <sdk:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{m:Bind Path=f_unit}" Style="{StaticResource PrintTextBox}" />
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellTemplate>
+                                </sdk:DataGridTemplateColumn>
+                                <sdk:DataGridTemplateColumn Header="数量">
+                                    <sdk:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{m:Bind Path=f_count}" Style="{StaticResource PrintTextBox}" />
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellTemplate>
+                                </sdk:DataGridTemplateColumn>
+                                <sdk:DataGridTemplateColumn Header="吨/台">
+                                    <sdk:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{m:Bind Path=f_dunwei}" Style="{StaticResource PrintTextBox}" />
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellTemplate>
+                                </sdk:DataGridTemplateColumn>
+                                <sdk:DataGridTemplateColumn Header="气表品牌">
+                                    <sdk:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox  Text="{m:Bind Path=f_gaswatchbrand}" Style="{StaticResource PrintTextBox}" />
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellTemplate>
+                                </sdk:DataGridTemplateColumn>
+                                <sdk:DataGridTemplateColumn Header="气表型号">
+                                    <sdk:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{m:Bind Path=f_metertype}" Style="{StaticResource PrintTextBox}" />
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellTemplate>
+                                </sdk:DataGridTemplateColumn>
+                                <sdk:DataGridTemplateColumn Header="表号">
+                                    <sdk:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{m:Bind Path=f_deviceno}"  Style="{StaticResource PrintTextBox}" />
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellTemplate>
+                                </sdk:DataGridTemplateColumn>
+                                <sdk:DataGridTemplateColumn Header="表封号">
+                                    <sdk:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{m:Bind Path=f_devicetitle}" Style="{StaticResource PrintTextBox}" />
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellTemplate>
+                                </sdk:DataGridTemplateColumn>
+                                <sdk:DataGridTemplateColumn Header="表底数">
+                                    <sdk:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{m:Bind Path=f_gasmeteraccomodations}"  Style="{StaticResource PrintTextBox}" />
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellTemplate>
+                                </sdk:DataGridTemplateColumn>
+                            </sdk:DataGrid.Columns>
+                        </sdk:DataGrid>
                         <!--餐饮户内打印-->
-                        <Grid x:Name="cyhnprint1_fmypgd"  Margin="320,0,152,-1202" HorizontalAlignment="Stretch" Width="750" Height="1039" VerticalAlignment="Bottom" d:LayoutOverrides="HorizontalMargin">
+                        <Grid x:Name="cyhnprint1_fmypgd"  Margin="20,0,152,-5202" HorizontalAlignment="Stretch" Width="750" Height="1039" VerticalAlignment="Bottom" d:LayoutOverrides="HorizontalMargin">
 		<a:Data.Context>
             		<o:GeneralObject   WebClientInfo="{StaticResource dbclient}" 
 		EntityType="t_apply" Source="{m:Exp Str=fmypgdInfo.DataContext}"
@@ -697,7 +734,7 @@
 			<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="163,0,0,162" Grid.Row="1" TextWrapping="Wrap" Text="现场负责人：" Width="80" TextAlignment="Center" Height="25" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" Margin="294,0,356,164" Grid.Row="1" TextWrapping="Wrap" Text="现场代表：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" Margin="0,0,219,164" Grid.Row="1" TextWrapping="Wrap" Text="现场代表：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="70"/>
-			<TextBlock Grid.Column="1" Margin="0,0,97,164" Grid.Row="1" TextWrapping="Wrap" Text="工程部部长：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="58"/>
+			<TextBlock Grid.Column="1" Margin="0,0,73,162" Grid.Row="1" TextWrapping="Wrap" Text="工程部部长：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
 			<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="39,0,0,62" Grid.Row="1" TextWrapping="Wrap" Text="　　　年　月　日" Width="114" TextAlignment="Center" Height="21" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="173,0,0,62" Grid.Row="1" TextWrapping="Wrap" Text="　　　年　月　日" Width="114" TextAlignment="Center" Height="21" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" Margin="311,0,295,62" Grid.Row="1" TextWrapping="Wrap" Text="　　　年　月　日" TextAlignment="Center" Height="21" VerticalAlignment="Bottom"/>
@@ -736,7 +773,7 @@
 			
 		</Grid>
                         <!--餐饮庭院打印-->
-                        <Grid x:Name="cytyprint1_fmypgd"  Margin="320,0,152,-1202" HorizontalAlignment="Stretch" Width="750" Height="1039" VerticalAlignment="Bottom" d:LayoutOverrides="HorizontalMargin">
+                        <Grid x:Name="cytyprint1_fmypgd"  Margin="20,0,152,-4202" HorizontalAlignment="Stretch" Width="750" Height="1039" VerticalAlignment="Bottom" d:LayoutOverrides="HorizontalMargin">
 		<a:Data.Context>
             		<o:GeneralObject   WebClientInfo="{StaticResource dbclient}" 
 		EntityType="t_apply" Source="{m:Exp Str=fmypgdInfo.DataContext}"
@@ -813,7 +850,7 @@
 			<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="163,0,0,152" Grid.Row="1" TextWrapping="Wrap" Text="现场负责人：" Width="80" TextAlignment="Center" Height="25" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" Margin="294,0,356,152" Grid.Row="1" TextWrapping="Wrap" Text="现场代表：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" Margin="0,0,219,152" Grid.Row="1" TextWrapping="Wrap" Text="现场代表：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="70"/>
-			<TextBlock Grid.Column="1" Margin="0,0,97,152" Grid.Row="1" TextWrapping="Wrap" Text="工程部部长：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="58"/>
+			<TextBlock Grid.Column="1" Margin="0,0,73,151" Grid.Row="1" TextWrapping="Wrap" Text="工程部部长：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" RenderTransformOrigin="0.697,1.56"/>
 			<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="39,0,0,62" Grid.Row="1" TextWrapping="Wrap" Text="　　　年　月　日" Width="114" TextAlignment="Center" Height="21" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="173,0,0,62" Grid.Row="1" TextWrapping="Wrap" Text="　　　年　月　日" Width="114" TextAlignment="Center" Height="21" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" Margin="311,0,295,62" Grid.Row="1" TextWrapping="Wrap" Text="　　　年　月　日" TextAlignment="Center" Height="21" VerticalAlignment="Bottom"/>
@@ -852,7 +889,7 @@
 			
 		</Grid>
                         <!--锅炉户内打印-->
-                        <Grid x:Name="glhnprint1_fmypgd"  Margin="320,0,152,-1202" HorizontalAlignment="Stretch" Width="750" Height="1039" VerticalAlignment="Bottom" d:LayoutOverrides="HorizontalMargin">
+                        <Grid x:Name="glhnprint1_fmypgd"  Margin="20,0,152,-3202" HorizontalAlignment="Stretch" Width="750" Height="1039" VerticalAlignment="Bottom" d:LayoutOverrides="HorizontalMargin">
 		<a:Data.Context>
             		<o:GeneralObject   WebClientInfo="{StaticResource dbclient}" 
 		EntityType="t_apply" Source="{m:Exp Str=fmypgdInfo.DataContext}"
@@ -929,7 +966,7 @@
 			<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="163,0,0,142" Grid.Row="1" TextWrapping="Wrap" Text="现场负责人：" Width="80" TextAlignment="Center" Height="25" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" Margin="294,0,356,142" Grid.Row="1" TextWrapping="Wrap" Text="现场代表：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" Margin="0,0,219,142" Grid.Row="1" TextWrapping="Wrap" Text="现场代表：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="70"/>
-			<TextBlock Grid.Column="1" Margin="0,0,97,142" Grid.Row="1" TextWrapping="Wrap" Text="管网所：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="58"/>
+			<TextBlock Grid.Column="1" Margin="0,0,73,139" Grid.Row="1" TextWrapping="Wrap" Text="工程部部长：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
 			<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="39,0,0,62" Grid.Row="1" TextWrapping="Wrap" Text="　　　年　月　日" Width="114" TextAlignment="Center" Height="21" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="173,0,0,62" Grid.Row="1" TextWrapping="Wrap" Text="　　　年　月　日" Width="114" TextAlignment="Center" Height="21" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" Margin="311,0,295,62" Grid.Row="1" TextWrapping="Wrap" Text="　　　年　月　日" TextAlignment="Center" Height="21" VerticalAlignment="Bottom"/>
@@ -969,7 +1006,7 @@
 			
 		</Grid>
                         <!--锅炉庭院打印-->
-                        <Grid x:Name="gltyprint1_fmypgd"  Margin="320,0,152,-1202" HorizontalAlignment="Stretch" Width="750" Height="1039" VerticalAlignment="Bottom" d:LayoutOverrides="HorizontalMargin">
+                        <Grid x:Name="gltyprint1_fmypgd"  Margin="20,0,152,-2202" HorizontalAlignment="Stretch" Width="750" Height="1039" VerticalAlignment="Bottom" d:LayoutOverrides="HorizontalMargin">
 		<a:Data.Context>
             		<o:GeneralObject   WebClientInfo="{StaticResource dbclient}" 
 		EntityType="t_apply" Source="{m:Exp Str=fmypgdInfo.DataContext}"
@@ -1046,7 +1083,7 @@
 			<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="163,0,0,138" Grid.Row="1" TextWrapping="Wrap" Text="现场负责人：" Width="80" TextAlignment="Center" Height="25" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" Margin="294,0,356,138" Grid.Row="1" TextWrapping="Wrap" Text="现场代表：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" Margin="0,0,219,138" Grid.Row="1" TextWrapping="Wrap" Text="现场代表：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="70"/>
-			<TextBlock Grid.Column="1" Margin="0,0,97,140" Grid.Row="1" TextWrapping="Wrap" Text="管网所：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="58"/>
+			<TextBlock Grid.Column="1" Margin="0,0,73,136" Grid.Row="1" TextWrapping="Wrap" Text="工程部部长：" TextAlignment="Center" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
 			<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="39,0,0,62" Grid.Row="1" TextWrapping="Wrap" Text="　　　年　月　日" Width="114" TextAlignment="Center" Height="21" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="173,0,0,62" Grid.Row="1" TextWrapping="Wrap" Text="　　　年　月　日" Width="114" TextAlignment="Center" Height="21" VerticalAlignment="Bottom"/>
 			<TextBlock Grid.Column="1" Margin="311,0,295,62" Grid.Row="1" TextWrapping="Wrap" Text="　　　年　月　日" TextAlignment="Center" Height="21" VerticalAlignment="Bottom"/>

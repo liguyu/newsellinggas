@@ -86,6 +86,10 @@
 		<property name="f_address" type="string"/>
 		<!--小区名称-->	
 		<property name="f_districtname" type="string"/>
+		<!--单元号 -->
+		<property name="f_cusDy" type="string"/>
+		<!--楼号 -->
+		<property name="f_cusDom" type="string"/>
 		<!--身份证号-->
 		<property name="f_idnumber" type="string"/>
 		<!--气表品牌-->

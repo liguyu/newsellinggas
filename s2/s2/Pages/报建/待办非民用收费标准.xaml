@@ -103,8 +103,8 @@
                     </sdk:DataGrid.Columns>
                 </sdk:DataGrid>
                 <StackPanel Orientation="Horizontal" Width="488" Height="25">
-                    <Button Content="提交收费" Margin="5,0" Click="{m:Exp Str=submittip.Show()}" IsEnabled="{m:Exp Str='fmysfbzList.SelectedItem!=null'}" Width="100" />
-                    <c:MessageTipObj Name="submittip" Tip="您确认要提交收费吗？" OK="{m:Exp Str=SubmitAction.Invoke()}" />
+                    <Button Content="提交银行返单" Margin="5,0" Click="{m:Exp Str=submittip.Show()}" IsEnabled="{m:Exp Str='fmysfbzList.SelectedItem!=null'}" Width="100" />
+                    <c:MessageTipObj Name="submittip" Tip="您确认要提交到银行返单？" OK="{m:Exp Str=SubmitAction.Invoke()}" />
                     <sdk:DataPager Name="fmysfbzPager" Source="{Binding Path=ItemsSource.Count,ElementName=fmysfbzList,Converter={StaticResource DataPagerConverter}}"
 		                    HorizontalAlignment="Left" PageSize="20" Width="378" Height="24" VerticalAlignment="Bottom" d:LayoutOverrides="GridBox"/>
                     <TextBlock Text="总待办数:" Margin="-300,5,260,0" />
@@ -794,7 +794,7 @@
 							</sdk:DataGrid>-->
                             <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="126" Margin="48,233,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="152">
 
-                                <TextBlock x:Name="入户安装费" Text="{m:Exp Str=fmysfbzInfo.DataContext.f_materialfee!\=0:$入住安装费：\{fmysfbzInfo.DataContext.f_materialfee\}元$\,$$}" Visibility="{m:Exp Str=fmysfbzInfo.DataContext.f_materialfee!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="21"  Grid.Row="1" Margin="2" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145"/>
+                                <TextBlock x:Name="入户安装费" Text="{m:Exp Str=fmysfbzInfo.DataContext.f_materialfee!\=0:$工程材料费：\{fmysfbzInfo.DataContext.f_materialfee\}元$\,$$}" Visibility="{m:Exp Str=fmysfbzInfo.DataContext.f_materialfee!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="21"  Grid.Row="1" Margin="2" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145"/>
                                 <TextBlock x:Name="排空费" Text="{m:Exp Str=fmysfbzInfo.DataContext.f_emptyingfee!\=0:$排空费：\{fmysfbzInfo.DataContext.f_emptyingfee\}元$\,$$}" Grid.Column="1" Height="21" Margin="2" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145" RenderTransformOrigin="0.5,0.5">
                                 </TextBlock>
                                 <TextBlock x:Name="热水器安装费" Text="{m:Exp Str=fmysfbzInfo.DataContext.f_rsqf!\=0:$热水器费：\{fmysfbzInfo.DataContext.f_rsqf\}元$\,$$}" Visibility="{m:Exp Str=fmysfbzInfo.DataContext.f_rsqf!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="21" Margin="2" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145" RenderTransformOrigin="0.503,0.476">
@@ -893,7 +893,7 @@
                             <TextBlock x:Name="应缴金额_Copy" Text="{m:Exp Str=$\{fmysfbzInfo.DataContext.f_totalfee\}元$}" Grid.Column="1" Height="49" Margin="0,898,368,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Right" Width="318"/>
                             <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="126" Margin="48,761,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="152">
 
-                                <TextBlock x:Name="入户安装费1" Text="{m:Exp Str=fmysfbzInfo.DataContext.f_materialfee!\=0:$入住安装费：\{fmysfbzInfo.DataContext.f_materialfee\}元$\,$$}" Visibility="{m:Exp Str=fmysfbzInfo.DataContext.f_materialfee!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="21"  Grid.Row="1" Margin="2" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145"/>
+                                <TextBlock x:Name="入户安装费1" Text="{m:Exp Str=fmysfbzInfo.DataContext.f_materialfee!\=0:$工程材料费：\{fmysfbzInfo.DataContext.f_materialfee\}元$\,$$}" Visibility="{m:Exp Str=fmysfbzInfo.DataContext.f_materialfee!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="21"  Grid.Row="1" Margin="2" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145"/>
                                 <TextBlock x:Name="排空费1" Text="{m:Exp Str=fmysfbzInfo.DataContext.f_emptyingfee!\=0:$排空费：\{fmysfbzInfo.DataContext.f_emptyingfee\}元$\,$$}" Grid.Column="1" Height="21" Margin="2" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145" RenderTransformOrigin="0.5,0.5"/>
 
                                 <TextBlock x:Name="热水器安装费1" Text="{m:Exp Str=fmysfbzInfo.DataContext.f_rsqf!\=0:$热水器费：\{fmysfbzInfo.DataContext.f_rsqf\}元$\,$$}" Visibility="{m:Exp Str=fmysfbzInfo.DataContext.f_rsqf!\=0:$Visible$\,$Collapsed$}" Grid.Column="1" Height="21" Margin="2" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145" RenderTransformOrigin="0.503,0.476"/>

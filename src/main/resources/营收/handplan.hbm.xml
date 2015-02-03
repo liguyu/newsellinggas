@@ -26,6 +26,10 @@
 		<property name="f_cardid" type="string"/>	
 		<!--地址-->
 		<property name="f_address" type="string"/>
+		<!--单元号 -->
+		<property name="f_cusDy" type="string"/>
+		<!--楼号 -->
+		<property name="f_cusDom" type="string"/>
 		<!--门牌号 -->
 		<property name="f_apartment" type="string"/>
 		<!--小区-->

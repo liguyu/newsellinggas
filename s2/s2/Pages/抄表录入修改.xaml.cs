@@ -40,7 +40,8 @@ namespace Com.Aote.Pages
                 obj.SetPropertyValue("f_address", ui_address.Text, false);
                 obj.SetPropertyValue("oughtfee", decimal.Parse(go.GetPropertyValue("oughtfee").ToString()), false);
                 obj.SetPropertyValue("newoughtfee", decimal.Parse(ui_oughtfee.Text), false);
-                if (go.GetPropertyValue("lastinputgasnum") != null) {
+                if (go.GetPropertyValue("lastinputgasnum") != null)
+                {
                     obj.SetPropertyValue("lastinputgasnum", decimal.Parse(go.GetPropertyValue("lastinputgasnum").ToString()), false);
                 }
                 //修改后上期指数
@@ -76,7 +77,7 @@ namespace Com.Aote.Pages
             {
                 MessageBox.Show(a.Message);
             }
-          
+
             //oughtfee shifoujiaofei f_operator f_inputtor f_zhinajindate
             //拼接更新sql
 
@@ -92,7 +93,7 @@ namespace Com.Aote.Pages
             {
                 sql += ",lastinputgasnum=" + updatehandplan.GetPropertyValue("lastinputgasnum").ToString();
             }
-            sql+="  where id = " + go.GetPropertyValue("id");
+            sql += "  where id = " + go.GetPropertyValue("id");
             HQLAction action = new HQLAction();
             action.HQL = sql;
             action.WebClientInfo = Application.Current.Resources["dbclient"] as WebClientInfo;

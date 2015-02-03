@@ -53,7 +53,7 @@
                         <TextBlock TextWrapping="Wrap" Text="片区：" Margin="5,0,0,0"/>
                         <TextBox TextWrapping="Wrap" Text="{m:Bind Path=f_area}" MinWidth="30" Margin="5,0,0,0" Height="22">
                             <a:Data.Prop>
-                                <o:PropertySetter PropertyName="f_area" Operator="f_area = 'this'"/>
+                                <o:PropertySetter PropertyName="f_area" Operator="f_area like 'this%''"/>
                             </a:Data.Prop>
                         </TextBox>
                         <TextBlock TextWrapping="Wrap" Text="电 话：" Margin="5,0,0,0"/>
@@ -411,7 +411,7 @@ Width="Auto" Grid.Row="1" Grid.ColumnSpan="3"  Height="Auto">
                                         Click="{m:Exp Str=savesubmittip.Show()}" />
 			    				
                         <c:MessageTipObj Name="savesubmittip" Tip="您确认要提交该报建信息吗？" 
-						OK="{m:Exp Str=mytqInfo.DataContext.f_state\=$完工$;mytqInfo.DataContext.f_substate\=null;mytqInfo.DataContext.Save();mytqPopup.BringToDown();mytqPopup.IsOpen\=False}" />
+						OK="{m:Exp Str=mytqInfo.DataContext.f_isdownloads\=$否$;mytqInfo.DataContext.f_state\=$完工$;mytqInfo.DataContext.f_substate\=null;mytqInfo.DataContext.Save();mytqPopup.BringToDown();mytqPopup.IsOpen\=False}" />
 						<Button Name="mytqBack" Content="  返  回  " Click="{m:Exp Str=mytqPopup.BringToDown();mytqPopup.IsOpen\=False}" Margin="5" Width="60" />
                     </StackPanel>
                 </Grid>

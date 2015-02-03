@@ -81,7 +81,10 @@ namespace Com.Aote.Pages
 
         private void action_Completed(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
-            string sql = "update t_userfiles set f_initcardsellgas = null where id=" + ui_id.Text;
+            string sql = "update t_userfiles set f_initcardsellgas = null,f_gasmeterstyle='"
+            + f_newgasmeterstyle.Text + "',f_gasmetermanufacturers='" + f_newgasmetermanufacturers.Text +
+            "',f_metertype='" + f_qbnumber.Text + "',f_gaswatchbrand='" + CoboxPinpai.Text +
+            "' where id=" + ui_id.Text;
             HQLAction action1 = new HQLAction();
             action1.HQL = sql;
             action1.WebClientInfo = Application.Current.Resources["dbclient"] as WebClientInfo;

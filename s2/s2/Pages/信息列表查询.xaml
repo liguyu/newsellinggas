@@ -49,7 +49,7 @@
             </o:GeneralObject>
 
             <o:ObjectList Name="qblist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气表品牌'"/>
-            <o:ObjectList Name="usegaslist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='用气类型'"/>
+
             <o:ObjectList Name="qjlist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气价类型'"/>
             <!--用气设备信息-->
             <o:ObjectList Name="devicelist" EntityType="t_devices" HasEmptyRow="True"></o:ObjectList>
@@ -1476,7 +1476,7 @@
                             <sdk:DataGrid IsReadOnly="True" AutoGenerateColumns="False" x:Name="fileschange" ItemsSource="{m:Exp Str=data.f_changeid}"  HorizontalAlignment="Stretch" Height="150" Grid.Column="1" Margin="0" Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="3" >
 
                                 <sdk:DataGrid.Columns>
-                                    <sdk:DataGridTextColumn Header="变更字段名称" Binding="{Binding f_filename}"/>                                    <sdk:DataGridTextColumn Header="编码" Binding="{Binding code}"/>                                    <sdk:DataGridTextColumn Header="变更前内容" Binding="{Binding f_changeqian}"/>                                    <sdk:DataGridTextColumn Header="变更后内容" Binding="{Binding f_changehou}"/>
+                                    <sdk:DataGridTextColumn Header="变更字段名称" Binding="{Binding f_filename}"/>                                    <sdk:DataGridTextColumn Header="编码" Binding="{Binding code}"/>                                    <sdk:DataGridTextColumn Header="变更前内容" Binding="{Binding f_changeqian}"/>                                    <sdk:DataGridTextColumn Header="变更后内容" Binding="{Binding f_changehou}"/>
                                 </sdk:DataGrid.Columns>
                             </sdk:DataGrid>
 
@@ -2404,7 +2404,7 @@
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="7*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=hbinfos.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=hbinfos.ItemsSource.IsBusy or excelhuanbiao.IsBusy}">
                         <toolkit:DockPanel   >
                             <toolkit:DockPanel x:Name="hbinfosearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" >
                                 <a:Data.Context>
@@ -2458,7 +2458,7 @@
                                     </ComboBox>
                                     <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2">
                                         <Button Content="查  询" x:Name="hbsearchbutton" Grid.Column="2" Grid.Row="2" Click="{m:Exp Str=hbinfosearch.DataContext.Search()}" Margin="0,-5,5,0" HorizontalAlignment="Right" Width="50" FontSize="14" Height="29"  />
-                                        <Button Content="导出excel" x:Name="excelhb" Grid.Column="2" Grid.Row="2" Click="{m:Exp Str=excelhuanbiao.Export()}" Margin="0,-5,5,0" HorizontalAlignment="Right" Width="70" FontSize="14" Height="29"  />                            
+                                        <Button Content="导出excel" x:Name="excelhb" Grid.Column="2" Grid.Row="2" Click="{m:Exp Str=excelhuanbiao.Export()}" Margin="0,-5,5,0" HorizontalAlignment="Right" Width="70" FontSize="14" Height="29"  />
                                     </StackPanel>
                                 </Grid>
                             </toolkit:DockPanel>
@@ -4952,9 +4952,9 @@
                                     </TextBox>
 
 
-                                    <TextBlock TextWrapping="Wrap" Grid.Row="2" Grid.Column="0" Margin="0" 
+                                    <TextBlock TextWrapping="Wrap" Grid.Row="2" Grid.Column="0" Margin="0" 
 Height="25" TextAlignment="Right" HorizontalAlignment="Center" Text="操作日期从 :"/>
-                                    <sdk:DatePicker Name="dwxxrq" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="2" Grid.Column="1" 
+                                    <sdk:DatePicker Name="dwxxrq" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="2" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" HorizontalAlignment="Stretch" >
                                         <a:Data.Prop>
                                             <!-- Value="{m:Exp Str=SysTime.Today}"-->
@@ -4962,7 +4962,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
 											Operator="f_date >= substring('this',1,10)"/>
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
-                                    <sdk:DatePicker Name="dwxxrq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="3" Grid.Column="1" 
+                                    <sdk:DatePicker Name="dwxxrq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="3" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" Grid.ColumnSpan="1" d:LayoutOverrides="GridBox" >
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_yytdate2"  
@@ -5166,9 +5166,9 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                             <o:PropertySetter PropertyName="f_gasproperties" Operator="f_gasproperties like 'this%'" />
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <TextBlock TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" Margin="0" 
+                                    <TextBlock TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" Margin="0" 
 Height="25" TextAlignment="Right"><Run Text="操作日期从"/><Run Text=" "/></TextBlock>
-                                    <sdk:DatePicker Name="qjlxbgrq" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="3" Grid.Column="1" 
+                                    <sdk:DatePicker Name="qjlxbgrq" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="3" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" HorizontalAlignment="Stretch" >
                                         <a:Data.Prop>
                                             <!-- Value="{m:Exp Str=SysTime.Today}"-->
@@ -5176,7 +5176,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
 											Operator="f_sdate >= substring('this',1,10)"/>
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
-                                    <sdk:DatePicker Name="qjlxbgrq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="4" Grid.Column="1" 
+                                    <sdk:DatePicker Name="qjlxbgrq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="4" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" Grid.ColumnSpan="1" >
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_yytdate2"  
@@ -5457,9 +5457,9 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                     </TextBox>
 
 
-                                    <TextBlock TextWrapping="Wrap" Grid.Row="2" Grid.Column="0" Margin="0" 
+                                    <TextBlock TextWrapping="Wrap" Grid.Row="2" Grid.Column="0" Margin="0" 
 Height="25" TextAlignment="Right"><Run Text="操作日期从"/><Run Text=" "/></TextBlock>
-                                    <sdk:DatePicker Name="dzqbpprq" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="2" Grid.Column="1" 
+                                    <sdk:DatePicker Name="dzqbpprq" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="2" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" HorizontalAlignment="Stretch" >
                                         <a:Data.Prop>
                                             <!-- Value="{m:Exp Str=SysTime.Today}"-->
@@ -5467,7 +5467,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
 											Operator="f_sdate >= substring('this',1,10)"/>
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
-                                    <sdk:DatePicker Name="dzqbpprq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="3" Grid.Column="1" 
+                                    <sdk:DatePicker Name="dzqbpprq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="3" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" Grid.ColumnSpan="1" d:LayoutOverrides="GridBox" >
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_yytdate2"  
@@ -5803,7 +5803,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
 											Operator="f_cmdate >= substring('this',1,10)"/>
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
-                                    <sdk:DatePicker Name="dqdjrq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="4" Grid.Column="1" 
+                                    <sdk:DatePicker Name="dqdjrq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="4" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" Grid.ColumnSpan="1" >
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_yytdate2"  
@@ -5844,7 +5844,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                         </toolkit:DockPanel >
                     </toolkit:BusyIndicator>
                     <!--操作区按钮-->
-                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipelines1.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
+                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipeline1.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
                         <Grid Background="{x:Null}"  >
                             <a:Data.Context>
                                 <!--o:GeneralObject  Name="pipelinego2" WebClientInfo="{StaticResource dbclient}" 
@@ -6090,7 +6090,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="7*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=applys.ItemsSource.IsBusy}">
+                    <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=applys.ItemsSource.IsBusy or excelguohu.IsBusy}">
                         <toolkit:DockPanel >
                             <toolkit:DockPanel x:Name="applysearch"  Background="#FFCFEFFF" toolkit:DockPanel.Dock="Top" Margin="0,0,0,5" >
                                 <a:Data.Context>
@@ -6116,9 +6116,9 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                     </TextBox>
 
 
-                                    <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" Margin="0" 
+                                    <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" Margin="0" 
 Height="25" TextAlignment="Right"><Run Text="过户日期从"/><Run Text=" "/></TextBlock>
-                                    <sdk:DatePicker Name="ghrq" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="1" Grid.Column="1" 
+                                    <sdk:DatePicker Name="ghrq" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="1" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" HorizontalAlignment="Stretch" >
                                         <a:Data.Prop>
                                             <!-- Value="{m:Exp Str=SysTime.Today}"-->
@@ -6126,7 +6126,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
 											Operator="f_f_tdate >= substring('this',1,10)"/>
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
-                                    <sdk:DatePicker Name="ghrq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="2" Grid.Column="1" 
+                                    <sdk:DatePicker Name="ghrq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="2" Grid.Column="1" 
                                         a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" Grid.ColumnSpan="1" d:LayoutOverrides="GridBox" >
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_yytdate2"  
@@ -6174,7 +6174,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
 
                             <!--信息列表按钮-->
                         </toolkit:DockPanel >
-                    </toolkit:BusyIndicator>
+                    </c:BusyIndicatorEx>
                     <!--操作区按钮-->
                     <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=applys.DataContext.IsBusy}"  Grid.Column="1" Margin="8,0,0,0">
 
@@ -6395,12 +6395,12 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines22.ItemsSource.IsBusy}">
+                    <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines22.ItemsSource.IsBusy or excelstopgas.IsBusy}">
                         <toolkit:DockPanel >
                             <!--信息列表按钮-->
                             <toolkit:DockPanel  toolkit:DockPanel.Dock="Bottom" Margin="0" Height="45">
                                 <!--信息列表翻页-->
-                                <TextBlock  TextWrapping="Wrap" Text="{m:Exp Str=$共\{pipelines22.ItemsSource.Count\}项}" Width="Auto" HorizontalAlignment="Stretch" Foreground="#FF140000" VerticalAlignment="Bottom" Margin="0,0,0,10"/>
+                                <TextBlock  TextWrapping="Wrap" Text="{m:Exp Str=$共\{pipelines22.ItemsSource.Count\}项}" Width="Auto" HorizontalAlignment="Stretch" Foreground="#FF140000" VerticalAlignment="Bottom" Margin="0,10,0,10"/>
                             </toolkit:DockPanel>
                             <toolkit:DockPanel x:Name="pipelinesearch1" toolkit:DockPanel.Dock="Top" Margin="0,0,0,5"  VerticalAlignment="Top" Background="#FFCFEFFF">
                                 <a:Data.Context>
@@ -6490,9 +6490,9 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
 
                             <!--信息列表按钮-->
                         </toolkit:DockPanel>
-                    </toolkit:BusyIndicator>
+                    </c:BusyIndicatorEx>
                     <!--操作区按钮-->
-                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipelines22.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
+                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipeline.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
                         <Grid Background="{x:Null}" x:Name="pipeline22" >
                             <a:Data.Context>
                                 <!--o:GeneralObject  Name="pipelinego" WebClientInfo="{StaticResource dbclient}" 
@@ -6696,7 +6696,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                             </Grid>
                         </Grid>
                     </toolkit:BusyIndicator>
-                    <sdk:DataPager x:Name="pager22" Source="{Binding Path=ItemsSource.Count,ElementName=pipelines22,Converter={StaticResource DataPagerConverter}}"   Margin="1,0,0,45" PageSize="22" Height="24" VerticalAlignment="Bottom"/>
+                    <sdk:DataPager x:Name="pager22" Source="{Binding Path=ItemsSource.Count,ElementName=pipelines22,Converter={StaticResource DataPagerConverter}}"   Margin="1,0,0,44" PageSize="22" Height="24" VerticalAlignment="Bottom"/>
                 </Grid>
             </sdk:TabItem>
 
@@ -6738,9 +6738,9 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                         </a:Data.Prop>
                                     </TextBox>
 
-                                    <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" Margin="0" 
+                                    <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" Margin="0" 
 Height="25" TextAlignment="Right" d:LayoutOverrides="GridBox"><Run Text="建档日期从"/><Run Text=" "/></TextBlock>
-                                    <sdk:DatePicker Name="qyrq" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="1" Grid.Column="1" 
+                                    <sdk:DatePicker Name="qyrq" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="1" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" HorizontalAlignment="Stretch" d:LayoutOverrides="GridBox" >
                                         <a:Data.Prop>
                                             <!-- Value="{m:Exp Str=SysTime.Today}"-->
@@ -6748,7 +6748,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
 											Operator="f_openingdate >= substring('this',1,10)"/>
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
-                                    <sdk:DatePicker Name="qyrq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="2" Grid.Column="1" 
+                                    <sdk:DatePicker Name="qyrq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="2" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" Grid.ColumnSpan="1" >
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_yytdate2"  
@@ -6789,7 +6789,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                         </toolkit:DockPanel>
                     </toolkit:BusyIndicator>
                     <!--操作区按钮-->
-                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipelines23.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
+                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipeline.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
                         <Grid  x:Name="pipeline23" >
                             <a:Data.Context>
                                 <!--o:GeneralObject  Name="pipelinego" WebClientInfo="{StaticResource dbclient}" 
@@ -6984,7 +6984,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines24.ItemsSource.IsBusy}">
+                    <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines24.ItemsSource.IsBusy}">
                         <toolkit:DockPanel >
 
                             <!--信息列表按钮-->
@@ -7001,7 +7001,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                         <RowDefinition Height="28"/>
                                         <RowDefinition Height="28"/>
                                         <RowDefinition Height="28"/>
-                                   </Grid.RowDefinitions>                                   
+                                    </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="50*"/>
@@ -7060,7 +7060,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
 
                             <!--信息列表按钮-->
                         </toolkit:DockPanel>
-                    </toolkit:BusyIndicator>
+                    </c:BusyIndicatorEx>
                     <!--操作区按钮-->
                     <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipeline24.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
                         <Grid  x:Name="pipeline24" >
@@ -7232,7 +7232,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                             </Grid>
                         </Grid>
                     </toolkit:BusyIndicator>
-                    <sdk:DataPager x:Name="pager24" Source="{Binding Path=ItemsSource.Count,ElementName=pipelines24,Converter={StaticResource DataPagerConverter}}"   Margin="1,0,0,45" PageSize="22" Height="24" VerticalAlignment="Bottom"/>
+                    <sdk:DataPager x:Name="pager24" Source="{Binding Path=ItemsSource.Count,ElementName=pipelines24,Converter={StaticResource DataPagerConverter}}"   Margin="-6,0,10,10" PageSize="22" Height="24" VerticalAlignment="Bottom"/>
                 </Grid>
             </sdk:TabItem>
 
@@ -7290,7 +7290,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                     </sdk:DataGrid>
                                     <sdk:DataGrid IsReadOnly="True" AutoGenerateColumns="False" x:Name="fileschange25" ItemsSource="{m:Exp Str=data.f_changesid}"   HorizontalAlignment="Stretch" Grid.Column="1" Margin="0" Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="3" Width="Auto" >
                                         <sdk:DataGrid.Columns>
-                                            <sdk:DataGridTextColumn Header="变更字段名称" Binding="{Binding f_filename}"/>                                            <sdk:DataGridTextColumn Header="编码" Binding="{Binding code}"/>                                            <sdk:DataGridTextColumn Header="变更后内容" Binding="{Binding f_changehou}"/>
+                                            <sdk:DataGridTextColumn Header="变更字段名称" Binding="{Binding f_filename}"/>                                            <sdk:DataGridTextColumn Header="编码" Binding="{Binding code}"/>                                            <sdk:DataGridTextColumn Header="变更后内容" Binding="{Binding f_changehou}"/>
                                         </sdk:DataGrid.Columns>
                                     </sdk:DataGrid>
                                     <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="变更原因：" Height="25" TextAlignment="Right" VerticalAlignment="Top" d:LayoutOverrides="Height" Margin="0,0,-0.333,0"/>
@@ -7353,9 +7353,9 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                     </Grid.ColumnDefinitions>
 
 
-                                    <TextBlock TextWrapping="Wrap" Grid.Column="0" Margin="0" 
+                                    <TextBlock TextWrapping="Wrap" Grid.Column="0" Margin="0" 
 Height="25" TextAlignment="Right" d:LayoutOverrides="GridBox"><Run Text="操作日期从"/><Run Text=" "/></TextBlock>
-                                    <sdk:DatePicker Name="bgrq" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="0" Grid.Column="1" 
+                                    <sdk:DatePicker Name="bgrq" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="0" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" HorizontalAlignment="Stretch" d:LayoutOverrides="GridBox" >
                                         <a:Data.Prop>
                                             <!-- Value="{m:Exp Str=SysTime.Today}"-->
@@ -7363,7 +7363,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
 											Operator="f_date >= substring('this',1,10)"/>
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
-                                    <sdk:DatePicker Name="bgrq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="1" Grid.Column="1" 
+                                    <sdk:DatePicker Name="bgrq1" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="1" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" Grid.ColumnSpan="1" >
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_yytdate2"  
@@ -7443,9 +7443,9 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                         </a:Data.Prop>
                                     </TextBox>
 
-                                    <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" Margin="0" 
+                                    <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" Margin="0" 
 Height="25" TextAlignment="Right" d:LayoutOverrides="GridBox"><Run Text="操作日期从"/><Run Text=" "/></TextBlock>
-                                    <sdk:DatePicker Name="qyrqfz" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="1" Grid.Column="1" 
+                                    <sdk:DatePicker Name="qyrqfz" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="1" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height="25" HorizontalAlignment="Stretch" d:LayoutOverrides="GridBox" >
                                         <a:Data.Prop>
                                             <!-- Value="{m:Exp Str=SysTime.Today}"-->
@@ -7453,7 +7453,7 @@ a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height=
 											Operator="f_recoverypassbookdate >= substring('this',1,10)"/>
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
-                                    <sdk:DatePicker Name="qyrq1fz" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="2" Grid.Column="1" 
+                                    <sdk:DatePicker Name="qyrq1fz" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="2" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height="25" Grid.ColumnSpan="1" >
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_yytdate2"  
@@ -7673,9 +7673,9 @@ a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height=
                                         </a:Data.Prop>
                                     </TextBox>
 
-                                    <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" Margin="0" 
+                                    <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" Margin="0" 
 Height="25" TextAlignment="Right" d:LayoutOverrides="GridBox"><Run Text="操作日期从"/><Run Text=" "/></TextBlock>
-                                    <sdk:DatePicker Name="qyrqbz" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="1" Grid.Column="1" 
+                                    <sdk:DatePicker Name="qyrqbz" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="1" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height="25" HorizontalAlignment="Stretch" d:LayoutOverrides="GridBox" >
                                         <a:Data.Prop>
                                             <!-- Value="{m:Exp Str=SysTime.Today}"-->
@@ -7683,7 +7683,7 @@ a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height=
 											Operator="f_recoverypassbookdate >= substring('this',1,10)"/>
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
-                                    <sdk:DatePicker Name="qyrq1bz" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="2" Grid.Column="1" 
+                                    <sdk:DatePicker Name="qyrq1bz" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="2" Grid.Column="1" 
 a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height="25" Grid.ColumnSpan="1" >
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_yytdate2"  
@@ -7730,7 +7730,7 @@ a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height=
                         </toolkit:DockPanel>
                     </toolkit:BusyIndicator>
                     <!--操作区按钮-->
-                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipelines23bz.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
+                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipeline23fz.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
                         <Grid  x:Name="pipeline23bz" >
                             <a:Data.Context>
                                 <!--o:GeneralObject  Name="pipelinego" WebClientInfo="{StaticResource dbclient}" 

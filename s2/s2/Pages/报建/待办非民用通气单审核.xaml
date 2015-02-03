@@ -129,7 +129,7 @@
                         <sdk:DataGridTemplateColumn Header="报建日期" >
                             <sdk:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding f_date}" Foreground="{m:Exp Str=data.f_htyuding\!\=$费用交清$:Red\,Black}"/>
+                                    <TextBlock Text="{Binding f_date,StringFormat=yyyy-MM-dd}" Foreground="{m:Exp Str=data.f_htyuding\!\=$费用交清$:Red\,Black}"/>
                                 </DataTemplate>
                             </sdk:DataGridTemplateColumn.CellTemplate>
                         </sdk:DataGridTemplateColumn>
@@ -346,9 +346,25 @@
                                                 <o:PropertySetter PropertyName="f_outprojecttime" />
                                             </a:Data.Prop>
                                         </TextBox>
-                                        <CheckBox IsChecked="{m:Bind Path=f_huneiover}" IsEnabled="False" Content="户内施工" Grid.Column="4" Margin="0,6,0,9"  Grid.Row="6" Height="25" HorizontalAlignment="Right"/>
-                                        <CheckBox IsChecked="{m:Bind Path=f_tingyuanover}" IsEnabled="False" Content="庭院施工" Grid.Column="4" Margin="0,6,0,9"  Grid.Row="7" Height="25" HorizontalAlignment="Right"/>
-                                    </Grid>
+                                        <CheckBox IsChecked="{m:Bind Path=f_huneiover}" IsEnabled="False" Content="户内施工" Grid.Column="4" Margin="0,6,0,3"  Grid.Row="7" Height="Auto" HorizontalAlignment="Right"/>
+                                        <CheckBox IsChecked="{m:Bind Path=f_tingyuanover}" IsEnabled="False" Content="庭院施工" Grid.Column="5" Margin="0,6,85,48"  Grid.Row="7" Height="25" HorizontalAlignment="Right" Grid.ColumnSpan="1" Grid.RowSpan="2" Width="84"/>
+                                   
+								   <TextBlock Margin="0,6,0,0" TextWrapping="Wrap" Text="通气人员：" TextAlignment="Right" RenderTransformOrigin="0.393,2.625" Grid.Row="6" Grid.Column="4"/>
+
+                                        <ComboBox DisplayMemberPath="name" SelectedValuePath="name" SelectedValue="{m:Bind Path=f_tqy}" Grid.Column="5" Margin="0,3" Grid.Row="6" Height="Auto" Width="Auto" Grid.ColumnSpan="1">
+                                            <a:Data.Items>
+                                                <o:ObjectList WebClientInfo="{StaticResource dbclient}"  Path="from paramvalue where param.name='通气员'"/>
+                                            </a:Data.Items>
+                                            <a:Data.Prop>
+                                                <o:PropertySetter PropertyName="f_tqy"  NotNull="True" />
+                                            </a:Data.Prop>
+                                        </ComboBox>
+								   
+								   
+								   
+								   
+								   
+								    </Grid>
 								</ScrollViewer>
                         </sdk:TabItem>
                     </sdk:TabControl>
@@ -358,7 +374,7 @@
                         <Button Content="  保存并提交通气  " Margin="5" IsEnabled="{m:Exp Str=!data.HasErrors}"
                                         Click="{m:Exp Str=savesubmittip.Show()}" />
                         <c:MessageTipObj Name="savesubmittip" Tip="您确认要提交该报建信息吗？" 
-						OK="{m:Exp Str=fmytqdshInfo.DataContext.f_state\=$通气登记$;fmytqdshInfo.DataContext.f_substate\=null;fmytqdshInfo.DataContext.Save();fmytqdshPopup.BringToDown();fmytqdshPopup.IsOpen\=False}" />
+						OK="{m:Exp Str=fmytqdshInfo.DataContext.f_isdownloads\=$是$;fmytqdshInfo.DataContext.f_state\=$通气登记$;fmytqdshInfo.DataContext.f_substate\=null;fmytqdshInfo.DataContext.Save();fmytqdshPopup.BringToDown();fmytqdshPopup.IsOpen\=False}" />
 						<Button Name="fmytqdshBack" Content="  返  回  " Click="{m:Exp Str=fmytqdshPopup.BringToDown();fmytqdshPopup.IsOpen\=False}" Margin="5" Width="60" />
                     </StackPanel>
                 </Grid>

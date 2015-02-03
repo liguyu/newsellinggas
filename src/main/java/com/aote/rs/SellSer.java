@@ -49,7 +49,7 @@ public class SellSer {
 			String fengongnum = loginUser.get("f_fengongsinum").toString();
 
 			// 根据用户编号找到用户档案中的信息,以及抄表记录
-			String sql = " select u.f_zhye f_zhye, u.f_username f_username,u.f_cardid f_cardid, u.f_address f_address,u.f_beginfee f_beginfee, u.f_metergasnums f_metergasnums, u.f_cumulativepurchase f_cumulativepurchase,u.f_districtname f_districtname,"
+			String sql = " select u.f_zhye f_zhye, u.f_username f_username,u.f_cardid f_cardid, u.f_address f_address,u.f_districtname f_districtname,u.f_cusDom f_cusDom,u.f_cusDy f_cusDy,u.f_beginfee f_beginfee, u.f_metergasnums f_metergasnums, u.f_cumulativepurchase f_cumulativepurchase,"
 					+ "u.f_idnumber f_idnumber, u.f_gaspricetype f_gaspricetype, u.f_gasprice f_gasprice, u.f_usertype f_usertype,"
 					+ "u.f_gasproperties f_gasproperties, u.f_userid f_userid, h.id handid, h.oughtamount oughtamount, h.lastinputgasnum lastinputgasnum,"
 					+ "h.lastrecord lastrecord, h.shifoujiaofei shifoujiaofei, h.oughtfee oughtfee from t_userfiles u "
@@ -174,7 +174,9 @@ public class SellSer {
 			sell.put("f_comtype", "天然气公司"); // 公司类型，分为天然气公司、银行
 			sell.put("f_username", userinfo.get("f_username")); // 用户/单位名称
 			sell.put("f_address", userinfo.get("f_address")); // 地址
-			sell.put("f_districtname", userinfo.get("f_districtname")); // 小区名称
+			sell.put("f_districtname", userinfo.get("f_districtname")); // 地址
+			sell.put("f_cusDom", userinfo.get("f_cusDom")); // 地址
+			sell.put("f_cusDy", userinfo.get("f_cusDy")); // 地址
 			sell.put("f_idnumber", userinfo.get("f_idnumber")); // 身份证号
 			sell.put("f_gaswatchbrand", "机表"); // 气表品牌
 			sell.put("f_gaspricetype", userinfo.get("f_gaspricetype")); // 气价类型

@@ -105,7 +105,7 @@
                                 <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=persons.ItemsSource.IsBusy}">
                                     <!--DataGrid-->
                                     <sdk:DataGrid x:Name="persons" Margin="0"  AutoGenerateColumns="False"  
-				         SelectedItem="{m:Exp Str='main.DataContext.IsInit or yijing.SelectedItem!=null:null,persons.SelectedItem'}" IsReadOnly="True" >
+				         SelectedItem="{m:Exp Str='main.DataContext.IsInit:null,persons.SelectedItem'}" IsReadOnly="True" >
                                         <a:Data.Items>
                                             <o:ObjectList Name="personslist" WebClientInfo="{StaticResource dbclient}"
                              Path="{m:Exp Str=$select distinct apply from t_apply as apply left join fetch apply.f_applyimage left join fetch apply.f_applycustomer where \{personsearch.DataContext.Condition\} and f_usertype \=\'民用\' and f_state \=\'报建登记\'}"
@@ -128,7 +128,7 @@
 
                             </toolkit:DockPanel>
                         </sdk:TabItem>
-                        <!--已办-->
+                        <!--已办
                         <sdk:TabItem Header=" 已  办  ">
                             <toolkit:DockPanel LastChildFill="True">
                                 <StackPanel x:Name="yijingchaxue" Margin="0,5" toolkit:DockPanel.Dock="Top" Orientation="Horizontal">
@@ -175,7 +175,7 @@
                                     </sdk:DataGrid>
                                 </c:BusyIndicatorEx>
                             </toolkit:DockPanel>
-                        </sdk:TabItem>
+                        </sdk:TabItem>-->
                     </sdk:TabControl>
 
 
@@ -188,10 +188,10 @@
                         <!--编辑对象-->
                         <o:GeneralObject  Name="persongo" WebClientInfo="{StaticResource dbclient}" 
 		EntityType="t_apply" 
-		Source="{m:Exp Str='persons.SelectedItem !=null:persons.SelectedItem,yijing.SelectedItem !=null:yijing.SelectedItem,null'}"
+		Source="{m:Exp Str='persons.SelectedItem !=null:persons.SelectedItem,null'}"
 		IsInit="{m:Exp Str='BatchSave.State==$End$'}">
                             <o:PropertySetter PropertyName="f_state" Default="报建登记"></o:PropertySetter>
-                            <o:PropertySetter  PropertyName="f_substate" Default="{m:Exp Str='yijing.SelectedItem != null:null,$完成$'}"></o:PropertySetter>
+                            <o:PropertySetter  PropertyName="f_substate" Default="完成"></o:PropertySetter>
                             <o:PropertySetter PropertyName="f_issurvey" Default="{m:Exp Str=False}"></o:PropertySetter>
                             <o:PropertySetter PropertyName="f_isdesigners" Default="{m:Exp Str=True}"></o:PropertySetter>
                             <o:PropertySetter PropertyName="f_applycustomer" Default="{m:Exp Str=userlist}"/>
@@ -342,7 +342,7 @@
             						<sdk:DataGridTemplateColumn Header="序号" d:IsLocked="True" >
             							<sdk:DataGridTemplateColumn.CellTemplate>
             								<DataTemplate>
-            									<TextBox   Text="{m:Exp Str=data\=\=data.List.EmptyRow:$*$\,data.Index}"  Style="{StaticResource TextBoxDatagridStyle}"/> 
+            									<TextBox   Text="{m:Exp Str=data\=\=data.List.EmptyRow:$*$\,data.Index}"  Style="{StaticResource TextBoxDatagridStyle}" IsReadOnly="True"/> 
             								</DataTemplate>
             							</sdk:DataGridTemplateColumn.CellTemplate>
             						</sdk:DataGridTemplateColumn>

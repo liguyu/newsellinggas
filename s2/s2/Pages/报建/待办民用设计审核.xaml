@@ -247,10 +247,9 @@
                                         <ColumnDefinition Width="100*"/>
                                         <ColumnDefinition Width="100*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Grid Margin="0,30,20,-30" Grid.Column="1" d:LayoutOverrides="GridBox">
+                                    <Grid Margin="0,30,20,0" Grid.Column="1" d:LayoutOverrides="GridBox">
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
-                                            <RowDefinition Height="95"/>
                                         </Grid.RowDefinitions>
                                         <sdk:DataGrid x:Name="nopeople_gcbmysh" AutoGenerateColumns="False"  ItemsSource="{m:Exp Str=userlist_gcbmysh[data !\= data.List.EmptyRow and (data.f_isok !\= null and !data.f_isok)]}"   VerticalAlignment="Stretch" Grid.Row="0" Margin="20,0,0,0" IsReadOnly="True">
                                             <sdk:DataGrid.Columns>
@@ -319,16 +318,16 @@
                                                         </DataTemplate>
                                                     </sdk:DataGridTemplateColumn.CellTemplate>
                                                 </sdk:DataGridTemplateColumn>
-                                                <sdk:DataGridTemplateColumn Header="图片数量">
+                                              <!--  <sdk:DataGridTemplateColumn Header="图片数量">
                                                     <sdk:DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <TextBox Text="{m:Exp Str=data.f_customerimage!\=null:data.f_customerimage.Count\,$0$}" IsReadOnly="True"/>
                                                         </DataTemplate>
                                                     </sdk:DataGridTemplateColumn.CellTemplate>
-                                                </sdk:DataGridTemplateColumn>
+                                                </sdk:DataGridTemplateColumn>-->
                                             </sdk:DataGrid.Columns>
                                         </sdk:DataGrid>
-                                        <StackPanel MinHeight="80"  DataContext="{Binding SelectedItem, ElementName=nopeople_gcbmysh}" Grid.Row="2" Margin="0,0,0,-25">
+                                     <!--  <StackPanel MinHeight="80"  DataContext="{Binding SelectedItem, ElementName=nopeople_gcbmysh}" Grid.Row="2" Margin="0,0,0,-25">
                                             <ListBox ItemsSource="{m:Exp Str=userimagelist_gcbmysh}" Margin="20,0,0,0" Height="Auto">
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
@@ -347,7 +346,7 @@
                                                     </ItemsPanelTemplate>
                                                 </ListBox.ItemsPanel>
                                             </ListBox>
-                                        </StackPanel>
+                                        </StackPanel>--> 
                                     </Grid>
                                     <StackPanel  Margin="5,0" Grid.Column="1"/>
                                     <TextBlock  TextWrapping="Wrap" Height="22" VerticalAlignment="Top" d:LayoutOverrides="Height" Margin="0,1,0,0"><Run Text="能"/><Run Text="安装"/><Run Text="用户"/></TextBlock>

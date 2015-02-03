@@ -605,9 +605,9 @@
                                     <sdk:DataGridTemplateColumn Header="操作人">
                                         <sdk:DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBox Text="{m:Bind Path=f_bankopertor}"   Margin="0,0,0,0"  TextWrapping="Wrap" Height="22" IsReadOnly="True">
+                                                    <TextBox Text="{m:Bind Path=f_opertor}"   Margin="0,0,0,0"  TextWrapping="Wrap" Height="22" IsReadOnly="True">
                                                     <a:Data.Prop>
-                                                        <o:PropertySetter PropertyName="f_bankopertor" NotNull="True" 
+                                                            <o:PropertySetter PropertyName="f_opertor" NotNull="True" 
 					 							                Default="{m:Exp Str=LoginUser.name}"/>
                                                     </a:Data.Prop>
                                                 </TextBox>

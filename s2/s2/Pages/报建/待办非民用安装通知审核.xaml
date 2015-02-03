@@ -130,7 +130,7 @@
                         <sdk:DataGridTemplateColumn Header="报建日期" >
                             <sdk:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding f_date}" Foreground="{m:Exp Str=data.f_htyuding\!\=$费用交清$:Red\,Black}"	/>
+                                    <TextBlock Text="{Binding f_date,StringFormat=yyyy-MM-dd}" Foreground="{m:Exp Str=data.f_htyuding\!\=$费用交清$:Red\,Black}"	/>
                                 </DataTemplate>
                             </sdk:DataGridTemplateColumn.CellTemplate>
                         </sdk:DataGridTemplateColumn>

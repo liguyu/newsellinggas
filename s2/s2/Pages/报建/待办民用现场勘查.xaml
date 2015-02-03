@@ -25,8 +25,10 @@
             PageIndex="{m:Exp Str=myxckcPager.PageIndex}" PageSize="{m:Exp Str=myxckcPager.PageSize}" SumNames="id" />
             <o:ObjectList Name="userlist_myxckc" WebClientInfo="{StaticResource dbclient}" IsOld="{m:Exp Str='myxckcInfo.DataContext.State==$End$ or myxckcBack=>Click!=null'}"
 			Path="{m:Exp Str='myxckcInfo.DataContext.id!=null:$from t_applycustomer where applyid={myxckcInfo.DataContext.id}$,null'}" EntityType="t_applycustomer"  HasEmptyRow="True" />
-            <o:ObjectList Name="userimagelist_myxckc" Source="{m:Exp Str=nopeople_myxckc.SelectedItem.f_customerimage}" EntityType="t_customerimage" HasEmptyRow="True" />
-            <o:ObjectList Name="imagelist_myxckc" WebClientInfo="{StaticResource dbclient}" IsOld="{m:Exp Str='myxckcInfo.DataContext.State==$End$ or myxckcBack=>Click!=null'}"
+            <o:ObjectList Name="userimagelist_myxckc"   EntityType="t_customerimage" WebClientInfo="{StaticResource dbclient}"
+			Path="{m:Exp Str='nopeople_myxckc.SelectedItem.id!=null:$from t_customerimage where customerid={nopeople_myxckc.SelectedItem.id}$,null'}" HasEmptyRow="True" />
+            
+			<o:ObjectList Name="imagelist_myxckc" WebClientInfo="{StaticResource dbclient}" IsOld="{m:Exp Str='myxckcInfo.DataContext.State==$End$ or myxckcBack=>Click!=null'}"
             Path="{m:Exp Str='myxckcInfo.DataContext.id!=null:$from t_applyimage where applyid={myxckcInfo.DataContext.id}$,null'}" EntityType="t_applyimage" />
 			
 			            <o:GeneralObject Name="myxckcObj" WebClientInfo="{StaticResource dbclient}" EntityType="t_apply"
@@ -59,7 +61,7 @@
                         <TextBlock TextWrapping="Wrap" Text="片区：" Margin="5,0,0,0"/>
                         <TextBox TextWrapping="Wrap" Text="{m:Bind Path=f_area}" MinWidth="30" Margin="5,0,0,0" Height="22">
                             <a:Data.Prop>
-                                <o:PropertySetter PropertyName="f_area" Operator="f_area = 'this'"/>
+                                <o:PropertySetter PropertyName="f_area" Operator="f_area like 'this%'"/>
                             </a:Data.Prop>
                         </TextBox>
                         <TextBlock TextWrapping="Wrap" Text="电 话：" Margin="5,0,0,0"/>
@@ -276,7 +278,7 @@
                                     </a:Data.Prop>
                                 </TextBox>
                                 <TextBlock Margin="0" TextWrapping="Wrap" Text="报建备注：" TextAlignment="Right" RenderTransformOrigin="0.393,2.625" Grid.Row="8" VerticalAlignment="Center"/>
-                                <TextBox Text="{m:Bind Path=f_baojbeizhu}" Grid.Column="1" Margin="0,2" Grid.Row="8" TextWrapping="Wrap" Grid.ColumnSpan="3" Height="Auto" HorizontalAlignment="Stretch" Width="Auto" >
+                                <TextBox IsReadOnly="True" Text="{m:Bind Path=f_baojbeizhu}" Grid.Column="1" Margin="0,2" Grid.Row="8" TextWrapping="Wrap" Grid.ColumnSpan="3" Height="Auto" HorizontalAlignment="Stretch" Width="Auto" >
                                     <a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_baojbeizhu" />
                                     </a:Data.Prop>
@@ -395,7 +397,7 @@
                                 <Grid Margin="0,0,20,0" Grid.Column="2">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
-                                      <!--  <RowDefinition Height="120"/>-->
+                                      <!---->  <RowDefinition Height="120"/>
                                     </Grid.RowDefinitions>
 									    <TextBlock  TextWrapping="Wrap" Height="22" Margin="20,4,0,0" Grid.Column="1" VerticalAlignment="Top" d:LayoutOverrides="Height" Text="不能安装用户"/>
                            
@@ -473,15 +475,22 @@
                                             </sdk:DataGridTemplateColumn>-->
                                             </sdk:DataGrid.Columns>
                                     </sdk:DataGrid>
-                                    <StackPanel MinHeight="80"  DataContext="{Binding SelectedItem, ElementName=nopeople_myxckc}" Grid.Row="1" Margin="0,0,0,0">
-                                          <!-- <ListBox ItemsSource="{m:Exp Str=userimagelist_myxckc}" Margin="0" Height="Auto" SelectionChanged="ListBox_SelectionChanged">
+                                  <!---->   <StackPanel MinHeight="80"  DataContext="{Binding SelectedItem, ElementName=nopeople_myxckc}" Grid.Row="1" Margin="0,0,0,0">
+                                          <ListBox ItemsSource="{m:Exp Str=userimagelist_myxckc}" Margin="0" Height="Auto" >
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel>
                                                             <Image x:Name="Image" Source="{m:Exp Str=$\{dbclient.BaseAddress\}/file/\{data.id\}$}" Width="50" Height="50"/>
                                                             <StackPanel Orientation="Horizontal">
                                                                 <c:FileLoad x:Name="FileLoad" EntityName="t_blob" BlobId="{Binding id, Mode=TwoWay}" Path="{m:Exp Str=$\{dbclient.BaseAddress\}/savefile$}" Height="18"/>
-                                                                <Button Content="X" 
+                                                               <!--Value="{m:Exp Str=nopeople_myxckc.SelectedItem.id}"-->
+															    <TextBox Text="{m:Bind Path=customerid}" TextWrapping="Wrap" Height="Auto" IsReadOnly="True" Width="Auto" Visibility="Collapsed">
+																<a:Data.Prop>
+																	<o:PropertySetter PropertyName="customerid" NotNull="True" 
+															Default="{m:Exp Str=nopeople_myxckc.SelectedItem.id}" />
+																</a:Data.Prop>
+															</TextBox>
+																<Button Content="X" 
         														Visibility="{m:Exp Str=data\=\=data.List.EmptyRow:$Collapsed$\,$Visible$}" 
         														Click="{m:Exp Str=data.Remove()}"/>
                                                                 <Button Content="上传平面图" Click="{m:Exp Str=FileLoad.UpLoad()}" HorizontalAlignment="Left" Height="24" VerticalAlignment="Bottom" Width="87"/>
@@ -497,8 +506,8 @@
                                                         <toolkit:WrapPanel />
                                                     </ItemsPanelTemplate>
                                                 </ListBox.ItemsPanel>
-                                            </ListBox>--> 
-                                            <!--   <Button Width="50" Click="{m:Exp Str=userimagelist_myxckc.ToSource()}" Content="确 认"/>-->
+                                            </ListBox>
+                                              <Button Width="50" Click="{m:Exp Str=userimagelist_myxckc.Save()}" Content="确 认"/>
                                         </StackPanel>
                                         
                                     </Grid>
@@ -684,7 +693,7 @@
                         <c:MessageTipObj Name="gcbsavesubmittip" Tip="您确认要提交该报建信息吗？" 
 						OK="{m:Exp Str=myxckcInfo.DataContext.f_state\=$工程部审核$;myxckcInfo.DataContext.f_substate\=null;myxckcInfo.DataContext.Save();myxckcPopup.BringToDown();myxckcPopup.IsOpen\=False}" />
 						-->
-						<Button Content="  导入Excel数据  "  Click="{m:Exp Str=userlist_myxckc.ExcelString\=Clipboard.Text}"   Height="25" Margin="-3,5,3,5" Width="95"/>
+						<Button Content="  导入Excel数据  "  Click="{m:Exp Str=userlist_myxckc.ExcelString\=Clipboard.Text}"    Margin="5" Width="95"/>
 						
 						
 						<Button Content="  终止报建  " Margin="5"
