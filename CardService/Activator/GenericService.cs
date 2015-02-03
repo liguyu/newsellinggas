@@ -10,6 +10,7 @@ using Com.Aote.Logs;
 using Card;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using ICard;
 
 namespace Card
 {
@@ -78,6 +79,19 @@ namespace Card
             return "none";
         }
 
+        #region 得到表厂专用错误信息
+        private String GetCardSpecificError(ICard card, int code)
+        {
+            if ((card != null) && (card is IVerbose))
+            {
+                String errMsg = (card as IVerbose).GetError(code);
+                if (errMsg != null)
+                    return errMsg;
+            }
+            return "超出错误范围，请查看表厂资料！";
+        }
+        #endregion
+
         #region 卡操作
         //写新卡
         public WriteRet WriteNewCard(
@@ -106,19 +120,25 @@ namespace Card
             string sxbj         //生效标记，0不生效，1生效，价格管理中取
             )
         {
-            Log.Debug("发卡或者补卡 start" + "cardid-" + kh + "kmm-" + kmm + "sqrq-" + sqrq + "czsx-" + czsx + "bjql-" + bjql + "gmje-" + ql + "buyprice-" + oldprice + "kzt-" + kzt);
+            Log.Debug("WriteNewCard(string factory, string kmm, Int16 kzt, string kh, string dqdm, string yhh, string tm, Int32 ql,"
+                + "Int32 csql,Int32 ccsql,Int16 cs,Int32 ljgql,Int16 bkcs,Int32 ljyql,Int32 bjql,Int32 czsx,Int32 tzed,string sqrq,string cssqrq,"
+                + "Int32 oldprice,Int32 newprice,string sxrq,string sxbj)=("
+                + factory + "," + kmm + "," + kzt + "," + kh + "," + dqdm + "," + yhh + ","
+                + tm + "," + ql + "," + csql + "," + ccsql + "," + cs + "," + ljgql + ","
+                + bkcs + "," + ljyql + "," + bjql + "," + czsx + "," + tzed + "," + sqrq + ","
+                + cssqrq + "," + oldprice + "," + newprice + "," + sxrq + "," + sxbj 
+                + ")");
             WriteRet ret = new WriteRet();
             try
             {
                 ICard card = GetCard(factory);
-                Log.Debug("factory :" + factory);
                 int r = card.WriteNewCard(Port, Baud, ref kmm, kzt, kh, dqdm, yhh, tm, ql, csql, ccsql, cs, ljgql, bkcs,
                     ljyql, bjql, czsx, tzed, sqrq, cssqrq, oldprice, newprice, sxrq, sxbj);
                 if (r < 0)
                 {
                     if (r <= -19)
                     {
-                        ret.Err = "超出错误范围，请查看表厂资料！";
+                        ret.Err = GetCardSpecificError(card, r);
                     }
                     else
                     {
@@ -127,15 +147,21 @@ namespace Card
                 }
                 else
                 {
-
                     ret.Kmm = kmm;
-                    Log.Debug("kmm :" + ret.Kmm);
                 }
+                Log.Debug("WriteNewCard(string factory, string kmm, Int16 kzt, string kh, string dqdm, string yhh, string tm, Int32 ql,"
+                    + "Int32 csql,Int32 ccsql,Int16 cs,Int32 ljgql,Int16 bkcs,Int32 ljyql,Int32 bjql,Int32 czsx,Int32 tzed,string sqrq,string cssqrq,"
+                    + "Int32 oldprice,Int32 newprice,string sxrq,string sxbj)=("
+                    + factory + "," + kmm + "," + kzt + "," + kh + "," + dqdm + "," + yhh + ","
+                    + tm + "," + ql + "," + csql + "," + ccsql + "," + cs + "," + ljgql + ","
+                    + bkcs + "," + ljyql + "," + bjql + "," + czsx + "," + tzed + "," + sqrq + ","
+                    + cssqrq + "," + oldprice + "," + newprice + "," + sxrq + "," + sxbj
+                    + ")=" + r);
                 return ret;
             }
             catch (Exception e)
             {
-                Log.Debug("发卡 exception: " + e.Message);
+                Log.Debug("WriteNewCard()=" + e.Message);
                 ret.Exception = e.Message;
                 return ret;
             }
@@ -163,7 +189,12 @@ namespace Card
             string sxbj         //生效标记，0不生效，1生效，价格管理中取
             )
         {
-            Log.Debug("SellGas start");
+            Log.Debug("WriteGasCard(string factory, string kmm, string kh, string dqdm, Int32 ql, Int32 csql, Int32 ccsql, " +
+                " Int16 cs, Int32 ljgql, Int32 bjql, Int32 czsx, Int32 tzed,  string sqrq, string cssqrq, " +
+                " Int32 oldprice, Int32 newprice, string sxrq, string sxbj)=" 
+                + factory + "," + kmm + "," + kh + "," + dqdm + "," + ql + "," + csql + ","
+                + ccsql + "," + cs + "," + ljgql + "," + bjql + "," + czsx + "," + tzed + ","
+                + sqrq + "," + cssqrq + "," + oldprice + "," + newprice + "," + sxrq + "," + sxbj + ")");
             WriteRet ret = new WriteRet();
             try
             {
@@ -174,7 +205,7 @@ namespace Card
                 {
                     if (r <= -19)
                     {
-                        ret.Err = "超出错误范围，请查看表厂资料！";
+                        ret.Err = GetCardSpecificError(card, r);
                     }
                     else
                     {
@@ -185,11 +216,17 @@ namespace Card
                 {
                     ret.Kmm = kmm;
                 }
+                Log.Debug("WriteGasCard(string factory, string kmm, string kh, string dqdm, Int32 ql, Int32 csql, Int32 ccsql, " +
+                    " Int16 cs, Int32 ljgql, Int32 bjql, Int32 czsx, Int32 tzed,  string sqrq, string cssqrq, " +
+                    " Int32 oldprice, Int32 newprice, string sxrq, string sxbj)=" 
+                + factory + "," + kmm + "," + kh + "," + dqdm + "," + ql + "," + csql + ","
+                + ccsql + "," + cs + "," + ljgql + "," + bjql + "," + czsx + "," + tzed + ","
+                + sqrq + "," + cssqrq + "," + oldprice + "," + newprice + "," + sxrq + "," + sxbj + ")=" + r); 
                 return ret;
             }
             catch (Exception e)
             {
-                Log.Debug("SellGas exception: " + e.Message);
+                Log.Debug("WriteGasCard()=" + e.Message);
                 ret.Exception = e.Message;
                 return ret;
             }
@@ -198,7 +235,7 @@ namespace Card
         //读卡
         public CardInfo ReadCard()
         {
-            Log.Debug("ReadCard start");
+            Log.Debug("ReadGasCard()=()");
             CardInfo ret = new CardInfo();
             try
             {
@@ -210,19 +247,16 @@ namespace Card
                     //获取错误代码
                     if (result <= -20)
                     {
-                        ret.Err = "超出错误范围，请查看表厂资料！";
+                        ret.Err = GetCardSpecificError(null, result);
                     }
                     else
                     {
                         ret.Err = Errors[-result - 1];
                     }
+                    Log.Debug("ReadGasCard()=" + result);
                     return ret;
                 }
 
-                if (Cards == null)
-                {
-                    throw new Exception("Cards is null");
-                }
                 //循环调用所有厂家的
                 foreach (CardConfig info in Cards)
                 {
@@ -247,7 +281,7 @@ namespace Card
                     {
                         if (r <= -19)
                         {
-                            ret.Err = "超出错误范围，请查看表厂资料！";
+                            ret.Err = GetCardSpecificError(card, r);
                         }
                         else
                         {
@@ -265,17 +299,18 @@ namespace Card
                         ret.RenewTimes = bkcs;
                         ret.Yhh = yhh;
                     }
+                    Log.Debug("ReadGasCard()=" + r);
                     return ret;
                 }
+                Log.Debug("ReadGasCard()=未知厂家");
                 //一个都没有找到
                 ret.Err = "未知厂家";
                 return ret;
             }
             catch (Exception e)
             {
-                Log.Debug("ReadCard exception");
+                Log.Debug("ReadGasCard()=" + e.Message);
                 ret.Exception = e.Message;
-                Log.Debug("异常：" + e.Message);
                 return ret;
             }
         }
@@ -288,6 +323,7 @@ namespace Card
             string dqdm         //地区代码，从气表管理里取
             )
         {
+            Log.Debug("FormatGasCard(string kmm, string kh, string dqdm)=(" + kmm + "," + kh + "," + dqdm + ")");
             Ret ret = new Ret();
             try
             {
@@ -297,18 +333,19 @@ namespace Card
                 {
                     if (r <= -19)
                     {
-                        ret.Err = "超出错误范围，请查看表厂资料！";
+                        ret.Err = GetCardSpecificError(card, r);
                     }
                     else
                     {
                         ret.Err = Errors[-r - 1];
                     }
                 }
+                Log.Debug("FormatGasCard(string kmm, string kh, string dqdm)=(" + kmm + "," + kh + "," + dqdm + ")=" + r);
                 return ret;
             }
             catch (Exception e)
             {
-                Log.Debug("FormatCard exception");
+                Log.Debug("FormatGasCard(string kmm, string kh, string dqdm)=" + e.Message);
                 ret.Exception = e.Message;
                 return ret;
             }
@@ -322,6 +359,8 @@ namespace Card
          string dqdm         //地区代码，从气表管理里取
          )
         {
+            Log.Debug("OpenCard(string factory, string kmm, string kh, string dqdm)=(" 
+                + factory + "," + kmm + "," + kh + "," + dqdm + ")");
             Ret ret = new Ret();
             try
             {
@@ -331,19 +370,21 @@ namespace Card
                 {
                     if (r <= -20)
                     {
-                        ret.Err = "超出错误范围，请查看表厂资料！";
+                        ret.Err = GetCardSpecificError(card, r);
                     }
                     else
                     {
                         ret.Err = Errors[-r - 1];
                     }
                 }
+                Log.Debug("OpenCard(string factory, string kmm, string kh, string dqdm)=("
+                    + factory + "," + kmm + "," + kh + "," + dqdm + ")=" + r);
                 return ret;
             }
             catch (Exception e)
             {
-                Log.Debug("OpenCard exception");
                 ret.Exception = e.Message;
+                Log.Debug("OpenCard(string factory, string kmm, string kh, string dqdm)=" + e.Message);
                 return ret;
             }
         }

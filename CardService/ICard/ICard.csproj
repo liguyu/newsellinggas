@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="ICard.cs" />
+    <Compile Include="IVerbose.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ICardService.cs" />

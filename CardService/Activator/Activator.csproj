@@ -57,6 +57,7 @@
     <Compile Include="克罗姆\KeLuoMu.cs" />
     <Compile Include="开元\开元一体\KaiYuanYiTi.cs" />
     <Compile Include="开元\开元分体\KaiYuanFenTi.cs" />
+    <Compile Include="淄博绿川\JinKaGYLC.cs" />
     <Compile Include="航天\V1\航天一体\HangTianV1YiTi.cs" />
     <Compile Include="航天\V1\航天分体\HangTianV1FenTi.cs" />
   </ItemGroup>
