@@ -23,6 +23,7 @@
             <o:ObjectList Name="payfeevalid" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='是否有效查询用'"/>
 
         </m:ResourceLoad>
+        <c:MessageTipObj Tip="{m:Exp Str=$导出完成$}" IsShow="{m:Exp Str=downLoad\=>Completed!\=null}"></c:MessageTipObj>
         <c:BusyIndicatorEx x:Name="ui_userBusy" BusyContent="正在工作，请稍等！">
             <toolkit:DockPanel>
                 <StackPanel x:Name="ui_setSearch" Orientation="Horizontal" Height="30" toolkit:DockPanel.Dock="Top">
@@ -53,8 +54,15 @@
                     		<o:PropertySetter PropertyName="f_yytdate2" Operator="f_recoverycarddate ^= substring('this',1,10)"/>
                     	</a:Data.Prop>
                     </sdk:DatePicker>
-					     <Button x:Name="ui_SearchButton" Width="75" Margin="10,0,0,0"  Click="{m:Exp Str=ui_setSearch.DataContext.Search()}" >查询</Button>
-               
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="ui_SearchButton" Width="75" Margin="10,0,0,0"  Click="{m:Exp Str=ui_setSearch.DataContext.Search()}" >查询</Button>
+                        <Button Width="70" Content="置空" Click="{m:Exp Str=ui_setSearch.DataContext.f_userid\=null;ui_setSearch.DataContext.f_cardid\=null;ui_setSearch.DataContext.f_yytdate1\=null;ui_setSearch.DataContext.f_yytdate2\=null}" FontSize="14" HorizontalAlignment="Left"/>
+                        <Button Width="70" Click="{m:Exp Str=toExcel.ToExcel()}">导出Excel</Button>
+                        <c:Excel Name="toExcel" HQL="{m:Exp Str=$\{ui_gqdDataGrid.ItemsSource.Path\}}" 
+   							 Completed="{m:Exp Str=downLoad.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{ui_gqdDataGrid.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_address:地址|f_cardfees:卡费|f_gasmetermanufacturers:气表厂家|f_metertype:气表型号|f_recoverycarddate:撤销日期|f_rcoperator:补卡人|f_cancelreason:撤销原因|f_canceloperator:撤销人|f_canceldate:撤销日期$}"/>
+                        <c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}" Filter="(*.xls)|*.xls"></c:DownLoad>
+                    </StackPanel>               
                 </StackPanel>
                 <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="50">
                     <sdk:DataPager x:Name="ui_pager" Source="{Binding ItemsSource.Count, Converter={StaticResource DataPagerConverter}, ElementName=ui_gqdDataGrid}" Margin="0,0,0,0" PageSize="20" toolkit:DockPanel.Dock="Top" Height="24"   />
@@ -78,16 +86,10 @@
                             <sdk:DataGridTextColumn Header="地址" Binding="{Binding f_address}"></sdk:DataGridTextColumn>
                             <sdk:DataGridTextColumn Header="卡费" Binding="{Binding f_cardfees}"></sdk:DataGridTextColumn>
                             <sdk:DataGridTextColumn Header="气表厂家" Binding="{Binding f_gasmetermanufacturers}"></sdk:DataGridTextColumn>
-                           <sdk:DataGridTextColumn Header="气表型号" Binding="{Binding f_metertype}"></sdk:DataGridTextColumn>
-                          
-						        <sdk:DataGridTextColumn Header="撤销日期" Binding="{Binding f_recoverycarddate,StringFormat=yyyy-MM-dd}"></sdk:DataGridTextColumn>
-                     
-						   <sdk:DataGridTextColumn Header="补卡人" Binding="{Binding f_rcoperator}"></sdk:DataGridTextColumn>
-                         
-						 
-					
-						 
-						     <sdk:DataGridTextColumn Header="撤销原因" Binding="{Binding f_cancelreason}"></sdk:DataGridTextColumn>
+                            <sdk:DataGridTextColumn Header="气表型号" Binding="{Binding f_metertype}"></sdk:DataGridTextColumn>
+                            <sdk:DataGridTextColumn Header="撤销日期" Binding="{Binding f_recoverycarddate,StringFormat=yyyy-MM-dd}"></sdk:DataGridTextColumn>
+                            <sdk:DataGridTextColumn Header="补卡人" Binding="{Binding f_rcoperator}"></sdk:DataGridTextColumn>
+                            <sdk:DataGridTextColumn Header="撤销原因" Binding="{Binding f_cancelreason}"></sdk:DataGridTextColumn>
                             <sdk:DataGridTextColumn Header="撤销人" Binding="{Binding f_canceloperator}"></sdk:DataGridTextColumn>
                             <sdk:DataGridTextColumn Header="撤销日期" Binding="{Binding f_canceldate,StringFormat=yyyy-MM-dd}"></sdk:DataGridTextColumn>
                       
