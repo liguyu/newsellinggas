@@ -85,7 +85,7 @@
                         <ComboBox ItemsSource="{m:Exp Str=paymentlistnull}"
 								SelectedValuePath="name" SelectedValue="{m:Bind Path=f_payment}" Grid.Column="3" Margin="0,0,0,5" Grid.Row="1" Height="25" IsEnabled="true" VerticalAlignment="Stretch" Grid.ColumnSpan="1" FontSize="13.333">
                             <a:Data.Prop>
-                                <o:PropertySetter PropertyName="f_payment"  Operator="tuser.f_payment = 'this'" NotNull="True"/>
+                                <o:PropertySetter PropertyName="f_payment"  Operator="tuser.f_payment = 'this'"/>
                             </a:Data.Prop>
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -128,7 +128,7 @@
                     </Grid>
                     <Grid   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom">
                         <sdk:DataPager x:Name="pager2" Source="{Binding ItemsSource.Count, Converter={StaticResource DataPagerConverter}, ElementName=daninfos}" Margin="0,0,0,27" PageSize="40" d:LayoutOverrides="Width"   />
-                        <TextBlock TextWrapping="Wrap" Text="{m:Exp Str=$共\{daninfos.ItemsSource.Count\}项 总金额\{daninfos.ItemsSource.f_oughtfee\}元 总欠费\{daninfos.ItemsSource.f_cnt\}次}"  TextAlignment="Right" Margin="68,26,0,1" />
+                        <TextBlock TextWrapping="Wrap" Text="{m:Exp Str=$共\{daninfos.ItemsSource.Count\}项 总金额\{daninfos.ItemsSource.f_oughtfee.MathRound(2)\}元 总欠费\{daninfos.ItemsSource.f_cnt\}次}"  TextAlignment="Right" Margin="68,26,0,1" />
 
                         <!--StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
 									<TextBlock TextWrapping="NoWrap" Text="{m:Exp Str=$共\{daninfos.ItemsSource.Count\}项，每页\{daninfos.ItemsSource.PageSize\}行，总金额：\{daninfos.ItemsSource.oughtfee\}元}"/>
@@ -144,7 +144,7 @@
 								SumHQL="{m:Exp Str=$ 
                                 SELECT tuser.id\,sum(case when t.oughtfee is null then 0 else 1 end ) f_cnt\, sum(t.oughtfee) f_oughtfee \,t.f_inputtor FROM t_userfiles tuser  
                                 left join (select * from t_handplan tt where tt.shifoujiaofei\=\'否\' and tt.f_state\=\'已抄表\') t on t.f_userid \= tuser.f_userid
-                                where \{daninfosearch.DataContext.Condition\}
+                                where \{daninfosearch.DataContext.Condition\} and t.oughtfee is not null
                                 group by  tuser.id\,t.f_inputtor
 }"
 									HQL="{m:Exp Str=$
