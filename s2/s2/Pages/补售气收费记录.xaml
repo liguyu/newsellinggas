@@ -285,12 +285,15 @@
 										<o:PropertySetter PropertyName="f_feimyqiliang" Value="{m:Exp Str=kbfee.f_pregas*kbfee.f_gsfenzhi}"/>
 									</a:Data.Prop>
 								</TextBox>
-								<TextBox Text="{m:Bind Path=f_feimyqiliangjine}"  Grid.Column="1" Margin="5,0,0,0" TextWrapping="Wrap" IsReadOnly="True" Grid.ColumnSpan="1" Grid.Row="10" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="35"  >
-									<a:Data.Prop>
-										<o:PropertySetter PropertyName="f_feimyqiliangjine" Value="{m:Exp Str=kbfee.f_feimyqiliang*kbfee.f_gsprice}"/>
-									</a:Data.Prop>
-								</TextBox>
-							</StackPanel>
+                                    <TextBox Text="{m:Bind Path=f_feimyqiliangjine}"  Grid.Column="1" Margin="5,0,0,0" TextWrapping="Wrap" IsReadOnly="True" Grid.ColumnSpan="1" Grid.Row="10" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="35"  >
+                                        <a:Data.Prop>
+                                            <o:PropertySetter PropertyName="f_feimyqiliangjine" Value="{m:Exp Str=kbfee.f_feimyqiliang*kbfee.f_gsprice}"/>
+                                        </a:Data.Prop>
+                                    </TextBox>
+                                    <a:Data.Prop>
+                                            <o:PropertySetter PropertyName="f_bsfjl" Value="{m:Exp Str=kbfee.f_feimyqiliang*kbfee.f_gsprice}"/>
+                                        </a:Data.Prop>
+                                </StackPanel>
 							<TextBlock Text="用户类型：" Margin="0" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Grid.Column="2" Height="25"/>
 							<TextBlock Text="用气性质：" Margin="0" Grid.Row="5" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
 							<TextBlock Text="维管费起始月份：" Margin="0" Grid.Row="6" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>

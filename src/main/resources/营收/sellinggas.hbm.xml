@@ -279,5 +279,7 @@
 		<property name="f_bankname" type="string"/>
 			<!--银行返盘时间-->
 		<property name="f_fanpandate" type="string"/>
+		<!--补收费记录-->
+		<property name="f_bsfjl" type="string"/>
 	</class>
 </hibernate-mapping>
