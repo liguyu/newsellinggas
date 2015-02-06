@@ -32,7 +32,7 @@
     <LinkedServerProject>
     </LinkedServerProject>
     <Utf8Output>true</Utf8Output>
-    <ExpressionBlendVersion>12.0.41002.1</ExpressionBlendVersion>
+    <ExpressionBlendVersion>4.1.20321.0</ExpressionBlendVersion>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -129,6 +129,21 @@
     </Compile>
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\天然气用气汇总表.xaml.cs">
+      <DependentUpon>天然气用气汇总表.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\营业用户用气明细表.xaml.cs">
+      <DependentUpon>营业用户用气明细表.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\居民IC卡预存明细表.xaml.cs">
+      <DependentUpon>居民IC卡预存明细表.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\基表用户明细表.xaml.cs">
+      <DependentUpon>基表用户明细表.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\台区汇总表.xaml.cs">
+      <DependentUpon>台区汇总表.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\低保户审核.xaml.cs">
       <DependentUpon>低保户审核.xaml</DependentUpon>
@@ -1398,6 +1413,26 @@
     <Page Include="Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\天然气用气汇总表.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\营业用户用气明细表.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\居民IC卡预存明细表.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\基表用户明细表.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\台区汇总表.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\低保户审核.xaml">
       <Generator>MSBuild:Compile</Generator>
