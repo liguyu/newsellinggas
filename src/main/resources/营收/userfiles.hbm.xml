@@ -412,5 +412,11 @@
 		<property name="f_stair4price" type="double"/>
 		<!--阶段月数-->
 		<property name="f_stairmonths" type="int"/>
+		<!-- ***************安检*************** -->
+		<!--待检标记-->
+		<property name="f_toBeInspected" type="string"/>
+		<!--下次安检日期-->
+		<property name="f_nextCheckDate" type="date"/>
+		
 </class>
 </hibernate-mapping>
