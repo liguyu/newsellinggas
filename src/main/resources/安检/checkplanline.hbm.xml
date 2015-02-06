@@ -209,5 +209,7 @@
         </property>
         <!-- 计划id -->
         <property name="CHECKPLANID" type="string"/>
+        <!-- user id -->
+        <property name="f_userid" type="string"/>
     </class>
 </hibernate-mapping>
