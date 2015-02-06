@@ -293,7 +293,7 @@
 			<!--银行返盘时间-->
 		<property name="f_fanpandate" type="string"/>
 			<!--修改日期-->
-		<property name="f_changedate" type="string"/>
+		<property name="f_changedate" type="date"/>
 			<!--修改原因-->
 		<property name="f_reason" type="string"/>
 	</class>
