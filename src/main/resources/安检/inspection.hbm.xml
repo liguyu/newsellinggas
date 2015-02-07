@@ -6,6 +6,8 @@
     <class entity-name="T_INSPECTION" table="T_INSPECTION">
         <id name="id" type="string">
         </id>
+        <!-- user id -->
+        <property name="f_userid" type="string"/>
         <!-- 检查情况 -->
         <property name="CONDITION" type="string">
         </property>
