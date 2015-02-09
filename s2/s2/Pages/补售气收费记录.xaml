@@ -458,7 +458,7 @@
 								</a:Data.Prop>
 							</TextBox>
 							<TextBlock Margin="0" Grid.Row="13" TextWrapping="Wrap" Text="网      点：" TextAlignment="Right" Height="25"/>
-							<TextBox Text="{m:Bind Path=f_sgnetwork}" Grid.Column="1" Margin="0" Grid.Row="13" TextWrapping="Wrap" IsReadOnly="False" VerticalAlignment="Stretch" Height="25">
+							<TextBox Text="{m:Bind Path=f_sgnetwork}" IsReadOnly="True" Grid.Column="1" Margin="0" Grid.Row="13" TextWrapping="Wrap"  VerticalAlignment="Stretch" Height="25">
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_sgnetwork"  
 										Default="{m:Exp Str=LoginUser.f_parentname}"/>
@@ -642,7 +642,7 @@
 							</TextBox>-->
 							<TextBlock Text="表上次累计购气量：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="7" Grid.Column="2" Height="25"/>
 							<TextBlock Grid.Column="4" Margin="0" Grid.Row="14" TextWrapping="Wrap" TextAlignment="Right" Height="25"><Run Text="交费"/><Run Text="时间"/><Run Text="："/></TextBlock>
-							<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}"  Grid.Column="5" Margin="0" Grid.Row="14" IsEnabled="False"IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
+							<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}"  Grid.Column="5" Margin="0" Grid.Row="14" IsEnabled="False" IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_deliverytime" Value="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
 								</a:Data.Prop>

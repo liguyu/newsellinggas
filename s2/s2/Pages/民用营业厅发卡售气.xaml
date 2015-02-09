@@ -18,7 +18,7 @@
 	x:Class="Com.Aote.Pages.民用营业厅发卡售气" FontFamily="Microsoft YaHei">
 
     <Grid x:Name="LayoutRoot">
-        <m:ResourceLoad Margin="0,0,-101,0">
+        <m:ResourceLoad x:Name="loader" Margin="0,0,-101,0">
             <!--发票对象-->
             <o:GeneralObject Name="fpinfosobj" EntityType="t_fapiaoinfos" WebClientInfo="{StaticResource dbclient}" 
          Path="{m:Exp Str=$one/from t_fapiaoinfos where f_invoicenum\=\'\{userfile.DataContext.f_invoicenum\}\'}" 
@@ -66,6 +66,14 @@
             <o:GeneralObject Name="hunhes" EntityType="t_hunhe" WebClientInfo="{StaticResource dbclient}"
         	Path="{m:Exp Str=$one/from t_hunhe }">
             </o:GeneralObject>
+            <o:GeneralObject Name="fbffobj" EntityType="t_singlevalue" WebClientInfo="{StaticResource dbclient}" 
+		  		Path="one/from t_singlevalue where name='民用低保户月维护费' "   ></o:GeneralObject>
+            <o:GeneralObject Name="mwhfobj" EntityType="t_singlevalue" WebClientInfo="{StaticResource dbclient}" 
+		  		Path="one/from t_singlevalue where name='民用月维护费' "   ></o:GeneralObject>
+            <o:GeneralObject Name="fwhfobj" EntityType="t_singlevalue" WebClientInfo="{StaticResource dbclient}" 
+		  		Path="one/from t_singlevalue where name='非民用月维护费' "   ></o:GeneralObject>
+            <o:GeneralObject Name="fapiaogeshi" EntityType="t_singlevalue" WebClientInfo="{StaticResource dbclient}" 
+		  	Path="one/from t_singlevalue where name='发票格式'"   ></o:GeneralObject>
 
             <!--用户对象-->
             <o:GeneralObject Name="userfiles1" EntityType="t_userfiles" WebClientInfo="{StaticResource dbclient}"
@@ -188,9 +196,7 @@
 		HQL="{m:Exp Str=$update t_sellinggas set f_payfeevalid\=\'无效\' where id \= \{sellgasobj.id\}}"/>
             <!--更新用户档案中相关信息-->
             <b:HQLAction Name="UpdateUserfile" WebClientInfo="{StaticResource dbclient}" 
-		HQL="{m:Exp Str=$update t_userfiles set 
-		f_whethergivecard\=\'未发\' 
-		where id \= \{userfiles1.id\}}"/>
+		HQL="{m:Exp Str=$update t_userfiles  set f_whethergivecard\=\'未发\' where id \= \{userfiles1.id\}}"/>
             <!--制卡失败后的自动撤销过程-->
             <b:BatchExcuteAction Name="RollbackAction" CanSave="{m:Exp Str=card.State\=\=$Error$}" WebClientInfo="{StaticResource dbclient}">
                 <b:BatchInfo Source="{m:Exp Str=UpdateFaka}" MethodName="InvokeToJson"/>
@@ -219,7 +225,7 @@
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="7*"/>
             </Grid.ColumnDefinitions>
-            <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=userfiles.ItemsSource.IsBusy}" >
+            <c:BusyIndicatorEx x:Name="ui_busy" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=userfiles.ItemsSource.IsBusy}" >
                 <toolkit:DockPanel>
                     <toolkit:DockPanel Height="67"  Background="{x:Null}" toolkit:DockPanel.Dock="Bottom" >
                         <TextBlock Height="33" toolkit:DockPanel.Dock="Bottom" Text="{m:Exp Str='$共{userfiles.ItemsSource.Count}项'}" Margin="0,3,0,0" Width="Auto" HorizontalAlignment="Stretch" Foreground="#FF140000" VerticalAlignment="Stretch"/>
@@ -393,7 +399,7 @@
                                     </LinearGradientBrush>
                                 </Border.Background>
                             </Border>
-                            <TextBox Text="{m:Bind Path=f_userid}"  Grid.Column="1" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" IsReadOnly="True" >
+                            <TextBox Text="{m:Bind Path=f_userid}" x:Name="ui_userid"  Grid.Column="1" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" Height="25" IsReadOnly="True" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_userid" NoDependValue="{m:Exp Str=userfiles1.f_userid\=>Completed}"/>
                                 </a:Data.Prop>
@@ -475,7 +481,7 @@
 									Default="{m:Exp Str=LoginUser.name}"/>
                                 </a:Data.Prop>
                             </TextBox>
-                            <TextBox Text="{m:Bind Path=f_pregas}" FontWeight="Bold" Foreground="Red" Grid.Column="5" Margin="0" Grid.Row="10" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" >
+                            <TextBox Text="{m:Bind Path=f_pregas}" x:Name="ui_pregas" LostFocus="ui_pregas_LostFocus" FontWeight="Bold" Foreground="Red" Grid.Column="5" Margin="0" Grid.Row="10" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_pregas" NoDependValue="{m:Exp Str='userfilego.f_usertype\=\=$民用$:userfiles1.f_kaihuql,null'}" NotNull="True" Validation="{m:Exp Str=value\>0}"  ErrorMessage="开户气量必须大于0！"/>
                                 </a:Data.Prop>
@@ -486,16 +492,22 @@
                                     <o:PropertySetter PropertyName="f_gasprice"  NoDependValue="{m:Exp Str=userfiles1.f_gasprice\=>Completed}"/>
                                 </a:Data.Prop>
                             </TextBox>
-                            <sdk:DatePicker SelectedDate="{m:Bind Path=f_deliverydate}" IsEnabled="False"  Grid.Column="3" Margin="0" Grid.Row="12"  Height="25" VerticalAlignment="Stretch"  >
+                            <sdk:DatePicker x:Name="ui_deliverydate" SelectedDate="{m:Bind Path=f_deliverydate}" IsEnabled="False"  Grid.Column="3" Margin="0" Grid.Row="12"  Height="25" VerticalAlignment="Stretch"  >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_deliverydate" 
 									Default="{m:Exp Str=SysTime.Today}"/>
                                 </a:Data.Prop>
                             </sdk:DatePicker>
-                            <TextBox Text="{m:Bind Path=f_preamount}"  Grid.Column="3" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="6" Height="25"  >
+                            <!--<TextBox Text="{m:Bind Path=f_preamount}" x:Name="ui_preamount" Grid.Column="3" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="6" Height="25"  >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_preamount" 
 								Value="{m:Exp Str='userfilego.f_gasproperties==$混合型$:userfilego.f_myqiliangjine+userfilego.f_feimyqiliangjine,userfilego.f_pregas*userfilego.f_gasprice'}" />
+                                </a:Data.Prop>
+                            </TextBox>-->
+                            <TextBox Text="{m:Bind Path=f_preamount}" x:Name="ui_preamount" Grid.Column="3" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="6" Height="25"  >
+                                <a:Data.Prop>
+                                    <o:PropertySetter PropertyName="f_preamount" 
+								 />
                                 </a:Data.Prop>
                             </TextBox>
                             <TextBox Text="{m:Bind Path=f_whethergivecard}"  Grid.Column="5" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="12" Height="25" VerticalAlignment="Stretch"  >
@@ -721,11 +733,11 @@
                                 </a:Data.Prop>
                             </ComboBox>
                             <TextBlock Grid.Column="2" Margin="0" Grid.Row="13" TextWrapping="Wrap" TextAlignment="Right" Height="25"><Run Text="购气"/><Run Text="时间"/><Run Text="："/></TextBlock>
-                            <toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="3" Margin="0,3,0,2" Grid.Row="13"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" >
+                            <!--<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="3" Margin="0,3,0,2" Grid.Row="13"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_deliverytime" NoDependValue="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
                                 </a:Data.Prop>
-                            </toolkit:TimePicker>
+                            </toolkit:TimePicker>-->
                             <TextBox Text="{m:Bind Path=f_cardidjia}" Grid.Column="3" Margin="0,3,1,2" Grid.Row="4" TextWrapping="Wrap" IsReadOnly="True" Height="25" HorizontalAlignment="Right" Width="1" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_cardidjia" NoDependValue="{m:Exp Str=userfile.DataContext.f_cardid!\=null:userfile.DataContext.f_cardid.ToLong()\+1\,null}"

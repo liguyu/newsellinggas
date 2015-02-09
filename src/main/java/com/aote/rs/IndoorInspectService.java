@@ -366,13 +366,16 @@ public class IndoorInspectService {
 	private boolean CAInsertNewRow(JSONObject row) throws JSONException {
 			String uuid = row.getString("ID");
 			String condition = row.getString("CONDITION");
-			String road = null;
-			String unitName = null;
-			String cusDom = null;
-			String cusDy = null;
-			String cusFloor = null;
-			String cusRoom = null;
-			String checkPlanID = null;
+			String userid = row.getString("f_userid");
+			String road = row.getString("ROAD");
+			String unitName = row.getString("UNIT_NAME");
+			String cusDom = row.getString("CUS_DOM");
+			String cusDy = row.getString("CUS_DY");
+			String cusFloor = row.getString("CUS_FLOOR");
+			String cusRoom = row.getString("CUS_ROOM");
+			String checkPlanID = row.getString("CHECKPLAN_ID");
+			String checkDate = row.getString("ARRIVAL_TIME");
+			
 			int conditionFlag = 0;
 			if(condition.equals("'正常'"))
 			{
@@ -401,34 +404,6 @@ public class IndoorInspectService {
 			while(itr.hasNext())
 			{
 				String key = itr.next();
-				if(key.equals("ROAD"))
-				{
-					road = row.getString(key);
-				}
-				if(key.equals("UNIT_NAME"))
-				{
-					unitName = row.getString(key);
-				}
-				if(key.equals("CUS_DOM"))
-				{
-					cusDom = row.getString(key);
-				}
-				if(key.equals("CUS_DY"))
-				{
-					cusDy = row.getString(key);
-				}
-				if(key.equals("CUS_FLOOR"))
-				{
-					cusFloor = row.getString(key);
-				}
-				if(key.equals("CUS_ROOM"))
-				{
-					cusRoom = row.getString(key);
-				}
-				if(key.equals("CHECKPLAN_ID"))
-				{
-					checkPlanID = row.getString(key);
-				}
 				if(key.equals("suggestions"))
 				{
 					suggestions = row.getString(key);
@@ -442,6 +417,7 @@ public class IndoorInspectService {
 			//添加子记录
 			sql1 += sql2 +")";
 			execSQL(sql1);
+			//更新T_IC_SAFECHECK_PAPER中安检过的用户的安检状态
 			if(road != null && unitName != null && cusDom != null && cusDy != null && cusFloor != null && cusRoom != null && checkPlanID != null)
 			{
 				String updateSql = "update T_IC_SAFECHECK_PAPER set CONDITION = '" + conditionFlag + "' where ROAD = " 
@@ -456,6 +432,12 @@ public class IndoorInspectService {
 			}
 			sql1 = "update t_inspection set f_anjianriqi= substring(arrival_time,1,10) where id=" + uuid;
 			execSQL(sql1);
+			//更新用户档案待检标记及下次安检日期
+			String updateSQL = "update t_userfiles set f_toBeInspected = '否', " +
+							"f_nextCheckDate = DATEADD(YEAR, 1, SUBSTRING('" + checkDate + "', 1, 10)) " +
+							"where f_userid = " + userid;
+			execSQL(updateSQL);
+			
 			if(suggestions != null)
 			{
 				JSONArray lines = new JSONArray(suggestions);

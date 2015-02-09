@@ -55,6 +55,8 @@
             <o:ObjectList Name="chaobiaolist" WebClientInfo="{StaticResource dbclient}"  
 				Path="{m:Exp Str=$from paramvalue where param.name\=\'抄表状态\'$}" 
 				IsOld="{m:Exp Str=fgslist.State\=\=$End$}"/>
+            <!--小区名称-->
+            <o:ObjectList Name="district" WebClientInfo="{StaticResource dbclient}" EntityType="t_area" HasEmptyRow="True" Path="{m:Exp Str=$from t_area}"/>
             <!--气表品牌-->
             <o:ObjectList Name="qblist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气表品牌' order by id"/>
             <!--气价类型-->
@@ -98,7 +100,7 @@
                         <Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="0" Grid.Column="6" Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="13,1,7,-1" FontSize="14"  />
                         <Button Content="打印" Click="{m:Exp Str=print.Print()}"  Grid.Row="0" Width="60" Grid.Column="7"/>
 
-                        <Button Content=" 置  空" Grid.Column="8 " Grid.Row="0"  Click="{m:Exp Str=daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null}" FontSize="14" HorizontalAlignment="Left" Width="60" />
+                        <Button Content=" 置  空" Grid.Column="8 " Grid.Row="0"  Click="{m:Exp Str=daninfosearch.DataContext.f_deliverydate1\=null;daninfosearch.DataContext.f_deliverydate2\=null;daninfosearch.DataContext.f_districtname\=null}" FontSize="14" HorizontalAlignment="Left" Width="60" />
                         <!--Button Content="导出Excel" Click="{m:Exp Str=toExcel.ToExcel()}"/-->
 
                         <sdk:DatePicker x:Name="tj4" SelectedDate="{m:Bind Path=f_deliverydate1}" Grid.Row="0" Grid.Column="1" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0,2,0,1" Height="25" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
@@ -121,11 +123,22 @@
 
 
                         <TextBlock Grid.Row="0" Grid.Column="4" Height="25" Margin="15,5,0,0">小区名称:</TextBlock>
-                        <TextBox x:Name="districtname" Text="{m:Bind Path=f_districtname}" Margin="0"  Height="20" VerticalAlignment="Stretch" Width="80" Grid.Row="0" Grid.Column="5" >
+                        <!--<TextBox x:Name="districtname" Text="{m:Bind Path=f_districtname}" Margin="10,4"  Height="20" VerticalAlignment="Stretch" Width="Auto" Grid.Row="0" Grid.Column="5" >
                             <a:Data.Prop>
                                 <o:PropertySetter PropertyName="f_districtname" Operator="f_districtname like 'this%'"/>
                             </a:Data.Prop>
-                        </TextBox>
+                        </TextBox>-->
+                        <sdk:AutoCompleteBox Text="{m:Bind Path=f_districtname}" ItemsSource="{m:Exp Str=district}" ValueMemberPath="f_districtname" FilterMode="Contains" Margin="9,0"  Height="Auto" VerticalAlignment="Stretch" Width="Auto" Grid.Row="0" Grid.Column="5" >
+                            <sdk:AutoCompleteBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding f_districtname}">
+                                    </TextBlock>
+                                </DataTemplate>
+                            </sdk:AutoCompleteBox.ItemTemplate>
+                            <a:Data.Prop>
+                                <o:PropertySetter PropertyName="f_districtname" Operator="f_districtname = 'this'" />
+                            </a:Data.Prop>
+                        </sdk:AutoCompleteBox>
 
                         <!--ComboBox x:Name="zy_Copy"  SelectedValue="{m:Bind Path=f_bankname}" Grid.Column="1" ItemsSource="{m:Exp Str=yinhanglist}"  Margin="1,0,-1,2" DisplayMemberPath="name" SelectedValuePath="name"  Height="25" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Bottom" d:LayoutOverrides="Height">
 									<a:Data.Prop>
@@ -176,7 +189,7 @@ left join
 
 }"
 									HQL="{m:Exp Str=$
-select  a1.f_districtname f_districtname\,a1.jiaoyibishu bishu\,a4.kaihushu kaihushu\,a3.gao gaojiagas\,a2.di dijiagas\,a3.gaojia gaojiafee\, a2.dijia dijiafee\,(IsNull(a2.dijia\,0)+IsNull(a3.gaojia\,0)) zongjine\,(IsNull(a2.di\,0)+IsNull(a3.gao\,0)) zonggas\,a5.zonghushu zonghushu from
+select  a1.f_districtname f_districtname\,a1.jiaoyibishu bishu\,a4.kaihushu kaihushu\,a3.gao gaojiagas\,a2.di dijiagas\,a3.gaojia gaojiafee\, round(a2.dijia\,2) dijiafee\,round((IsNull(a2.dijia\,0)+IsNull(a3.gaojia\,0))\,2) zongjine\,(IsNull(a2.di\,0)+IsNull(a3.gao\,0)) zonggas\,a5.zonghushu zonghushu from
 (select count(*) jiaoyibishu\,f_districtname from t_sellinggas where  f_payfeevalid\=\'有效\' 
 and \{daninfosearch.DataContext.Condition\}   group by f_districtname)
                                          a1

@@ -330,11 +330,11 @@
 							</a:Data.Prop>
 						</TextBox>
 						<TextBlock Text="操作时间：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="9" Height="25" Grid.Column="2" FontSize="13.333" />
-						<toolkit:TimePicker Value="{m:Bind Path=f_stime}" IsEnabled="False" Grid.Column="3" Margin="0" Grid.Row="9"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" FontSize="13.333" >
+						<!--<toolkit:TimePicker Value="{m:Bind Path=f_stime}" IsEnabled="False" Grid.Column="3" Margin="0" Grid.Row="9"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" FontSize="13.333" >
 							<a:Data.Prop>
 								<o:PropertySetter PropertyName="f_stime" Value="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
 							</a:Data.Prop>
-						</toolkit:TimePicker>
+						</toolkit:TimePicker>-->
 				</Grid>
             </Grid>
         </toolkit:BusyIndicator>
