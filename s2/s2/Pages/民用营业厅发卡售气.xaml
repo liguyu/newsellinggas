@@ -733,11 +733,11 @@
                                 </a:Data.Prop>
                             </ComboBox>
                             <TextBlock Grid.Column="2" Margin="0" Grid.Row="13" TextWrapping="Wrap" TextAlignment="Right" Height="25"><Run Text="购气"/><Run Text="时间"/><Run Text="："/></TextBlock>
-                            <!--<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="3" Margin="0,3,0,2" Grid.Row="13"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" >
+                            <toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="3" Margin="0,3,0,2" Grid.Row="13"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_deliverytime" NoDependValue="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
                                 </a:Data.Prop>
-                            </toolkit:TimePicker>-->
+                            </toolkit:TimePicker>
                             <TextBox Text="{m:Bind Path=f_cardidjia}" Grid.Column="3" Margin="0,3,1,2" Grid.Row="4" TextWrapping="Wrap" IsReadOnly="True" Height="25" HorizontalAlignment="Right" Width="1" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_cardidjia" NoDependValue="{m:Exp Str=userfile.DataContext.f_cardid!\=null:userfile.DataContext.f_cardid.ToLong()\+1\,null}"
