@@ -219,7 +219,7 @@
 
                     <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="51">
                         <sdk:DataPager x:Name="pager2" Source="{Binding ItemsSource.Count, Converter={StaticResource DataPagerConverter}, ElementName=daninfos}" Margin="0,0,0,0" PageSize="42" toolkit:DockPanel.Dock="Top" Height="24"   />
-                        <TextBlock TextWrapping="Wrap"  Margin="0,0,5,0" Text="{m:Exp Str=$共\{daninfos.ItemsSource.Count\}项 总气量\{daninfos.ItemsSource.f_pregas\} 应收金额\{daninfos.ItemsSource.f_preamount\}元  实收金额\{daninfos.ItemsSource.f_grossproceeds\}元 违约金\{daninfos.ItemsSource.f_zhinajin\}元}"   Foreground="#FF140000" Width="901" toolkit:DockPanel.Dock="Bottom" Height="25" HorizontalAlignment="Right" TextAlignment="Right" />
+                        <TextBlock TextWrapping="Wrap"  Margin="0,0,5,0" Text="{m:Exp Str=$共\{daninfos.ItemsSource.Count\}项 总气量\{daninfos.ItemsSource.f_pregas.MathRound(2)\} 应收金额\{daninfos.ItemsSource.f_preamount.MathRound(2)\}元  实收金额\{daninfos.ItemsSource.f_grossproceeds.MathRound(2)\}元 违约金\{daninfos.ItemsSource.f_zhinajin.MathRound(2)\}元}"   Foreground="#FF140000" Width="901" toolkit:DockPanel.Dock="Bottom" Height="25" HorizontalAlignment="Right" TextAlignment="Right" />
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
                     </toolkit:DockPanel>
 
@@ -262,7 +262,6 @@ Path="{m:Exp Str=LoginUser.f_fengongsi \=\= zonggongsi.value:$from t_sellinggas 
                         </a:Data.Items>
                         <sdk:DataGrid.Columns>
                             <!--sdk:DataGridTextColumn d:IsLocked="True" Header="序  号" Binding="{Binding Index}"/-->
-
                             <sdk:DataGridTextColumn Header="用户编号" Binding="{Binding f_userid}"/>
                             <sdk:DataGridTextColumn d:IsLocked="True" Header="用户姓名" Binding="{Binding f_username}"/>
                             <sdk:DataGridTextColumn Header="地址" Binding="{Binding f_address}"/>
@@ -327,10 +326,10 @@ Path="{m:Exp Str=LoginUser.f_fengongsi \=\= zonggongsi.value:$from t_sellinggas 
             </c:BusyIndicatorEx>
 
         </Grid>
-        <c:PrintPageObj x:Name="print" ListNameInArea="selllist" Area="{m:Res Key=sqprint1}" 
+        <c:PrintPageObj x:Name="print" ListNameInArea="selllist" Area="{m:Res Key=sqprint1}"
       List="{m:Exp Str=daninfos.ItemsSource}" PageRow="42"  />
 
-        <Grid  x:Name="sqprint1" VerticalAlignment="Bottom" Margin="-1355,0,0,25" HorizontalAlignment="Left" Width="1227" >
+        <Grid  x:Name="sqprint1" VerticalAlignment="Bottom" Margin="-1355,-55,0,-287" HorizontalAlignment="Left" Width="1355" Height="1594">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="0.942*"/>
@@ -351,6 +350,7 @@ Path="{m:Exp Str=LoginUser.f_fengongsi \=\= zonggongsi.value:$from t_sellinggas 
                             </DataTemplate>
                         </sdk:DataGridTemplateColumn.CellTemplate>
                     </sdk:DataGridTemplateColumn>
+                    <sdk:DataGridTextColumn d:IsLocked="True" Header="序  号" Binding="{Binding Index}"/>
                     <sdk:DataGridTextColumn Header="用户编号" Binding="{Binding f_userid}"/>
                     <sdk:DataGridTextColumn d:IsLocked="True" Header="用户姓名" Binding="{Binding f_username}"/>
                     <sdk:DataGridTextColumn Header="地址" Binding="{Binding f_address}"/>
