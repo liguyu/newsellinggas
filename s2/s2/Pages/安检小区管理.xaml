@@ -127,7 +127,7 @@
 						AutoGenerateColumns="False" Width="Auto" Background="{x:Null}" IsReadOnly="True" >
 						<a:Data.Items>
 							<o:PagedObjectList Name="userfileslist" WebClientInfo="{StaticResource dbclient}"								
-								Path="{m:Exp Str=$from t_area2 where \{userfilesearch.DataContext.Condition\} and f_state is null$}"
+								Path="{m:Exp Str=$from t_area where \{userfilesearch.DataContext.Condition\} and f_state is null$}"
 								IsOld="{m:Exp Str=SaveAction.State\=\=$End$  or DeleteAction.State\=\=$End$ or ybuserfile.DataContext.State\=\=$End$}"
 								PageIndex="{m:Exp Str=pager.PageIndex}" PageSize="{m:Exp Str=pager.PageSize}" SumNames=","/>
 						</a:Data.Items>
