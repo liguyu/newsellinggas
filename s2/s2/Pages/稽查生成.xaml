@@ -21,7 +21,7 @@
     <Grid x:Name="LayoutRoot">
         <m:ResourceLoad Margin="0,0,-12,0">
             <!--大于小于-->
-            <o:ObjectList Name="dxlist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='大于小于'"/>
+            <o:ObjectList Name="dxlist" EntityType="paramvalue" HasEmptyRow="True" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='大于小于'"/>
 
             <!--分公司列表对象-->
             <o:ObjectList Name="fgslist" EntityType="paramvalue" HasEmptyRow="True" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='分公司' order by id"/>
@@ -34,9 +34,9 @@
 		  		Path="{m:Exp Str=$one/from t_singlevalue where name \= \'总公司名称\'}"   >
             </o:GeneralObject>
             <!--气表品牌-->
-            <o:ObjectList Name="qblist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气表品牌'"/>
+            <o:ObjectList Name="qblist" EntityType="paramvalue" HasEmptyRow="True" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气表品牌'"/>
             <!--气价类型-->
-            <o:ObjectList Name="qjlist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气价类型'"/>
+            <o:ObjectList Name="qjlist" EntityType="paramvalue" HasEmptyRow="True" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气价类型'"/>
 
         </m:ResourceLoad>
         <!--sdk:TabControl Margin="0" >
@@ -83,14 +83,25 @@
                         <c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}" Filter="(*.xls)|*.xls" />
                         <Button Content=" 置  空"  Grid.Row="4" Grid.Column="6" Click="{m:Exp Str=daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate\=null;daninfosearch.DataContext.f_districtname\=null;daninfosearch.DataContext.f_gouqicishufuhao\=null;daninfosearch.DataContext.f_gouqicishu\=null;daninfosearch.DataContext.f_deliverydate\=null;daninfosearch.DataContext.f_deliverydate2\=null;tj5.SelectedValue\=null;fgs.SelectedValue\=null;tj6.SelectedValue\=null;tja.SelectedValue\=null;tja1.SelectedValue\=null}" Margin="0,0,25,0" FontSize="14" HorizontalAlignment="Right" Width="60"  />
                         <TextBlock TextWrapping="Wrap" Text="气表品牌："  Margin="6,3,6,0" Height="25" TextAlignment="Right" Grid.Column="4" />
-                        <ComboBox Name="tj5" SelectedValue="{m:Bind Path=f_gaswatchbrand}" Grid.Column="5" ItemsSource="{m:Exp Str=qblist}"  Margin="0,1,0,2" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-                            <a:Data.Prop>
+                        <ComboBox Name="tj5" SelectedValue="{m:Bind Path=f_gaswatchbrand}" Grid.Column="5" ItemsSource="{m:Exp Str=qblist}"  Margin="0,1,0,2" SelectedValuePath="name"  Height="25">
+                           <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Height="20" Text="{Binding name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+						    <a:Data.Prop>
                                 <o:PropertySetter PropertyName="f_gaswatchbrand"  Operator="u.f_gaswatchbrand = 'this'"/>
                             </a:Data.Prop>
                         </ComboBox>
                         <TextBlock TextWrapping="Wrap" Text="气价类型：" Grid.Column="2"  Margin="-26,2,0,1" Height="25" TextAlignment="Right" />
-                        <ComboBox Name="tj6" SelectedValue="{m:Bind Path=f_gaspricetype}" Grid.Column="3" ItemsSource="{m:Exp Str=qjlist}"  Margin="0,1,0,2" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-                            <a:Data.Prop>
+                        <ComboBox Name="tj6" SelectedValue="{m:Bind Path=f_gaspricetype}" Grid.Column="3" ItemsSource="{m:Exp Str=qjlist}"  Margin="0,1,0,2"  SelectedValuePath="name"  Height="25">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Height="20" Text="{Binding name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+							
+							<a:Data.Prop>
                                 <o:PropertySetter PropertyName="f_gaspricetype"  Operator="u.f_gaspricetype like 'this%'"/>
                             </a:Data.Prop>
                         </ComboBox>
@@ -128,8 +139,13 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                         <TextBlock TextWrapping="Wrap" Text="购气量："  Margin="0,2,0,1" Height="25" TextAlignment="Right" Grid.Row="2" Grid.Column="4" />
-                        <ComboBox x:Name="ui_f_cishufuhao" SelectedValue="{m:Bind Path=f_gouqicishufuhao}" Grid.Column="5" ItemsSource="{m:Exp Str=dxlist}"  Margin="0,1,55,2" DisplayMemberPath="name" SelectedValuePath="name"  Height="25" Grid.Row="2">
-                            <a:Data.Prop>
+                        <ComboBox x:Name="ui_f_cishufuhao" SelectedValue="{m:Bind Path=f_gouqicishufuhao}" Grid.Column="5" ItemsSource="{m:Exp Str=dxlist}"  Margin="0,1,55,2"  SelectedValuePath="name"  Height="25" Grid.Row="2">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Height="20" Text="{Binding name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+							<a:Data.Prop>
                                 <o:PropertySetter PropertyName="f_gouqicishufuhao" Operator="1=1" NotNull="True"/>
                             </a:Data.Prop>
                         </ComboBox>
