@@ -132,6 +132,8 @@
                 <o:PropertySetter PropertyName="f_zhye" Value="{m:Exp Str=userfileschangeset.f_zhyechange}"/>
 
                 <o:PropertySetter PropertyName="f_districtname" Value="{m:Exp Str=userfileschangeset.f_districtnamechange}"/>
+                <o:PropertySetter PropertyName="f_cusDom" Value="{m:Exp Str=userfileschangeset.f_cusDomchange}"/>
+                <o:PropertySetter PropertyName="f_cusDy" Value="{m:Exp Str=userfileschangeset.f_cusDychange}"/>
                 <o:PropertySetter PropertyName="f_apartment" Value="{m:Exp Str=userfileschangeset.f_apartmentchange}"/>
                 <o:PropertySetter PropertyName="f_dibaohu" Value="{m:Exp Str=userfileschangeset.f_dibaohuchange}"/>
                 <o:PropertySetter PropertyName="f_wallhangboiler" Value="{m:Exp Str=userfileschangeset.f_wallhangboilerchange}"/>
@@ -200,6 +202,8 @@
 
 
                 <o:PropertySetter PropertyName="f_districtname" Value="{m:Exp Str=userfiles.SelectedItem.f_districtname}"/>
+                <o:PropertySetter PropertyName="f_cusDom" Value="{m:Exp Str=userfiles.SelectedItem.f_cusDom}"/>
+                <o:PropertySetter PropertyName="f_cusDy" Value="{m:Exp Str=userfiles.SelectedItem.f_cusDy}"/>
                 <o:PropertySetter PropertyName="f_apartment" Value="{m:Exp Str=userfiles.SelectedItem.f_apartment}"/>
                 <o:PropertySetter PropertyName="f_dibaohu" Value="{m:Exp Str=userfiles.SelectedItem.f_dibaohu}"/>
                 <o:PropertySetter PropertyName="f_wallhangboiler" Value="{m:Exp Str=userfiles.SelectedItem.f_wallhangboiler}"/>

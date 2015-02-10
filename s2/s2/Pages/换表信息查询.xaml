@@ -20,7 +20,7 @@
     <Grid x:Name="LayoutRoot" Background="White">
         <m:ResourceLoad Margin="1,1,1,1">
             <!--用户类型查询用-->
-            <o:ObjectList Name="payfeevalid" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='是否有效查询用'"/>
+            <o:ObjectList Name="payfeevalid"  EntityType="paramvalue"  HasEmptyRow="True"  WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='是否有效查询用'"/>
             <!--查询条件对象-->
             <o:SearchObject Name="search"/>
 
@@ -53,14 +53,19 @@
                         </a:Data.Prop>
                     </TextBox>
                     <TextBlock Text="是否撤销:" VerticalAlignment="Center"></TextBlock>
-                    <ComboBox x:Name="ui_whetherback" SelectedValue="{m:Bind Path=f_payfeevalid}" ItemsSource="{m:Exp Str=payfeevalid}" Width="80" Height='25' DisplayMemberPath="name" SelectedValuePath="name" >
-                        <a:Data.Prop>
+                    <ComboBox x:Name="ui_whetherback" SelectedValue="{m:Bind Path=f_payfeevalid}" ItemsSource="{m:Exp Str=payfeevalid}" Width="80" Height='25'  SelectedValuePath="name" >
+                         <ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+						<a:Data.Prop>
                             <o:PropertySetter PropertyName="f_payfeevalid"  Operator="f_payfeevalid = 'this'" />
                         </a:Data.Prop>
                     </ComboBox>
                     <Button x:Name="ui_SearchButton" Width="70" Margin="15,0,0,0"  Click="{m:Exp Str=search.Search()}">查询</Button>
                     <Button x:Name="zhikong" Width="70" Margin="2,0,0,0" Click="zhikong_Click">置空</Button>
-                    <Button x:Name="excel" Width="70" Margin="2,0,0,0" Click="{m:Exp Str=toExcel.ToExcel()}">导出excel</Button>
+                    <Button x:Name="excel" IsEnabled="{m:Exp Str=ui_gqdDataGrid.ItemsSource.Count!\=0:True\,False}" Width="70" Margin="2,0,0,0" Click="{m:Exp Str=toExcel.ToExcel()}">导出excel</Button>
                     <c:Excel x:Name="toExcel" HQL="{m:Exp Str=$\{ui_gqdDataGrid.ItemsSource.Path\}}" 
 						Completed="{m:Exp Str=downLoad.Down()}"
 						Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{ui_gqdDataGrid.ItemsSource.Count\}/id:编号|f_username:姓名|f_userid:用户编号|f_address:地址|f_usertype:用户类型|f_watchfee:表费|f_cardfees:卡费|f_cmnewgaswatchbrand:新表品牌|f_cmnewmetertype:新表型号|f_cmnewmeternumber:新表表号|f_cmaddgas:补气量|f_cypregas:超用原因|f_cnote:换表原因|f_cmoperator:换表人|f_cmdate:换表日期|f_cancelnote:撤销原因|f_cxoperation:撤销人|f_canceldate:撤销日期$}" Height="30" VerticalAlignment="Top" Width="0"/>

@@ -113,11 +113,11 @@
 									</a:Data.Prop>
 								</sdk:DatePicker>
 								<TextBlock TextWrapping="Wrap" Text="到：" Grid.Column="2" Grid.Row="3" Margin="0,3,0,2" Height="25" TextAlignment="Right"/>
-								<Button Content="导出Excel" Click="{m:Exp Str=toExcel.ToExcel()}" Margin="0,0,-1,2" Grid.Row="3" Grid.Column="5" HorizontalAlignment="Right"/>
+								<Button Content="导出Excel" IsEnabled="{m:Exp Str=daninfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel.ToExcel()}" Margin="0,0,-1,2" Grid.Row="3" Grid.Column="5" HorizontalAlignment="Right"/>
 								<c:Excel x:Name="toExcel" HQL="{m:Exp Str=$sql:\{daninfos.ItemsSource.HQL\}}" 
    							 Completed="{m:Exp Str=downLoad.Down()}"
    							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|address:地址|f_phone:电话|lastinputdate:抄表日期|lastinputgasnum:上次抄表底数|lastrecord:本次抄表底数|oughtamount:本次应交气量|oughtfee:本次应交金额|fee:总共欠费|c:欠费次数|yue:欠费周期$}"/>
-					    <c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}"></c:DownLoad>
+					    <c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
 							</Grid>
 							<Grid   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom">
 								<sdk:DataPager x:Name="pager2" Source="{Binding ItemsSource.Count, Converter={StaticResource DataPagerConverter}, ElementName=daninfos}" Margin="0,0,0,27" PageSize="40" d:LayoutOverrides="Width"   />
