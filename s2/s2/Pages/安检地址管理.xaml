@@ -95,7 +95,7 @@
 				AutoGenerateColumns="False"  Background="{x:Null}" IsReadOnly="True" >
                         <a:Data.Items>
                             <o:PagedObjectList x:Name="applyslist" WebClientInfo="{StaticResource dbclient}"
-                      Path="{m:Exp Str=$from t_gasaddress where \{applysearch.DataContext.Condition\}}"
+                      Path="{m:Exp Str=$from t_gasaddress1 where \{applysearch.DataContext.Condition\}}"
 					 IsOld="{m:Exp Str=apply.DataContext.State\=\=$End$ |or| DeleteAction.State \=\= $End$ |or| SaveAction.State \=\= $End$}"
 					 PageIndex="{m:Exp Str=pager.PageIndex}" PageSize="{m:Exp Str=pager.PageSize}" SumNames=","/>
 						

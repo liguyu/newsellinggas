@@ -10,12 +10,12 @@ using System.Windows.Shapes;
 
 namespace Com.Aote.Pages
 {
-    public partial class 用气设备查询 : UserControl
-    {
-        public 用气设备查询()
-        {
-            // Required to initialize variables
-            InitializeComponent();
-        }
-    }
+	public partial class 非民用报建档案审核 : UserControl
+	{
+		public 非民用报建档案审核()
+		{
+			// Required to initialize variables
+			InitializeComponent();
+		}
+	}
 }
