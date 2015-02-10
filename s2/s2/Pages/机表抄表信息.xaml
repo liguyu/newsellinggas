@@ -91,7 +91,7 @@
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="0*"/>
             </Grid.ColumnDefinitions>
-            <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=daninfos.ItemsSource.IsBusy  or heji.IsBusy or daninfosearch.DataContext.IsBusy}">
+            <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=daninfos.ItemsSource.IsBusy  or heji.IsBusy or toExcel.IsBusy or daninfosearch.DataContext.IsBusy}">
                 <toolkit:DockPanel>
                     <Grid x:Name="daninfosearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" Width="Auto" HorizontalAlignment="Stretch" >
                         <Grid.RowDefinitions>
