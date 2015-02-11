@@ -119,7 +119,7 @@
     <Grid x:Name="LayoutRoot">
         <m:ResourceLoad x:Name="pageResource">
             <o:PagedList Name="repairManList" WebClientInfo="{StaticResource dbclient}" Path="sql"
-                         HQL="{m:Exp Str=$select ID\, NAME from t_user  where instr(roles\,(select id from t_role where NAME\=\'维修人员\')\,1)\=1$}"
+                         HQL="{m:Exp Str=$select ID\, NAME from t_user  where charindex((select id from t_role where NAME\=\'维修人员\')\,roles\,1)\=1$}"
                          Names="REPAIRMAN_ID,REPAIRMAN,rn" PageIndex="0" PageSize="9999" SumNames=","/>
         </m:ResourceLoad>
         <Grid>
@@ -146,8 +146,7 @@
                             <ColumnDefinition Width="170"/>
                         </Grid.ColumnDefinitions>
                         <a:Data.Context>
-                            <o:SearchObject>
-                            </o:SearchObject>
+                            <o:SearchObject />
                         </a:Data.Context>
                         <TextBlock TextWrapping="Wrap" Text="安检员：" Margin="5,4,0,4" FontSize="13.333" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" />
                         <TextBox TextWrapping="Wrap" Text="{m:Bind Path=SAVE_PEOPLE}" Width="100" Margin="0" Height="25"  Grid.Row="0" Grid.Column="1">
@@ -203,8 +202,9 @@
                         <sdk:DataGrid.Columns>
                             <sdk:DataGridTextColumn Header="安检员" Binding="{Binding SAVE_PEOPLE}"/>
                             <sdk:DataGridTextColumn Header="安检状态" Binding="{Binding CONDITION}"/>
-                            <sdk:DataGridTextColumn Header="用户名" Binding="{Binding USER_NAME}"/>
-                            <sdk:DataGridTextColumn Header="卡  号" Binding="{Binding CARD_ID}"/>
+                            <sdk:DataGridTextColumn Header="用户编号" Binding="{Binding f_userid}"/>
+                            <sdk:DataGridTextColumn Header="用户名" Binding="{Binding f_consumername}"/>
+                            <sdk:DataGridTextColumn Header="卡  号" Binding="{Binding f_kahao}"/>
                             <sdk:DataGridTextColumn Header="街  道" Binding="{Binding ROAD}"/>
                             <sdk:DataGridTextColumn Header="小  区" Binding="{Binding UNIT_NAME}"/>
                             <sdk:DataGridTextColumn Header="楼  号" Binding="{Binding CUS_DOM}"/>

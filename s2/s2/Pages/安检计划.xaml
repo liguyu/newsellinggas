@@ -25,14 +25,16 @@
             <o:GeneralObject Name="ybuserfilego" WebClientInfo="{StaticResource dbclient}" 
 			EntityType="T_CHECKPLAN"
 			IsInit="{m:Exp Str=this.State\=\=$End$ or SaveAction.State\=\=$End$}"  >
-                <o:PropertySetter PropertyName="f_date" 
-				Default="{m:Exp Str=SysTime.Now.ToString($yyyy-MM-dd HH:mm:ss$)}"/>
+                <o:PropertySetter PropertyName="f_date" NoDependValue="{m:Exp Str=SysTime.Today}" 
+                                  Default="{m:Exp Str=SysTime.Now.ToString($yyyy-MM-dd HH:mm:ss$)}"
+                                  Operator="substring('this',1,10)" NotNull="True" />
                 <o:PropertySetter PropertyName="f_enddate" 
                                   Default="{m:Exp Str=SysTime.MonthsAfterToday(1).ToString($yyyy-MM-dd HH:mm:ss$)}"
                                   Operator="substring('this',1,10)" NotNull="True" />
                 <o:PropertySetter PropertyName="f_issued" 
 				Default="{m:Exp Str=$否$}"/>
                 <o:PropertySetter PropertyName="f_checks" Default="{m:Exp Str=target}"/>
+
             </o:GeneralObject>
             
             <!--获取安检员-->
@@ -42,7 +44,7 @@
 
             <!--查询出的地址列表-->
             <o:ObjectList Name="userfileslist" WebClientInfo="{StaticResource dbclient}"
-			Path="{m:Exp Str=$from t_userfiles where \{userfilesearch.DataContext.Condition\} order by len(f_cusDom)\, f_cusDom\, len(f_cusDy)\, f_cusDy\,len(f_cusFloor)\, f_cusFloor\, len(f_apartment)\, f_apartment$}"/>
+			Path="{m:Exp Str=$from t_userfiles where \{userfilesearch.DataContext.Condition\} and (f_nextCheckDate ^\= cast(\'\{SysTime.Today\}\' as date) or f_nextCheckDate is null) and (f_toBeInspected \= \'否\' or f_toBeInspected is null) order by len(f_cusDom)\, f_cusDom\, len(f_cusDy)\, f_cusDy\,len(f_cusFloor)\, f_cusFloor\, len(f_apartment)\, f_apartment$}"/>
 
             <o:ObjectList Name="target" EntityType="T_IC_SAFECHECK_PAPER"  WebClientInfo="{StaticResource dbclient}"  
           TempObj="{m:Res Key=tempobj}" TempletObject="{m:Res Key=tobj}"
@@ -205,26 +207,22 @@
                                 </a:Data.Prop>
                             </TextBox>
                             <TextBlock TextWrapping="Wrap" Text="安检员：" Grid.Row="1" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Column="2"/>
-                            <ComboBox Name="f_checkman"   SelectedValue="{m:Bind Path=f_checkman}" Grid.Row="1" Grid.Column="4" ItemsSource="{m:Exp Str=checkmanlist}" SelectedValuePath="code"  Margin="0" DisplayMemberPath="name"   Height="25" >
+                            <ComboBox Name="f_checkman"   SelectedValue="{m:Bind Path=f_checkman}" Grid.Row="1" Grid.Column="4" ItemsSource="{m:Exp Str=checkmanlist}" SelectedValuePath="name"  Margin="0" DisplayMemberPath="name"   Height="25" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_checkman"/>
                                 </a:Data.Prop>
                             </ComboBox>
                             <TextBlock TextWrapping="Wrap" Text=" 计划开始时间：" Grid.Row="2" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Column="0"/>
                             <sdk:DatePicker SelectedDate="{m:Bind Path=f_date}" Margin="0"  Height="25" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="1" >
-                                <a:Data.Prop>
-                                    <o:PropertySetter PropertyName="f_date" NoDependValue="{m:Exp Str=SysTime.Today}" 
-                                                                           Operator="substring('this',1,10)" NotNull="True" />
-                                </a:Data.Prop>
                             </sdk:DatePicker>
                             <TextBlock TextWrapping="Wrap" Text=" 计划结束时间：" Grid.Row="2" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Column="2"/>
                             <sdk:DatePicker SelectedDate="{m:Bind Path=f_enddate}" Margin="0"  Height="25" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="3" >
                                 
                             </sdk:DatePicker>
                             <TextBlock TextWrapping="Wrap" Text="用户类型：" Grid.Row="1" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Column="0"/>
-                            <ComboBox Name="f_usertype" SelectedValue="{m:Bind Path=f_usertype}" Grid.Row="1" Grid.Column="1" ItemsSource="{m:Exp Str=usertypelist}" SelectedValuePath="code"  Margin="0" DisplayMemberPath="name"   Height="25" >
+                            <ComboBox Name="f_usertype" SelectedValue="{m:Bind Path=f_usertype}" Grid.Row="1" Grid.Column="1" ItemsSource="{m:Exp Str=usertypelist}" SelectedValuePath="name"  Margin="0" DisplayMemberPath="name"   Height="25" >
                                 <a:Data.Prop>
-                                    <o:PropertySetter PropertyName="f_usertype" NotNull="True" />
+                                    <o:PropertySetter PropertyName="f_usertype" NotNull="True"/>
                                 </a:Data.Prop>
                             </ComboBox>
                         </Grid>
