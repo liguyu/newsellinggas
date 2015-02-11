@@ -97,7 +97,7 @@
                             </a:Data.Prop>
                         </TextBox>
                         <TextBlock TextWrapping="Wrap" Text="用户姓名："   Grid.Column="2"  Margin="0,2,0,1" Height="25" TextAlignment="Right" />
-                        <TextBox Name="username" TextWrapping="Wrap"  Grid.Column="3" Text="{m:Bind Path=f_heatingboiler_brand,UpdateOnChange=True,Filter=$！￥ `~!@#$%\*$^}" Width="Auto" Margin="0,2,0,1" Height="25" HorizontalAlignment="Stretch" >
+                        <TextBox Name="username" TextWrapping="Wrap"  Grid.Column="3" Text="{m:Bind Path=f_username,UpdateOnChange=True,Filter=$！￥ `~!@#$%\*$^}" Width="Auto" Margin="0,2,0,1" Height="25" HorizontalAlignment="Stretch" >
                             <a:Data.Prop>
                                 <o:PropertySetter PropertyName="f_username"  Operator="f_username like 'this'"/>
                             </a:Data.Prop>
