@@ -118,7 +118,7 @@
 						
 						<Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="2" Grid.Column="5" Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="0,-1,0,1" FontSize="14" RenderTransformOrigin="-0.817,-1.121" HorizontalAlignment="Left" Width="60"  />
 						<Button Content=" 置  空"  Grid.Row="2" Grid.Column="5" Click="{m:Exp Str=daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null;Comboxfx.SelectedValue\=null;usertype.SelectedValue\=null;daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_cardid\=null}" Margin="69,-1,26,1" FontSize="14"  />
-								<Button Content="导出Excel" Click="{m:Exp Str=toExcel.ToExcel()}" Grid.Column="5" Margin="143,2,0,1" Grid.Row="2" HorizontalAlignment="Left" Width="80" Grid.ColumnSpan="2"/>
+								<Button Content="导出Excel" IsEnabled="{m:Exp Str=daninfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel.ToExcel()}" Grid.Column="5" Margin="143,2,0,1" Grid.Row="2" HorizontalAlignment="Left" Width="80" Grid.ColumnSpan="2"/>
  						<c:Excel x:Name="toExcel" HQL="{m:Exp Str=$\{daninfos.ItemsSource.Path\}}" 
    							 Completed="{m:Exp Str=downLoad.Down()}"
    							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/Index:序号|f_userid:用户编号|f_username:用户姓名|f_cardid:卡号|f_usertype:用户类型|f_cmaddgas:补气量|f_nextaddgasamount:剩余补气量|f_oldcurrentbase:码盘数|f_gaswatchbrand:气表品牌|f_metertype:气表型号|f_yuanyin:故障原因|f_jieguo:处理结果|f_cnote:备注|f_parentname4:网点|f_cmoperator:维修人|f_filiale:分公司|f_hdoperator:核对人|f_hddate:核对日期|f_cmdate:登记日期|f_time:操作时间$}"/>

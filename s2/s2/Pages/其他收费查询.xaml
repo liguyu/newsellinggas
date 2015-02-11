@@ -73,12 +73,12 @@
                         </sdk:DatePicker>
                         <Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="1" Grid.Column="6" Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="20,0,0,0" FontSize="14"  />
                         <Button Content=" 置  空"  Grid.Row="1" Grid.Column="7" Click="{m:Exp Str=daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null}" FontSize="14" HorizontalAlignment="Left" Width="60"  />
-                        <!--Button Content="导出Excel"  Click="{m:Exp Str=toExcel.ToExcel()}"	Margin="64,2,0,1" toolkit:DockPanel.Dock="Right" Background="white" Grid.Column="7" Grid.Row="1"/>
-                        <c:Excel x:Name="toExcel" HQL="{m:Exp Str=$sql:\{daninfos.ItemsSource.HQL\}}" 
-                         Completed="{m:Exp Str=downLoad.Down()}"
-                         Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|shangci:上次抄表日期|benci:本次抄表日期|lastinputgasnum:上次底数|f_zhishu:本次底数|f_bijiaogasnum:剩余气量|daygas:日用气量$}" />
-                        <c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}" Filter="(*.xls)|*.xls" Grid.Row="4" Grid.Column="8" Margin="140,-3,0,-2"  HorizontalAlignment="Left" Width="60"/-->
-                    </Grid>
+                       <Button Content="导出Excel" Grid.Row="1" Grid.Column="7" IsEnabled="{m:Exp Str=daninfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel4.ToExcel()}" Margin="60,0,0,2" HorizontalAlignment="Left" Width="67"/>
+								<c:Excel x:Name="toExcel4" HQL="{m:Exp Str=daninfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad4.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_usertype:用户类型|f_sellid:其他收费编号|f_feetype:修改前收费类型|f_newfeetype:修改后收费类型|f_fee:修改前收费金额|f_newfee:修改后收费金额|f_payfeevalid:修改前收费有效类型|f_newpayfeevalid:修改后收费有效类型|f_updatenote:修改原因$}"/>
+					    <c:DownLoad x:Name="downLoad4" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel4.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+						</Grid>
 
                     <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="51">
                         <sdk:DataPager x:Name="pager2" Source="{Binding ItemsSource.Count, Converter={StaticResource DataPagerConverter}, ElementName=daninfos}" Margin="0,0,0,0" PageSize="20" toolkit:DockPanel.Dock="Top" Height="24"   />
@@ -131,6 +131,6 @@
                 </toolkit:DockPanel>
             </toolkit:BusyIndicator>
         </Grid>
-        <!--c:MessageTipObj Tip="{m:Exp Str=$导出完成$}" IsShow="{m:Exp Str=downLoad\=>Completed!\=null}"/-->
+        <c:MessageTipObj Tip="{m:Exp Str=$导出完成$}" IsShow="{m:Exp Str=downLoad4\=>Completed!\=null}"/>
     </Grid>
 </UserControl>
