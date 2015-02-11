@@ -60,6 +60,8 @@
     <Compile Include="淄博绿川\JinKaGYLC.cs" />
     <Compile Include="航天\V1\航天一体\HangTianV1YiTi.cs" />
     <Compile Include="航天\V1\航天分体\HangTianV1FenTi.cs" />
+    <Compile Include="西美\翼城\XiMei.cs" />
+    <Compile Include="金卡\翼城\JinKaMY.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
