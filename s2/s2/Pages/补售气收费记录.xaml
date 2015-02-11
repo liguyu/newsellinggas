@@ -32,11 +32,11 @@
 		  		Path="{m:Exp Str=$one/from t_singlevalue where name \= \'总公司名称\'}"   >
         </o:GeneralObject>
 			<!--历史交费列表-->
-            <o:ObjectList Name="kbsellgas" WebClientInfo="{StaticResource dbclient}" IsClear="{m:Exp Str='SaveAction.State\=\=$End$'}"
-										Path="{m:Exp Str=kbusers.f_userid !\= null:$from t_sellinggas where f_userid\=\'\{kbfee.f_userid\}\' order by f_deliverydate desc $\,$abc$}"/>
+            <o:ObjectList Name="kbsellgas" WebClientInfo="{StaticResource dbclient}" IsOld="{m:Exp Str=SaveAction.State\=\=$End$}"
+										Path="{m:Exp Str=$from t_sellinggas where f_userid\=\'\{kbfee.f_userid\}\' order by f_deliverydate desc $}"/>
 			<!--本月有效费列表,目的是计算用户本月已经购买的气量-->
 			<o:ObjectList Name="kbbysellgas" WebClientInfo="{StaticResource dbclient}"
-										Path="{m:Exp Str=kbusers.f_userid !\= null:$from t_sellinggas where f_userid\=\'\{kbfee.f_userid\}\' and f_payfeevalid\=\'有效\' and year(f_deliverydate) \=\'\{SysTime.Today.ToString($yyyy$)\}\' and month(f_deliverydate) \=\'\{SysTime.Today.ToString($MM$)\}\'$\,$abc$ }"
+										Path="{m:Exp Str=$from t_sellinggas where f_userid\=\'\{kbfee.f_userid\}\' and f_payfeevalid\=\'有效\' and year(f_deliverydate) \=\'\{SysTime.Today.ToString($yyyy$)\}\' and month(f_deliverydate) \=\'\{SysTime.Today.ToString($MM$)\}\'$}"
 										IsOld="{m:Exp Str=SaveAction.State\=\=$End$}"/>
 		    <!--o:ObjectList Name="kbsellgas" EntityType="t_sellinggas" HasEmptyRow="True"></o:ObjectList-->
 		 
@@ -88,9 +88,10 @@
 				<o:PropertySetter PropertyName="f_finallyboughtgasdate" Value="{m:Exp Str=cyqfee1.DataContext.f_deliverydate}"/>			
 			</o:GeneralObject-->
 			<!--卡表收费对象 -->
-        	<o:GeneralObject Name="kbfee" EntityType="t_sellinggas" WebClientInfo="{StaticResource dbclient}"
-              IsInit="{m:Exp Str=SaveAction.State\=\=$End$}" Source="{m:Exp Str=userfiles.SelectedItem !\=null:userfiles.SelectedItem\,null}">
-			</o:GeneralObject>
+            <o:GeneralObject Name="kbfee" EntityType="t_sellinggas" WebClientInfo="{StaticResource dbclient}"
+              IsInit="{m:Exp Str=SaveAction.State\=\=$End$}">
+                <o:PropertySetter PropertyName="f_bsfjl" Value="补收费记录" Default="补收费记录"/>
+            </o:GeneralObject>
 			<!--超用对象 >
         	<o:GeneralObject Name="cyqfee"   EntityType="t_sellinggas" WebClientInfo="{StaticResource dbclient}"
               IsInit="{m:Exp Str=cyqSaveAction.State\=\=$End$}">
@@ -285,12 +286,12 @@
 										<o:PropertySetter PropertyName="f_feimyqiliang" Value="{m:Exp Str=kbfee.f_pregas*kbfee.f_gsfenzhi}"/>
 									</a:Data.Prop>
 								</TextBox>
-								<TextBox Text="{m:Bind Path=f_feimyqiliangjine}"  Grid.Column="1" Margin="5,0,0,0" TextWrapping="Wrap" IsReadOnly="True" Grid.ColumnSpan="1" Grid.Row="10" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="35"  >
-									<a:Data.Prop>
-										<o:PropertySetter PropertyName="f_feimyqiliangjine" Value="{m:Exp Str=kbfee.f_feimyqiliang*kbfee.f_gsprice}"/>
-									</a:Data.Prop>
-								</TextBox>
-							</StackPanel>
+                                    <TextBox Text="{m:Bind Path=f_feimyqiliangjine}"  Grid.Column="1" Margin="5,0,0,0" TextWrapping="Wrap" IsReadOnly="True" Grid.ColumnSpan="1" Grid.Row="10" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="35"  >
+                                        <a:Data.Prop>
+                                            <o:PropertySetter PropertyName="f_feimyqiliangjine" Value="{m:Exp Str=kbfee.f_feimyqiliang*kbfee.f_gsprice}"/>
+                                        </a:Data.Prop>
+                                    </TextBox>
+                                </StackPanel>
 							<TextBlock Text="用户类型：" Margin="0" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Grid.Column="2" Height="25"/>
 							<TextBlock Text="用气性质：" Margin="0" Grid.Row="5" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
 							<TextBlock Text="维管费起始月份：" Margin="0" Grid.Row="6" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
@@ -458,7 +459,7 @@
 								</a:Data.Prop>
 							</TextBox>
 							<TextBlock Margin="0" Grid.Row="13" TextWrapping="Wrap" Text="网      点：" TextAlignment="Right" Height="25"/>
-							<TextBox Text="{m:Bind Path=f_sgnetwork}" Grid.Column="1" Margin="0" Grid.Row="13" TextWrapping="Wrap" IsReadOnly="False" VerticalAlignment="Stretch" Height="25">
+							<TextBox Text="{m:Bind Path=f_sgnetwork}" IsReadOnly="True" Grid.Column="1" Margin="0" Grid.Row="13" TextWrapping="Wrap"  VerticalAlignment="Stretch" Height="25">
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_sgnetwork"  
 										Default="{m:Exp Str=LoginUser.f_parentname}"/>
@@ -642,7 +643,7 @@
 							</TextBox>-->
 							<TextBlock Text="表上次累计购气量：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="7" Grid.Column="2" Height="25"/>
 							<TextBlock Grid.Column="4" Margin="0" Grid.Row="14" TextWrapping="Wrap" TextAlignment="Right" Height="25"><Run Text="交费"/><Run Text="时间"/><Run Text="："/></TextBlock>
-							<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}"  Grid.Column="5" Margin="0" Grid.Row="14" IsEnabled="False"IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
+							<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}"  Grid.Column="5" Margin="0" Grid.Row="14" IsEnabled="False" IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_deliverytime" Value="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
 								</a:Data.Prop>

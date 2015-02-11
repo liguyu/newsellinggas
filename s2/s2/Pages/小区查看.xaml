@@ -96,7 +96,7 @@
 						</ComboBox>
 						<Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="1" Grid.Column="6" Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="12,-5,8,0" FontSize="14" RenderTransformOrigin="-0.817,-1.121"  />
 						<Button Content=" 置  空"  Grid.Row="1" Grid.Column="7" Click="{m:Exp Str=daninfosearch.DataContext.f_districtname\=null;daninfosearch.DataContext.f_address\=null;daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null;Comboxfx.SelectedValue\=null}" Margin="0,-3,0,-2" FontSize="14" HorizontalAlignment="Left" Width="60"  />
-						<Button Content="导出Excel" Click="{m:Exp Str=toExcel.ToExcel()}" Grid.Column="7" Margin="69,2,0,1" Grid.Row="1" HorizontalAlignment="Left" Width="80"/>
+						<Button Content="导出Excel" IsEnabled="{m:Exp Str=daninfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel.ToExcel()}" Grid.Column="7" Margin="69,2,0,1" Grid.Row="1" HorizontalAlignment="Left" Width="80"/>
  						<c:Excel x:Name="toExcel" HQL="{m:Exp Str=$\{daninfos.ItemsSource.MultiPath\}}" 
    							 Completed="{m:Exp Str=downLoad.Down()}"
    							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/Index:序号|f_districtname:小区名称|f_address:地址|f_gaswatchbrand:气表品牌|f_metertype:气表型号|f_accountVolume:开户气量|f_userNum:户数|f_already:通气户数|f_unready:未通气户数|f_wallhangboiler:壁挂炉户数|f_waterheater:热水器户数|f_startNumber:小区开始编号|f_endNumber:小区结束编号|f_usernumber:小区当前用户编号|f_filiale:分公司|f_operator:操作员|f_date:日期$}"/>

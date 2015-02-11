@@ -208,7 +208,7 @@
 		 Dqdm="{m:Exp Str='kbusers != null \:kbusers.dqdm\,null'}"
 		 Yhh="{m:Exp Str='kbusers != null \:kbusers.yhh\,null'}"
 		 Tm="0"
-		 Ljgql="{m:Exp Str='kbusers != null \:kbusers.f_cumulativepurchase\,null'}"
+		 Ljgql="{m:Exp Str='kbusers != null \:kbusers.f_metergasnums\,null'}"
 		 Bkcs="0"
 		 Bjql="{m:Exp Str='kbusers != null \:kbusers.bjql\,null'}"
 		 Czsx="{m:Exp Str='kbusers != null \:kbusers.czsx\,null'}"

@@ -140,7 +140,7 @@
 								</ComboBox>
                         <Button Content=" 置  空"  Grid.Row="3" Grid.Column="1" Click="{m:Exp Str=daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_yhxz\=null;daninfosearch.DataContext.f_gaspricetype\=null;daninfosearch.DataContext.f_usertype\=null;daninfosearch.DataContext.f_address\=null}"  FontSize="14" HorizontalAlignment="Center" Width="60"  />
 
-                        <Button Content="导出Excel" Click="{m:Exp Str=toExcel.ToExcel()}" Grid.Column="2" Margin="0,0,2,0" HorizontalAlignment="Right" Grid.Row="3"/>
+                        <Button Content="导出Excel" IsEnabled="{m:Exp Str=daninfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel.ToExcel()}" Grid.Column="2" Margin="0,0,2,0" HorizontalAlignment="Right" Grid.Row="3"/>
 								<c:Excel x:Name="toExcel" HQL="{m:Exp Str=$sql:\{daninfos.ItemsSource.HQL\}}" 
    							 Completed="{m:Exp Str=downLoad.Down()}"
    							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_districtname:小区名称|f_address:地址|f_phone:电话|f_usertype:用户类型|f_gasproperties:用气性质|lastinputdate:最后抄表日期$}"/>
