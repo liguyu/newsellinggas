@@ -29,7 +29,7 @@
 		 Dqdm="{m:Exp Str='user != null \:user.dqdm\,null'}"
 		 Yhh="{m:Exp Str='user != null \:user.yhh\,null'}"
 		 Tm="{m:Exp Str='user != null \:user.f_meternumber\,null'}"
-		 Ljgql="{m:Exp Str='user != null \:user.f_cumulativepurchase\,null'}"
+		 Ljgql="{m:Exp Str='user != null \:user.f_metergasnums\,null'}"
 		 Bkcs="0"
 		 Bjql="{m:Exp Str='user != null \:user.bjql\,null'}"
 		 Czsx="{m:Exp Str='user != null \:user.czsx\,null'}"

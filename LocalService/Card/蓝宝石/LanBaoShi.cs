@@ -179,8 +179,16 @@ namespace Card
                 //string dqdm1 = new string((sbyte*)puc1.UserNO);
 
                 Log.Debug("LanBaoShi FormatGasCard start;端口号：" + pcr1.dwPort + "波特率：" + pcr1.dwBaud);
-                
+
+                String buf;
+                String buf1;
+                Log.Debug("擦卡前读卡格式:");
+                MingHua.GetSnapShot(com, baud, out buf);
                 rs = RecycleUserCard(ref pcr1, ref puc1, pti);
+                Log.Debug("擦卡后读卡格式:");
+                MingHua.GetSnapShot(com, baud, out buf1);
+                Log.Debug(buf);
+                Log.Debug(buf1);
 
                 //kh1 = new string((sbyte*)puc1.CardNO);
                 //dqdm1 = new string((sbyte*)puc1.UserNO);
@@ -275,8 +283,16 @@ namespace Card
                     string dqdm2 = new string((sbyte*)puc1.UserNO);
 
                     Log.Debug("LanBaoShi WriteGasCard start:卡号：" + kh2 + "区域号：" + dqdm2 + "气量：" + puc1.RechargeAmount + "购气次数：" + puc1.RechargeTimes + "卡类型" + puc1.MecMeterType);
-                    
+
+                    String buf;
+                    String buf1;
+                    Log.Debug("购气前读卡格式:");
+                    MingHua.GetSnapShot(com, baud, out buf);
                     rs = RechargeUserCard(ref pcr1, ref puc1, pti);
+                    Log.Debug("购气后读卡格式:");
+                    MingHua.GetSnapShot(com, baud, out buf1);
+                    Log.Debug(buf);
+                    Log.Debug(buf1);
 
                     //kh2 = new string((sbyte*)puc1.CardNO);
                     //dqdm2 = new string((sbyte*)puc1.UserNO);
@@ -313,8 +329,16 @@ namespace Card
                     puc1.RechargeAmount = -gas;
 
                     Log.Debug("LanBaoShi 退气 WriteGasCard start:卡号：" + kh2 + "区域号：" + dqdm2 + "气量：" + puc1.RechargeAmount + "购气次数：" + puc1.RechargeTimes + "卡类型" + puc1.MecMeterType);
-                    
+
+                    String buf;
+                    String buf1;
+                    Log.Debug("退气前读卡格式:");
+                    MingHua.GetSnapShot(com, baud, out buf);
                     rs = RechargeUserCard(ref pcr1, ref puc1, pti);
+                    Log.Debug("退气后读卡格式:");
+                    MingHua.GetSnapShot(com, baud, out buf1);
+                    Log.Debug(buf);
+                    Log.Debug(buf1);
                     //kh2 = new string((sbyte*)puc1.CardNO);
                     //dqdm2 = new string((sbyte*)puc1.UserNO);
                     Log.Debug("LanBaoShi 退气 WriteGasCard end:返回值return:" + rs + "卡号：" + kh2 + "区域号：" + dqdm2 + "气量：" + puc1.RechargeAmount + "购气次数：" + puc1.RechargeTimes + "卡类型" + puc1.MecMeterType);
@@ -452,8 +476,16 @@ namespace Card
                 Log.Debug("write card 清卡 end: rs=" + rs);
 
                 Log.Debug("LanBaiShi WriteNewCard start:卡号：" + kh + "区域号：" + dqdm + "气量：" + puc1.RechargeAmount + "购气次数：" + puc1.RechargeTimes + "卡类型" + puc1.MecMeterType);
-                
+
+                String buf;
+                String buf1;
+                Log.Debug("发卡前读卡格式:");
+                MingHua.GetSnapShot(com, baud, out buf);
                 rs = IssueUserCard(ref pcr1, ref puc1, pti);
+                Log.Debug("发卡后后读卡格式:");
+                MingHua.GetSnapShot(com, baud, out buf1);
+                Log.Debug(buf);
+                Log.Debug(buf1);
 
                 Log.Debug("LanBaiShi WriteNewCard end, return:" + rs);
                 

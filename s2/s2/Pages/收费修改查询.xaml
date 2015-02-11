@@ -70,11 +70,11 @@
                         <Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="0" Grid.Column="6" Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="20,0,0,0" FontSize="14"  />
                         <Button Content=" 置  空"  Grid.Row="0" Grid.Column="7" Click="{m:Exp Str=daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_sellinggasdate\=null;daninfosearch.DataContext.f_yytdate2\=null}" FontSize="14" HorizontalAlignment="Left" Width="60"  />
                         <TextBlock TextWrapping="Wrap" Text="操作日期："  Grid.Column="3" Margin="60,6,10,-3" Height="25" TextAlignment="Right"/>
-                        <!--Button Content="导出Excel"  Click="{m:Exp Str=toExcel.ToExcel()}"	Margin="64,2,0,1" toolkit:DockPanel.Dock="Right" Background="white" Grid.Column="7" Grid.Row="1"/>
-                        <c:Excel x:Name="toExcel" HQL="{m:Exp Str=$sql:\{daninfos.ItemsSource.HQL\}}" 
+                        <Button Content="导出Excel" IsEnabled="{m:Exp Str=daninfos.ItemsSource.Count!\=0:True\,False}"  Click="{m:Exp Str=toExcel.ToExcel()}"	Margin="64,2,0,1" toolkit:DockPanel.Dock="Right" Background="white" Grid.Column="7" Grid.Row="1"/>
+                        <c:Excel x:Name="toExcel" HQL="{m:Exp Str=daninfos.ItemsSource.Path}" 
                          Completed="{m:Exp Str=downLoad.Down()}"
-                         Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|shangci:上次抄表日期|benci:本次抄表日期|lastinputgasnum:上次底数|f_zhishu:本次底数|f_bijiaogasnum:剩余气量|daygas:日用气量$}" />
-                        <c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}" Filter="(*.xls)|*.xls" Grid.Row="4" Grid.Column="8" Margin="140,-3,0,-2"  HorizontalAlignment="Left" Width="60"/-->
+                         Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_userid:修改前用户编号|f_newuserid:修改后用户编号|f_username:修改前用户姓名|f_newusername:修改后用户姓名|f_usertype:修改前用户类型|f_newusertype:修改后用户类型|f_address:修改前用户地址|f_newaddress:修改后用户地址|f_districtname:修改前小区名称|f_newdistrictname:修改后小区名称|f_zhinajin:修改前滞纳金|f_newzhinajin:修改后滞纳金|f_weihufei:修改前维护费|f_newweihufei:修改后维护费|f_pregas:修改前用气量|f_newpregas:修改后用气量|f_preamount:修改前用气金额|f_newpreamount:修改后用气金额|f_shifouyouxiao:修改前是否有效|f_newshifouyouxiao:修改后是否有效|f_shoukuan:修改前收费金额|f_newshoukuan:修改后收费金额|f_lastrecord:修改前本期指数|f_newlastrecord:修改后本期指数|f_shangqizhye:修改前上期指数|f_newshangqizhye:修改后上期指数|f_shangqizhye:修改前上期余额|f_newshangqizhye:修改后上期余额|f_zhye:修改前余额|f_newzhye:修改后余额|f_updatenote:修改原因$}" />
+                        <c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}" Filter="(*.xls)|*.xls" Grid.Row="4" Grid.Column="8" Margin="140,-3,0,-2"  HorizontalAlignment="Left" Width="60"/>
                     </Grid>
 
                     <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="51">
@@ -221,6 +221,6 @@
                 </toolkit:DockPanel>
             </toolkit:BusyIndicator>
         </Grid>
-        <!--c:MessageTipObj Tip="{m:Exp Str=$导出完成$}" IsShow="{m:Exp Str=downLoad\=>Completed!\=null}"/-->
+        <c:MessageTipObj Tip="{m:Exp Str=$导出完成$}" IsShow="{m:Exp Str=downLoad\=>Completed!\=null}"/>
     </Grid>
 </UserControl>

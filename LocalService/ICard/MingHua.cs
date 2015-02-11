@@ -262,5 +262,21 @@ namespace Card
             }
             return true;
         }
+        public static int GetSnapShot(short com, int baud, out String buf)
+        {
+            buf = "";
+            //打开串口
+            int icdev = ic_init(com, baud);
+            if (icdev < 0)
+            {
+                return -1;
+            }
+            byte[] data_buf = new byte[0x100];
+            srd_4442(icdev, 0, 256, data_buf);
+            buf = BitConverter.ToString(data_buf).Replace("-", " ");
+            //关闭串口
+            ic_exit(icdev);
+            return 0;
+        }
     }
 }

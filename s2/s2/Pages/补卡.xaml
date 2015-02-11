@@ -38,7 +38,7 @@
 		 Dqdm="{m:Exp Str='userfiles1 != null \:userfiles1.dqdm\,null'}"
 		 Yhh="{m:Exp Str='userfiles1 != null \:userfiles1.yhh\,null'}"
 		 Tm="0"
-		 Ljgql="{m:Exp Str='userfiles1 != null \:userfiles1.f_cumulativepurchase\,null'}"
+		 Ljgql="{m:Exp Str='userfiles1 != null \:userfiles1.f_metergasnums\,null'}"
 		 Bkcs="0"
 		 Bjql="{m:Exp Str='userfiles1 != null \:userfiles1.bjql\,null'}"
 		 Czsx="{m:Exp Str='userfiles1 != null \:userfiles1.czsx\,null'}"

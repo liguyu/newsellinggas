@@ -57,7 +57,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="ui_SearchButton" Width="75" Margin="10,0,0,0"  Click="{m:Exp Str=ui_setSearch.DataContext.Search()}" >查询</Button>
                         <Button Width="70" Content="置空" Click="{m:Exp Str=ui_setSearch.DataContext.f_userid\=null;ui_setSearch.DataContext.f_cardid\=null;ui_setSearch.DataContext.f_yytdate1\=null;ui_setSearch.DataContext.f_yytdate2\=null}" FontSize="14" HorizontalAlignment="Left"/>
-                        <Button Width="70" Click="{m:Exp Str=toExcel.ToExcel()}">导出Excel</Button>
+                        <Button Width="70" IsEnabled="{m:Exp Str=ui_gqdDataGrid.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel.ToExcel()}">导出Excel</Button>
                         <c:Excel Name="toExcel" HQL="{m:Exp Str=$\{ui_gqdDataGrid.ItemsSource.Path\}}" 
    							 Completed="{m:Exp Str=downLoad.Down()}"
    							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{ui_gqdDataGrid.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_address:地址|f_cardfees:卡费|f_gasmetermanufacturers:气表厂家|f_metertype:气表型号|f_recoverycarddate:撤销日期|f_rcoperator:补卡人|f_cancelreason:撤销原因|f_canceloperator:撤销人|f_canceldate:撤销日期$}"/>

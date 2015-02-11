@@ -61,7 +61,11 @@
                         </TextBox>
                         <Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="0" Grid.Column="6" Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="20,0,0,0" FontSize="14"  />
                         <Button Content=" 置  空"  Grid.Row="0" Grid.Column="7" Click="{m:Exp Str=daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null}" FontSize="14" HorizontalAlignment="Left" Width="60"  />
-                           
+                         <Button Content="导出Excel" Grid.Row="0" Grid.Column="7" IsEnabled="{m:Exp Str=daninfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel4.ToExcel()}" Margin="0,0,22,0" HorizontalAlignment="Right" Width="68"/>
+								<c:Excel x:Name="toExcel4" HQL="{m:Exp Str=daninfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad4.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_usertype:用户类型|f_address:用户地址|f_qibiaochangjia:气表厂家|f_qibiaopinpai:气表品牌|f_gaspricetype:气价类型|f_pregas:发卡气量|f_newpregas:修改后发卡气量|f_cardfees:发卡卡费|f_newcardfees:修改后发卡卡费|f_preamount:发卡气量金额|f_newpreamount:修改后发卡气量金额|f_totalcost:总收费|f_newtotalcost:修改后总收费|f_whethergivecard:是否发卡|f_newwhethergivecard:修改后是否发卡|f_cardid:卡号|f_updatenote:修改原因$}"/>
+					    <c:DownLoad x:Name="downLoad4" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel4.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>  
                        </Grid>
 
                     <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="51">
@@ -127,7 +131,6 @@
                                     </DataTemplate>
                                 </sdk:DataGridTemplateColumn.CellTemplate>
                             </sdk:DataGridTemplateColumn>
-                            <sdk:DataGridTextColumn Header="修改后是否发卡" Binding="{Binding f_newwhethergivecard}"/>
                             <sdk:DataGridTextColumn Header="卡号" Binding="{Binding f_cardid}"/>
                             <sdk:DataGridTextColumn Header="操作人" Binding="{Binding f_handplanoperator}"/>
                             <sdk:DataGridTextColumn Header="修改原因" Binding="{Binding f_updatenote}"/>
@@ -137,6 +140,6 @@
                 </toolkit:DockPanel>
             </toolkit:BusyIndicator>
         </Grid>
-        <!--c:MessageTipObj Tip="{m:Exp Str=$导出完成$}" IsShow="{m:Exp Str=downLoad\=>Completed!\=null}"/-->
+        <c:MessageTipObj Tip="{m:Exp Str=$导出完成$}" IsShow="{m:Exp Str=downLoad4\=>Completed!\=null}"/>
     </Grid>
 </UserControl>

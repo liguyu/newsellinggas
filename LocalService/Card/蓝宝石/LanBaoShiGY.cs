@@ -161,6 +161,15 @@ namespace Card
                 PUserCard puc1 = new PUserCard();
                 int pti = 0;
                 Log.Debug("LanBaoShiGY FormatGasCard start");
+                String buf;
+                String buf1;
+                Log.Debug("擦卡前读卡格式:");
+                MingHua.GetSnapShot(com, baud, out buf);
+                rs = RecycleUserCard(ref pcr1, ref puc1, pti);
+                Log.Debug("擦卡后读卡格式:");
+                MingHua.GetSnapShot(com, baud, out buf1);
+                Log.Debug(buf);
+                Log.Debug(buf1);
                 rs = RecycleUserCard(ref pcr1, ref puc1, pti);
                 Log.Debug("LanBaoShiGY FormatGasCard end,return:" + rs);
                 if (rs == 0)
@@ -234,7 +243,15 @@ namespace Card
                 if (ql != 0)
                 {
                     puc1.RechargeAmount = ql * 10000;
+                    String buf;
+                    String buf1;
+                    Log.Debug("购气前读卡格式:");
+                    MingHua.GetSnapShot(com, baud, out buf);
                     rs = RechargeUserCard(ref pcr1, ref puc1, pti);
+                    Log.Debug("购气后读卡格式:");
+                    MingHua.GetSnapShot(com, baud, out buf1);
+                    Log.Debug(buf);
+                    Log.Debug(buf1);
                     if (rs == 0)
                     {
                         Log.Debug("蓝宝石工业购气成功！");
@@ -251,7 +268,15 @@ namespace Card
                     int rt = ReadUserCard(ref pcr1, ref puc1, pti);
                     int gas = (int)puc1.RechargeAmount;
                     puc1.RechargeAmount = -gas;
+                    String buf;
+                    String buf1;
+                    Log.Debug("退气前读卡格式:");
+                    MingHua.GetSnapShot(com, baud, out buf);
                     rs = RechargeUserCard(ref pcr1, ref puc1, pti);
+                    Log.Debug("退气后读卡格式:");
+                    MingHua.GetSnapShot(com, baud, out buf1);
+                    Log.Debug(buf);
+                    Log.Debug(buf1);
                     if (rs == 0)
                     {
                         Log.Debug("蓝宝石工业冲正成功！");
@@ -383,8 +408,15 @@ namespace Card
                 int pti = 0;
                 rs = RecycleUserCard(ref pcr1, ref puc1, pti);
                 Log.Debug("clear card rs=" + rs);
-                Log.Debug("LanBaiShiGY WriteNewCard start");
+                Log.Debug("LanBaiShiGY WriteNewCard start"); String buf;
+                String buf1;
+                Log.Debug("发卡前读卡格式:");
+                MingHua.GetSnapShot(com, baud, out buf);
                 rs = IssueUserCard(ref pcr1, ref puc1, pti);
+                Log.Debug("发卡后读卡格式:");
+                MingHua.GetSnapShot(com, baud, out buf1);
+                Log.Debug(buf);
+                Log.Debug(buf1);
                 Log.Debug("LanBaiShiGY WriteNewCard end, return:" + rs);
                 if (rs == 0)
                 {

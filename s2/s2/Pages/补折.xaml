@@ -171,9 +171,9 @@
     							<o:PropertySetter PropertyName="f_recoverypassbookdate" Value="{m:Exp Str=fazhe.f_recoverypassbookdate}"/>
     						</a:Data.Prop>
     					</TextBox>
-    					<TextBox Text="{m:Bind Path=f_ccreason}" Grid.Column="1" Margin="0,2,5,2" Grid.Row="6" TextWrapping="Wrap" Grid.ColumnSpan="5" Height="Auto" VerticalAlignment="Stretch">
+    					<TextBox Text="{m:Bind Path=f_ccreason}"  Grid.Column="1" Margin="0,2,5,2" Grid.Row="6" TextWrapping="Wrap" Grid.ColumnSpan="5" Height="Auto" VerticalAlignment="Stretch">
     						<a:Data.Prop>
-    							<o:PropertySetter PropertyName="f_ccreason"/>
+    							<o:PropertySetter PropertyName="f_ccreason" NotNull="True"/>
     						</a:Data.Prop>
     					</TextBox>
     					<TextBlock Margin="0,6" Grid.Row="7" TextWrapping="Wrap" Text="公 司 名：" TextAlignment="Right"/>

@@ -23,24 +23,20 @@
             <ColumnDefinition Width="0.917*"/>
         </Grid.ColumnDefinitions>
         <m:ResourceLoad Margin="0,0,-12,0" Grid.ColumnSpan="2">
-            <!--过户excel对象-->
-            <o:ExcelObj Name="excelguohu" Bind="Index,f_userid,f_tnewusername,f_username,f_address,f_notnull,f_departments,f_toperator,f_tdate" Source="{m:Exp Str=applys}"/>
-            <!--停用excel对象-->
-            <o:ExcelObj Name="excelstopgas" Bind="Index,f_userid,f_username,f_address,f_parentname,f_soperator,f_sdate" Source="{m:Exp Str=pipelines22}"/>
-            <!--换表excel对象-->
-            <o:ExcelObj Name="excelhuanbiao" Bind="Index,f_state,f_userid,f_username,f_usertype,f_gaswatchbrand,f_cmnewgaswatchbrand,f_cmaddgas,f_cypregas,f_parentname4,f_cmoperator,f_cmdate,f_cmtime" Source="{m:Exp Str=hbinfos}"/>
-            <!--单位列表-->
+           <!--单位列表-->
             <o:ObjectList Name="danobj" WebClientInfo="{StaticResource dbclient}"
 				Path="{m:Exp Str=$from t_userfiles where f_unitid\=\'\{unitgo.f_unitid\}\'  }" />
             <!--分公司列表对象-->
-            <o:ObjectList Name="fgslist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='分公司' order by id"/>
+            <o:ObjectList Name="fgslist" EntityType="paramvalue" HasEmptyRow="True" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='分公司' order by id"/>
             <!--用户档案对象-->
             <o:GeneralObject Name="userfilego" WebClientInfo="{StaticResource dbclient}" 
 				EntityType="t_userfiles" Source="{m:Exp Str=daninfos.SelectedItem}"
 				IsInit="{m:Exp Str=this.State\=\=$End}"        	>
                 <o:PropertySetter  PropertyName="f_substate" Default="完成"/>
             </o:GeneralObject>
-
+			<!--用气性质-->
+            <o:ObjectList Name="usegaslist"  EntityType="paramvalue" HasEmptyRow="True" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='用气性质'"/>
+            
 
 
             <!--总公司名称-->
@@ -48,9 +44,9 @@
 		  		Path="{m:Exp Str=$one/from t_singlevalue where name \= \'总公司名称\'}"   >
             </o:GeneralObject>
 
-            <o:ObjectList Name="qblist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气表品牌'"/>
+            <o:ObjectList Name="qblist" EntityType="paramvalue" HasEmptyRow="True" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气表品牌'"/>
 
-            <o:ObjectList Name="qjlist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气价类型'"/>
+            <o:ObjectList Name="qjlist" EntityType="paramvalue" HasEmptyRow="True" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气价类型'"/>
             <!--用气设备信息-->
             <o:ObjectList Name="devicelist" EntityType="t_devices" HasEmptyRow="True"></o:ObjectList>
         </m:ResourceLoad>
@@ -59,13 +55,13 @@
 
 
 
-            <sdk:TabItem Header="民用档案" Height="Auto" Width="Auto" Margin="0,2,0,0">
+            <sdk:TabItem Header="民用档案" Height="Auto" Width="Auto" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="7*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=daninfos.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=daninfos.ItemsSource.IsBusy or toExcel.IsBusy}">
                         <toolkit:DockPanel>
                             <Grid x:Name="daninfosearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" >
                                 <Grid.RowDefinitions>
@@ -111,21 +107,61 @@
                                         <o:PropertySetter PropertyName="f_username"  Operator="f_username like 'this%'"/>
                                     </a:Data.Prop>
                                 </TextBox>
-                                <ComboBox Name="Combox1"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="3" Grid.Column="3" ItemsSource="{m:Exp Str=fgslist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-                                    <a:Data.Prop>
+                                <ComboBox Name="Combox1"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="3" Grid.Column="3" ItemsSource="{m:Exp Str=fgslist}"  Margin="0" SelectedValuePath="name"  Height="25">
+                                     <ComboBox.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+									
+									<a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                     </a:Data.Prop>
                                 </ComboBox>
-                                <Button Content="查  询" x:Name="dansearchbutton" Grid.Row="4" Grid.Column="3" Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="0" FontSize="14" HorizontalAlignment="Left" Width="50"  />
-                                <TextBlock TextWrapping="Wrap" Text="气表品牌：" Grid.Column="2"  Margin="0,4" HorizontalAlignment="Right" />
-                                <ComboBox Name="Comboxfx" SelectedValue="{m:Bind Path=f_gaswatchbrand}" Grid.Column="3" ItemsSource="{m:Exp Str=qblist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-                                    <a:Data.Prop>
+								<StackPanel Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                <Button Content="查  询" x:Name="dansearchbutton"  Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="2" FontSize="14" HorizontalAlignment="Left" Width="auto"  />
+                                 <Button Content="置  空"   HorizontalAlignment="Left" Margin="2" 
+								 Click="{m:Exp Str=daninfosearch.DataContext.f_userid\=null;
+								 daninfosearch.DataContext.f_filiale\=null;
+								 daninfosearch.DataContext.f_username\=null;
+								 daninfosearch.DataContext.f_gaspricetype\=null;
+								 daninfosearch.DataContext.f_gaswatchbrand\=null;
+								 daninfosearch.DataContext.f_yytdate2\=null;
+								 daninfosearch.DataContext.f_yytdate1\=null;
+								 daninfosearch.DataContext.f_address\=null;
+								 daninfosearch.DataContext.f_cardid\=null}" FontSize="14"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=daninfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel.ToExcel()}" Margin="2"   HorizontalAlignment="Right" Width="auto"/>
+								<c:Excel x:Name="toExcel" HQL="{m:Exp Str=daninfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_cardid:卡号|f_times:写卡次数|f_districtname:小区名称|f_apartment:门牌号|f_phone:电话|f_gaswatchbrand:气表品牌|f_metertype:气表型号$}"/>
+					    <c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							
+							</StackPanel>
+
+
+								<TextBlock TextWrapping="Wrap" Text="气表品牌：" Grid.Column="2"  Margin="0,4" HorizontalAlignment="Right" />
+                                <ComboBox Name="Comboxfx" SelectedValue="{m:Bind Path=f_gaswatchbrand}" Grid.Column="3" ItemsSource="{m:Exp Str=qblist}"  Margin="0"  SelectedValuePath="name"  Height="25">
+                                     <ComboBox.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+									
+									
+									<a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_gaswatchbrand"  Operator="f_gaswatchbrand like 'this%'"/>
                                     </a:Data.Prop>
                                 </ComboBox>
                                 <TextBlock TextWrapping="Wrap" Text="气价类型：" Grid.Column="2" Grid.Row="1"  Margin="0,4" HorizontalAlignment="Right" />
-                                <ComboBox Name="Comboxqj" Grid.Row="1" SelectedValue="{m:Bind Path=f_gaspricetype}" Grid.Column="3" ItemsSource="{m:Exp Str=qjlist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-                                    <a:Data.Prop>
+                                <ComboBox Name="Comboxqj" Grid.Row="1" SelectedValue="{m:Bind Path=f_gaspricetype}" Grid.Column="3" ItemsSource="{m:Exp Str=qjlist}"  Margin="0" SelectedValuePath="name"  Height="25">
+                                     <ComboBox.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+									
+									<a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_gaspricetype"  Operator="f_gaspricetype like 'this%'"/>
                                     </a:Data.Prop>
                                 </ComboBox>
@@ -713,13 +749,13 @@
 
             </sdk:TabItem>
 
-            <sdk:TabItem Header="非民用档案" Height="Auto" Width="Auto" Margin="0,2,0,0">
+            <sdk:TabItem Header="非民用档案" Height="Auto" Width="Auto" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="7*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=feidaninfos.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=feidaninfos.ItemsSource.IsBusy or toExcel1.IsBusy}">
                         <toolkit:DockPanel   >
                             <Grid x:Name="feidaninfosearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" >
 
@@ -766,21 +802,61 @@
                                         <o:PropertySetter PropertyName="f_address"  Operator="f_address like 'this%'"/>
                                     </a:Data.Prop>
                                 </TextBox>
-                                <ComboBox Name="Combox2"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="3" Grid.Column="3" ItemsSource="{m:Exp Str=fgslist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25" HorizontalAlignment="Stretch" Width="Auto">
-                                    <a:Data.Prop>
+                                <ComboBox Name="Combox2"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="3" Grid.Column="3" ItemsSource="{m:Exp Str=fgslist}"  Margin="0"  SelectedValuePath="name"  Height="25" HorizontalAlignment="Stretch" Width="Auto">
+                                    <ComboBox.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+									<a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                     </a:Data.Prop>
                                 </ComboBox>
-                                <Button Content="查  询" x:Name="feidansearchbutton" Grid.Row="4" Grid.Column="3" Click="{m:Exp Str=feidaninfosearch.DataContext.Search()}" Margin="0" FontSize="14" Height="25" HorizontalAlignment="Left" Width="50"  />
-                                <TextBlock TextWrapping="Wrap" Text="气表品牌：" Grid.Column="2"  Margin="0,4" HorizontalAlignment="Right" />
-                                <ComboBox Name="Comboxfx1" SelectedValue="{m:Bind Path=f_gaswatchbrand}" Grid.Column="3" ItemsSource="{m:Exp Str=qblist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-                                    <a:Data.Prop>
+								<StackPanel Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                <Button Content="查  询" x:Name="feidansearchbutton"  Click="{m:Exp Str=feidaninfosearch.DataContext.Search()}" Margin="2" FontSize="14" Height="25" HorizontalAlignment="Left" Width="50"  />
+                                 <Button Content=" 置  空"   HorizontalAlignment="Left" Width="Auto" Margin="2" 
+								 Click="{m:Exp Str=feidaninfosearch.DataContext.f_userid\=null;
+								 feidaninfosearch.DataContext.f_filiale\=null;
+								  feidaninfosearch.DataContext.f_username\=null;
+								 feidaninfosearch.DataContext.f_gaspricetype\=null;
+								 feidaninfosearch.DataContext.f_gaswatchbrand\=null;
+								 feidaninfosearch.DataContext.f_yytdate2\=null;
+								 feidaninfosearch.DataContext.f_yytdate1\=null;
+								 feidaninfosearch.DataContext.f_address\=null;
+								 feidaninfosearch.DataContext.f_cardid\=null}" FontSize="14"   />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=feidaninfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel1.ToExcel()}" Margin="2"  HorizontalAlignment="Right" Width="Auto"/>
+								<c:Excel x:Name="toExcel1" HQL="{m:Exp Str=feidaninfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad1.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{feidaninfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_cardid:卡号|f_times:写卡次数|f_districtname:小区名称|f_apartment:门牌号|f_phone:电话|f_gaswatchbrand:气表品牌|f_metertype:气表型号$}"/>
+					    <c:DownLoad x:Name="downLoad1" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel1.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							
+							</StackPanel>
+								
+								
+								
+								<TextBlock TextWrapping="Wrap" Text="气表品牌：" Grid.Column="2"  Margin="0,4" HorizontalAlignment="Right" />
+                                
+								
+								<ComboBox Name="Comboxfx1" SelectedValue="{m:Bind Path=f_gaswatchbrand}" Grid.Column="3" ItemsSource="{m:Exp Str=qblist}"  Margin="0"  SelectedValuePath="name"  Height="25">
+                                  <ComboBox.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+								    <a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_gaswatchbrand"  Operator="f_gaswatchbrand like 'this%'"/>
                                     </a:Data.Prop>
                                 </ComboBox>
                                 <TextBlock TextWrapping="Wrap" Text="气价类型：" Grid.Column="2" Grid.Row="1"  Margin="0,4" HorizontalAlignment="Right" />
-                                <ComboBox Name="Comboxqj1" Grid.Row="1" SelectedValue="{m:Bind Path=f_gaspricetype}" Grid.Column="3" ItemsSource="{m:Exp Str=qjlist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-                                    <a:Data.Prop>
+                                <ComboBox Name="Comboxqj1" Grid.Row="1" SelectedValue="{m:Bind Path=f_gaspricetype}" Grid.Column="3" ItemsSource="{m:Exp Str=qjlist}"  Margin="0" SelectedValuePath="name"  Height="25">
+                                    <ComboBox.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+									
+									<a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_gaspricetype"  Operator="f_gaspricetype like 'this%'"/>
                                     </a:Data.Prop>
                                 </ComboBox>
@@ -1355,7 +1431,7 @@
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=danbginfos.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=danbginfos.ItemsSource.IsBusy  or toExcel2.IsBusy}">
                         <toolkit:DockPanel   >
                             <Grid x:Name="danbginfosearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" >
 
@@ -1403,13 +1479,31 @@
                                     </a:Data.Prop>
                                 </TextBox>
 
-                                <ComboBox Name="Combox3"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="0" Grid.Column="2" ItemsSource="{m:Exp Str=fgslist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-                                    <a:Data.Prop>
+                                <ComboBox Name="Combox3"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="0" Grid.Column="2" ItemsSource="{m:Exp Str=fgslist}"  Margin="0"  SelectedValuePath="name"  Height="25">
+                                    <ComboBox.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+									<a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                     </a:Data.Prop>
                                 </ComboBox>
-
-                                <Button Content="查  询" x:Name="dabgsearchbutton" Grid.Row="3" Grid.Column="2" Click="{m:Exp Str=danbginfosearch.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" FontSize="14" Height="25" Width="50"  />
+								<StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                <Button Content="查  询" x:Name="dabgsearchbutton"  Click="{m:Exp Str=danbginfosearch.DataContext.Search()}" Margin="2" HorizontalAlignment="left" FontSize="14" Height="25" Width="Auto"  />
+								 <Button Content=" 置  空"   Width="Auto" Margin="2" 
+								 Click="{m:Exp Str=danbginfosearch.DataContext.f_userid\=null;
+									 danbginfosearch.DataContext.f_filiale\=null;
+								 danbginfosearch.DataContext.f_username\=null;
+								 danbginfosearch.DataContext.f_yytdate2\=null;
+								 danbginfosearch.DataContext.f_yytdate1\=null}" FontSize="14"   />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=danbginfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel2.ToExcel()}" Margin="2"  HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel2" HQL="{m:Exp Str=danbginfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad2.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{danbginfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_changereason:变更原因|f_department:部门|f_operator:操作人$}"/>
+					    <c:DownLoad x:Name="downLoad2" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel2.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
 
                             </Grid>
 
@@ -1537,10 +1631,10 @@
             <sdk:TabItem Header="发 卡">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2.555*"/>
-                        <ColumnDefinition Width="8.445*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="7*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator  Margin="0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=fkinfos.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator  Margin="0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=fkinfos.ItemsSource.IsBusy or toExcel3.IsBusy}">
                         <toolkit:DockPanel   >
                             <toolkit:DockPanel x:Name="fkinfosearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" >
                                 <a:Data.Context>
@@ -1556,9 +1650,9 @@
                                         <RowDefinition Height="28"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="50*"/>
-                                        <ColumnDefinition Width="50*"/>
+                                        <ColumnDefinition Width="75"/>
+                                        <ColumnDefinition Width="30*"/>
+                                        <ColumnDefinition Width="70*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock TextWrapping="Wrap" Text="用户姓名：" Margin="0" Height="25" TextAlignment="Right"/>
                                     <TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_username}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" >
@@ -1580,14 +1674,33 @@
                                             <o:PropertySetter PropertyName="f_userid" Operator="f_userid = 'this'"/>
                                         </a:Data.Prop>
                                     </TextBox>
-                                    <ComboBox Name="Combox4"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="0" Grid.Column="2" ItemsSource="{m:Exp Str=fgslist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-                                        <a:Data.Prop>
+                                    <ComboBox Name="Combox4"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="0" Grid.Column="2" ItemsSource="{m:Exp Str=fgslist}"  Margin="0"  SelectedValuePath="name"  Height="25">
+                                        <ComboBox.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+											</DataTemplate>
+										</ComboBox.ItemTemplate>
+										<a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-
-                                    <Button Content="查  询" x:Name="searchbutton0" Grid.Column="2" Grid.Row="4" Click="{m:Exp Str=fkinfosearch.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" Width="50" FontSize="14" Height="31" />
-
+									<StackPanel Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbutton0"  Click="{m:Exp Str=fkinfosearch.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=fkinfosearch.DataContext.f_cardid\=null;
+								 fkinfosearch.DataContext.f_filiale\=null;
+							     fkinfosearch.DataContext.f_username\=null;
+								 fkinfosearch.DataContext.f_userid\=null;
+								 fkinfosearch.DataContext.f_yytdate2\=null;
+								 fkinfosearch.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=fkinfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel3.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel3" HQL="{m:Exp Str=fkinfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad3.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{fkinfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_cardid:卡号|f_usertype:用户类型|f_cardfees:卡费$}"/>
+					    <c:DownLoad x:Name="downLoad3" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel3.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
                                     <TextBlock TextWrapping="Wrap" Grid.Row="3" Grid.Column="0" Margin="0" Height="25" TextAlignment="Right"><Run Text="发卡日期从"/><Run Text=" "/></TextBlock>
                                     <sdk:DatePicker Name="fkrq" SelectedDate="{m:Bind Path=f_yytdate1}" Grid.Row="3" Grid.Column="1" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" HorizontalAlignment="Stretch" >
                                         <a:Data.Prop>
@@ -1939,10 +2052,10 @@
             <sdk:TabItem Header="售 气">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=sqinfosin.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=sqinfosin.ItemsSource.IsBusy or toExcel4.IsBusy}">
                         <toolkit:DockPanel   >
                             <toolkit:DockPanel x:Name="sqinfosearch"  toolkit:DockPanel.Dock="Top" Margin="0" Background="#FFCFEFFF" >
                                 <a:Data.Context>
@@ -1959,7 +2072,7 @@
                                         <RowDefinition Height="28"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="70"/>
                                         <ColumnDefinition Width="0.501*"/>
                                         <ColumnDefinition Width="0.499*"/>
                                     </Grid.ColumnDefinitions>
@@ -1997,14 +2110,41 @@
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
                                     <TextBlock TextWrapping="Wrap" Text="到：" Grid.Row="5" Margin="0" Height="25" TextAlignment="Right"/>
-                                    <ComboBox Name="Combox5"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="0" Grid.Column="2" ItemsSource="{m:Exp Str=fgslist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-                                        <a:Data.Prop>
+                                    <ComboBox Name="Combox5"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="0" Grid.Column="2" ItemsSource="{m:Exp Str=fgslist}"  Margin="0"  SelectedValuePath="name"  Height="25">
+                                        <ComboBox.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+											</DataTemplate>
+										</ComboBox.ItemTemplate>
+										
+										<a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
 
-                                    <Button Content="查  询" x:Name="searchbuttonsq" Grid.Row="5" Grid.Column="2" Click="{m:Exp Str=sqinfosearch.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" Width="50" FontSize="14" Height="31" />
-                                    <TextBlock TextWrapping="Wrap" Text="操 作 员：" Grid.Row="3" Margin="0" Height="25" HorizontalAlignment="Right"/>
+                                   <StackPanel Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbuttonsq"  Click="{m:Exp Str=sqinfosearch.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=sqinfosearch.DataContext.f_username\=null;
+								 sqinfosearch.DataContext.f_userid\=null;
+							     sqinfosearch.DataContext.f_cardid\=null;
+								 sqinfosearch.DataContext.f_sgoperator\=null;
+								 sqinfosearch.DataContext.f_filiale\=null;
+								 sqinfosearch.DataContext.f_yytdate2\=null;
+								 sqinfosearch.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=sqinfosin.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel4.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel4" HQL="{m:Exp Str=sqinfosin.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad4.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{sqinfosin.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_districtname:小区名称|f_apartment:门牌号|f_cardid:卡号|f_pregas:购气量|f_payfeevalid:是否有效|f_sgoperator:操作员$}"/>
+					    <c:DownLoad x:Name="downLoad4" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel4.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+									
+									
+									
+									
+									<TextBlock TextWrapping="Wrap" Text="操 作 员：" Grid.Row="3" Margin="0" Height="25" HorizontalAlignment="Right"/>
                                     <TextBox TextWrapping="Wrap" Grid.Column="1" Grid.Row="3" Text="{m:Bind Path=f_sgoperator}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" VerticalAlignment="Stretch" >
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_sgoperator" Operator="f_sgoperator = 'this'"/>
@@ -2404,7 +2544,7 @@
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="7*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=hbinfos.ItemsSource.IsBusy or excelhuanbiao.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=hbinfos.ItemsSource.IsBusy  or toExcel5.IsBusy}">
                         <toolkit:DockPanel   >
                             <toolkit:DockPanel x:Name="hbinfosearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" >
                                 <a:Data.Context>
@@ -2419,9 +2559,9 @@
                                         <RowDefinition Height="28"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="50*"/>
-                                        <ColumnDefinition Width="50*"/>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="0.4*"/>
+                                        <ColumnDefinition Width="0.5*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock TextWrapping="Wrap" Text="用户编号：" Margin="5,6,0,6" Height="25" HorizontalAlignment="Right"/>
                                     <TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_userid}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" >
@@ -2451,15 +2591,33 @@
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
                                     <TextBlock TextWrapping="Wrap" Text="到：" Grid.Row="3" Margin="0" Height="25" TextAlignment="Right"/>
-                                    <ComboBox Name="Combox6"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="0" Grid.Column="2" ItemsSource="{m:Exp Str=fgslist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-                                        <a:Data.Prop>
+                                    <ComboBox Name="Combox6"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="0" Grid.Column="2" ItemsSource="{m:Exp Str=fgslist}"  Margin="0"  SelectedValuePath="name"  Height="25">
+                                        <ComboBox.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+											</DataTemplate>
+										</ComboBox.ItemTemplate>
+										<a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2">
-                                        <Button Content="查  询" x:Name="hbsearchbutton" Grid.Column="2" Grid.Row="2" Click="{m:Exp Str=hbinfosearch.DataContext.Search()}" Margin="0,-5,5,0" HorizontalAlignment="Right" Width="50" FontSize="14" Height="29"  />
-                                        <Button Content="导出excel" x:Name="excelhb" Grid.Column="2" Grid.Row="2" Click="{m:Exp Str=excelhuanbiao.Export()}" Margin="0,-5,5,0" HorizontalAlignment="Right" Width="70" FontSize="14" Height="29"  />
-                                    </StackPanel>
+                                  <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="hbsearchbutton"  Click="{m:Exp Str=hbinfosearch.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=hbinfosearch.DataContext.f_userid\=null;
+								 hbinfosearch.DataContext.f_cardid\=null;
+								 hbinfosearch.DataContext.f_filiale\=null;
+								 hbinfosearch.DataContext.f_yytdate2\=null;
+								 hbinfosearch.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=hbinfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel5.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel5" HQL="{m:Exp Str=hbinfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad5.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{hbinfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_usertype:用户类型|f_gaswatchbrand:气表品牌|f_cmnewgaswatchbrand:新气表品牌|f_cmaddgas:补气量|f_cypregas:超用气量|f_parentname4:网点|f_cmoperator:操作员$}"/>
+					    <c:DownLoad x:Name="downLoad5" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel5.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+
                                 </Grid>
                             </toolkit:DockPanel>
                             <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="51">
@@ -2814,7 +2972,7 @@
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="7*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=bqinfos.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=bqinfos.ItemsSource.IsBusy  or toExcel6.IsBusy}">
                         <toolkit:DockPanel   >
                             <toolkit:DockPanel x:Name="bqinfosearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" >
                                 <a:Data.Context>
@@ -2829,9 +2987,9 @@
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="0.501*"/>
-                                        <ColumnDefinition Width="0.093*"/>
-                                        <ColumnDefinition Width="0.406*"/>
+                                        <ColumnDefinition Width="0.4*"/>
+                                        <ColumnDefinition Width="0.1*"/>
+                                        <ColumnDefinition Width="0.5*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock TextWrapping="Wrap" Text="用户姓名：" Margin="0,6,0,-3" Height="25" HorizontalAlignment="Right"/>
                                     <TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_username}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0,2,0,1" Height="25" >
@@ -2855,14 +3013,37 @@
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
                                     <TextBlock TextWrapping="Wrap" Text="到：" Grid.Row="2" Margin="0" Height="25" TextAlignment="Right" d:LayoutOverrides="GridBox"/>
-                                    <ComboBox Name="Combox7"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale6}" Grid.Row="0" Grid.Column="3" ItemsSource="{m:Exp Str=fgslist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-                                        <a:Data.Prop>
+                                    <ComboBox Name="Combox7"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale6}" Grid.Row="0" Grid.Column="3" ItemsSource="{m:Exp Str=fgslist}"  Margin="0"  SelectedValuePath="name"  Height="25">
+                                        <ComboBox.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+											</DataTemplate>
+										</ComboBox.ItemTemplate>
+										<a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_filiale6"  Operator="f_filiale6 like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
 
-                                    <Button Content="查  询" x:Name="bqsearchbutton" Grid.Column="3" Grid.Row="1" Click="{m:Exp Str=bqinfosearch.DataContext.Search()}" Margin="0,-1,5,4" HorizontalAlignment="Right" Width="50" FontSize="14" Height="25"  />
-                                </Grid>
+                                <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="bqsearchbutton"  Click="{m:Exp Str=bqinfosearch.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=bqinfosearch.DataContext.f_username\=null;
+								 bqinfosearch.DataContext.f_filiale\=null;
+								 bqinfosearch.DataContext.f_yytdate2\=null;
+								 bqinfosearch.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=bqinfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel6.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel6" HQL="{m:Exp Str=bqinfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad6.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{bqinfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_usertype:用户类型|f_cardid:卡号|f_addgastype:补气类型|f_cmaddgas:应补气量|f_pregas:本次补气量|f_foperator:操作员$}"/>
+					    <c:DownLoad x:Name="downLoad6" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel6.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+								
+								
+								
+								
+								</Grid>
                             </toolkit:DockPanel>
                             <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="51">
                                 <sdk:DataPager x:Name="pager4" Source="{Binding ItemsSource.Count, Converter={StaticResource DataPagerConverter}, ElementName=bqinfos}" Margin="0,0,0,0" PageSize="20" toolkit:DockPanel.Dock="Top" Height="24"   />
@@ -3039,7 +3220,7 @@
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=bkinfos.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=bkinfos.ItemsSource.IsBusy  or toExcel7.IsBusy}">
                         <toolkit:DockPanel   >
                             <toolkit:DockPanel x:Name="bkinfosearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" >
                                 <a:Data.Context>
@@ -3079,13 +3260,36 @@
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
                                     <TextBlock TextWrapping="Wrap" Text="到：" Grid.Row="2" Margin="0" Height="25" TextAlignment="Right"/>
-                                    <ComboBox Name="Combox9"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="0" Grid.Column="2" ItemsSource="{m:Exp Str=fgslist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-                                        <a:Data.Prop>
+                                    <ComboBox Name="Combox9"   Visibility="{m:Exp Str='LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$'}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="0" Grid.Column="2" ItemsSource="{m:Exp Str=fgslist}"  Margin="0"  SelectedValuePath="name"  Height="25">
+                                        <ComboBox.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+											</DataTemplate>
+										</ComboBox.ItemTemplate>
+										<a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <Button Content="查  询" x:Name="searchbutton1" Grid.Row="1" Grid.Column="2" Click="{m:Exp Str=bkinfosearch.DataContext.Search()}" Margin="0,-5,5,0" HorizontalAlignment="Right" Width="50" FontSize="14" Height="25"  />
-                                </Grid>
+                                   
+                                <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbutton1"  Click="{m:Exp Str=bkinfosearch.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=bkinfosearch.DataContext.f_userid\=null;
+								 bkinfosearch.DataContext.f_filiale\=null;
+								 bkinfosearch.DataContext.f_yytdate2\=null;
+								 bkinfosearch.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=bkinfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel7.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel7" HQL="{m:Exp Str=bkinfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad7.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{bkinfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_usertype:用户类型|f_districtname:小区名称|f_recoverycarddate:补卡日期|f_recoverycardtime:补卡时间$}"/>
+					    <c:DownLoad x:Name="downLoad7" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel7.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+								
+								
+								
+								</Grid>
                             </toolkit:DockPanel>
                             <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="51">
                                 <sdk:DataPager x:Name="pager5" Source="{Binding ItemsSource.Count, Converter={StaticResource DataPagerConverter}, ElementName=bkinfos}" Margin="0,0,0,0" PageSize="20" toolkit:DockPanel.Dock="Top" Height="24"   />
@@ -3531,7 +3735,7 @@
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=kfinfos.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=kfinfos.ItemsSource.IsBusy or toExcel8.IsBusy}">
                         <toolkit:DockPanel   >
                             <toolkit:DockPanel x:Name="kfinfosearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" >
                                 <a:Data.Context>
@@ -3577,8 +3781,28 @@
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <Button Content="查  询" x:Name="kfsearchbutton" Grid.Column="2" Grid.Row="3" Click="{m:Exp Str=kfinfosearch.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" Width="50" FontSize="14"  />
-                                    <TextBlock TextWrapping="Wrap" Text="操 作 员：" Margin="0" Height="25" TextAlignment="Right" Grid.Row="1"/>
+                                    <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="kfsearchbutton"  Click="{m:Exp Str=kfinfosearch.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=kfinfosearch.DataContext.f_userid\=null;
+								kfinfosearch.DataContext.f_operator\=null;
+								 kfinfosearch.DataContext.f_filiale\=null;
+								 kfinfosearch.DataContext.f_yytdate2\=null;
+								 kfinfosearch.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=kfinfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel8.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel8" HQL="{m:Exp Str=kfinfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad8.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{kfinfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_cardfees:卡费|f_mnate:修改原因|f_operator:操作员|f_date:操作日期|f_department:部门|f_fengongsinum:分公司$}"/>
+					    <c:DownLoad x:Name="downLoad8" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel8.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+									
+									
+									
+									
+									
+									<TextBlock TextWrapping="Wrap" Text="操 作 员：" Margin="0" Height="25" TextAlignment="Right" Grid.Row="1"/>
                                     <TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_operator}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" VerticalAlignment="Stretch" Grid.Row="1" >
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_operator" Operator="f_operator = 'this'"/>
@@ -3694,7 +3918,7 @@
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=xgqlinfos.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=xgqlinfos.ItemsSource.IsBusy or toExcel9.IsBusy}">
                         <toolkit:DockPanel   >
                             <toolkit:DockPanel x:Name="xgqlinfosearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" >
                                 <a:Data.Context>
@@ -3740,8 +3964,28 @@
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <Button Content="查  询" x:Name="xgqlsearchbutton" Grid.Column="2" Grid.Row="3" Click="{m:Exp Str=xgqlinfosearch.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" Width="50" FontSize="14"  />
-                                    <TextBlock TextWrapping="Wrap" Text="操 作 员：" Margin="0" Height="25" TextAlignment="Right" Grid.Row="1"/>
+                                    <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="xgqlsearchbutton"  Click="{m:Exp Str=xgqlinfosearch.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=xgqlinfosearch.DataContext.f_userid\=null;
+								xgqlinfosearch.DataContext.f_operator\=null;
+								 xgqlinfosearch.DataContext.f_filiale\=null;
+								 xgqlinfosearch.DataContext.f_yytdate2\=null;
+								 xgqlinfosearch.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=xgqlinfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel9.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel9" HQL="{m:Exp Str=xgqlinfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad9.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{xgqlinfos.ItemsSource.Count\}/f_userid:用户编号|f_limitbuygas:限购气量修改|f_operator:操作员|f_date:操作日期|f_department:部门|f_filiale:分公司$}"/>
+					    <c:DownLoad x:Name="downLoad9" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel9.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+									
+									
+									
+									
+									
+									<TextBlock TextWrapping="Wrap" Text="操 作 员：" Margin="0" Height="25" TextAlignment="Right" Grid.Row="1"/>
                                     <TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_operator}" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25" VerticalAlignment="Stretch" Grid.Row="1" >
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_operator" Operator="f_operator = 'this'"/>
@@ -3873,7 +4117,7 @@
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=whfinfos.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=whfinfos.ItemsSource.IsBusy or toExcel10.IsBusy}">
                         <toolkit:DockPanel   >
                             <toolkit:DockPanel x:Name="whfsearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" >
                                 <a:Data.Context>
@@ -3919,8 +4163,26 @@
                                         </a:Data.Prop>
                                     </ComboBox>
 
-                                    <Button Content="查  询" x:Name="whfsearchbutton" Grid.Column="2" Grid.Row="2" Click="{m:Exp Str=whfsearch.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" Width="50" FontSize="14" Height="25"  />
-                                </Grid>
+                                <StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="whfsearchbutton"  Click="{m:Exp Str=whfsearch.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=whfsearch.DataContext.f_userid\=null;
+								 whfsearch.DataContext.f_filiale\=null;
+								 whfsearch.DataContext.f_yytdate2\=null;
+								 whfsearch.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=whfinfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel10.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel10" HQL="{m:Exp Str=whfinfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad10.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{whfinfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_districtname:小区名称|f_address:小区地址|f_phone:电话|f_peijianname:配件名称|f_price:单价|quantity:数量|f_totalcost:总价$}"/>
+					    <c:DownLoad x:Name="downLoad10" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel10.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+							   
+							   
+							   
+							   
+							    </Grid>
                             </toolkit:DockPanel>
                             <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom"  Height="51">
                                 <sdk:DataPager x:Name="pager13" Source="{Binding ItemsSource.Count, Converter={StaticResource DataPagerConverter}, ElementName=whfinfos}" Margin="0,0,0,0" PageSize="20" toolkit:DockPanel.Dock="Top" Height="24"   />
@@ -4109,7 +4371,7 @@
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator  Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=bzxsinfos.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator  Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=bzxsinfos.ItemsSource.IsBusy or toExcel11.IsBusy}">
                         <toolkit:DockPanel   >
                             <toolkit:DockPanel x:Name="bzxssearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" >
                                 <a:Data.Context>
@@ -4154,8 +4416,24 @@
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <Button Content="查  询" x:Name="bzxssearchbutton" Grid.Column="2" Grid.Row="1" Click="{m:Exp Str=bzxssearch.DataContext.Search()}" Margin="0,-5,5,0" HorizontalAlignment="Right" Width="50" FontSize="14" Height="25"  />
-                                </Grid>
+                                <StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="bzxssearchbutton"  Click="{m:Exp Str=bzxssearch.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=bzxssearch.DataContext.f_userid\=null;
+								 bzxssearch.DataContext.f_filiale\=null;
+								 bzxssearch.DataContext.f_yytdate2\=null;
+								 bzxssearch.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=bzxsinfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel11.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel11" HQL="{m:Exp Str=bzxsinfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad11.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{bzxsinfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_districtname:小区名称|f_address:小区地址|f_phone:电话|quantity:数量|f_totalcost:总价|f_filiale:分公司|f_date:操作日期|f_bzxsftime:操作时间$}"/>
+					    <c:DownLoad x:Name="downLoad11" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel11.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+								
+								
+								</Grid>
                             </toolkit:DockPanel>
                             <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="51"  >
                                 <sdk:DataPager x:Name="pager14" Source="{Binding ItemsSource.Count, Converter={StaticResource DataPagerConverter}, ElementName=bzxsinfos}" Margin="0,0,0,0" PageSize="20" toolkit:DockPanel.Dock="Top" Height="24"   />
@@ -4326,8 +4604,8 @@
             <sdk:TabItem Header="冲正" Margin="0" >
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2.666*"/>
-                        <ColumnDefinition Width="8.334*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
                     <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=czinfo.DataContext.IsBusy}" Margin="5,0,0,3" BorderThickness="1" Grid.Column="1" >
                         <Grid  x:Name="czinfo" >
@@ -4623,7 +4901,7 @@
                             <!--非民用主操作区-->
                         </Grid>
                     </toolkit:BusyIndicator>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=czinfos.ItemsSource.IsBusy}" Margin="0" >
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=czinfos.ItemsSource.IsBusy or toExcel12.IsBusy}" Margin="0" >
                         <toolkit:DockPanel >
                             <toolkit:DockPanel x:Name="czinfosearch"  Background="#FFCFEFFF" toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" >
                                 <a:Data.Context>
@@ -4677,8 +4955,25 @@
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <Button Content="查  询" x:Name="searchbutton" Grid.Column="2" Grid.Row="3" Click="{m:Exp Str=czinfosearch.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" Width="50" />
-                                </Grid>
+                                 <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbutton"  Click="{m:Exp Str=czinfosearch.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=czinfosearch.DataContext.f_userid\=null;
+								 czinfosearch.DataContext.f_cardid\=null;
+								 czinfosearch.DataContext.f_filiale\=null;
+								 czinfosearch.DataContext.f_yytdate2\=null;
+								 czinfosearch.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=czinfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel12.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel12" HQL="{m:Exp Str=czinfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad12.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{czinfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_districtname:小区名称|f_address:小区地址|f_phone:电话$}"/>
+					    <c:DownLoad x:Name="downLoad12" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel12.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+								
+								
+								</Grid>
                             </toolkit:DockPanel>
                             <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="57">
                                 <sdk:DataPager x:Name="pager15" Source="{Binding Path=ItemsSource.Count,ElementName=czinfos,Converter={StaticResource DataPagerConverter}}"  Margin="0,0,0,3" PageSize="20" Height="24" toolkit:DockPanel.Dock="Top"/>
@@ -4713,7 +5008,7 @@
                         <ColumnDefinition Width="0.4*"/>
                         <ColumnDefinition Width="0.6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=userfiles.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=userfiles.ItemsSource.IsBusy or toExcel13.IsBusy}">
                         <toolkit:DockPanel >
                             <!--提交按钮-->
                             <toolkit:DockPanel   Background="{x:Null}" toolkit:DockPanel.Dock="Bottom" Margin="0,0,0,10" Height="33"/>
@@ -4767,8 +5062,25 @@
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
                                     <TextBlock TextWrapping="Wrap" Text="到：" Grid.Row="3" Margin="0,0,0,8" Height="25" TextAlignment="Right"/>
-                                    <Button Content="查  询" x:Name="chaxun" Grid.Column="2" Grid.Row="3" Click="{m:Exp Str=userfilesearch.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" Width="70"  FontSize="13.333" Height="25"/>
-                                </Grid>
+                                 <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="chaxun"  Click="{m:Exp Str=userfilesearch.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=userfilesearch.DataContext.f_districtname\=null;
+								 userfilesearch.DataContext.f_address\=null;
+								 userfilesearch.DataContext.f_filiale\=null;
+								 userfilesearch.DataContext.f_yytdate2\=null;
+								 userfilesearch.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=userfiles.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel13.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel13" HQL="{m:Exp Str=userfiles.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad13.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{userfiles.ItemsSource.Count\}/f_districtname:小区名称|f_gaswatchbrand:气表品牌|f_metertype:气表型号|f_accountVolume:开户气量|f_userNum:户数|f_startNumber:开户编号|f_endNumber:结束编号|f_usernumber:当前用户编号|f_filiale:公司$}"/>
+					    <c:DownLoad x:Name="downLoad13" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel13.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+								
+								
+								</Grid>
                             </toolkit:DockPanel>
                             <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="57">
                                 <sdk:DataPager x:Name="pager16" Source="{Binding ItemsSource.Count, Converter={StaticResource DataPagerConverter}, ElementName=userfiles}"  Margin="0,0,0,3" PageSize="20" Height="24" toolkit:DockPanel.Dock="Top"/>
@@ -4924,7 +5236,7 @@
                         <ColumnDefinition Width="0.4*"/>
                         <ColumnDefinition Width="0.6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=unitinfos.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=unitinfos.ItemsSource.IsBusy or toExcel14.IsBusy}">
                         <toolkit:DockPanel Margin="0" d:LayoutOverrides="Width" >
                             <toolkit:DockPanel  x:Name="unitcx" toolkit:DockPanel.Dock="Top" Margin="0,0,0,5" Background="#FFCFEFFF"  >
                                 <a:Data.Context>
@@ -4978,8 +5290,25 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                             <o:PropertySetter PropertyName="f_address"  Operator="f_address like 'this%'"/>
                                         </a:Data.Prop>
                                     </TextBox>
-                                    <Button Content="查  询" x:Name="dwsearchbutton" Click="{m:Exp Str=unitcx.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" d:LayoutOverrides="Height" Width="70" Grid.Column="2" Grid.Row="3"/>
-                                    <TextBlock TextWrapping="Wrap" Text="所属公司：" Margin="0" HorizontalAlignment="Right" Grid.Column="2" />
+                                   <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="dwsearchbutton"  Click="{m:Exp Str=unitcx.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=unitcx.DataContext.f_unitname\=null;
+								 unitcx.DataContext.f_address\=null;
+								 unitcx.DataContext.f_filiale\=null;
+								 unitcx.DataContext.f_yytdate2\=null;
+								 unitcx.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=unitinfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel14.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel14" HQL="{m:Exp Str=unitinfos.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad14.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{unitinfos.ItemsSource.Count\}/f_unitid:单位编号|f_unitname:单位名称|f_address:地址$}"/>
+					    <c:DownLoad x:Name="downLoad14" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel14.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+									
+									
+									<TextBlock TextWrapping="Wrap" Text="所属公司：" Margin="0" HorizontalAlignment="Right" Grid.Column="2" />
                                     <ComboBox x:Name="Combox1_Copy"   Visibility="{m:Exp Str=LoginUser.f_fengongsi \=\= zonggongsi.value:$Visible$\,$Collapsed$}" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="0" Grid.Column="3" ItemsSource="{m:Exp Str=fgslist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
                                         <a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
@@ -5123,7 +5452,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines.ItemsSource.IsBusy or toExcel15.IsBusy}">
                         <toolkit:DockPanel >
                             <!--信息列表按钮-->
                             <toolkit:DockPanel  toolkit:DockPanel.Dock="Bottom" Margin="0" Height="45">
@@ -5161,8 +5490,14 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                     </TextBox>
 
                                     <TextBlock TextWrapping="Wrap" Grid.Row="2" Text="用气性质：" Margin="5,0,0,0" HorizontalAlignment="Right"/>
-                                    <ComboBox x:Name="CoboxGasPro" ItemsSource="{m:Exp Str=usegaslist}" Height="25" DisplayMemberPath="f_gasproperties" SelectedValuePath="f_gasproperties" SelectedValue="{m:Bind Path=f_gasproperties}"  Grid.Column="1"  Grid.Row="2"  >
-                                        <a:Data.Prop>
+                                    <ComboBox x:Name="CoboxGasPro" ItemsSource="{m:Exp Str=usegaslist}" Height="25"  SelectedValuePath="name" SelectedValue="{m:Bind Path=f_gasproperties}"  Grid.Column="1"  Grid.Row="2"  >
+                                        <ComboBox.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+											</DataTemplate>
+										</ComboBox.ItemTemplate>
+										
+										<a:Data.Prop>
                                             <o:PropertySetter PropertyName="f_gasproperties" Operator="f_gasproperties like 'this%'" />
                                         </a:Data.Prop>
                                     </ComboBox>
@@ -5189,8 +5524,26 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <Button Content="查 询" x:Name="searchbutto" Grid.Row="3" Grid.Column="2" Click="{m:Exp Str=pipelinesearch.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" Width="50" RenderTransformOrigin="0.54,1.061"/>
-                                </Grid>
+                                 <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbutto"  Click="{m:Exp Str=pipelinesearch.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=pipelinesearch.DataContext.f_userid\=null;
+								 pipelinesearch.DataContext.f_address\=null;
+								 pipelinesearch.DataContext.f_gasproperties\=null;
+								 pipelinesearch.DataContext.f_filiale\=null;
+								 pipelinesearch.DataContext.f_yytdate2\=null;
+								 pipelinesearch.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=pipelines.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel15.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel15" HQL="{m:Exp Str=pipelines.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad15.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{pipelines.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_address:用户地址|f_parentname:部门|f_beizhu:变更原因|f_soperator:操作人|f_sdate:操作日期$}"/>
+					    <c:DownLoad x:Name="downLoad15" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel15.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+								
+								
+								</Grid>
                             </toolkit:DockPanel>
                             <sdk:DataGrid x:Name="pipelines" Margin="0,0,0,24"  
             		AutoGenerateColumns="False"  IsReadOnly="True">
@@ -5417,10 +5770,10 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
 
                 <Grid >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelinesy.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelinesy.ItemsSource.IsBusy or toExcel16.IsBusy}">
                         <toolkit:DockPanel >
                             <!--信息列表按钮-->
                             <toolkit:DockPanel  toolkit:DockPanel.Dock="Bottom" Margin="0" Height="45">
@@ -5480,8 +5833,26 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <Button Content="查 询" x:Name="searchbuttony" Grid.Row="3" Grid.Column="2" Click="{m:Exp Str=pipelinesearchy.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" Width="50"/>
-                                </Grid>
+                                 <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbuttony"  Click="{m:Exp Str=pipelinesearchy.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=pipelinesearchy.DataContext.f_userid\=null;
+								 pipelinesearchy.DataContext.f_address\=null;
+								 pipelinesearchy.DataContext.f_filiale\=null;
+								 pipelinesearchy.DataContext.f_yytdate2\=null;
+								 pipelinesearchy.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=pipelinesy.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel16.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel16" HQL="{m:Exp Str=pipelinesy.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad16.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{pipelinesy.ItemsSource.Count\}/f_userid:用户编号|f_address:用户地址|f_parentname:部门|f_soperator:操作人|f_sdate:操作日期$}"/>
+					    <c:DownLoad x:Name="downLoad16" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel16.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+								
+								
+								
+								</Grid>
                             </toolkit:DockPanel>
                             <sdk:DataGrid x:Name="pipelinesy" Margin="0,0,0,24"  
             		AutoGenerateColumns="False"  IsReadOnly="True">
@@ -5746,10 +6117,10 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
             <sdk:TabItem Header="掉气登记" Height="27" VerticalAlignment="Bottom">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines1.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines1.ItemsSource.IsBusy or toExcel17.IsBusy}">
                         <toolkit:DockPanel >
                             <!--信息列表按钮-->
                             <toolkit:DockPanel  toolkit:DockPanel.Dock="Bottom" Margin="0" Height="45">
@@ -5815,8 +6186,27 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <Button Content="查 询"  Grid.Column="2" Grid.Row="4" Click="{m:Exp Str=lostgasinfo1.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" Width="50"/>
-                                </Grid>
+                                 <StackPanel Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="lostgasinfobuttony"  Click="{m:Exp Str=lostgasinfo1.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=lostgasinfo1.DataContext.f_userid\=null;
+								 lostgasinfo1.DataContext.f_username\=null;
+								 lostgasinfo1.DataContext.f_cardid\=null;
+								 lostgasinfo1.DataContext.f_filiale\=null;
+								 lostgasinfo1.DataContext.f_yytdate2\=null;
+								 lostgasinfo1.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=pipelines1.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel17.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel17" HQL="{m:Exp Str=pipelines1.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad17.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{pipelines1.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_cardid:卡号|f_gaswatchbrand:表品牌|f_cmaddgas:补气量$}"/>
+					    <c:DownLoad x:Name="downLoad17" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel17.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+							   
+							   
+							   
+							    </Grid>
                             </toolkit:DockPanel>
                             <sdk:DataGrid  Margin="0,0,0,23"  x:Name="pipelines1"
             		AutoGenerateColumns="False"  IsReadOnly="True">
@@ -5830,7 +6220,6 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                     <sdk:DataGridTextColumn Header="序号" Binding="{Binding Index}" d:IsLocked="True"/>
                                     <sdk:DataGridTextColumn Header="用户编号" Binding="{Binding f_userid}" d:IsLocked="True"/>
                                     <sdk:DataGridTextColumn Header="用户姓名" Binding="{Binding f_username}" d:IsLocked="True"/>
-                                    <sdk:DataGridTextColumn Header="用户编号" Binding="{Binding f_userid}" d:IsLocked="True"/>
                                     <sdk:DataGridTextColumn Header="卡号" Binding="{Binding f_cardid}" d:IsLocked="True"/>
 
                                     <sdk:DataGridTextColumn Header="表品牌" Binding="{Binding f_gaswatchbrand}" d:IsLocked="True"/>
@@ -5843,7 +6232,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                         </toolkit:DockPanel >
                     </toolkit:BusyIndicator>
                     <!--操作区按钮-->
-                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipeline1.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
+                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipelines1.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
                         <Grid Background="{x:Null}"  >
                             <a:Data.Context>
                                 <!--o:GeneralObject  Name="pipelinego2" WebClientInfo="{StaticResource dbclient}" 
@@ -6086,10 +6475,10 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
             <sdk:TabItem Header="过户" Height="27" VerticalAlignment="Bottom">
                 <Grid >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=applys.ItemsSource.IsBusy or excelguohu.IsBusy}">
+                    <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=applys.ItemsSource.IsBusy or toExcel18.IsBusy}">
                         <toolkit:DockPanel >
                             <toolkit:DockPanel x:Name="applysearch"  Background="#FFCFEFFF" toolkit:DockPanel.Dock="Top" Margin="0,0,0,5" >
                                 <a:Data.Context>
@@ -6139,10 +6528,21 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
-                                        <Button Content="查 询" x:Name="searchbutton21" Click="{m:Exp Str=applysearch.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" Width="60" Grid.Row="2" Grid.Column="2"/>
-                                        <Button Content="导出excel" x:Name="excel21"  Click="{m:Exp Str=excelguohu.Export()}" Margin="0" HorizontalAlignment="Right" Width="60" Grid.Row="2" Grid.Column="2"/>
-                                    </StackPanel>
+                                    <StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbutton21"  Click="{m:Exp Str=applysearch.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=applysearch.DataContext.f_userid\=null;
+								 applysearch.DataContext.f_filiale\=null;
+								 applysearch.DataContext.f_yytdate2\=null;
+								 applysearch.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=applys.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel18.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel18" HQL="{m:Exp Str=applys.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad18.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{applys.ItemsSource.Count\}/f_userid:用户编号|f_tnewusername:用户姓名|f_username:新用户姓名|f_address:用户地址|f_notnull:备注|f_departments:部门|f_toperator:操作人|f_tdate:操作日期$}"/>
+					    <c:DownLoad x:Name="downLoad18" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel18.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
                                 </Grid>
                             </toolkit:DockPanel>
 
@@ -6394,7 +6794,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines22.ItemsSource.IsBusy or excelstopgas.IsBusy}">
+                    <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines22.ItemsSource.IsBusy or toExcel19.IsBusy}">
                         <toolkit:DockPanel >
                             <!--信息列表按钮-->
                             <toolkit:DockPanel  toolkit:DockPanel.Dock="Bottom" Margin="0" Height="45">
@@ -6459,11 +6859,27 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal">
-                                        <Button Content="查 询" x:Name="searchbutton22" Grid.Column="2" Click="{m:Exp Str=pipelinesearch1.DataContext.Search()}" Margin="0,-5,5,0" HorizontalAlignment="Right" Width="50"/>
-                                        <Button Content="导出excel"  x:Name="excel22" Grid.Column="2" Click="{m:Exp Str=excelstopgas.Export()}" Margin="0,-5,5,0" HorizontalAlignment="Right" Width="70"/>
-                                    </StackPanel>
-                                </Grid>
+                                 <StackPanel Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbutton22"  Click="{m:Exp Str=pipelinesearch1.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=pipelinesearch1.DataContext.f_userid\=null;
+								 pipelinesearch1.DataContext.f_username\=null;
+								 pipelinesearch1.DataContext.f_address\=null;
+								 pipelinesearch1.DataContext.f_filiale\=null;
+								 pipelinesearch1.DataContext.f_yytdate2\=null;
+								 pipelinesearch1.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=pipelines22.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel19.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel19" HQL="{m:Exp Str=pipelines22.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad19.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{pipelines22.ItemsSource.Count\}/f_userid:用户编号|f_tnewusername:用户姓名|f_address:用户地址|f_parentname:部门|f_soperator:操作人|f_sdate:操作日期$}"/>
+					    <c:DownLoad x:Name="downLoad19" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel19.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+								
+								
+								
+								</Grid>
                             </toolkit:DockPanel>
                             <sdk:DataGrid x:Name="pipelines22" Margin="0,0,0,24"  
             		AutoGenerateColumns="False"  IsReadOnly="True">
@@ -6707,7 +7123,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines23.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines23.ItemsSource.IsBusy or toExcel20.IsBusy}">
                         <toolkit:DockPanel >
                             <!--信息列表按钮-->
                             <toolkit:DockPanel  toolkit:DockPanel.Dock="Bottom" Margin="0" Height="45">
@@ -6761,8 +7177,25 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <Button Content="查 询" x:Name="searchbutton23" Click="{m:Exp Str=pipelinesearch23.DataContext.Search()}" Margin="8,0,0,0" HorizontalAlignment="Left" Width="50" Grid.Column="2" Grid.Row="2"/>
-                                </Grid>
+                                 <StackPanel Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbutton23"  Click="{m:Exp Str=pipelinesearch23.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=pipelinesearch23.DataContext.f_userid\=null;
+								 pipelinesearch23.DataContext.f_filiale\=null;
+								 pipelinesearch23.DataContext.f_yytdate2\=null;
+								 pipelinesearch23.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=pipelines23.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel20.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel20" HQL="{m:Exp Str=pipelines23.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad20.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{pipelines23.ItemsSource.Count\}/f_userid:用户编号|f_address:用户地址|f_parentname:部门|f_rcoperator:操作人|f_edate:操作日期|f_time:时间$}"/>
+					    <c:DownLoad x:Name="downLoad20" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel20.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+							   
+							   
+							   
+							    </Grid>
                             </toolkit:DockPanel>
                             <sdk:DataGrid x:Name="pipelines23" Margin="0,0,0,24"  
             		AutoGenerateColumns="False"  IsReadOnly="True">
@@ -6983,7 +7416,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines24.ItemsSource.IsBusy}">
+                    <c:BusyIndicatorEx BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines24.ItemsSource.IsBusy or toExcel21.IsBusy}">
                         <toolkit:DockPanel >
 
                             <!--信息列表按钮-->
@@ -7033,8 +7466,24 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <Button Content="查 询" x:Name="searchbutton24" Click="{m:Exp Str=pipelinesearch24.DataContext.Search()}" Margin="0" Width="50" Grid.Column="2" Grid.Row="2"/>
-                                </Grid>
+                                 <StackPanel Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbutton24"  Click="{m:Exp Str=pipelinesearch24.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=pipelinesearch24.DataContext.f_userid\=null;
+								 pipelinesearch24.DataContext.f_filiale\=null;
+								 pipelinesearch24.DataContext.f_yytdate2\=null;
+								 pipelinesearch24.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=pipelines24.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel21.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel21" HQL="{m:Exp Str=pipelines24.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad21.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{pipelines24.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_address:用户地址|f_departments:部门|f_creason:原因|f_coperator:操作人|f_cdate:操作日期$}"/>
+					    <c:DownLoad x:Name="downLoad21" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel21.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+								
+								
+								</Grid>
                             </toolkit:DockPanel>
                             <sdk:DataGrid x:Name="pipelines24" Margin="0,0,0,2"  
             		AutoGenerateColumns="False"  IsReadOnly="True">
@@ -7238,8 +7687,8 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
             <sdk:TabItem Header="批量变更" Height="27" VerticalAlignment="Bottom">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.3*"/>
-                        <ColumnDefinition Width="0.7*"/>
+                        <ColumnDefinition Width="0.4*"/>
+                        <ColumnDefinition Width="0.6*"/>
 
                     </Grid.ColumnDefinitions>
                     <m:ResourceLoad>
@@ -7334,7 +7783,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                         </Grid>
                     </toolkit:BusyIndicator>
 
-                    <toolkit:BusyIndicator Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=bkinfos25.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator Margin="0,0,5,0" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=bkinfos25.ItemsSource.IsBusy or toExcel22.IsBusy}">
                         <toolkit:DockPanel   >
                             <toolkit:DockPanel x:Name="bkinfosearch25"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" >
                                 <a:Data.Context>
@@ -7376,8 +7825,25 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <Button Content="查  询" x:Name="searchbutton25" Grid.Row="1" Grid.Column="2" Click="{m:Exp Str=bkinfosearch25.DataContext.Search()}" Margin="0" HorizontalAlignment="Right" Width="50" FontSize="14"  />
-                                </Grid>
+                               <StackPanel Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbutton25"  Click="{m:Exp Str=bkinfosearch25.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str= bkinfosearch25.DataContext.f_filiale\=null;
+								 bkinfosearch25.DataContext.f_yytdate2\=null;
+								 bkinfosearch25.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=bkinfos25.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel22.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel22" HQL="{m:Exp Str=bkinfos25.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad22.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{bkinfos25.ItemsSource.Count\}/f_changereason:变更原因|f_department:部门|f_operator:操作人|f_date:操作日期$}"/>
+					    <c:DownLoad x:Name="downLoad22" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel22.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+								
+								
+								
+								
+								</Grid>
                             </toolkit:DockPanel>
                             <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="51">
                                 <sdk:DataPager x:Name="pager25" Source="{Binding ItemsSource.Count, Converter={StaticResource DataPagerConverter}, ElementName=bkinfos25}" Margin="0,0,0,0" PageSize="20" toolkit:DockPanel.Dock="Top" Height="24"   />
@@ -7412,7 +7878,7 @@ a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0" Height="25"
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines23fz.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines23fz.ItemsSource.IsBusy or toExcel23.IsBusy}">
                         <toolkit:DockPanel >
                             <!--信息列表按钮-->
                             <toolkit:DockPanel  toolkit:DockPanel.Dock="Bottom" Margin="0" Height="45">
@@ -7466,8 +7932,25 @@ a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height=
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <Button Content="查 询" x:Name="searchbutton23fz" Click="{m:Exp Str=pipelinesearch23fz.DataContext.Search()}" Margin="8,0,0,0" HorizontalAlignment="Left" Width="50" Grid.Column="2" Grid.Row="2"/>
-                                </Grid>
+                                 <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbutton23fz"  Click="{m:Exp Str=pipelinesearch23fz.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=pipelinesearch23fz.DataContext.f_userid\=null;
+								 pipelinesearch23fz.DataContext.f_filiale\=null;
+								 pipelinesearch23fz.DataContext.f_yytdate2\=null;
+								 pipelinesearch23fz.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=pipelines23fz.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel23.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel23" HQL="{m:Exp Str=pipelines23fz.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad23.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{pipelines23fz.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_address:用户地址|f_usertype:用户类型|f_whethergivepassbook:是否发折|f_meternumber:表号|f_gaswatchbrand:气表品牌|f_filiale:分公司|f_rcoperator:操作人|f_recoverypassbookdate:操作日期|f_recoverypassbooktime:时间$}"/>
+					    <c:DownLoad x:Name="downLoad23" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel23.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+							   
+							   
+							   
+							    </Grid>
                             </toolkit:DockPanel>
                             <sdk:DataGrid x:Name="pipelines23fz" Margin="0,0,0,24"  
             		AutoGenerateColumns="False"  IsReadOnly="True">
@@ -7498,7 +7981,7 @@ a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height=
                         </toolkit:DockPanel>
                     </toolkit:BusyIndicator>
                     <!--操作区按钮-->
-                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipeline23fz.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
+                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipelines23fz.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
                         <Grid  x:Name="pipeline23fz" >
                             <a:Data.Context>
                                 <!--o:GeneralObject  Name="pipelinego" WebClientInfo="{StaticResource dbclient}" 
@@ -7642,7 +8125,7 @@ a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height=
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines23bz.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=pipelines23bz.ItemsSource.IsBusy or toExcel24.IsBusy}">
                         <toolkit:DockPanel >
                             <!--信息列表按钮-->
                             <toolkit:DockPanel  toolkit:DockPanel.Dock="Bottom" Margin="0" Height="45">
@@ -7696,8 +8179,24 @@ a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height=
                                             <o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>
                                         </a:Data.Prop>
                                     </ComboBox>
-                                    <Button Content="查 询" x:Name="searchbutton23bz" Click="{m:Exp Str=pipelinesearch23bz.DataContext.Search()}" Margin="8,0,0,0" HorizontalAlignment="Left" Width="50" Grid.Column="2" Grid.Row="2"/>
-                                </Grid>
+                                <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbutton23bz"  Click="{m:Exp Str=pipelinesearch23bz.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=pipelinesearch23bz.DataContext.f_userid\=null;
+								 pipelinesearch23bz.DataContext.f_filiale\=null;
+								 pipelinesearch23bz.DataContext.f_yytdate2\=null;
+								 pipelinesearch23bz.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=pipelines23bz.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel24.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel24" HQL="{m:Exp Str=pipelines23bz.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad24.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{pipelines23bz.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_address:用户地址|f_usertype:用户类型|f_rcrenewalpassbookfees:补折费|f_ccreason:补折原因|f_meternumber:表号|f_gaswatchbrand:气表品牌|f_filiale:分公司|f_rcoperator:操作人|f_recoverypassbookdate:操作日期|f_recoverypassbooktime:时间$}"/>
+					    <c:DownLoad x:Name="downLoad24" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel24.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+								
+								
+								</Grid>
                             </toolkit:DockPanel>
                             <sdk:DataGrid x:Name="pipelines23bz" Margin="0,0,0,24"  
             		AutoGenerateColumns="False"  IsReadOnly="True">
@@ -7729,7 +8228,7 @@ a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height=
                         </toolkit:DockPanel>
                     </toolkit:BusyIndicator>
                     <!--操作区按钮-->
-                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipeline23fz.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
+                    <toolkit:BusyIndicator BusyContent="正在工作，请稍等" IsBusy="{m:Exp Str=pipelines23bz.DataContext.IsBusy}" Grid.Column="1" Margin="8,0,0,0">
                         <Grid  x:Name="pipeline23bz" >
                             <a:Data.Context>
                                 <!--o:GeneralObject  Name="pipelinego" WebClientInfo="{StaticResource dbclient}" 
@@ -7880,7 +8379,7 @@ a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height=
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=upkeeplistxz1109.ItemsSource.IsBusy}">
+                    <toolkit:BusyIndicator BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=upkeeplistxz1109.ItemsSource.IsBusy or toExcel25.IsBusy}">
                         <toolkit:DockPanel >
                             <!--信息列表按钮-->
                             <toolkit:DockPanel  toolkit:DockPanel.Dock="Bottom" Margin="0" Height="45">
@@ -7929,8 +8428,24 @@ a:ControlAttach.DefaultButton="searchbutton23fz" Width="Auto" Margin="0" Height=
 											Operator="f_changedate ^= substring('this',1,10)"/>
                                         </a:Data.Prop>
                                     </sdk:DatePicker>
-                                    <Button Content="查 询" x:Name="searchbuttonxz1109" Click="{m:Exp Str=searchxz1109.DataContext.Search()}" Margin="8,0,0,0" HorizontalAlignment="Left" Width="50" Grid.Column="2" Grid.Row="2"/>
-                                </Grid>
+                                 <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                                
+                                    <Button Content="查  询" x:Name="searchbuttonxz1109"  Click="{m:Exp Str=searchxz1109.DataContext.Search()}" Margin="2" HorizontalAlignment="Left" Width="Auto" FontSize="14" />
+									<Button Content=" 置  空"   Width="Auto" 
+								 Click="{m:Exp Str=searchxz1109.DataContext.f_userid\=null;
+								 searchxz1109.DataContext.f_filiale\=null;
+								 searchxz1109.DataContext.f_yytdate2\=null;
+								 searchxz1109.DataContext.f_yytdate1\=null}" FontSize="14" Margin="2"  />
+							
+									<Button Content="导出Excel" IsEnabled="{m:Exp Str=upkeeplistxz1109.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel25.ToExcel()}" Margin="2" HorizontalAlignment="Left" Width="Auto"/>
+								<c:Excel x:Name="toExcel25" HQL="{m:Exp Str=upkeeplistxz1109.ItemsSource.Path}" 
+   							 Completed="{m:Exp Str=downLoad25.Down()}"
+   							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{upkeeplistxz1109.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_address:用户地址|f_usertype:用户类型|f_whethergivepassbook:是否发折|f_meternumber:表号|f_gaswatchbrand:气表品牌|f_filiale:分公司|f_rcoperator:操作人|f_recoverypassbookdate:操作日期|f_recoverypassbooktime:时间$}"/>
+					    <c:DownLoad x:Name="downLoad25" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel25.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" ></c:DownLoad>
+							</StackPanel>
+								
+								
+								</Grid>
                             </toolkit:DockPanel>
                             <sdk:DataGrid x:Name="upkeeplistxz1109" Margin="0,0,0,24" AutoGenerateColumns="False"  IsReadOnly="True">
                                 <a:Data.Items>
