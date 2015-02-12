@@ -136,6 +136,12 @@
     <Compile Include="Pages\公告管理.xaml.cs">
       <DependentUpon>公告管理.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\抄表撤销查询.xaml.cs">
+      <DependentUpon>抄表撤销查询.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\补售气收费记录.xaml.cs">
+      <DependentUpon>补售气收费记录.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\其他严重隐患类型明细表.xaml.cs">
       <DependentUpon>其他严重隐患类型明细表.xaml</DependentUpon>
     </Compile>
@@ -1615,6 +1621,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\抄表撤销查询.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\抄表收费.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -2396,6 +2406,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\财务分类报表.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\补售气收费记录.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
