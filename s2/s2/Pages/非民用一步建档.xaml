@@ -210,7 +210,7 @@
 												<TextBlock Text="单位名称：" Grid.Column="0" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Height="25" Grid.Row="3"/>
 												<TextBlock Text="联 系 人：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="5" Height="25"/>
 												<TextBlock Text="地　　址：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Height="25" Grid.Row="6"/>
-												<TextBlock Text="证件类型：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="4"/>
+												<TextBlock Text="证件类型：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="4" Height="25"/>
 												<TextBlock Text="电　　话：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Column="2" Grid.Row="5" Height="25"/>
 												<TextBlock Text="安装地点：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="9" Height="25"/>
 												<TextBlock Text="用户类型：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="8" Height="25" Grid.Column="2"/>
@@ -675,12 +675,12 @@
 													</a:Data.Prop>
 												</TextBox>
 												<TextBlock Grid.Column="4" Margin="0,3,0,2" Grid.Row="26" TextWrapping="Wrap" Text="建档时间：" TextAlignment="Right" Height="25"/>
-												<toolkit:TimePicker Value="{m:Bind Path=f_yyttime}" IsEnabled="False" Grid.Column="5" Margin="0,3,0,2" Grid.Row="26"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
+												<!--<toolkit:TimePicker Value="{m:Bind Path=f_yyttime}" IsEnabled="False" Grid.Column="5" Margin="0,3,0,2" Grid.Row="26"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
 													<a:Data.Prop>
 														<o:PropertySetter PropertyName="f_yyttime" 
 															Value="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
 													</a:Data.Prop>
-												</toolkit:TimePicker>
+												</toolkit:TimePicker>-->
 												<TextBox Text="{m:Bind Path=f_districtname}"  Grid.Column="2" Margin="0,3,0,2" Grid.Row="9" TextWrapping="Wrap" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="0" >
 													<a:Data.Prop>
 														<o:PropertySetter PropertyName="f_districtname"  Default="."/>
