@@ -10,6 +10,8 @@
 		</id>
 		<!--用户编号-->
 		<property name="f_userid" type="string"/>
+		<!--用户编号-->
+		<property name="f_username" type="string"/>
 		<!--撤销人-->
 		<property name="f_cancelname" type="string"/>
 		<!--撤销日期-->

@@ -370,7 +370,7 @@ public class HandCharge {
 					f_zhye-chargenum,reading, lastinputDate,f_metergasnums+gas,f_cumulativepurchase+gas,gas,inputdate,inputdate,userid });
 			String sellId = sellid+"";
 			// 更新抄表记录
-			hql = "update t_handplan set f_state ='已抄表',shifoujiaofei='是',f_handdate=?,f_stairtype=?,"
+			hql = "update t_handplan set f_xiazhang='是' f_state ='已抄表',shifoujiaofei='是',f_handdate=?,f_stairtype=?,"
 					+ "lastinputdate=?,   f_zerenbumen=?, f_menzhan=?, f_inputtor=?,lastrecord=? ,oughtamount=? ,oughtfee=? ,f_address=?, f_username=?, f_zhye=?, f_bczhye=?,"
 					+ "f_stair1amount=?,f_stair2amount=?,f_stair3amount=?,f_stair4amount=?,f_stair1fee=?,f_stair2fee=?,f_stair3fee=?,f_stair4fee=?,f_stair1price=?,f_stair2price=?,f_stair3price=?,f_stair4price=?,"
 					+ "f_stardate=?,f_enddate=?,f_allamont=? ,f_sellid=?, f_leftgas=? , f_inputdate=?,f_network=?,f_operator=?  "
@@ -497,7 +497,10 @@ public class HandCharge {
 		}
 		return "";
 	}
-	
+	private String SolitaryCopyMeter(){
+		return null;
+		
+	}
 	//产生交费截止日期
 	private Date endDate(String str) throws ParseException {
 		DateFormat df=new SimpleDateFormat("yyyy-MM-dd");

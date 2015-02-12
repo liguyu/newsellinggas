@@ -21,8 +21,8 @@
 	<Grid x:Name="LayoutRoot">
 		<m:ResourceLoad x:Name="loader" Margin="0,0,-101,0">
 			<!--打开窗口对象-->
-			<o:ChildWindowObj Name="openxiangou" CWName="/Pages/管理员登录" />			
-			<o:ChildWindowObj Name="openkafei" CWName="/Pages/滞纳金登录" />
+			<o:ChildWindowObj Name="openxiangou" CWName="/Pages/管理员登录" />
+            <o:ChildWindowObj Name="openkafei" CWName="/Pages/滞纳金登录"  ParamObj="{m:Exp Str=userfiles.SelectedItem.f_userid}"/>
 			
 			<!--付款方式列表-->
 			<o:ObjectList Name="paylist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='付款方式' order by id"/>
