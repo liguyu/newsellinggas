@@ -59,8 +59,13 @@
                 <b:BatchInfo Source="{m:Exp Str=DeleteCheckPlan}" MethodName="InvokeToJson"/>
             </b:BatchExcuteAction>
 
+            <b:HQLAction Name="UpdateUserFile" Type="sql"
+			HQL="{m:Exp Str=$update t_userfiles set  f_toBeInspected\=\'\{ybuserfile.DataContext.f_issued\}\' where f_userid in (select f_userid from T_IC_SAFECHECK_PAPER where CHECKPLANID \= \'\{ybuserfile.DataContext.id\}\')}"
+		    />
+
             <b:BatchExcuteAction Name="SaveAction" WebClientInfo="{StaticResource dbclient}">
                 <b:BatchInfo Source="{m:Exp Str=ybuserfile.DataContext}" MethodName="SaveToJson"/>
+                <b:BatchInfo Source="{m:Exp Str=UpdateUserFile}" MethodName="InvokeToJson"/>
             </b:BatchExcuteAction>
 
         </m:ResourceLoad>
