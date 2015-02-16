@@ -31,8 +31,9 @@
                     <!--Button x:Name="ui_UpdActor"  Margin="2,2"  Height="25" Click="ui_UpdActor_Click" VerticalAlignment="Center" HorizontalAlignment="Left">修改执行者</-->
                 </StackPanel>
             </Grid>
-            <Grid >
-                <ListBox x:Name="ui_ActorListBox">
+            <Grid x:Name="ui_Diagram">
+                <!--所有执行者列表-->
+                <ListBox x:Name="ui_ActorListBox" ItemsSource="{Binding Path=Actors}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Height="50" x:Name="ui_ActorGrid">
@@ -41,33 +42,35 @@
                                     <ColumnDefinition Width="800"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="ui_ActorName" Text="{Binding Path=acName,Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center" ></TextBox>
-                                <Grid Grid.Column="1"   MouseDown="Grid_MouseDown" Width="800">
-                                    <ListBox ItemsSource="{Binding Path=Activities}" IsEnabled="False">
-                                        <ListBox.ItemTemplate>
+                                <!--执行者的活动列表-->
+                                <Grid Grid.Column="1" MouseDown="Grid_MouseDown" Width="800" Background="Gold">
+                                    <ItemsControl ItemsSource="{Binding Path=Activities}">
+                                        <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <TextBox Text="{Binding Path=ActivityName,Mode=TwoWay}" Margin="{Binding Path=Pos,Mode=OneWay,Converter={StaticResource PosConverter}}" IsReadOnly="True"></TextBox>
+                                                <TextBlock MouseLeftButtonDown="Activity_MouseDown" MouseLeftButtonUp="Activity_MouseUp" Text="{Binding Path=ActivityName,Mode=TwoWay}" Margin="{Binding Path=Pos,Mode=OneWay,Converter={StaticResource PosConverter}}"></TextBlock>
                                             </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                        <ListBox.ItemsPanel>
+                                        </ItemsControl.ItemTemplate>
+                                        <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <Grid></Grid>
+                                                <Canvas></Canvas>
                                             </ItemsPanelTemplate>
-                                        </ListBox.ItemsPanel>
-                                    </ListBox>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
                                 </Grid>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-               </ListBox>
-                <ListBox x:Name="ui_Transfer" Margin="200,0,0,0">
+                </ListBox>
+                <!--转移线列表-->
+                <ListBox x:Name="ui_Transfer" Margin="200,0,0,0" ItemsSource="{Binding Path=Transfer}" Background="{x:Null}" IsHitTestVisible="False">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <w:Polygen  x:Name="ui_line" Start="{Binding Path=Start,Mode=TwoWay,Converter={StaticResource TransferConvert}}" End="{Binding Path=End,Mode=TwoWay,Converter={StaticResource TransferConvert}}" Width="200" Height="200"></w:Polygen>
+                            <w:Polygen x:Name="ui_line" Start="{Binding Path=Start,Mode=TwoWay,Converter={StaticResource TransferConvert}}" End="{Binding Path=End,Mode=TwoWay,Converter={StaticResource TransferConvert}}" Width="800" Height="600"></w:Polygen>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <Grid></Grid>
+                            <Canvas></Canvas>
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                 </ListBox>

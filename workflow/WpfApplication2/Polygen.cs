@@ -47,79 +47,25 @@ namespace workflow
     /// </summary>
     public class Polygen : Control
     {
-        private Point start;
+        //开始点
+        public static DependencyProperty StartProperty = DependencyProperty.RegisterAttached(
+           "Start", typeof(Point), typeof(Polygen), null);
+        
         public Point Start
         {
-            get { return start; }
-            set
-            {
-                if (this.start != value)
-                {
-                    this.start = value;
-                    OnPropertyChanged("Start");
-                }
-            }
+            get { return (Point)GetValue(StartProperty); }
+            set { SetValue(StartProperty, value); }
         }
 
-        public static DependencyProperty StartProperty = DependencyProperty.RegisterAttached(
-           "Start", typeof(Point), typeof(Polygen), new PropertyMetadata(new PropertyChangedCallback(OnStartPropertyChanged)));
-        public static Point GetStartProperty(FrameworkElement ui)
-        {
-            return (Point)ui.GetValue(StartProperty);
-        }
-        public static void SetStartProperty(FrameworkElement ui, Point value)
-        {
-            ui.SetValue(StartProperty, value);
-        }
-        private static void OnStartPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            Polygen pol = d as Polygen;
-            
-            pol.OnPropertyChanged("Start");
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-
-
-
-        private Point end;
+        //结束点
+        public static DependencyProperty EndProperty = DependencyProperty.RegisterAttached(
+           "End", typeof(Point), typeof(Polygen), null);
+        
         public Point End
         {
-            get { return end; }
-            set
-            {
-                if (this.end != value)
-                {
-                    this.end = value;
-                    OnPropertyChanged("End");
-                }
-            }
+            get { return (Point)GetValue(EndProperty); }
+            set { SetValue(EndProperty, value); }
         }
-
-        public static DependencyProperty EndProperty = DependencyProperty.RegisterAttached(
-           "End", typeof(Point), typeof(Polygen), new PropertyMetadata(new PropertyChangedCallback(OnEndPropertyChanged)));
-        public static Point GetEndProperty(FrameworkElement ui)
-        {
-            return (Point)ui.GetValue(EndProperty);
-        }
-        public static void SetEndProperty(FrameworkElement ui, Point value)
-        {
-            ui.SetValue(EndProperty, value);
-        }
-        private static void OnEndPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            Polygen pol = d as Polygen;
-            pol.OnPropertyChanged("End");
-        }
-
 
 
         Grid partMain;
@@ -143,43 +89,74 @@ namespace workflow
             //从开始点画竖折线
             Line topLine = new Line()
             {
-                X1 = start.X,
-                X2 = start.X,
-                Y1 = start.Y,
-                Y2 = end.Y,
-                Stroke = new SolidColorBrush(Colors.Black),
-                StrokeThickness = 1
+                X1 = Start.X,
+                Y1 = Start.Y,
+                X2 = Start.X,
+                Y2 = End.Y,
+                Stroke = new SolidColorBrush(Colors.Red),
+                StrokeThickness = 2
             };
             //从竖折线结束到结束点画横线
             Line leftLine = new Line()
             {
-                X1 = start.X,
-                X2 = end.X,
-                Y1 = end.Y,
-                Y2 = end.Y,
-                Stroke = new SolidColorBrush(Colors.Black),
-                StrokeThickness = 1
+                X1 = Start.X,
+                Y1 = End.Y,
+                X2 = End.X,
+                Y2 = End.Y,
+                Stroke = new SolidColorBrush(Colors.Red),
+                StrokeThickness = 2
             };
-            //结束点箭头上
-            Line arrorLine1 = new Line()
+
+            Line arrorLine1 = null;
+            Line arrorLine2 = null;
+
+            if (End.X > Start.X)
             {
-                X1 = end.X,
-                X2 = end.X-5,
-                Y1 = end.Y,
-                Y2 = end.Y-5,
-                Stroke = new SolidColorBrush(Colors.Black),
-                StrokeThickness = 1
-            };
-            //结束点箭头上
-            Line arrorLine2 = new Line()
+                //结束点箭头上面部分
+                arrorLine1 = new Line()
+                {
+                    X1 = End.X,
+                    Y1 = End.Y,
+                    X2 = End.X - 10,
+                    Y2 = End.Y - 10,
+                    Stroke = new SolidColorBrush(Colors.Red),
+                    StrokeThickness = 2
+                };
+                //结束点箭头下面部分
+                arrorLine2 = new Line()
+                {
+                    X1 = End.X,
+                    Y1 = End.Y,
+                    X2 = End.X - 10,
+                    Y2 = End.Y + 10,
+                    Stroke = new SolidColorBrush(Colors.Red),
+                    StrokeThickness = 2
+                };
+            }
+            else
             {
-                X1 = end.X,
-                X2 = end.X - 5,
-                Y1 = end.Y,
-                Y2 = end.Y + 5,
-                Stroke = new SolidColorBrush(Colors.Black),
-                StrokeThickness = 1
-            };
+                //结束点箭头上面部分
+                arrorLine1 = new Line()
+                {
+                    X1 = End.X,
+                    Y1 = End.Y,
+                    X2 = End.X + 10,
+                    Y2 = End.Y - 10,
+                    Stroke = new SolidColorBrush(Colors.Red),
+                    StrokeThickness = 2
+                };
+                //结束点箭头下面部分
+                arrorLine2 = new Line()
+                {
+                    X1 = End.X,
+                    Y1 = End.Y,
+                    X2 = End.X + 10,
+                    Y2 = End.Y + 10,
+                    Stroke = new SolidColorBrush(Colors.Red),
+                    StrokeThickness = 2
+                };
+            }
+
             partMain.Children.Add(topLine);
             partMain.Children.Add(leftLine);
             partMain.Children.Add(arrorLine1);

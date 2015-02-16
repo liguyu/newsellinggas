@@ -26,8 +26,6 @@ namespace Workflow.Model
         {
             Thickness thickness = new Thickness((double)value, 0, 0, 0);
             return thickness;
-
-            
         }
 
         /// <summary>
