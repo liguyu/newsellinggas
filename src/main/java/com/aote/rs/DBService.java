@@ -141,7 +141,9 @@ public class DBService {
 		query = query.replace("|", "/");
 		log.debug(query);
 		JSONArray array = new JSONArray();
-		List<Object> list = this.hibernateTemplate.find(query);
+		//List<Object> list = this.hibernateTemplate.find(query);
+		//单次查询加记录数限制
+		List list = this.hibernateTemplate.executeFind(new HibernateCall(query,0, 10000));
 		for (Object obj : list) {
 			// 把单个map转换成JSON对象
 			Map<String, Object> map = (Map<String, Object>) obj;
@@ -160,7 +162,9 @@ public class DBService {
 		query = query.replace("|", "/");
 		log.debug(query);
 		JSONArray array = new JSONArray();
-		List<Object> list = this.hibernateTemplate.find(query);
+		//List<Object> list = this.hibernateTemplate.find(query);
+		//单次查询加记录数限制
+		List list = this.hibernateTemplate.executeFind(new HibernateCall(query,0, 10000));
 		for (Object obj : list) {
 			//属性名为每一个计算项对应的名称
 			String[] snames = names.split(",");
@@ -186,7 +190,9 @@ public class DBService {
 		// query = query.replaceAll("\\^", "%");
 		log.debug(query);
 		JSONObject result = new JSONObject();
-		List<Object> list = this.hibernateTemplate.find(query);
+		//List<Object> list = this.hibernateTemplate.find(query);
+		//单次查询加记录数限制
+		List list = this.hibernateTemplate.executeFind(new HibernateCall(query,0, 10000));
 		if (list.size() != 1) {
 			// 查询到多条数据，跑出异常
 			throw new WebApplicationException(500);
@@ -205,8 +211,9 @@ public class DBService {
 			@PathParam("attrname") String attrname) {
 		log.debug(query);
 		JSONObject result = new JSONObject();
-		List<Object> list = this.hibernateTemplate.find(query);
-		if (list.size() != 1) {
+		//单次查询加记录数限制
+		List list = this.hibernateTemplate.executeFind(new HibernateCall(query,0, 10000));
+    	if (list.size() != 1) {
 			// 查询到多条数据，跑出异常
 			throw new WebApplicationException(500);
 		}
@@ -354,12 +361,8 @@ public class DBService {
 		// sql中有除号的时候替换
 		query = query.replace("|", "/");
 		final String sql = query;
-		List list = (List) hibernateTemplate.execute(new HibernateCallback() {
-			public Object doInHibernate(Session session)
-					throws HibernateException {
-				return session.createSQLQuery(sql).list();
-			}
-		});
+		HibernateSQLCall sqlCall = new HibernateSQLCall(query, 0, 10000);
+		List<Map<String, Object>> list = this.hibernateTemplate.executeFind(sqlCall);
 		for (Object obj : list) {
 			// 把单个map转换成JSON对象
 			Object[] c = (Object[]) obj;
@@ -637,7 +640,7 @@ public class DBService {
 	public JSONObject queryOne(@PathParam("hql") String query, @PathParam("attrname") String names) {
 		log.debug(query);
 		JSONObject result = new JSONObject();
-		List<Object> list = this.hibernateTemplate.find(query);
+		List list = this.hibernateTemplate.executeFind(new HibernateCall(query,0, 10000));
 		if (list.size() != 1) {
 			// 查询到多条数据，抛出异常
 			throw new WebApplicationException(500);
