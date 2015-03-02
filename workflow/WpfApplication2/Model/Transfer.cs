@@ -19,7 +19,8 @@ namespace Workflow
                 PropertyChanged(this, new PropertyChangedEventArgs(info));
             }
         }
-        //转移线开始
+
+        //转移线开始活动
         private Activity start;
         public Activity Start
         {
@@ -33,7 +34,8 @@ namespace Workflow
                 }
             }
         }
-        //转移线结束
+
+        //转移线结束活动
         private Activity end;
         public Activity End
         {
@@ -48,6 +50,7 @@ namespace Workflow
             }
         }
 
+        //用开始活动及结束活动构造转移线
         public Transfer(Activity start, Activity end)
         {
             this.start = start;

@@ -27,6 +27,7 @@ namespace Workflow
                 PropertyChanged(this, new PropertyChangedEventArgs(info));
             }
         }
+
         //执行者包含的活动
         private ObservableCollection<Activity> activities = new ObservableCollection<Activity>();
         public ObservableCollection<Activity> Activities
@@ -56,13 +57,10 @@ namespace Workflow
             }
         }
         
+        //执行者所对应的y坐标
         public double GetY()
         {
             return diagram.GetY(this);
         }
     }
-
-    
-        
-    
 }
