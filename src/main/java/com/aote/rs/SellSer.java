@@ -22,6 +22,8 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
+import com.aote.rs.util.RSException;
+
 @Path("sell")
 @Component
 public class SellSer {
@@ -36,12 +38,15 @@ public class SellSer {
 			@PathParam("money") double dMoney,
 			@PathParam("zhinajin") double dZhinajin,
 			@PathParam("payment") String payment, @PathParam("opid") String opid) {
+		// 返回信息，为空则操作成功，不为空则操作失败，内容为错误信息
+		String ret = "";
 		try {
+			log.debug("售气交费 开始");
 			// 查找登陆用户,获取登陆网点,操作员
 			Map<String, Object> loginUser = this.findUser(opid);
 			if (loginUser == null) {
-				log.error("机表缴费处理时未找到登陆用户,登陆id" + opid);
-				throw new WebApplicationException(401);
+				log.debug("机表缴费处理时未找到登陆用户,登陆id" + opid);
+				throw new RSException("机表缴费处理时未找到登陆用户,登陆id" + opid);
 			}
 			String sgnetwork = loginUser.get("f_parentname").toString();
 			String sgoperator = loginUser.get("name").toString();
@@ -98,7 +103,7 @@ public class SellSer {
 				} else {
 				}
 				BigDecimal oughtfee = new BigDecimal(h);
-				oughtfee = oughtfee.setScale(2,BigDecimal.ROUND_HALF_UP);
+				oughtfee = oughtfee.setScale(2, BigDecimal.ROUND_HALF_UP);
 				// 当前用户实际缴费够交，则扣除，交费记录变为已交
 				int equals = total.compareTo(oughtfee);// 判断total和oughtfee的大小
 				if (equals >= 0) {
@@ -131,9 +136,9 @@ public class SellSer {
 					// 抄表记录Ids
 					handIds = add(handIds, handId + "");
 					// 更新抄表记录
-					System.out.println(handIds + "：update开始");
 					String updateHandplan = "update t_handplan set shifoujiaofei='是' where id="
 							+ handId;
+					log.debug("更新抄表记录 sql:" + updateHandplan);
 					hibernateTemplate.bulkUpdate(updateHandplan);
 				}
 			}
@@ -142,21 +147,24 @@ public class SellSer {
 					+ " ,f_metergasnums=" + f_metergasnums
 					+ " ,f_cumulativepurchase=" + f_cumulativepurchase
 					+ " where f_userid='" + userid + "'";
+			log.debug("更新用户的档案sql：" + updateUserinfo);
 			hibernateTemplate.bulkUpdate(updateUserinfo);
 			// 产生交费记录
 			Map<String, Object> sell = new HashMap<String, Object>();
 
 			sell.put("f_userid", userid); // 户的id
-			sell.put("lastinputgasnum", lastnum.setScale(1,
-					BigDecimal.ROUND_HALF_UP).doubleValue()); // 上期指数
-			sell.put("lastrecord", lastnum.add(gasSum).setScale(1,
-					BigDecimal.ROUND_HALF_UP).doubleValue()); // 本期指数
+			sell.put("lastinputgasnum",
+					lastnum.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue()); // 上期指数
+			sell.put("lastrecord",
+					lastnum.add(gasSum).setScale(1, BigDecimal.ROUND_HALF_UP)
+							.doubleValue()); // 本期指数
 			sell.put("f_totalcost", zhinajin.add(feeSum).subtract(f_zhye)
 					.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); // 应交金额
-			sell.put("f_grossproceeds", money.setScale(2,
-					BigDecimal.ROUND_HALF_UP).doubleValue()); // 收款
-			sell.put("f_zhinajin", zhinajin.setScale(2,
-					BigDecimal.ROUND_HALF_UP).doubleValue()); // 滞纳金
+			sell.put("f_grossproceeds",
+					money.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()); // 收款
+			sell.put("f_zhinajin",
+					zhinajin.setScale(2, BigDecimal.ROUND_HALF_UP)
+							.doubleValue()); // 滞纳金
 
 			Date now = new Date();
 			sell.put("f_deliverydate", now); // 交费日期
@@ -167,10 +175,13 @@ public class SellSer {
 			sell.put("f_benqizhye", total.setScale(2, BigDecimal.ROUND_HALF_UP)
 					.doubleValue()); // 本期结余
 			sell.put("f_beginfee", userinfo.get("f_beginfee")); // 维管费
-			sell.put("f_premetergasnums", oldf_metergasnums.setScale(2,
-					BigDecimal.ROUND_HALF_UP).doubleValue()); // 表上次累计购气量
-			sell.put("f_upbuynum", oldf_cumulativepurchase.setScale(2,
-					BigDecimal.ROUND_HALF_UP).doubleValue()); // 上次总累计购气量
+			sell.put("f_premetergasnums",
+					oldf_metergasnums.setScale(2, BigDecimal.ROUND_HALF_UP)
+							.doubleValue()); // 表上次累计购气量
+			sell.put(
+					"f_upbuynum",
+					oldf_cumulativepurchase.setScale(2,
+							BigDecimal.ROUND_HALF_UP).doubleValue()); // 上次总累计购气量
 			sell.put("f_gasmeterstyle", "机表"); // 气表类型
 			sell.put("f_comtype", "天然气公司"); // 公司类型，分为天然气公司、银行
 			sell.put("f_username", userinfo.get("f_username")); // 用户/单位名称
@@ -184,13 +195,13 @@ public class SellSer {
 			sell.put("f_gasprice", userinfo.get("f_gasprice")); // 气价
 			sell.put("f_usertype", userinfo.get("f_usertype")); // 用户类型
 			sell.put("f_gasproperties", userinfo.get("f_gasproperties"));// 用气性质
-			//机表中，将卡号作为存储折子号，磁条卡的信息字段
-			if(userinfo.containsKey("f_cardid")&& userinfo.get("f_cardid")!=null)
-			{
-			  String kh = userinfo.get("f_cardid").toString();
-			  sell.put("f_cardid", kh);
+			// 机表中，将卡号作为存储折子号，磁条卡的信息字段
+			if (userinfo.containsKey("f_cardid")
+					&& userinfo.get("f_cardid") != null) {
+				String kh = userinfo.get("f_cardid").toString();
+				sell.put("f_cardid", kh);
 			}
-				
+
 			sell.put("f_pregas", gasSum.setScale(1, BigDecimal.ROUND_HALF_UP)
 					.doubleValue()); // 气量
 			sell.put("f_preamount", feeSum
@@ -204,6 +215,7 @@ public class SellSer {
 			sell.put("f_payfeetype", "机表收费"); // 交易类型
 			sell.put("f_payfeevalid", "有效"); // 购气有效类型
 			sell.put("f_useful", handIds); // 抄表记录id
+			log.debug("交费记录保存信息：" + sell.toString());
 			int sellId = (Integer) hibernateTemplate.save("t_sellinggas", sell);
 			// 格式化交费日期
 			SimpleDateFormat f2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -212,23 +224,29 @@ public class SellSer {
 			// 更新抄表记录sellid
 			String updateHandplan = "update t_handplan set f_sellid =" + sellId
 					+ " where id in (" + handIds + ")";
+			log.debug("更新抄表记录sql：" + updateHandplan);
 			hibernateTemplate.bulkUpdate(updateHandplan);
-			return "";
+			log.debug("售气交费 结束");
+			// 抓取自定义异常
+		} catch (RSException e) {
+			log.debug("售气交费 失败!");
+			ret = e.getMessage();
 		} catch (Exception ex) {
-			// 登记异常信息
-			log.error(ex.getMessage());
-			throw new WebApplicationException(401);
+			log.debug("售气交费 失败!" + ex.getMessage());
+			ret = ex.getMessage();
+		} finally {
+			return ret;
 		}
 	}
 
 	// 查找登陆用户
-	private Map<String,Object> findUser(String loginId) {
+	private Map<String, Object> findUser(String loginId) {
 		String findUser = "from t_user where id='" + loginId + "'";
 		List<Object> userList = this.hibernateTemplate.find(findUser);
 		if (userList.size() != 1) {
 			return null;
 		}
-		return (Map<String,Object>)userList.get(0);
+		return (Map<String, Object>) userList.get(0);
 	}
 
 	// 执行sql查询

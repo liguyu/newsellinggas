@@ -59,6 +59,12 @@ namespace Com.Aote.Pages
            // 没有出错
            if (e.Error == null)
            {
+               //弹出错误信息
+               if (e.Result != "")
+               {
+                   MessageBox.Show(e.Result);
+                   return;
+               }
                // 调用打印
 				MessageBoxResult mbr = MessageBox.Show("是否打印","提示", MessageBoxButton.OKCancel);
                 if (mbr == MessageBoxResult.OK)
