@@ -371,11 +371,24 @@ namespace Card
                 PUserCard puc1 = new PUserCard()
                 {
                     cbSize = 0,
-                    RechargeTimes = cs,
+//                    RechargeTimes = cs,
                     RechargeAmount = ql * 10000,
                     RechargeMoney = 0,
                     MecMeterType = 1
                 };
+
+                //发卡购气
+                if (kzt == 0)
+                {
+                    //次数一定是1
+                    puc1.RechargeTimes = 1;
+                }
+                //换表补气
+                else
+                {
+                    puc1.RechargeTimes = cs;
+                }
+
                 FillBytes(puc1.CardNO, kh);
                 FillBytes(puc1.UserNO, dqdm);
                 //写卡之前先格式化卡
