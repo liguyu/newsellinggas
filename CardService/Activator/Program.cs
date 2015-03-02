@@ -28,8 +28,8 @@ namespace Card
                     string[] attr = line.Split(',');
                     String[] ccPair = attr[0].Split('=');
                     String[] icard = attr[1].Split('=');
-                    CardConfig cc = new CardConfig() { Name = ccPair[1] };
-                    ICard card = (ICard)Assembly.GetExecutingAssembly().CreateInstance(icard[1]);
+                    CardConfig cc = new CardConfig() { Name = ccPair[1].Trim() };
+                    ICard card = (ICard)Assembly.GetExecutingAssembly().CreateInstance(icard[1].Trim());
                     cc.Card = card;
                     ci.Add(cc);
                 }

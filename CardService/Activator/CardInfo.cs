@@ -13,7 +13,7 @@ namespace Card
         {
             foreach (CardConfig info in this)
             {
-                if (info.Name == name)
+                if (info.Name.ToUpper() == name.ToUpper())
                 {
                     return info;
                 }

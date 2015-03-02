@@ -18,7 +18,6 @@ public class UserIdGen implements ParamProcessor {
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
 
-	@Override
 	public String process(Param param) throws NoFitValueException {
 		String result = "";
 		Map paramData = param.getParams();

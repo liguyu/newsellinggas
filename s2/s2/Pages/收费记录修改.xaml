@@ -20,7 +20,7 @@
         <m:ResourceLoad x:Name="loader" Margin="0">
             <o:PagedObjectList Name="personlist" WebClientInfo="{StaticResource dbclient}" 
                      Path="{m:Exp Str=$ from t_sellinggas where \{searchSellUserUnit.DataContext.Condition\} }"
-					IsOld="{m:Exp Str=SaveAction.State\=\=$End$}"
+					IsOld="{m:Exp Str=SaveAction.State\=\=$End$}" 
 					 PageIndex="{m:Exp Str=pager.PageIndex}" PageSize="{m:Exp Str=pager.PageSize}"
 					  SumNames=","/>
             <!--收费对象-->
@@ -41,11 +41,11 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0"/>
-                    <RowDefinition Height="98"/>
+                    <RowDefinition Height="127"/>
                     <RowDefinition Height="0.916*"/>
                     <RowDefinition Height="0.084*"/>
                 </Grid.RowDefinitions>
-                <StackPanel x:Name="searchSellUserUnit"  Height="114" VerticalAlignment="Top" Orientation="Horizontal" Margin="0" HorizontalAlignment="Stretch" Grid.Row="1" >
+                <StackPanel x:Name="searchSellUserUnit"  Height="127" VerticalAlignment="Top" Orientation="Horizontal" Margin="0" HorizontalAlignment="Stretch" Grid.Row="1" >
                     <a:Data.Context>
                         <o:SearchObject></o:SearchObject>
                     </a:Data.Context>
@@ -54,7 +54,7 @@
 							<RowDefinition Height="28"/>
 							<RowDefinition Height="28"/>
 							<RowDefinition Height="28"/>
-							<RowDefinition Height="28"/>
+							<RowDefinition Height="25"/>
 							</Grid.RowDefinitions>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="75"/>
@@ -63,44 +63,44 @@
 								<ColumnDefinition Width="50*"/>
 							</Grid.ColumnDefinitions>
 							<TextBlock TextWrapping="Wrap" Text="用户编号：" Margin="0,4" HorizontalAlignment="Right" />
-							<TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_userid}" Width="Auto" Margin="0" Height="25" >
+							<TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_userid}" Width="100" Margin="0" Height="25" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_userid"  Operator="f_userid = 'this'"/>          
 								</a:Data.Prop>
 							</TextBox>
 							<TextBlock TextWrapping="Wrap" Grid.Row="3" Text="卡　　号：" Margin="0,4" HorizontalAlignment="Right" />
-							<TextBox TextWrapping="Wrap" Grid.Row="3" Grid.Column="1" Text="{m:Bind Path=f_cardid}" Width="Auto" Margin="0" Height="25" >
+                        <TextBox TextWrapping="Wrap" Grid.Row="3" Grid.Column="1" Text="{m:Bind Path=f_cardid}" Width="100" Margin="0" Height="25" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_cardid"  Operator="f_cardid = 'this'"/>          
 								</a:Data.Prop>
 							</TextBox>
 							<TextBlock TextWrapping="Wrap" Text="用户姓名：" Margin="2,4,0,4" HorizontalAlignment="Right" Grid.Column="2"/>
-							<TextBox TextWrapping="Wrap" Grid.Column="3" Grid.Row="0" Text="{m:Bind Path=f_username}" Width="Auto" Margin="0" Height="25" >
+                        <TextBox TextWrapping="Wrap" Grid.Column="3" Grid.Row="0" Text="{m:Bind Path=f_username}" Width="100" Margin="0" Height="25" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_username"  Operator="f_username like '%this%'"/>          
 								</a:Data.Prop>
 							</TextBox>
 							<Button Content="查  询" x:Name="searchbutton" Grid.Row="3" Grid.Column="3" Click="{m:Exp Str=searchSellUserUnit.DataContext.Search()}" HorizontalAlignment="Left" Margin="0" Width="50" />
 							<TextBlock TextWrapping="Wrap" Text="小区名称：" Margin="0,4" HorizontalAlignment="Right" Grid.Row="1" />
-							<TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_districtname}" Width="Auto" Margin="0,1.5" Height="25" Grid.Row="1" >
+                        <TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_districtname}" Width="100" Margin="0,1.5" Height="25" Grid.Row="1" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_districtname"  Operator="f_districtname like '%this%'"/>          
 								</a:Data.Prop>
 							</TextBox>
 							<TextBlock TextWrapping="Wrap" Text="楼    号：" Margin="0,4" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="1"/>
-							<TextBox TextWrapping="Wrap" Grid.Column="3" Grid.Row="1" Text="{m:Bind Path=f_cusDom}" Width="Auto" Margin="0,1.5" Height="25" >
+                        <TextBox TextWrapping="Wrap" Grid.Column="3" Grid.Row="1" Text="{m:Bind Path=f_cusDom}" Width="100" Margin="0,1.5" Height="25" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_cusDom"  Operator="f_cusDom = 'this'"/>          
 								</a:Data.Prop>
 							</TextBox>
 							<TextBlock TextWrapping="Wrap" Text="单    元：" Margin="0,4" HorizontalAlignment="Right" Grid.Row="2" />
-							<TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_cusDy}" Width="Auto" Margin="0,1.5" Height="25" Grid.Row="2" >
+                        <TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_cusDy}" Width="100" Margin="0,1.5" Height="25" Grid.Row="2" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_cusDy"  Operator="f_cusDy = 'this'"/>          
 								</a:Data.Prop>
 							</TextBox>
 							<TextBlock TextWrapping="Wrap" Text="门 牌 号：" Margin="0,4" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="2"/>
-							<TextBox TextWrapping="Wrap" Grid.Column="3" Grid.Row="2" Text="{m:Bind Path=f_apartment}" Width="Auto" Margin="0,1.5" Height="25" >
+                        <TextBox TextWrapping="Wrap" Grid.Column="3" Grid.Row="2" Text="{m:Bind Path=f_apartment}" Width="100" Margin="0,1.5" Height="25" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_apartment"  Operator="f_apartment = 'this'"/>          
 								</a:Data.Prop>
@@ -132,7 +132,7 @@
                     </Grid>-->
 
                 </StackPanel>
-                <sdk:DataGrid x:Name="SellUserUnits"  IsReadOnly="True" ItemsSource="{m:Exp Str=personlist}" AutoGenerateColumns="False" Margin="8,114,315,194" HorizontalAlignment="Stretch" Width="Auto" Grid.Row="1" Grid.RowSpan="3">
+                <sdk:DataGrid x:Name="SellUserUnits"  IsReadOnly="True" ItemsSource="{m:Exp Str=personlist}" AutoGenerateColumns="False" Margin="8,127,315,48" HorizontalAlignment="Stretch" Width="Auto" Grid.Row="1" Grid.RowSpan="3">
 
                     <sdk:DataGrid.Columns>
                         <sdk:DataGridTextColumn Header="用户编号" Binding="{Binding f_userid}"/>
@@ -215,9 +215,9 @@
                     <sdk:Label Content="是否有效：" Margin="0,1" Grid.Row="7" HorizontalAlignment="Right" RenderTransformOrigin="0.516,1.417"/>
                     <sdk:Label Content="气　　价：" Margin="22,3,0,0" Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Width="69"/>
                     <sdk:Label Content="本月用气金额：" Margin="0,5,2,6" Grid.Row="8" HorizontalAlignment="Right" Grid.Column="2" d:LayoutOverrides="Height"/>
-                    <TextBox x:Name="ui_userid" Text="{m:Bind Path=f_userid}"  Margin="0,4,0,1" AllowDrop="True" Height="Auto" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="HorizontalAlignment">
+                    <TextBox x:Name="ui_userid" IsReadOnly="True" Text="{m:Bind Path=f_userid}"  Margin="0,4,0,1" AllowDrop="True" Height="Auto" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="HorizontalAlignment">
                         <a:Data.Prop>
-                            <o:PropertySetter PropertyName="f_userid" />
+                            <o:PropertySetter PropertyName="f_userid"  />
                         </a:Data.Prop>
                     </TextBox>
                     <TextBox  x:Name="ui_districtname" Text="{m:Bind Path=f_districtname}"  Margin="0.009,2.814,-0.983,0" AllowDrop="True" Height="25" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Width="Auto" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" d:LayoutOverrides="HorizontalAlignment" IsReadOnly="True">
@@ -233,7 +233,7 @@
                             <o:PropertySetter PropertyName="f_usertype" />
                         </a:Data.Prop>
                     </TextBox>
-                    <TextBox  x:Name="ui_username" Text="{m:Bind Path=f_username}"  Margin="0,2,0,0" AllowDrop="True" Height="26" VerticalAlignment="Top" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="HorizontalAlignment" Grid.ColumnSpan="1">
+                    <TextBox  x:Name="ui_username" IsReadOnly="True" Text="{m:Bind Path=f_username}"  Margin="0,2,0,0" AllowDrop="True" Height="26" VerticalAlignment="Top" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" Width="Auto" d:LayoutOverrides="HorizontalAlignment" Grid.ColumnSpan="1">
                         <a:Data.Prop>
                             <o:PropertySetter PropertyName="f_username" />
                         </a:Data.Prop>
@@ -322,7 +322,7 @@
                         </a:Data.Prop>
                     </TextBox>
                     <sdk:Label Content="地　　址：" Margin="32,1,0,1" Grid.Row="2" d:LayoutOverrides="Height" RenderTransformOrigin="0.949,0.632"/>
-                    <TextBox x:Name="ui_address" Text="{m:Bind Path=f_address}"  Margin="0,1"  AllowDrop="True" Height="25" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="3">
+                    <TextBox x:Name="ui_address" IsReadOnly="True" Text="{m:Bind Path=f_address}"  Margin="0,1"  AllowDrop="True" Height="25" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="3">
                         <a:Data.Prop>
                             <o:PropertySetter PropertyName="f_address"  />
                         </a:Data.Prop>

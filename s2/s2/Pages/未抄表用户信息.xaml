@@ -26,30 +26,30 @@
 			
 		   <o:ExcelObj Name="excel" Bind="f_userid,f_username,f_districtname,f_address,f_phone,f_usertype,f_gasproperties,lastinputdate" Source="{m:Exp Str=daninfos}"/>
 			<!--抄表员列表对象-->
-			<o:ObjectList Name="czylist" WebClientInfo="{StaticResource dbclient}" Path="{m:Exp Str=$from paramvalue where param.name\=\'抄表员\'$}" 
+			<o:ObjectList Name="czylist" EntityType="paramvalue" HasEmptyRow="True"  WebClientInfo="{StaticResource dbclient}" Path="{m:Exp Str=$from paramvalue where param.name\=\'抄表员\'$}" 
 			   />
-			<o:ObjectList Name="yhxzlist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='用户性质' order by id">
+			<o:ObjectList Name="yhxzlist" EntityType="paramvalue" HasEmptyRow="True"  WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='用户性质' order by id">
             </o:ObjectList>
 			   <!--抄表员列表对象-->
-			<o:ObjectList Name="zrbmlist" WebClientInfo="{StaticResource dbclient}" Path="{m:Exp Str=$from paramvalue where param.name\=\'责任部门\'$}" 
+			<o:ObjectList Name="zrbmlist" EntityType="paramvalue" HasEmptyRow="True"  WebClientInfo="{StaticResource dbclient}" Path="{m:Exp Str=$from paramvalue where param.name\=\'责任部门\'$}" 
 			   />
-			<o:ObjectList Name="youxiaolist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='抄表状态' order by id"/>
+			<o:ObjectList Name="youxiaolist" EntityType="paramvalue" HasEmptyRow="True"  WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='抄表状态' order by id"/>
 			<!--网点列表对象-->
-			<o:ObjectList Name="wangdianlist" WebClientInfo="{StaticResource dbclient}"  Path="{m:Exp Str=$from paramvalue where param.name\=\'网点查询用\' and code \=\'\{daninfosearch.DataContext.f_filiale\}\'$}" 
+			<o:ObjectList Name="wangdianlist" EntityType="paramvalue" HasEmptyRow="True"  WebClientInfo="{StaticResource dbclient}"  Path="{m:Exp Str=$from paramvalue where param.name\=\'网点查询用\' and code \=\'\{daninfosearch.DataContext.f_filiale\}\'$}" 
 			IsOld="{m:Exp Str=fgslist.State\=\=$End$}"/>
 			<!--分公司列表对象-->
-			<o:ObjectList Name="fgslist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='分公司' order by id"/>
+			<o:ObjectList Name="fgslist" EntityType="paramvalue" HasEmptyRow="True"  WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='分公司' order by id"/>
 			<!--用户类型查询用-->
-			<o:ObjectList Name="usertypelist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='用户类型查询用' order by id"/>
-			<o:ObjectList Name="payfeetypelist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='是否交费' order by id"/>
+			<o:ObjectList Name="usertypelist" EntityType="paramvalue" HasEmptyRow="True"  WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='用户类型查询用' order by id"/>
+			<o:ObjectList Name="payfeetypelist" EntityType="paramvalue" HasEmptyRow="True"  WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='是否交费' order by id"/>
 			<!--总公司名称-->
 		    <o:GeneralObject Name="zonggongsi" EntityType="t_singlevalue" WebClientInfo="{StaticResource dbclient}" 
 		  		Path="{m:Exp Str=$one/from t_singlevalue where name \= \'总公司名称\'}"   >
             </o:GeneralObject>
 			<!--气表品牌-->
-			<o:ObjectList Name="qblist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气表品牌' order by id"/>
+			<o:ObjectList Name="qblist" EntityType="paramvalue" HasEmptyRow="True"  WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气表品牌' order by id"/>
 			<!--气价类型-->
-			<o:ObjectList Name="qjlist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气价类型' order by id"/>
+			<o:ObjectList Name="qjlist" EntityType="paramvalue" HasEmptyRow="True"  WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气价类型' order by id"/>
  
 		</m:ResourceLoad>
 		 		<Grid>
@@ -93,34 +93,60 @@
 											<o:PropertySetter PropertyName="f_username"  Operator="f_username like '%this%'"/>          
 										</a:Data.Prop>
 									</TextBox>
-										<ComboBox Name="tj9" Visibility="Collapsed" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="0" Grid.Column="5" ItemsSource="{m:Exp Str=fgslist}"  Margin="0,2,0,1" DisplayMemberPath="name" SelectedValuePath="name"  Height="25" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="Auto">
+										<ComboBox Name="tj9" Visibility="Collapsed" SelectedValue="{m:Bind Path=f_filiale}" Grid.Row="0" Grid.Column="5" ItemsSource="{m:Exp Str=fgslist}"  Margin="0,2,0,1"  SelectedValuePath="name"  Height="25" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="Auto">
+						<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
 						<a:Data.Prop>
                     		<o:PropertySetter PropertyName="f_filiale"  Operator="f_filiale like 'this%'"/>          
                     	</a:Data.Prop>
 						</ComboBox>
 						<Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="3" Grid.Column="0" Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="2,2,0,-2" FontSize="14" HorizontalAlignment="Right" Width="60"  />
 						<TextBlock TextWrapping="Wrap" Visibility="Collapsed" Text="气表品牌：" Grid.Column="2"  Margin="0,2,0,1" Height="25" TextAlignment="Right" />
-						<ComboBox Name="tj5" Visibility="Collapsed" SelectedValue="{m:Bind Path=f_gaswatchbrand}" Grid.Column="3" ItemsSource="{m:Exp Str=qblist}"  Margin="0,2,0,1" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-						     <a:Data.Prop>
+						<ComboBox Name="tj5" Visibility="Collapsed" SelectedValue="{m:Bind Path=f_gaswatchbrand}" Grid.Column="3" ItemsSource="{m:Exp Str=qblist}"  Margin="0,2,0,1"  SelectedValuePath="name"  Height="25">
+						     <ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							 <a:Data.Prop>
                     		     <o:PropertySetter PropertyName="f_gaswatchbrand"  Operator="f_gaswatchbrand = 'this'"/>          
                     	     </a:Data.Prop>
 						</ComboBox>
 						<TextBlock TextWrapping="Wrap" Text="气价类型：" Grid.Column="2" Grid.Row="1"  Margin="0,2,0,1" Height="25" TextAlignment="Right" />
-						<ComboBox Name="tj6" Grid.Row="1" SelectedValue="{m:Bind Path=f_gaspricetype}" Grid.Column="3" ItemsSource="{m:Exp Str=qjlist}"  Margin="0,2,0,1" DisplayMemberPath="name" SelectedValuePath="name"  Height="25">
-						    <a:Data.Prop>
+						<ComboBox Name="tj6" Grid.Row="1" SelectedValue="{m:Bind Path=f_gaspricetype}" Grid.Column="3" ItemsSource="{m:Exp Str=qjlist}"  Margin="0,2,0,1"  SelectedValuePath="name"  Height="25">
+						    <ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							<a:Data.Prop>
                     		    <o:PropertySetter PropertyName="f_gaspricetype"  Operator="f_gaspricetype = 'this'"/>          
                     	    </a:Data.Prop>
 						</ComboBox>
 						
 						<TextBlock TextWrapping="Wrap" Text="所属公司：" Visibility="Collapsed" Grid.Column="4"  Margin="0,2,0,1" Height="25" TextAlignment="Right" />
 								<TextBlock TextWrapping="Wrap" Text="用户类型：" Grid.Column="4"  Margin="0,3,0,0" Height="25" TextAlignment="Right" />
-								<ComboBox x:Name="tja"  SelectedValue="{m:Bind Path=f_usertype}" Grid.Column="5" ItemsSource="{m:Exp Str=usertypelist}"  Margin="0,3,0,0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch">
+								
+								<ComboBox x:Name="tja"  SelectedValue="{m:Bind Path=f_usertype}" Grid.Column="5" ItemsSource="{m:Exp Str=usertypelist}"  Margin="0,3,0,0"  SelectedValuePath="name"  Height="25" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch">
+									<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
 									<a:Data.Prop>
 										<o:PropertySetter PropertyName="f_usertype"  Operator="f_usertype = 'this'"/>          
 									</a:Data.Prop>
 								</ComboBox>
 								<TextBlock TextWrapping="Wrap" Visibility="Collapsed" Text="网　　点：" Grid.Column="6"  Margin="0" Height="25" TextAlignment="Right" />
-								<ComboBox x:Name="tjwangdian" Visibility="Collapsed"  SelectedValue="{m:Bind Path=f_sgnetwork}" Grid.Row="0" Grid.Column="7" ItemsSource="{m:Exp Str=wangdianlist}"  Margin="0" DisplayMemberPath="name" SelectedValuePath="name"  Height="25" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="Auto">
+								<ComboBox x:Name="tjwangdian" Visibility="Collapsed"  SelectedValue="{m:Bind Path=f_sgnetwork}" Grid.Row="0" Grid.Column="7" ItemsSource="{m:Exp Str=wangdianlist}"  Margin="0"  SelectedValuePath="name"  Height="25" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="Auto">
+									<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
 									<a:Data.Prop>
 										<o:PropertySetter PropertyName="f_sgnetwork"  Operator="f_sgnetwork = 'this'"/>          
 									</a:Data.Prop>
@@ -133,14 +159,19 @@
 									</a:Data.Prop>
 								</TextBox>
 								<TextBlock TextWrapping="Wrap" Text="用户性质：" Grid.Column="2"  Margin="2,2,0,1" Height="25" TextAlignment="Right" />
-								<ComboBox x:Name="tjczy_Copy"  SelectedValue="{m:Bind Path=f_yhxz}" Grid.Column="3" ItemsSource="{m:Exp Str=yhxzlist}"  Margin="0,2,4,1" DisplayMemberPath="name" SelectedValuePath="name"  Height="25" Grid.ColumnSpan="1">
+								<ComboBox x:Name="tjczy_Copy"  SelectedValue="{m:Bind Path=f_yhxz}" Grid.Column="3" ItemsSource="{m:Exp Str=yhxzlist}"  Margin="0,2,4,1"  SelectedValuePath="name"  Height="25" Grid.ColumnSpan="1">
+									<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
 									<a:Data.Prop>
 										<o:PropertySetter PropertyName="f_yhxz"  Operator="f_yhxz = 'this'"/>          
 									</a:Data.Prop>
 								</ComboBox>
                         <Button Content=" 置  空"  Grid.Row="3" Grid.Column="1" Click="{m:Exp Str=daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_yhxz\=null;daninfosearch.DataContext.f_gaspricetype\=null;daninfosearch.DataContext.f_usertype\=null;daninfosearch.DataContext.f_address\=null}"  FontSize="14" HorizontalAlignment="Center" Width="60"  />
 
-                        <Button Content="导出Excel" Click="{m:Exp Str=toExcel.ToExcel()}" Grid.Column="2" Margin="0,0,2,0" HorizontalAlignment="Right" Grid.Row="3"/>
+                        <Button Content="导出Excel" IsEnabled="{m:Exp Str=daninfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel.ToExcel()}" Grid.Column="2" Margin="0,0,2,0" HorizontalAlignment="Right" Grid.Row="3"/>
 								<c:Excel x:Name="toExcel" HQL="{m:Exp Str=$sql:\{daninfos.ItemsSource.HQL\}}" 
    							 Completed="{m:Exp Str=downLoad.Down()}"
    							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_userid:用户编号|f_username:用户姓名|f_districtname:小区名称|f_address:地址|f_phone:电话|f_usertype:用户类型|f_gasproperties:用气性质|lastinputdate:最后抄表日期$}"/>

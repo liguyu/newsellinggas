@@ -130,6 +130,9 @@
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\其他收费查看.xaml.cs">
+      <DependentUpon>其他收费查看.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\天然气用气汇总表.xaml.cs">
       <DependentUpon>天然气用气汇总表.xaml</DependentUpon>
     </Compile>
@@ -827,6 +830,9 @@
     <Compile Include="Pages\补卡撤销查询.xaml.cs">
       <DependentUpon>补卡撤销查询.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\补售气收费记录.xaml.cs">
+      <DependentUpon>补售气收费记录.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\过户信息查看.xaml.cs">
       <DependentUpon>过户信息查看.xaml</DependentUpon>
     </Compile>
@@ -1413,6 +1419,10 @@
     <Page Include="Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\其他收费查看.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\天然气用气汇总表.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
@@ -2343,6 +2353,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\补卡撤销查询.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\补售气收费记录.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -21,8 +21,8 @@
 	<Grid x:Name="LayoutRoot">
 		<m:ResourceLoad x:Name="loader" Margin="0,0,-101,0">
 			<!--打开窗口对象-->
-			<o:ChildWindowObj Name="openxiangou" CWName="/Pages/管理员登录" />			
-			<o:ChildWindowObj Name="openkafei" CWName="/Pages/滞纳金登录" />
+			<o:ChildWindowObj Name="openxiangou" CWName="/Pages/管理员登录" />
+            <o:ChildWindowObj Name="openkafei" CWName="/Pages/滞纳金登录"  ParamObj="{m:Exp Str=userfiles.SelectedItem.f_userid}"/>
 			
 			<!--付款方式列表-->
 			<o:ObjectList Name="paylist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='付款方式' order by id"/>
@@ -530,11 +530,11 @@
 							</StackPanel>
 							<TextBlock Text="表上次累计购气量：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="6" Grid.Column="2" Height="25"/>
 							<TextBlock Grid.Column="4" Margin="0,6" Grid.Row="14" TextWrapping="Wrap" TextAlignment="Right" Height="25" HorizontalAlignment="Right" Width="130"><Run Text="交费"/><Run Text="时间"/><Run Text="："/></TextBlock>
-							<!--<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="5" Margin="0" Grid.Row="14"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
+							<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="5" Margin="0" Grid.Row="14"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_deliverytime" Value="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
 								</a:Data.Prop>
-							</toolkit:TimePicker>-->
+							</toolkit:TimePicker>
 							<TextBlock Text="发 票 号：" Grid.Column="2" Margin="0,6,0,6" Grid.Row="14" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
 							<TextBox Text="{m:Bind Path=f_invoicenum}" Grid.Column="3" Margin="0,6" Grid.Row="14" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" Grid.RowSpan="1" >
 								<a:Data.Prop>

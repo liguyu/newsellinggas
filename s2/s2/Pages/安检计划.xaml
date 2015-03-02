@@ -25,28 +25,39 @@
             <o:GeneralObject Name="ybuserfilego" WebClientInfo="{StaticResource dbclient}" 
 			EntityType="T_CHECKPLAN"
 			IsInit="{m:Exp Str=this.State\=\=$End$ or SaveAction.State\=\=$End$}"  >
-                <o:PropertySetter PropertyName="f_date" 
-				Default="{m:Exp Str=SysTime.Now.ToString($yyyy-MM-dd HH:mm:ss$)}"/>
+                <o:PropertySetter PropertyName="f_date" NoDependValue="{m:Exp Str=SysTime.Today}" 
+                                  Default="{m:Exp Str=SysTime.Now.ToString($yyyy-MM-dd HH:mm:ss$)}"
+                                  Operator="substring('this',1,10)" NotNull="True" />
+                <o:PropertySetter PropertyName="f_enddate" 
+                                  Default="{m:Exp Str=SysTime.MonthsAfterToday(1).ToString($yyyy-MM-dd HH:mm:ss$)}"
+                                  Operator="substring('this',1,10)" NotNull="True" />
                 <o:PropertySetter PropertyName="f_issued" 
 				Default="{m:Exp Str=$否$}"/>
                 <o:PropertySetter PropertyName="f_checks" Default="{m:Exp Str=target}"/>
+
             </o:GeneralObject>
+            
+            <!--获取安检员-->
+            <o:ObjectList Name="checkmanlist" EntityType="paramvalue" HasEmptyRow="True" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='安检人员'"/>
+            <!--获取需要安检的用户类型-->
+            <o:ObjectList Name="usertypelist" EntityType="paramvalue" HasEmptyRow="True" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='安检用户类型'"/>
 
             <!--查询出的地址列表-->
             <o:ObjectList Name="userfileslist" WebClientInfo="{StaticResource dbclient}"
-			Path="{m:Exp Str=$from t_gasaddress where \{userfilesearch.DataContext.Condition\} order by len(f_cusDom)\, f_cusDom\, len(f_cusDy)\, f_cusDy\,len(f_cusFloor)\, f_cusFloor\, len(f_apartment)\, f_apartment$}"/>
+			Path="{m:Exp Str=$from t_userfiles where \{userfilesearch.DataContext.Condition\} and (f_nextCheckDate ^\= cast(\'\{SysTime.Today\}\' as date) or f_nextCheckDate is null) and (f_toBeInspected \= \'否\' or f_toBeInspected is null) order by len(f_cusDom)\, f_cusDom\, len(f_cusDy)\, f_cusDy\,len(f_cusFloor)\, f_cusFloor\, len(f_apartment)\, f_apartment$}"/>
 
             <o:ObjectList Name="target" EntityType="T_IC_SAFECHECK_PAPER"  WebClientInfo="{StaticResource dbclient}"  
           TempObj="{m:Res Key=tempobj}" TempletObject="{m:Res Key=tobj}"
           SelectObject="{x:Null}" RemoveObjects="{x:Null}"
 		  ClearOnAdd="false"
 		/>
-            <o:GeneralObject Name="tempobj" EntityType="t_gasaddress"></o:GeneralObject>
+            <o:GeneralObject Name="tempobj" EntityType="t_userfiles"></o:GeneralObject>
 
             <o:GeneralObject Name="tobj" EntityType="T_IC_SAFECHECK_PAPER" WebClientInfo="{StaticResource dbclient}">
                 <!--用户姓名-->
                 <o:PropertySetter PropertyName="pid" Value="{m:Exp Str=tempobj.ID}"/>
                 <o:PropertySetter PropertyName="CHECKPLANID" Value="{m:Exp Str=ybuserfilego.id}"/>
+                <o:PropertySetter PropertyName="f_userid" Value="{m:Exp Str=tempobj.f_userid}"/>
                 <o:PropertySetter PropertyName="UNIT_NAME" Value="{m:Exp Str=tempobj.f_districtname}"/>
                 <o:PropertySetter PropertyName="ROAD" Value="{m:Exp Str=tempobj.f_road}"/>
                 <o:PropertySetter PropertyName="CUS_DOM" Value="{m:Exp Str=tempobj.f_cusDom}"/>
@@ -130,7 +141,7 @@
                             <Button Content="获取小区" Grid.Column="2" Grid.Row="0" Height="25" Click="{m:Exp Str=openchild.IsOpen\=True}" Width="60" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,0,0,0" FontSize="13.333"/>
 
 
-                            <Button Content="查询" x:Name="searchbutton" Grid.Row="3" Width="120" Grid.Column="3" Click="{m:Exp Str=userfilesearch.DataContext.Search()}"  HorizontalAlignment="center"   FontSize="13.333" IsEnabled="{m:Exp Str=!userfilesearch.DataContext.HasErrors}"  Style="{StaticResource 查询btn}" />
+                            <Button Content="查询" x:Name="searchbutton" Grid.Row="3" Width="120" Grid.Column="3" Click="{m:Exp Str=userfilesearch.DataContext.Search()}"  HorizontalAlignment="center"   FontSize="13.333" IsEnabled="{m:Exp Str=!userfilesearch.DataContext.HasErrors}"  />
                         </Grid>
                     </toolkit:DockPanel>
                     <sdk:DataGrid x:Name="userfiles" Margin="0,0,0,25"  FontSize="13.333"
@@ -138,6 +149,7 @@
 						AutoGenerateColumns="False" Width="Auto" Background="{x:Null}" IsReadOnly="True" >
                         <sdk:DataGrid.Columns>
                             <sdk:DataGridTextColumn d:IsLocked="True" Header="序  号" Binding="{Binding Index}"/>
+                            <sdk:DataGridTextColumn Header="用户编号" Binding="{Binding f_userid}"/>
                             <sdk:DataGridTextColumn Header="街    道" Binding="{Binding f_road}"/>
                             <sdk:DataGridTextColumn Header="小区名称" Binding="{Binding f_districtname}"/>
                             <sdk:DataGridTextColumn Header="楼    号" Binding="{Binding f_cusDom}"/>
@@ -168,32 +180,51 @@
                                 </TextBlock.RenderTransform>
                             </TextBlock>
                             <Button   Content="新建"  FontSize="14" Grid.Row="0" Grid.Column="1"
-							Click="{m:Exp Str=ybuserfile.DataContext.New()}"   Width="70" HorizontalAlignment="Stretch" Height="30"  Style="{StaticResource 新增btn}"/>
+							Click="{m:Exp Str=ybuserfile.DataContext.New()}"   Width="70" HorizontalAlignment="Stretch" Height="30"  />
                             <Button x:Name="save" Content="保存"  FontSize="14"  Grid.Row="0" Grid.Column="2" IsEnabled="{m:Exp Str=!ybuserfile.DataContext.HasErrors}"
-							Click="{m:Exp Str=SaveAction.Invoke()}" Width="70" HorizontalAlignment="Left" Height="30"  Margin="0,0,0,0"  Style="{StaticResource 保存btn}"/>
+							Click="{m:Exp Str=SaveAction.Invoke()}" Width="70" HorizontalAlignment="Left" Height="30"  Margin="0,0,0,0" />
                         </Grid>
                     </toolkit:DockPanel>
                     <toolkit:DockPanel toolkit:DockPanel.Dock="Top">
                         <Grid x:Name="ybuserfile" DataContext="{m:Exp Str=ybuserfilego}" Margin="0" HorizontalAlignment="Stretch" Height="Auto" Width="Auto" Background="#FFDBE6E8" toolkit:DockPanel.Dock="Bottom">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="85"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="50*"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="50*"/>
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Text="名称：" Margin="0,1,-0.25,4" TextWrapping="Wrap" TextAlignment="Right" Height="25" FontSize="13.333" d:LayoutOverrides="HorizontalMargin"/>
-
                             <TextBox Text="{m:Bind Path=f_name}" IsReadOnly="False" Height="30" VerticalAlignment="Center" Grid.Column="1" Margin="0"  Grid.Row="0" TextWrapping="Wrap"   FontSize="13.333" Grid.ColumnSpan="1" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_name" NotNull="True"/>
                                 </a:Data.Prop>
                             </TextBox>
-
-
-
+                            <TextBlock TextWrapping="Wrap" Text="安检员：" Grid.Row="1" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Column="2"/>
+                            <ComboBox Name="f_checkman"   SelectedValue="{m:Bind Path=f_checkman}" Grid.Row="1" Grid.Column="4" ItemsSource="{m:Exp Str=checkmanlist}" SelectedValuePath="name"  Margin="0" DisplayMemberPath="name"   Height="25" >
+                                <a:Data.Prop>
+                                    <o:PropertySetter PropertyName="f_checkman"/>
+                                </a:Data.Prop>
+                            </ComboBox>
+                            <TextBlock TextWrapping="Wrap" Text=" 计划开始时间：" Grid.Row="2" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Column="0"/>
+                            <sdk:DatePicker SelectedDate="{m:Bind Path=f_date}" Margin="0"  Height="25" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="1" >
+                            </sdk:DatePicker>
+                            <TextBlock TextWrapping="Wrap" Text=" 计划结束时间：" Grid.Row="2" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Column="2"/>
+                            <sdk:DatePicker SelectedDate="{m:Bind Path=f_enddate}" Margin="0"  Height="25" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="3" >
+                                
+                            </sdk:DatePicker>
+                            <TextBlock TextWrapping="Wrap" Text="用户类型：" Grid.Row="1" Height="25" FontSize="13.333" HorizontalAlignment="Right" Grid.Column="0"/>
+                            <ComboBox Name="f_usertype" SelectedValue="{m:Bind Path=f_usertype}" Grid.Row="1" Grid.Column="1" ItemsSource="{m:Exp Str=usertypelist}" SelectedValuePath="name"  Margin="0" DisplayMemberPath="name"   Height="25" >
+                                <a:Data.Prop>
+                                    <o:PropertySetter PropertyName="f_usertype" NotNull="True"/>
+                                </a:Data.Prop>
+                            </ComboBox>
                         </Grid>
                     </toolkit:DockPanel>
                     <sdk:DataGrid x:Name="userfiles1" Margin="0,0,0,10"  FontSize="13.333"
@@ -201,6 +232,7 @@
 						AutoGenerateColumns="False" Width="Auto" Background="{x:Null}" IsReadOnly="True" >
                         <sdk:DataGrid.Columns>
                             <sdk:DataGridTextColumn d:IsLocked="True" Header="序  号" Binding="{Binding Index}"/>
+                            <sdk:DataGridTextColumn Header="用户编号" Binding="{Binding f_userid}"/>
                             <sdk:DataGridTextColumn Header="街    道" Binding="{Binding ROAD}"/>
                             <sdk:DataGridTextColumn Header="小区名称" Binding="{Binding UNIT_NAME}"/>
                             <sdk:DataGridTextColumn Header="楼    号" Binding="{Binding CUS_DOM}"/>

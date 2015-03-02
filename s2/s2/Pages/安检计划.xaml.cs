@@ -68,8 +68,9 @@ namespace Com.Aote.Pages
             Com.Aote.ObjectTools.ObjectList c = userfiles1.ItemsSource as Com.Aote.ObjectTools.ObjectList;
             GeneralObject checkPaper = userfiles1.SelectedItem as GeneralObject;
             GeneralObject address = new GeneralObject();
-            address.EntityType = "t_gasaddress";
+            address.EntityType = "t_userfiles";
             address.SetValue("ID", checkPaper.GetPropertyValue("pid"));
+            address.SetValue("f_userid", checkPaper.GetPropertyValue("f_userid"));
             address.SetValue("f_districtname", checkPaper.GetPropertyValue("UNIT_NAME"));
             address.SetValue("f_road", checkPaper.GetPropertyValue("ROAD"));
             address.SetValue("f_cusDom", checkPaper.GetPropertyValue("CUS_DOM"));
@@ -94,8 +95,9 @@ namespace Com.Aote.Pages
             foreach (GeneralObject checkPaper in c)
             {
                 GeneralObject address = new GeneralObject();
-                address.EntityType = "t_gasaddress";
+                address.EntityType = "t_userfiles";
                 address.SetValue("ID", checkPaper.GetPropertyValue("pid"));
+                address.SetValue("f_userid", checkPaper.GetPropertyValue("f_userid"));
                 address.SetValue("f_districtname", checkPaper.GetPropertyValue("UNIT_NAME"));
                 address.SetValue("f_road", checkPaper.GetPropertyValue("ROAD"));
                 address.SetValue("f_cusDom", checkPaper.GetPropertyValue("CUS_DOM"));

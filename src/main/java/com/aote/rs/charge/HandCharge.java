@@ -79,27 +79,31 @@ public class HandCharge {
 				"from t_handplan h left join t_userfiles u on h.f_userid = u.f_userid where h.shifoujiaofei='否' and u.f_userstate!='注销' and h.f_state='未抄表' and " 
 				+ condition + "	order by u.f_address,u.f_apartment";
 		List<Object> list = this.hibernateTemplate.executeFind(new HibernateSQLCall(sql));
-		String result="[";
+//		String result="[";
 		boolean check=false;
+		JSONArray array = new JSONArray();
 		for (Object obj : list) {
-			Map<String, Object> map = (Map<String, Object>) obj;
-			if(!result.equals("[")){
-				result+=",";
-			}
-			String item="";
-			//计划月份用户编号用户姓名地址上次底数本次底数用气量
-			item+="{";
-			item+="f_userid:'"+map.get("f_userid")+"',";
-			item+="f_username:'"+map.get("f_username")+"',";
-			item+="f_address:'"+map.get("f_address")+"',";
-			item+="lastinputgasnum:"+map.get("lastinputgasnum");
-			item+="}";
-			
-			result += item;
+			JSONObject json = (JSONObject) new JsonTransfer().MapToJson((Map<String, Object>)obj);
+//			Map<String, Object> map = (Map<String, Object>) json;
+//			if(!result.equals("[")){
+//				result+=",";
+//			}
+//			String item="";
+//			//计划月份用户编号用户姓名地址上次底数本次底数用气量
+//			item+="{";
+//			item+="f_userid:'"+map.get("f_userid")+"',";
+//			item+="f_username:'"+map.get("f_username")+"',";
+//			item+="f_address:'"+map.get("f_address")+"',";
+//			item+="lastinputgasnum:"+map.get("lastinputgasnum");
+//			item+="}";
+//			
+//			result += item;
+			array.put(json);
 		}
-		result+="]";
-		System.out.println(result);
-		return result;
+//		result+="]";
+//		System.out.println(result);
+		
+		return array.toString();
 	}
 
 	// 单块表抄表录入
@@ -144,8 +148,9 @@ public class HandCharge {
 				+ "isnull(u.f_stair1amount,0)f_stair1amount,isnull(u.f_stair2amount,0)f_stair2amount,isnull(u.f_stair3amount,0)f_stair3amount,isnull(u.f_stair1price,0)f_stair1price,isnull(u.f_stair2price,0)f_stair2price,isnull(u.f_stair3price,0)f_stair3price,isnull(u.f_stair4price,0)f_stair4price,isnull(u.f_stairmonths,0)f_stairmonths,isnull(u.f_stairtype,'未设')f_stairtype,"
 				+ "isnull(u.f_address,'')f_address ,isnull(u.f_districtname,'')f_districtname,isnull(u.f_cusDom,'')f_cusDom,isnull(u.f_cusDy,'')f_cusDy,isnull(u.f_gasmeterstyle,'') f_gasmeterstyle, isnull(u.f_idnumber,'') f_idnumber, isnull(u.f_gaswatchbrand,'')f_gaswatchbrand, isnull(u.f_usertype,'')f_usertype, "
 				+ "isnull(u.f_gasproperties,'')f_gasproperties,isnull(u.f_dibaohu,0)f_dibaohu,isnull(u.f_payment,'')f_payment,isnull(u.f_zerenbumen,'')f_zerenbumen,isnull(u.f_menzhan,'')f_menzhan,isnull(u.f_inputtor,'')f_inputtor, isnull(q.c,0) c,"
-				+ "u.lastinputgasnum lastinputgasnum,u.f_metergasnums f_metergasnums,u.f_cumulativepurchase f_cumulativepurchase, "
-				+ "u.f_finallybought f_finallybought, h.id id from (select * from t_handplan where f_state='未抄表' and f_userid='"
+				+ "isnull(u.f_metergasnums,0) f_metergasnums,isnull(u.f_cumulativepurchase,0)f_cumulativepurchase, "
+				+ "isnull(u.f_finallybought,0)f_finallybought,isnull(u.f_cardid,'NULL') f_cardid,isnull(u.f_filiale,'NULL')f_filiale,"
+				+ "h.id id from (select * from t_handplan where f_state='未抄表' and f_userid='"
 				+ userid
 				+ "') h "
 				+ "left join (select f_userid, COUNT(*) c from t_handplan where f_state='已抄表' and shifoujiaofei='否' "
@@ -336,10 +341,12 @@ public class HandCharge {
 			sell.put("f_usertype", map.get("f_usertype")); // 用户类型
 			sell.put("f_gasproperties", map.get("f_gasproperties")); // 用气性质
 			sell.put("f_pregas", gas); // 气量
+			sell.put("f_preamount", chargenum); // 金额
 			sell.put("f_payment", "现金"); // 付款方式
 			sell.put("f_sgnetwork", sgnetwork); // 网点
 			sell.put("f_sgoperator", sgoperator); // 操 作 员
-			sell.put("f_filiale", "淄博绿川天然气有限公司"); // 分公司
+			sell.put("f_cardid", map.get("f_cardid"));//卡号
+			sell.put("f_filiale", map.get("f_filiale")); // 分公司
 			sell.put("f_useful", handid); // 抄表id
 			sell.put("f_stair1amount", stair1num);
 			sell.put("f_stair2amount", stair2num);
@@ -370,7 +377,7 @@ public class HandCharge {
 					f_zhye-chargenum,reading, lastinputDate,f_metergasnums+gas,f_cumulativepurchase+gas,gas,inputdate,inputdate,userid });
 			String sellId = sellid+"";
 			// 更新抄表记录
-			hql = "update t_handplan set f_state ='已抄表',shifoujiaofei='是',f_handdate=?,f_stairtype=?,"
+			hql = "update t_handplan set f_state='已抄表',shifoujiaofei='是',f_handdate=?,f_stairtype=?,"
 					+ "lastinputdate=?,   f_zerenbumen=?, f_menzhan=?, f_inputtor=?,lastrecord=? ,oughtamount=? ,oughtfee=? ,f_address=?, f_username=?, f_zhye=?, f_bczhye=?,"
 					+ "f_stair1amount=?,f_stair2amount=?,f_stair3amount=?,f_stair4amount=?,f_stair1fee=?,f_stair2fee=?,f_stair3fee=?,f_stair4fee=?,f_stair1price=?,f_stair2price=?,f_stair3price=?,f_stair4price=?,"
 					+ "f_stardate=?,f_enddate=?,f_allamont=? ,f_sellid=?, f_leftgas=? , f_inputdate=?,f_network=?,f_operator=?  "
@@ -497,7 +504,10 @@ public class HandCharge {
 		}
 		return "";
 	}
-	
+	private String SolitaryCopyMeter(){
+		return null;
+		
+	}
 	//产生交费截止日期
 	private Date endDate(String str) throws ParseException {
 		DateFormat df=new SimpleDateFormat("yyyy-MM-dd");

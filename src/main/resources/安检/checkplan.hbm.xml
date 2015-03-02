@@ -12,6 +12,12 @@
         <property name="f_issued" type="string"/>
 		<!-- 日期 -->
 		<property name="f_date" type="string"/>
+		<!-- 计划结束日期 -->
+		<property name="f_enddate" type="string"/>
+		<!-- 用户类型 -->
+		<property name="f_usertype" type="string"/>
+		<!-- 安检员 -->
+		<property name="f_checkman" type="string"/>
 		<!--安检单-->
 		<set name="f_checks" cascade="delete">
           <key column="checkplanid" on-delete="noaction"/>

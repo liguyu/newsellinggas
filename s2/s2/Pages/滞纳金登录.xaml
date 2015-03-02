@@ -159,9 +159,9 @@
                         </TextBox>
                         <TextBlock TextWrapping="Wrap" Text="修改后滞纳金" HorizontalAlignment="Right" Margin="0,6" Width="90" Grid.Column="2"/>
                         <TextBlock TextWrapping="Wrap" Text="用户编号：" HorizontalAlignment="Right" Margin="0,5,0,7" Width="75" Grid.Row="2"/>
-                        <TextBox  Text="{m:Bind Path=f_userid}" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"  Grid.ColumnSpan="1" Margin="0,3,0,5" Height="Auto" VerticalAlignment="Stretch" >
+                        <TextBox  Text="{m:Bind Path=f_userid}" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"  Grid.ColumnSpan="1" Margin="0,3,0,5" Height="Auto" IsReadOnly="True" VerticalAlignment="Stretch" >
                             <a:Data.Prop>
-                                <o:PropertySetter PropertyName="f_userid" NotNull="True"/>
+                                <o:PropertySetter PropertyName="f_userid" Default="{m:Exp Str=userfiles.SelectedItem.f_userid}"/>
                             </a:Data.Prop>
                         </TextBox>
                         <TextBlock TextWrapping="Wrap" Text="用户姓名：" HorizontalAlignment="Right" Margin="0,5,3,7" Width="75" Grid.Row="2" Grid.Column="2"/>

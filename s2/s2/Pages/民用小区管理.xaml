@@ -85,8 +85,8 @@
 							</a:Data.Context>
 							<Grid>
 							<Grid.RowDefinitions>
-							<RowDefinition Height="28"/>
-							<RowDefinition Height="28"/>
+							<RowDefinition Height="30"/>
+							<RowDefinition Height="30"/>
 							<RowDefinition Height="0"/>
 							</Grid.RowDefinitions>
 							<Grid.ColumnDefinitions>
@@ -102,8 +102,13 @@
 								</a:Data.Prop>
 							</TextBox>
 							<TextBlock TextWrapping="Wrap" Grid.Row="1"  Text="归口单位：" Margin="5,4,0,4" Height="25" FontSize="13.333" HorizontalAlignment="Right" />
-							<ComboBox x:Name="ComboBox_gui"  DisplayMemberPath="name" SelectedValuePath="name" ItemsSource="{m:Exp Str=guikoulist}" SelectedValue="{m:Bind Path=f_guikouunit}" Grid.Column="1" Margin="0,1,0,4" Grid.Row="1" Height="25" IsEnabled="true" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  FontSize="13.333">
-									<a:Data.Prop>
+							<ComboBox x:Name="ComboBox_gui"   SelectedValuePath="name" ItemsSource="{m:Exp Str=guikoulist}" SelectedValue="{m:Bind Path=f_guikouunit}" Grid.Column="1" Margin="0,1,0,4" Grid.Row="1" Height="25" IsEnabled="true" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  FontSize="13.333">
+								 <ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding name}" Height="20"></TextBlock>
+									</DataTemplate>
+								</ComboBox.ItemTemplate>	
+								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_guikouunit"  Operator="f_guikouunit like 'this%'"/>          
 								</a:Data.Prop>
 							</ComboBox>
@@ -204,6 +209,7 @@
 									 <a:Data.Prop>
 									     <o:PropertySetter PropertyName="f_guikouunit" NotNull="True" ></o:PropertySetter>
 								    </a:Data.Prop> 
+									
 								</ComboBox>
 								<TextBlock Text="网格编码：" Margin="0,3,0,2" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="5" Height="25" FontSize="13.333" />
 								<ComboBox x:Name="ComboBox_grid"  DisplayMemberPath="name" SelectedValuePath="name" ItemsSource="{m:Exp Str=gridlist}" SelectedValue="{m:Bind Path=f_gridcode}" Margin="0" Grid.Row="5" Height="25" IsEnabled="true" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  FontSize="13.333" Grid.Column="1">

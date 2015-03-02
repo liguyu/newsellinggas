@@ -176,7 +176,7 @@
                         <TextBlock TextWrapping="Wrap" Text="用户地址：" Margin="0,4" HorizontalAlignment="Right" />
                         <TextBox TextWrapping="Wrap" Grid.Column="1" Text="{m:Bind Path=f_address}" Width="Auto" Margin="0" Height="25" >
                             <a:Data.Prop>
-                                <o:PropertySetter PropertyName="f_address"  Operator="f_address = 'this'"/>
+                                <o:PropertySetter PropertyName="f_address"  Operator="f_address like 'this%'"/>
                             </a:Data.Prop>
                         </TextBox>
 
@@ -203,7 +203,7 @@
                         <TextBlock TextWrapping="Wrap" Text="小区名称：" Grid.Row="3" Margin="0,4" HorizontalAlignment="Right" />
                         <TextBox TextWrapping="Wrap" Text="{m:Bind Path=f_districtname}" Grid.Column="1" Grid.Row="3" Width="Auto" Margin="0" Height="25" >
                             <a:Data.Prop>
-                                <o:PropertySetter PropertyName="f_districtname"  Operator="f_districtname = 'this'"/>
+                                <o:PropertySetter PropertyName="f_districtname"  Operator="f_districtname like 'this%'"/>
                             </a:Data.Prop>
                         </TextBox>
 
@@ -309,32 +309,6 @@
                                         <TextBlock Text="用气性质：" Margin="0" Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
                                         <TextBlock Text="气价类型：" Grid.Column="2" Margin="0" Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
                                         <TextBlock Text="气　　价：" Grid.Column="4" Margin="0" Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                        <!--TextBox Text="{m:Bind Path=f_username}" Grid.Column="3" Margin="0" Grid.Row="3" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch"  Width="Auto" >
-											<a:Data.Prop>
-												<o:PropertySetter PropertyName="f_username"  NotNull="True"/>
-											</a:Data.Prop>
-									
-										</TextBox-->
-                                        <!--sdk:AutoCompleteBox x:Name="selectproject" 
-   									Text="{m:Bind Path=f_address}"
-									ItemsSource="{m:Exp Str=usernamelist}" ValueMemberPath="f_address" FilterMode="Contains" Margin="0,0,0,3" Grid.RowSpan="1" Grid.Row="5" HorizontalAlignment="Stretch" Width="Auto" Grid.Column="3" Grid.ColumnSpan="3" Height="25" VerticalAlignment="Bottom">
-									<sdk:AutoCompleteBox.ItemTemplate>
-									<DataTemplate>
-									
-										<Grid Width="200">
-             							 <Grid.ColumnDefinitions>
-                 							<ColumnDefinition Width="50" />
-                						    <ColumnDefinition Width="100" />
-											<ColumnDefinition Width="50" />
-             							 </Grid.ColumnDefinitions>
-             							 <TextBlock  HorizontalAlignment="Left"  Foreground="Gray"  Text="{Binding f_username}"  Grid.Column="0"  />
-             							 <TextBlock  HorizontalAlignment="Left"  Foreground="Gray"  Text="{Binding f_address}"  Grid.Column="1"  />
-										 <TextBlock  HorizontalAlignment="Left"  Foreground="Gray"  Text="{Binding f_apartment}"  Grid.Column="2"  />
-         								 </Grid>
-
-									</DataTemplate>
-									</sdk:AutoCompleteBox.ItemTemplate>
-									</sdk:AutoCompleteBox-->
                                         <TextBox Text="{m:Bind Path=f_districtname}" LostFocus="{m:Exp Str=userfiles.Load()}" Grid.Column="3" Margin="0" Grid.Row="1"  Grid.ColumnSpan="3"  TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" >
                                             <a:Data.Prop>
                                                 <o:PropertySetter PropertyName="f_districtname" Value="{m:Exp Str=userfiles.SelectedItem.f_districtname}"  />
@@ -345,9 +319,7 @@
                                             <a:Data.Prop>
                                                 <o:PropertySetter PropertyName="f_username"  Value="{m:Exp Str=userfilego.f_username\=>Completed}"  />
                                             </a:Data.Prop>
-                                            <!-- Value="{m:Exp Str=$\{userfilego.f_districtname\}\{userfilego.f_address\}$}"/-->
                                         </TextBox>
-
                                         <ComboBox x:Name="CoboxPinp_Copy3" ItemsSource="{m:Exp Str=zhengjianlist}" DisplayMemberPath="name" SelectedValuePath="name" SelectedValue="{m:Bind Path=f_credentials}" Grid.Column="3" Margin="0" Grid.Row="2" Height="25" IsEnabled="true" FontSize="13.333">
                                             <a:Data.Prop>
                                                 <o:PropertySetter PropertyName="f_credentials"/>
@@ -358,13 +330,11 @@
                                                 <o:PropertySetter PropertyName="f_apartment" Value="{m:Exp Str=userfilego.f_apartment\=>Completed}"  NotNull="True"/>
                                             </a:Data.Prop>
                                         </TextBox>
-
                                         <TextBox Text="{m:Bind Path=f_idnumber}"  Grid.Column="5" Margin="0" Grid.Row="2" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" Grid.ColumnSpan="1" IsReadOnly="False" HorizontalAlignment="Stretch" Width="Auto" >
                                             <a:Data.Prop>
                                                 <o:PropertySetter PropertyName="f_idnumber"  Value="{m:Exp Str=userfilego.f_idnumber\=>Completed}"/>
                                             </a:Data.Prop>
                                         </TextBox>
-
                                         <TextBox Text="{m:Bind Path=f_phone}"  Grid.Column="5" Margin="0" Grid.Row="3" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" IsReadOnly="False" Grid.ColumnSpan="1" >
                                             <a:Data.Prop>
                                                 <o:PropertySetter PropertyName="f_phone" Value="{m:Exp Str=userfilego.f_phone}"/>
@@ -583,7 +553,10 @@
                                             </a:Data.Prop>
                                         </TextBox>
                                         <!--是否发折-->
-                                        <TextBox Text="{m:Bind Path=f_whethergivepassbook}"  Grid.Column="0" Margin="49,4,1,1" Grid.Row="6" TextWrapping="Wrap" IsReadOnly="True"  Height="25" HorizontalAlignment="Stretch" Width="Auto"  >
+                                        <TextBox Text="{m:Bind Path=f_whethergivepassbook}"  Grid.Column="0" Margin="0,4,0,1" Grid.Row="6" TextWrapping="Wrap" IsReadOnly="True"  Height="25" HorizontalAlignment="Right" Width="1" RenderTransformOrigin="0.5,0.5"  >
+                                        	<TextBox.RenderTransform>
+                                        		<CompositeTransform ScaleX="-1"/>
+                                        	</TextBox.RenderTransform>
                                             <a:Data.Prop>
                                                 <o:PropertySetter PropertyName="f_whethergivepassbook" Default="未发"  />
                                             </a:Data.Prop>
@@ -827,11 +800,6 @@
 													Default="民用"/>
                                             </a:Data.Prop>
                                         </TextBox>
-                                        <ComboBox x:Name="CoboxPin_Copy" ItemsSource="{m:Exp Str=statelistnull}" DisplayMemberPath="name" SelectedValuePath="name" SelectedValue="{m:Bind Path=f_userstate}" Grid.Column="5" Margin="0,1,0,4" Grid.Row="6" Height="25">
-                                            <a:Data.Prop>
-                                                <o:PropertySetter PropertyName="f_userstate"  Value="{m:Exp Str=userfilego.f_userstate\=&gt;Completed}" Default="正常" NotNull="True"/>
-                                            </a:Data.Prop>
-                                        </ComboBox>
                                         <TextBlock Text="楼 栋 号：" Margin="0,3,-1,2" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="4" Height="25"/>
                                         <TextBox Text="{m:Bind Path=f_cusDom}"  Grid.Column="1" Margin="1,3,3,2" Grid.Row="4" TextWrapping="Wrap" IsReadOnly="False" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" >
                                             <a:Data.Prop>
@@ -843,6 +811,11 @@
                                             <a:Data.Prop>
                                                 <o:PropertySetter PropertyName="f_cusDy" Value="{m:Exp Str=userfilego.f_cusDy\=&gt;Completed}"  NotNull="True"/>
                                             </a:Data.Prop>
+                                        </TextBox>
+                                        <TextBox Text="{m:Bind Path=f_userstate}" Grid.Column="5" Margin="0,3,0,2" Grid.Row="6" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"  Grid.ColumnSpan="1"  >
+                                        	<a:Data.Prop>
+                                        		<o:PropertySetter PropertyName="f_userstate" Default="正常"/>
+                                        	</a:Data.Prop>
                                         </TextBox>
                                         <!--a:Data.Prop>
 											<o:PropertySetter PropertyName="f_payment" NotNull="True" />          

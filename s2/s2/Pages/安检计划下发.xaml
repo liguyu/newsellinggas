@@ -59,8 +59,13 @@
                 <b:BatchInfo Source="{m:Exp Str=DeleteCheckPlan}" MethodName="InvokeToJson"/>
             </b:BatchExcuteAction>
 
+            <b:HQLAction Name="UpdateUserFile" Type="sql"
+			HQL="{m:Exp Str=$update t_userfiles set  f_toBeInspected\=\'\{ybuserfile.DataContext.f_issued\}\' where f_userid in (select f_userid from T_IC_SAFECHECK_PAPER where CHECKPLANID \= \'\{ybuserfile.DataContext.id\}\')}"
+		    />
+
             <b:BatchExcuteAction Name="SaveAction" WebClientInfo="{StaticResource dbclient}">
                 <b:BatchInfo Source="{m:Exp Str=ybuserfile.DataContext}" MethodName="SaveToJson"/>
+                <b:BatchInfo Source="{m:Exp Str=UpdateUserFile}" MethodName="InvokeToJson"/>
             </b:BatchExcuteAction>
 
         </m:ResourceLoad>
@@ -126,7 +131,7 @@
 								Operator=" substring(f_date,1,10) ^= substring('this',1,10)"/>
                                 </a:Data.Prop>
                             </sdk:DatePicker>
-                            <Button Content="查询" x:Name="searchbutton" Grid.Row="1" Grid.Column="4" Click="{m:Exp Str=userfilesearch.DataContext.Search()}" Margin="8,0,0,2" HorizontalAlignment="Left" Width="70"  FontSize="13.333" d:LayoutOverrides="Height"  Style="{StaticResource 查询btn}"/>
+                            <Button Content="查询" x:Name="searchbutton" Grid.Row="1" Grid.Column="4" Click="{m:Exp Str=userfilesearch.DataContext.Search()}" Margin="8,0,0,2" HorizontalAlignment="Left" Width="70"  FontSize="13.333" d:LayoutOverrides="Height" />
                         </Grid>
                     </toolkit:DockPanel>
                     <sdk:DataGrid x:Name="userfiles" Margin="0,0,0,0"  FontSize="13.333"
@@ -135,9 +140,11 @@
                         <sdk:DataGrid.Columns>
                             <sdk:DataGridTextColumn d:IsLocked="True" Header="序  号" Binding="{Binding Index}"/>
                             <sdk:DataGridTextColumn Header="计划名称" Binding="{Binding f_name}"/>
-
                             <sdk:DataGridTextColumn Header="是否下发" Binding="{Binding f_issued}"/>
-                            <sdk:DataGridTextColumn Header="时    间" Binding="{Binding f_date}"/>
+                            <sdk:DataGridTextColumn Header="开始时间" Binding="{Binding f_date}"/>
+                            <sdk:DataGridTextColumn Header="结束时间" Binding="{Binding f_enddate}"/>
+                            <sdk:DataGridTextColumn Header="计划类型" Binding="{Binding f_usertype}"/>
+                            <sdk:DataGridTextColumn Header="安 检 员" Binding="{Binding f_checkman}"/>
                         </sdk:DataGrid.Columns>
                     </sdk:DataGrid>
                     <!--提交按钮-->
@@ -170,9 +177,9 @@
                                 <o:PropertySetter PropertyName="f_name" NotNull="True"/>
                             </a:Data.Prop>
                         </TextBox>
-                        <Button x:Name="save" Content="保存" Grid.Row="2" Grid.Column="2" FontSize="14" IsEnabled="{m:Exp Str=!ybuserfile.DataContext.HasErrors}" VerticalAlignment="Bottom"  Style="{StaticResource 保存btn}"
+                        <Button x:Name="save" Content="保存" Grid.Row="2" Grid.Column="2" FontSize="14" IsEnabled="{m:Exp Str=!ybuserfile.DataContext.HasErrors}" VerticalAlignment="Bottom"  
 							Click="{m:Exp Str=SaveAction.Invoke()}" Width="70" HorizontalAlignment="center" Height="25" Margin="50,0,0,0" />
-                        <Button Content="删除" x:Name="delete"  Grid.Row="2"  IsEnabled="{m:Exp Str=userfiles.SelectedItem!\=null}" VerticalAlignment="Top" Click="{m:Exp Str=deletettip.Show()}" Grid.Column="2" Width="70" HorizontalAlignment="right" Margin="0,5,20,0"  Height="25" Style="{StaticResource 删除btn}"/>
+                        <Button Content="删除" x:Name="delete"  Grid.Row="2"  IsEnabled="{m:Exp Str=userfiles.SelectedItem!\=null}" VerticalAlignment="Top" Click="{m:Exp Str=deletettip.Show()}" Grid.Column="2" Width="70" HorizontalAlignment="right" Margin="0,5,20,0"  Height="25" />
 
                         <!--<TextBlock Text="日期：" Grid.Row="1" Margin="0,1,-0.25,4" TextWrapping="Wrap" TextAlignment="Right" Height="25" FontSize="13.333" d:LayoutOverrides="HorizontalMargin"/>
 						<TextBox Text="{m:Bind Path=f_date}" IsReadOnly="False" Grid.Row="1" Grid.Column="1" Margin="1,1,0,4"   TextWrapping="Wrap"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="25" FontSize="13.333" Grid.ColumnSpan="3" >
@@ -195,6 +202,7 @@
 						AutoGenerateColumns="False" Width="Auto" Background="{x:Null}" IsReadOnly="True" >
                             <sdk:DataGrid.Columns>
                                 <sdk:DataGridTextColumn d:IsLocked="True" Header="序  号" Binding="{Binding Index}"/>
+                                <sdk:DataGridTextColumn Header="用户编号" Binding="{Binding f_userid}"/>
                                 <sdk:DataGridTextColumn Header="街    道" Binding="{Binding ROAD}"/>
                                 <sdk:DataGridTextColumn Header="小区名称" Binding="{Binding UNIT_NAME}"/>
                                 <sdk:DataGridTextColumn Header="楼    号" Binding="{Binding CUS_DOM}"/>

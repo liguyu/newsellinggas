@@ -366,13 +366,16 @@ public class IndoorInspectService {
 	private boolean CAInsertNewRow(JSONObject row) throws JSONException {
 			String uuid = row.getString("ID");
 			String condition = row.getString("CONDITION");
-			String road = null;
-			String unitName = null;
-			String cusDom = null;
-			String cusDy = null;
-			String cusFloor = null;
-			String cusRoom = null;
-			String checkPlanID = null;
+			String userid = row.getString("f_userid");
+			String road = row.getString("ROAD");
+			String unitName = row.getString("UNIT_NAME");
+			String cusDom = row.getString("CUS_DOM");
+			String cusDy = row.getString("CUS_DY");
+			String cusFloor = row.getString("CUS_FLOOR");
+			String cusRoom = row.getString("CUS_ROOM");
+			String checkPlanID = row.getString("CHECKPLAN_ID");
+			String checkDate = row.getString("ARRIVAL_TIME");
+			
 			int conditionFlag = 0;
 			if(condition.equals("'正常'"))
 			{
@@ -401,34 +404,6 @@ public class IndoorInspectService {
 			while(itr.hasNext())
 			{
 				String key = itr.next();
-				if(key.equals("ROAD"))
-				{
-					road = row.getString(key);
-				}
-				if(key.equals("UNIT_NAME"))
-				{
-					unitName = row.getString(key);
-				}
-				if(key.equals("CUS_DOM"))
-				{
-					cusDom = row.getString(key);
-				}
-				if(key.equals("CUS_DY"))
-				{
-					cusDy = row.getString(key);
-				}
-				if(key.equals("CUS_FLOOR"))
-				{
-					cusFloor = row.getString(key);
-				}
-				if(key.equals("CUS_ROOM"))
-				{
-					cusRoom = row.getString(key);
-				}
-				if(key.equals("CHECKPLAN_ID"))
-				{
-					checkPlanID = row.getString(key);
-				}
 				if(key.equals("suggestions"))
 				{
 					suggestions = row.getString(key);
@@ -442,20 +417,20 @@ public class IndoorInspectService {
 			//添加子记录
 			sql1 += sql2 +")";
 			execSQL(sql1);
+			//更新T_IC_SAFECHECK_PAPER中安检过的用户的安检状态
 			if(road != null && unitName != null && cusDom != null && cusDy != null && cusFloor != null && cusRoom != null && checkPlanID != null)
 			{
-				String updateSql = "update T_IC_SAFECHECK_PAPER set CONDITION = '" + conditionFlag + "' where ROAD = " 
-					+ road + " and UNIT_NAME = "
-					+ unitName + " and CUS_DOM = "
-					+ cusDom + " and CUS_DY = "
-					+ cusDy + " and CUS_FLOOR = "
-					+ cusFloor + " and CUS_ROOM = "
-					+ cusRoom + " and CHECKPLANID = "
-					+ checkPlanID;
+				String updateSql = "update T_IC_SAFECHECK_PAPER set CONDITION = '" + conditionFlag + "' where f_userid = " + userid;
 				execSQL(updateSql);
 			}
 			sql1 = "update t_inspection set f_anjianriqi= substring(arrival_time,1,10) where id=" + uuid;
 			execSQL(sql1);
+			//更新用户档案待检标记及下次安检日期
+			String updateSQL = "update t_userfiles set f_toBeInspected = '否', " +
+							"f_nextCheckDate = DATEADD(YEAR, 1, SUBSTRING(" + checkDate + ", 1, 10)) " +
+							"where f_userid = " + userid;
+			execSQL(updateSQL);
+			
 			if(suggestions != null)
 			{
 				JSONArray lines = new JSONArray(suggestions);
@@ -474,105 +449,5 @@ public class IndoorInspectService {
 			}
 			DeletePics(uuid.replace("'", ""));
 			return true;
-	}
-	
-	/**
-	 * 
-	 * @param road
-	 * @param unit
-	 * @param building
-	 * @param dy
-	 * @param floor
-	 * @param room
-	 * @param uuid
-	 * @param dt
-	 * @param reading
-	 * @return
-	 */
-	@GET
-	@Path("tqnoValidate")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String CAValidate() {
-		log.debug("传入的参数：" + "'" );
-		// 在安检记录中查找上一次安检日期和读数，如果读数小于上次，判断期间是否换表
-		// 安检日期必须大于上次
-		
-			return "{\"ok\":\"ok\"}";
-	}
-	
-	@Path("tqCAupdate")
-	@POST
-	@Produces("application/json")
-	public String tqCAUpdateOrSave(String stringifiedObj) {
-		log.debug("传入的安检记录：" + stringifiedObj);
-		try {
-			JSONObject row = new JSONObject(stringifiedObj);
-			//uuid规则：登陆用户id_安检计划单ID
-			//String uuid = row.getString("ID");
-			//String planId = row.getString("CHECKPLAN_ID");
-			//String state = row.getString("CONDITION");
-			//CADeletePossiblePriorRow(uuid, state);
-			if(tqCAInsertNewRow(row))
-				return "{\"ok\":\"ok\"}";
-			else
-				return "{\"ok\":\"nok\"}";				
-		} catch (JSONException e) {
-			return "{\"ok\":\"nok\"}";
-		}
-	}
-	
-	/**
-	 * 插入通气结果
-	 * @param row
-	 * @throws JSONException 
-	 */
-	private boolean tqCAInsertNewRow(JSONObject row) throws JSONException {
-			String uuid = row.getString("ID");
-			String planId = row.getString("CHECKPLAN_ID");
-			boolean isEntryInspection = row.getString("CONDITION").equals("'正常'");
-			String F_USERTYPE = row.getString("F_USERTYPE");
-			String sql1 = "";
-			if(isEntryInspection){
-				if(null != F_USERTYPE && "'民用'".equals(F_USERTYPE)){
-					sql1 = "update t_applycustomer set ";
-				}else if(null != F_USERTYPE && "'非民用'".equals(F_USERTYPE)){
-					sql1 = "update t_device set ";
-				}
-				String sql3 = "update t_userfiles set ";
-				String sql2 = " where ID='"+uuid.substring(uuid.indexOf("_")+1)+" and applyid="+planId+"";
-				String sql4 = " where cbid='"+uuid.substring(uuid.indexOf("_")+1)+" and applyid="+planId+"";
-				//添加主记录
-				Iterator<String> itr = row.keys();
-				String rowstr="";
-				//String rowstr ="DEPARTURE_TIME,ARRIVAL_TIME,f_anjianriqi,F_ANJIANRIQI,USER_SIGN,f_kehupingjia,F_KEHUPINGJIA,PHOTO_FIRST,PHOTO_SECOND,PHOTO_THIRD,PHOTO_FOUTH,PHOTO_FIFTH,F_METERDUSHU,F_TQQK,F_TQSTATUS,F_TQY,F_YSSTATUS,F_YSQK,F_YSY";
-				if(null != row.getString("F_STATETQ") && "'通气拍照'".equals(row.getString("F_STATETQ"))){
-					rowstr ="DEPARTURE_TIME,ARRIVAL_TIME,f_anjianriqi,F_ANJIANRIQI,USER_SIGN,f_kehupingjia,F_KEHUPINGJIA,PHOTO_THIRD,PHOTO_FOUTH,PHOTO_FIFTH,F_METERDUSHU,F_TQQK,F_TQSTATUS,F_TQY,F_YSSTATUS,F_YSQK,F_YSY";	
-				}else{
-					rowstr ="DEPARTURE_TIME,ARRIVAL_TIME,f_anjianriqi,F_ANJIANRIQI,USER_SIGN,f_kehupingjia,F_KEHUPINGJIA,PHOTO_FIRST,PHOTO_SECOND,F_METERDUSHU,F_TQQK,F_TQSTATUS,F_TQY,F_YSSTATUS,F_YSQK,F_YSY";
-				}
-				
-				while(itr.hasNext())
-				{
-					String key = itr.next();
-					if(key.equals("ID"))
-						continue;
-					if(rowstr.contains(key)){
-						sql1 += key + "=" + row.getString(key) + ",";
-						sql3 += key + "=" + row.getString(key) + ",";
-					}
-				}
-				sql1=sql1.substring(0, sql1.length()-1)+sql2;
-				sql3=sql3.substring(0, sql3.length()-1)+sql4;
-				try {
-					//添加子记录  	sql1 += sql2;
-					execSQL(sql1);	
-				} catch (Exception e) {}
-				try {
-					//更新收费用户档案
-					execSQL(sql3);
-				} catch (Exception e) {}
-			}
-			return true;
-	}
-	
+	}	
 }
