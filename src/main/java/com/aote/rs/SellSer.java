@@ -98,6 +98,7 @@ public class SellSer {
 				} else {
 				}
 				BigDecimal oughtfee = new BigDecimal(h);
+				oughtfee = oughtfee.setScale(2,BigDecimal.ROUND_HALF_UP);
 				// 当前用户实际缴费够交，则扣除，交费记录变为已交
 				int equals = total.compareTo(oughtfee);// 判断total和oughtfee的大小
 				if (equals >= 0) {
