@@ -165,12 +165,24 @@ namespace Card
             byte[] bsxbj = new byte[10];
             Int32 boldprice = 0;
             Int32 bnewprice = 0;
+            short Buytimes;
             Log.Debug("start write new card");
             //发卡前先格式化卡
             int ret = StaticFormatGasCard(com, baud, mm, 1, cardNO, bdqdm);
             Log.Debug("format card end ret=" + ret);
+            //发卡购气
+            if (0 == kzt)
+            {
+                //次数一定是1
+                Buytimes = 1;
+            }
+            //换表补气
+            else
+            {
+                Buytimes = cs;
+            }
             ret = StaticWriteNewCard(com, baud, mm, 1, kzt, cardNO, bdqdm, byhh, btm,
-                ql, cs, ljgql, bkcs, ljyql, bjql, czsx, tzed, bsqrq, ref boldprice, ref bnewprice, bsxrq, bsxbj);
+                ql, Buytimes, ljgql, bkcs, ljyql, bjql, czsx, tzed, bsqrq, ref boldprice, ref bnewprice, bsxrq, bsxbj);
             Log.Debug("write card end ret=" + ret);
             return ret;
         }
