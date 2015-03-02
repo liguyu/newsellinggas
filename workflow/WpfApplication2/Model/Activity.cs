@@ -42,7 +42,7 @@ namespace Workflow
             }
         }
         
-        //页面上该活动位置
+        //活动的x坐标
         private double pos;
         public double Pos
         {
@@ -53,6 +53,7 @@ namespace Workflow
             }
         }
 
+        //获得活动具体位置
         public Point GetPos()
         {
             Point p = new Point();

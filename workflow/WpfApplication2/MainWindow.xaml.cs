@@ -31,6 +31,7 @@ namespace Workflow
             //ui_line.Start = new Point(0, 0);
             //ui_line.End = new Point(50, 50);
 
+            //测试数据
             actor = new Actor(diagram) { acName = "abc" };
             Activity activity = new Activity(actor) { ActivityName = "ddd", Pos = 100  };
             actor.AddAactivity(activity);
@@ -43,14 +44,18 @@ namespace Workflow
 
             Transfer transtar = new Transfer(activity,activity1);
             diagram.AddTransfer(transtar);
-            ui_ActorListBox.ItemsSource = diagram.Actors;
-            ui_Transfer.ItemsSource = diagram.Transfer;
+
+            ui_Diagram.DataContext = diagram;
+            //ui_ActorListBox.ItemsSource = diagram.Actors;
+            //ui_Transfer.ItemsSource = diagram.Transfer;
         }
+
         private void ui_NewServer_Click(object sender, RoutedEventArgs e)
         {
             tool = "添加活动";
         }
 
+        //执行者活动区域鼠标点击事件
         private void Grid_MouseDown(object sender, MouseEventArgs e)
         {
             Grid grid = sender as Grid;
@@ -69,10 +74,34 @@ namespace Workflow
                     MessageBox.Show("请点击相应的执行者！");
                 }
             }
-            
-            
         }
 
+        //画线时的开始活动
+        private Activity lineStart;
+
+        //活动鼠标点击事件
+        private void Activity_MouseDown(object sender, MouseEventArgs e)
+        {
+            FrameworkElement startElement = sender as FrameworkElement;
+            lineStart = startElement.DataContext as Activity;
+        }
+        
+        //活动鼠标释放事件
+        private void Activity_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (lineStart == null)
+            {
+                return;
+            }
+
+            FrameworkElement startElement = sender as FrameworkElement;
+            Activity lineEnd = startElement.DataContext as Activity;
+
+            Transfer trans = new Transfer(lineStart, lineEnd);
+            diagram.AddTransfer(trans);
+
+            lineStart = null;
+        }
 
         private void ui_NewActor_Click(object sender, RoutedEventArgs e)
         {

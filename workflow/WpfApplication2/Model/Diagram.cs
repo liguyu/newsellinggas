@@ -13,7 +13,7 @@ namespace Workflow
     //整个流程图
     class Diagram
     {
-        //执行者包含的活动
+        //执行者集合
         private ObservableCollection<Actor> actors = new ObservableCollection<Actor>();
         public ObservableCollection<Actor> Actors
         {
@@ -43,15 +43,17 @@ namespace Workflow
                 return transfers;
             }
         }
-        //添加执行者
+        //添加转移线
         public void AddTransfer(Transfer transfer)
         {
             transfers.Add(transfer);
         }
+
+        //获得执行者y坐标
         public double GetY(Actor actor)
         {
             int pos = actors.IndexOf(actor)+1;
-            double y = pos * 30;
+            double y = pos * 50 - 30;
             return y;
         }
     }
