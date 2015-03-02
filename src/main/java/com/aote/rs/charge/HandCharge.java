@@ -123,8 +123,8 @@ public class HandCharge {
 			return recordInput(userid, reading, sgnetwork, sgoperator,
 					lastinputdate, handdate, 0);
 		} catch (Exception e) {
-			log.error(e.getMessage());
-			throw new WebApplicationException(401);
+			log.debug(e.getMessage());
+			return e.getMessage();
 		}
 	}
 	
@@ -500,7 +500,7 @@ public class HandCharge {
 				recordInput(userid, reading, sgnetwork, sgoperator,lastinputdate,handdate, leftgas);
 			}
 		} catch (Exception e) {
-			return "{\"ok\":\"nok\", msg:\"" + e.toString() + "\"}";
+			return e.getMessage();
 		}
 		return "";
 	}

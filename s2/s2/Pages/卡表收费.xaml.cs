@@ -76,6 +76,12 @@ namespace Com.Aote.Pages
             if (e.Error == null)
             {
                 JsonObject items = JsonValue.Parse(e.Result) as JsonObject;
+                //如果有错误信息弹出
+                if(items.Keys.Contains("error"))
+                {
+                    MessageBox.Show(items["error"]);
+                    return;
+                }
                 ui_stair1amont.Text = items["f_stair1amount"].ToString();
                 ui_stair2amont.Text = items["f_stair2amount"].ToString();
                 ui_stair3amont.Text = items["f_stair3amount"].ToString();
@@ -140,6 +146,12 @@ namespace Com.Aote.Pages
             if (e.Error == null)
             {
                 JsonObject items = JsonValue.Parse(e.Result) as JsonObject;
+                //如果有错误信息弹出
+                if (items.Keys.Contains("error"))
+                {
+                    MessageBox.Show(items["error"]);
+                    return;
+                }
                 pregas = Math.Floor(double.Parse(items["chargeamont"].ToString()));
                 WebClientInfo wci = (WebClientInfo)Application.Current.Resources["chargeserver"];
                 string str = wci.BaseAddress + "/num/" + userid + "/" + pregas;

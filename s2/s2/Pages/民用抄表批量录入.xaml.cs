@@ -85,7 +85,14 @@ namespace Com.Aote.Pages
         void client_UploadStringCompleted(object sender, UploadStringCompletedEventArgs e)
         {
             ui_handBusy.IsBusy = false;
-
+            if (e.Error == null)
+            {
+                //弹出错误信息
+                if (e.Result != "")
+                {
+                    MessageBox.Show(e.Result);
+                }
+            }
             //有错误
             if (e.Error != null)
             {
@@ -144,7 +151,6 @@ namespace Com.Aote.Pages
 
                 //把数据转换成JSON
                 JsonArray items = JsonValue.Parse(e.Result) as JsonArray;
-
                 daninfos.ItemsSource = list;
                 if(list.Size!=0)
                 {
