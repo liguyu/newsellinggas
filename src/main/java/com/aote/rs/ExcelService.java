@@ -75,7 +75,7 @@ public class ExcelService {
 			}
 
 			// 处理文件数据
-			int pageSize = 100;
+			int pageSize = 1000;
 			int pageCount = count % pageSize == 0 ? (count / pageSize)
 					: (count / pageSize) + 1;
 			for (int i = 0; i <= pageCount; i++) {
@@ -178,7 +178,7 @@ public class ExcelService {
 			}
 
 			// 处理文件数据
-			int pageSize = 200;
+			int pageSize = 1000;
 			int pageCount = count % pageSize == 0 ? (count / pageSize)
 					: (count / pageSize) + 1;
 			for (int i = 0; i <= pageCount; i++) {
