@@ -250,7 +250,7 @@
                         <c:Excel x:Name="toExcel"
                                  HQL="{m:Exp Str=$\{daninfos.ItemsSource.HQL\}}"
                                  Completed="{m:Exp Str=downLoad.Down()}"
-                                 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_handdate:抄表计划日期|f_zerenbumen:责任部门|f_userid:用户ID|f_username:用户姓名|f_address:用户地址|lastrecord:本次抄表底数|lastinputgasnum:上次抄表底数|oughtamount:应交气量|f_gasprice:气价|oughtfee:应交金额|f_state:抄表单状态|shifoujiaofei:是否缴费|f_network:网点|f_inputtor:抄表员|f_inputdate:录入日期$}"/>
+                                 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_handdate:抄表计划日期|f_zerenbumen:责任部门|f_userid:用户ID||f_meterstate:表状态|f_username:用户姓名|f_address:用户地址|lastrecord:本次抄表底数|lastinputgasnum:上次抄表底数|oughtamount:应交气量|f_gasprice:气价|oughtfee:应交金额|f_state:抄表单状态|shifoujiaofei:是否缴费|f_network:网点|f_inputtor:抄表员|f_inputdate:录入日期$}"/>
                         <c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}" Filter="(*.xls)|*.xls" Margin="0,1,2,2"  Grid.Column="9" Width="60" HorizontalAlignment="Right" />
                         <TextBlock TextWrapping="Wrap" Text="小区名称："  Margin="2,0,-2,3" Height="25" TextAlignment="Right" Grid.Row="2" Grid.Column="2" />
                         <TextBox x:Name="tjwhf_Copy" TextWrapping="Wrap" Grid.Row="2" Grid.Column="3" Text="{m:Bind Path=f_districtname}" Width="150" Margin="0,0,0,0" Height="25" Grid.ColumnSpan="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" >
@@ -359,12 +359,13 @@
                             <sdk:DataGridTextColumn Header="计划年月" Binding="{Binding f_handdate, StringFormat=yyyy-MM}"/>
                             <sdk:DataGridTextColumn Header="责任部门" Binding="{Binding f_zerenbumen}"/>
                             <sdk:DataGridTextColumn Header="用户编号" Binding="{Binding f_userid}"/>
+                            <sdk:DataGridTextColumn Header="表状态" Binding="{Binding f_meterstate}"/>
                             <sdk:DataGridTextColumn Header="旧用户编号" Binding="{Binding f_olduserid}"/>
                             <sdk:DataGridTextColumn Header="用户姓名" Binding="{Binding f_username}"/>
                             <sdk:DataGridTextColumn Header="地址" Binding="{Binding f_address}"/>
                             <sdk:DataGridTextColumn Header="上次抄表底数" Binding="{Binding lastinputgasnum}"/>
                             <sdk:DataGridTextColumn Header="本次抄表底数" Binding="{Binding lastrecord}"/>
-
+                            
                             <sdk:DataGridTextColumn Header="本月用气量" Binding="{Binding oughtamount}"/>
                             <sdk:DataGridTextColumn Header="气价" Binding="{Binding f_gasprice}"/>
                             <sdk:DataGridTextColumn Header="本月用气量金额" Binding="{Binding oughtfee}"/>
