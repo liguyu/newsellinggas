@@ -138,7 +138,7 @@
 			<!--用户列表-->
 			<o:PagedObjectList Name="userfileslist" WebClientInfo="{StaticResource dbclient}"
 		       Path="{m:Exp Str=$from t_userfiles where f_gasmeterstyle\=\'机表\' and  f_userstate\=\'正常\' and  f_userstate !\=\'注销\' and \{search.Condition\}}"
-		       PageIndex="{m:Exp Str=pager.PageIndex}" PageSize="{m:Exp Str=pager.PageSize}" SumNames="id"/>
+		       PageIndex="{m:Exp Str=pager.PageIndex}" PageSize="{m:Exp Str=pager.PageSize}" SumNames=","/>
 		</m:ResourceLoad>
 		<Grid >
 			<Grid.ColumnDefinitions>

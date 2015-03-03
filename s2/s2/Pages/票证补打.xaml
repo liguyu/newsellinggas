@@ -537,7 +537,7 @@
 							<TextBlock Grid.Column="4" Grid.Row="12" TextWrapping="Wrap" Text="发 票 号："  TextAlignment="Right" Height="25" Margin="0"/>
                             <TextBox Text="{m:Bind Path=f_invoicenum}" Grid.Column="5" Margin="0" Grid.Row="12" TextWrapping="Wrap" IsReadOnly="False" VerticalAlignment="Stretch" Height="25" >
                                 <a:Data.Prop>
-                                    <o:PropertySetter PropertyName="f_invoicenum"  Default="{m:Exp Str=LoginUserfapiao.fapiaohao !\=null \:LoginUserfapiao.fapiaohao.ToString()\,$$}" NoDependValue="{m:Exp Str=LoginUserfapiao.fapiaohao !\=null \:LoginUserfapiao.fapiaohao.ToString()\,$$}"/>
+                                    <o:PropertySetter PropertyName="f_invoicenum"  Default="{m:Exp Str=LoginUserfapiao.fapiaohao !\=null \:LoginUserfapiao.fapiaohao.ToString()\,$0$}" NoDependValue="{m:Exp Str=LoginUserfapiao.fapiaohao !\=null \:LoginUserfapiao.fapiaohao.ToString()\,$0$}"/>
                                 </a:Data.Prop>
                             </TextBox>
                             <TextBlock Text="原票号：" Margin="0" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right" Grid.Column="4" Height="25"/>
