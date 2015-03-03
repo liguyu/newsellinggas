@@ -71,7 +71,7 @@ public class CardCharge {
 	// 根据前台录入购气量计算各阶梯气量金额
 	@GET
 	@Path("/num/{userid}/{pregas}")
-	public JSONObject pregas(@PathParam("userid") String userid,
+	public JSONObject txpregas(@PathParam("userid") String userid,
 			@PathParam("pregas") double pregas) {
 		log.debug("计算各阶梯气量金额 开始：userid：" + userid + "|pregas:" + pregas);
 		JSONObject obj = new JSONObject();
@@ -85,7 +85,7 @@ public class CardCharge {
 			double stair2fee = 0;
 			double stair3fee = 0;
 			double stair4fee = 0;
-			SearchStair(userid);
+			txSearchStair(userid);
 			// 针对设置阶梯气价的用户运算
 			if (!stairtype.equals("未设")) {
 				// 累计购气量
@@ -213,7 +213,7 @@ public class CardCharge {
 	// 根据前台录入收款计算购气量
 	@GET
 	@Path("/fee/{userid}/{prefee}")
-	public JSONObject prefee(@PathParam("userid") String userid,
+	public JSONObject txprefee(@PathParam("userid") String userid,
 			@PathParam("prefee") double prefee) {
 		log.debug("查找出入金额 ：用户编号：" + userid + ",收款：" + prefee);
 		JSONObject obj = new JSONObject();
@@ -228,7 +228,7 @@ public class CardCharge {
 			double stair3fee = 0;
 			double stair4fee = 0;
 			// 查询用户阶梯气价信息
-			SearchStair(userid);
+			txSearchStair(userid);
 			prefee += zhye;
 			// 针对设置阶梯气价的用户运算
 			if (!stairtype.equals("未设")) {
@@ -372,7 +372,7 @@ public class CardCharge {
 	}
 
 	// 查询用户阶梯气价信息
-	public void SearchStair(String userid) throws Exception {
+	public void txSearchStair(String userid) throws Exception {
 		log.debug("查找用户阶梯气价信息 开始，用户编号：" + userid);
 		try {
 			final String usersql = "select isnull(f_stairtype,'未设')f_stairtype, isnull(f_gasprice,0)f_gasprice, "
