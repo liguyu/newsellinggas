@@ -2,6 +2,7 @@ package com.aote.rs.charge;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -52,21 +53,21 @@ public class CardCharge {
 	private HibernateTemplate hibernateTemplate;
 
 	private String stairtype;
-	private double gasprice;
-	private double stair1amount;
-	private double stair2amount;
-	private double stair3amount;
-	private double stair1price;
-	private double stair2price;
-	private double stair3price;
-	private double stair4price;
+	private BigDecimal gasprice;
+	private BigDecimal stair1amount;
+	private BigDecimal stair2amount;
+	private BigDecimal stair3amount;
+	private BigDecimal stair1price;
+	private BigDecimal stair2price;
+	private BigDecimal stair3price;
+	private BigDecimal stair4price;
 	private int stairmonths;
-	private double zhye;
+	private BigDecimal zhye;
 
 	private String stardate;
 	private String enddate;
 
-	private double sumamont;
+	private BigDecimal sumamont;
 
 	// 根据前台录入购气量计算各阶梯气量金额
 	@GET
@@ -76,107 +77,126 @@ public class CardCharge {
 		log.debug("计算各阶梯气量金额 开始：userid：" + userid + "|pregas:" + pregas);
 		JSONObject obj = new JSONObject();
 		try {
-			double chargenum = 0;
-			double stair1num = 0;
-			double stair2num = 0;
-			double stair3num = 0;
-			double stair4num = 0;
-			double stair1fee = 0;
-			double stair2fee = 0;
-			double stair3fee = 0;
-			double stair4fee = 0;
+			BigDecimal chargenum = new BigDecimal(0);
+			BigDecimal stair1num = new BigDecimal(0);
+			BigDecimal stair2num = new BigDecimal(0);
+			BigDecimal stair3num = new BigDecimal(0);
+			BigDecimal stair4num = new BigDecimal(0);
+			BigDecimal stair1fee = new BigDecimal(0);
+			BigDecimal stair2fee = new BigDecimal(0);
+			BigDecimal stair3fee = new BigDecimal(0);
+			BigDecimal stair4fee = new BigDecimal(0);
+			BigDecimal pregas_bd = new BigDecimal(pregas);
 			txSearchStair(userid);
 			// 针对设置阶梯气价的用户运算
 			if (!stairtype.equals("未设")) {
 				// 累计购气量
-				double allamont = sumamont + pregas;
+				BigDecimal allamont = sumamont.add(pregas_bd);
 				// 当前购气量在第一阶梯
-				if (sumamont < stair1amount) {
-					if (allamont < stair1amount) {
-						stair1num = pregas;
-						stair1fee = pregas * stair1price;
-						chargenum = pregas * stair1price;
-					} else if (allamont >= stair1amount
-							&& allamont < stair2amount) {
-						stair1num = stair1amount - sumamont;
-						stair1fee = (stair1amount - sumamont) * stair1price;
-						stair2num = allamont - stair1amount;
-						stair2fee = (allamont - stair1amount) * stair2price;
-						chargenum = stair1fee + stair2fee;
-					} else if (allamont >= stair2amount
-							&& allamont < stair3amount) {
-						stair1num = stair1amount - sumamont;
-						stair1fee = (stair1amount - sumamont) * stair1price;
-						stair2num = stair2amount - stair1amount;
-						stair2fee = (stair2amount - stair1amount) * stair2price;
-						stair3num = allamont - stair2amount;
-						stair3fee = (allamont - stair2amount) * stair3price;
-						chargenum = stair1fee + stair2fee + stair3fee;
-					} else if (allamont >= stair3amount) {
-						stair1num = stair1amount - sumamont;
-						stair1fee = (stair1amount - sumamont) * stair1price;
-						stair2num = stair2amount - stair1amount;
-						stair2fee = (stair2amount - stair1amount) * stair2price;
-						stair3num = stair3amount - stair2amount;
-						stair3fee = (stair3amount - stair2amount) * stair3price;
-						stair4num = allamont - stair3amount;
-						stair4fee = (allamont - stair3amount) * stair4price;
-						chargenum = stair1fee + stair2fee + stair3fee
-								+ stair4fee;
+				if (sumamont.compareTo(stair1amount) < 0) {
+					if (allamont.compareTo(stair1amount) < 0) {
+						stair1num = pregas_bd;
+						stair1fee = pregas_bd.multiply(stair1price);
+						chargenum = pregas_bd.multiply(stair1price);
+					} else if (allamont.compareTo(stair1amount) >= 0
+							&& allamont.compareTo(stair2amount) < 0) {
+						stair1num = stair1amount.subtract(sumamont);
+						stair1fee = (stair1amount.subtract(sumamont))
+								.multiply(stair1price);
+						stair2num = allamont.subtract(stair1amount);
+						stair2fee = (allamont.subtract(stair1amount))
+								.multiply(stair2price);
+						chargenum = stair1fee.add(stair2fee);
+					} else if (allamont.compareTo(stair2amount) >= 0
+							&& allamont.compareTo(stair3amount) < 0) {
+						stair1num = stair1amount.subtract(sumamont);
+						stair1fee = (stair1amount.subtract(sumamont))
+								.multiply(stair1price);
+						stair2num = stair2amount.subtract(stair1amount);
+						stair2fee = (stair2amount.subtract(stair1amount))
+								.multiply(stair2price);
+						stair3num = allamont.subtract(stair2amount);
+						stair3fee = (allamont.subtract(stair2amount))
+								.multiply(stair3price);
+						chargenum = stair1fee.add(stair2fee).add(stair3fee);
+					} else if (allamont.compareTo(stair3amount) >= 0) {
+						stair1num = stair1amount.subtract(sumamont);
+						stair1fee = (stair1amount.subtract(sumamont))
+								.multiply(stair1price);
+						stair2num = stair2amount.subtract(stair1amount);
+						stair2fee = (stair2amount.subtract(stair1amount))
+								.multiply(stair2price);
+						stair3num = stair3amount.subtract(stair2amount);
+						stair3fee = (stair3amount.subtract(stair2amount))
+								.multiply(stair3price);
+						stair4num = allamont.subtract(stair3amount);
+						stair4fee = (allamont.subtract(stair3amount))
+								.multiply(stair4price);
+						chargenum = stair1fee.add(stair2fee).add(stair3fee)
+								.add(stair4fee);
 					}
 					// 当前已购气量在阶梯二内
-				} else if (sumamont >= stair1amount && sumamont < stair2amount) {
-					if (allamont < stair2amount) {
-						stair2num = pregas;
-						stair2fee = pregas * stair2price;
+				} else if (sumamont.compareTo(stair1amount) >= 0
+						&& sumamont.compareTo(stair2amount) < 0) {
+					if (allamont.compareTo(stair2amount) < 0) {
+						stair2num = pregas_bd;
+						stair2fee = pregas_bd.multiply(stair2price);
 						chargenum = stair2fee;
-					} else if (allamont >= stair2amount
-							&& allamont < stair3amount) {
-						stair2num = stair2amount - sumamont;
-						stair2fee = (stair2amount - sumamont) * stair2price;
-						stair3num = allamont - stair2amount;
-						stair3fee = (allamont - stair2amount) * stair3price;
-						chargenum = stair2fee + stair3fee;
+					} else if (allamont.compareTo(stair2amount) >= 0
+							&& allamont.compareTo(stair3amount) < 0) {
+						stair2num = stair2amount.subtract(sumamont);
+						stair2fee = (stair2amount.subtract(sumamont))
+								.multiply(stair2price);
+						stair3num = allamont.subtract(stair2amount);
+						stair3fee = (allamont.subtract(stair2amount))
+								.multiply(stair3price);
+						chargenum = stair2fee.add(stair3fee);
 					} else {
-						stair2num = stair2amount - sumamont;
-						stair2fee = (stair2amount - sumamont) * stair2price;
-						stair3num = stair3amount - stair2amount;
-						stair3fee = (stair3amount - stair2amount) * stair3price;
-						stair4num = allamont - stair3amount;
-						stair4fee = (allamont - stair3amount) * stair4price;
-						chargenum = stair2fee + stair3fee + stair4fee;
+						stair2num = stair2amount.subtract(sumamont);
+						stair2fee = (stair2amount.subtract(sumamont))
+								.multiply(stair2price);
+						stair3num = stair3amount.subtract(stair2amount);
+						stair3fee = (stair3amount.subtract(stair2amount))
+								.multiply(stair3price);
+						stair4num = allamont.subtract(stair3amount);
+						stair4fee = (allamont.subtract(stair3amount))
+								.multiply(stair4price);
+						chargenum = stair2fee.add(stair3fee).add(stair4fee);
 					}
 					// 当前已购气量在阶梯三内
-				} else if (sumamont >= stair2amount && sumamont < stair3amount) {
-					if (allamont < stair3amount) {
-						stair3num = pregas;
-						stair3fee = pregas * stair3price;
+				} else if (sumamont.compareTo(stair2amount) >= 0
+						&& sumamont.compareTo(stair3amount) < 0) {
+					if (allamont.compareTo(stair3amount) < 0) {
+						stair3num = pregas_bd;
+						stair3fee = pregas_bd.multiply(stair3price);
 						chargenum = stair3fee;
 					} else {
-						stair3num = stair3amount - sumamont;
-						stair3fee = (stair3amount - sumamont) * stair3price;
-						stair4num = allamont - stair3amount;
-						stair4fee = (allamont - stair3amount) * stair4price;
-						chargenum = stair3fee + stair4fee;
+						stair3num = stair3amount.subtract(sumamont);
+						stair3fee = (stair3amount.subtract(sumamont))
+								.multiply(stair3price);
+						stair4num = allamont.subtract(stair3amount);
+						stair4fee = (allamont.subtract(stair3amount))
+								.multiply(stair4price);
+						chargenum = stair3fee.add(stair4fee);
 					}
 					// 当前已购气量超过阶梯三
-				} else if (sumamont >= stair3amount) {
-					stair4num = pregas;
-					stair4fee = pregas * stair4price;
+				} else if (sumamont.compareTo(stair3amount) >= 0) {
+					stair4num = pregas_bd;
+					stair4fee = pregas_bd.multiply(stair4price);
 					chargenum = stair4fee;
 				}
 
 				// 该用户未设置阶梯气价
 			} else {
-				chargenum = pregas * gasprice;
-				stair1num = 0;
-				stair2num = 0;
-				stair3num = 0;
-				stair4num = 0;
-				stair1fee = 0;
-				stair2fee = 0;
-				stair3fee = 0;
-				stair4fee = 0;
+				chargenum = pregas_bd.multiply(gasprice);
+				stair1num = new BigDecimal(0);
+				stair2num = new BigDecimal(0);
+				stair3num = new BigDecimal(0);
+				stair4num = new BigDecimal(0);
+				stair1fee = new BigDecimal(0);
+				stair2fee = new BigDecimal(0);
+				stair3fee = new BigDecimal(0);
+				stair4fee = new BigDecimal(0);
 			}
 			Map sell = new HashMap();
 			sell.put("f_stair1amount", stair1num);
@@ -195,7 +215,7 @@ public class CardCharge {
 			sell.put("f_chargenum", chargenum);
 			sell.put("f_stardate", stardate);
 			sell.put("f_enddate", enddate);
-			sell.put("f_totalcost", chargenum - zhye);
+			sell.put("f_totalcost", chargenum.subtract(zhye));
 			obj = MapToJson(sell);
 			log.debug("计算各阶梯气量金额 结束:" + sell.toString());
 			// 抓取自定义异常
@@ -218,126 +238,144 @@ public class CardCharge {
 		log.debug("查找出入金额 ：用户编号：" + userid + ",收款：" + prefee);
 		JSONObject obj = new JSONObject();
 		try {
-			double chargeamont = 0;
-			double stair1num = 0;
-			double stair2num = 0;
-			double stair3num = 0;
-			double stair4num = 0;
-			double stair1fee = 0;
-			double stair2fee = 0;
-			double stair3fee = 0;
-			double stair4fee = 0;
+			BigDecimal chargeamont = new BigDecimal(0);
+			BigDecimal stair1num = new BigDecimal(0);
+			BigDecimal stair2num = new BigDecimal(0);
+			BigDecimal stair3num = new BigDecimal(0);
+			BigDecimal stair4num = new BigDecimal(0);
+			BigDecimal stair1fee = new BigDecimal(0);
+			BigDecimal stair2fee = new BigDecimal(0);
+			BigDecimal stair3fee = new BigDecimal(0);
+			BigDecimal stair4fee = new BigDecimal(0);
+			BigDecimal prefee_bd = new BigDecimal(prefee);
 			// 查询用户阶梯气价信息
 			txSearchStair(userid);
-			prefee += zhye;
+			prefee_bd = prefee_bd.add(zhye);
 			// 针对设置阶梯气价的用户运算
 			if (!stairtype.equals("未设")) {
 				// 当前购气量在第一阶梯
-				if (sumamont < stair1amount) {
+				if (sumamont.compareTo(stair1amount) < 0) {
 					// 阶段一剩下气量的金额大于本次购气金额 直接按阶梯一的价格算出气量
-					if ((stair1amount - sumamont) * stair1price > prefee) {
-						stair1num = prefee / stair1price;
-						stair1fee = prefee;
+					if ((stair1amount.subtract(sumamont)).multiply(stair1price)
+							.compareTo(prefee_bd) > 0) {
+						stair1num = prefee_bd.divide(stair1price);
+						stair1fee = prefee_bd;
 						chargeamont = stair1num;
 						// 当前购气金额所对应的气量超过阶梯一
 					} else {
 						// 先计算出阶段一的气量和金额
-						stair1num = stair1amount - sumamont;
-						stair1fee = stair1num * stair1price;
+						stair1num = stair1amount.subtract(sumamont);
+						stair1fee = stair1num.multiply(stair1price);
 						// 当前购气金额对应的气量未超过阶梯二时 算出气量和金额
-						if ((prefee - stair1fee) / stair2price < stair2amount
-								- stair1amount) {
-							stair2num = (prefee - stair1fee) / stair2price;
-							stair2fee = prefee - stair1fee;
-							chargeamont = stair1num + stair2num;
+						if ((prefee_bd.subtract(stair1fee)).divide(stair2price)
+								.compareTo(stair2amount.subtract(stair1amount)) < 0) {
+							stair2num = (prefee_bd.subtract(stair1fee))
+									.divide(stair2price);
+							stair2fee = prefee_bd.subtract(stair1fee);
+							chargeamont = stair1num.add(stair2num);
 							// 当前购气金额对应的气量超出阶梯二
 						} else {
 							// 计算阶梯二的气量和金额
-							if ((prefee - stair2fee) / stair2price < stair3amount
-									- stair2amount) {
-								stair2num = stair2amount - stair1amount;
-								stair2fee = stair2num * stair2price;
-								stair3num = (prefee - stair2fee - stair1fee)
-										/ stair3price;
-								stair3fee = prefee - stair2fee - stair1fee;
-								chargeamont = stair1num + stair2num + stair3num;
+							if ((prefee_bd.subtract(stair2fee)).divide(
+									stair2price).compareTo(
+									stair3amount.subtract(stair2amount)) < 0) {
+								stair2num = stair2amount.subtract(stair1amount);
+								stair2fee = stair2num.multiply(stair2price);
+								stair3num = (prefee_bd.subtract(stair2fee)
+										.subtract(stair1fee))
+										.divide(stair3price);
+								stair3fee = prefee_bd.subtract(stair2fee)
+										.subtract(stair1fee);
+								chargeamont = stair1num.add(stair2num).add(
+										stair3num);
 							} else {
-								stair2num = stair2amount - stair1amount;
-								stair2fee = stair2num * stair2price;
-								stair3num = stair3amount - stair2amount;
-								stair3fee = stair3num * stair3price;
-								stair4num = (prefee - stair3fee - stair2fee - stair1fee)
-										/ stair4price;
-								stair4fee = prefee - stair3fee - stair2fee
-										- stair1fee;
-								chargeamont = stair1num + stair2num + stair3num
-										+ stair4num;
+								stair2num = stair2amount.subtract(stair1amount);
+								stair2fee = stair2num.multiply(stair2price);
+								stair3num = stair3amount.subtract(stair2amount);
+								stair3fee = stair3num.multiply(stair3price);
+								stair4num = (prefee_bd.subtract(stair3fee)
+										.subtract(stair2fee)
+										.subtract(stair1fee))
+										.divide(stair4price);
+								stair4fee = prefee_bd.subtract(stair3fee)
+										.subtract(stair2fee)
+										.subtract(stair1fee);
+								chargeamont = stair1num.add(stair2num)
+										.add(stair3num).add(stair4num);
 							}
 						}
 					}
 					// 当前已购气量在阶梯二内
-				} else if (sumamont >= stair1amount && sumamont < stair2amount) {
+				} else if (sumamont.compareTo(stair1amount) >= 0
+						&& sumamont.compareTo(stair2amount) < 0) {
 					// 阶段二剩下气量的金额大于本次购气金额 直接按阶梯二的价格算出气量
-					if ((stair2amount - sumamont) * stair2price > prefee) {
-						stair2num = prefee / stair2price;
-						stair2fee = prefee;
+					if ((stair2amount.subtract(sumamont)).multiply(stair2price)
+							.compareTo(prefee_bd) > 0) {
+						stair2num = prefee_bd.divide(stair2price);
+						stair2fee = prefee_bd;
 						chargeamont = stair2num;
 						// 当前购气金额所对应的气量超过阶梯二
 					} else {
 						// 先计算出阶段二的气量和金额
-						stair2num = stair2amount - sumamont;
-						stair2fee = stair2num * stair2price;
+						stair2num = stair2amount.subtract(sumamont);
+						stair2fee = stair2num.multiply(stair2price);
 						// 当前购气金额对应的气量未超过阶梯三时 算出气量和金额
-						if ((prefee - stair2fee) / stair3price < stair3amount
-								- stair2amount) {
-							stair3num = (prefee - stair2fee) / stair3price;
-							stair3fee = prefee - stair2fee;
-							chargeamont = stair2num + stair3num;
+						if ((prefee_bd.subtract(stair2fee)).divide(stair3price)
+								.compareTo(stair3amount.subtract(stair2amount)) < 0) {
+							stair3num = (prefee_bd.subtract(stair2fee))
+									.divide(stair3price);
+							stair3fee = prefee_bd.subtract(stair2fee);
+							chargeamont = stair2num.add(stair3num);
 						} else {
-							stair3num = stair3amount - stair2amount;
-							stair3fee = stair3num * stair3price;
-							stair4num = (prefee - stair3fee - stair2fee)
-									/ stair4price;
-							stair4fee = prefee - stair3fee - stair2fee;
-							chargeamont = stair2num + stair3num + stair4num;
+							stair3num = stair3amount.subtract(stair2amount);
+							stair3fee = stair3num.multiply(stair3price);
+							stair4num = (prefee_bd.subtract(stair3fee)
+									.subtract(stair2fee)).divide(stair4price);
+							stair4fee = prefee_bd.subtract(stair3fee).subtract(
+									stair2fee);
+							chargeamont = stair2num.add(stair3num).add(
+									stair4num);
 						}
 					}
 					// 当前已购气量在阶梯三内
-				} else if (sumamont >= stair2amount && sumamont < stair3amount) {
+				} else if (sumamont.compareTo(stair2amount) >= 0
+						&& sumamont.compareTo(stair3amount) < 0) {
 					// 阶段三剩下气量的金额大于本次购气金额 直接按阶段三的价格算出气量
-					if ((stair3amount - sumamont) * stair3price > prefee) {
-						stair3num = prefee / stair3price;
-						stair3fee = prefee;
+					if ((stair3amount.subtract(sumamont)).multiply(stair3price)
+							.compareTo(prefee_bd) > 0) {
+						stair3num = prefee_bd.divide(stair3price);
+						stair3fee = prefee_bd;
 						chargeamont = stair3num;
 						// 当前购气金额所对应的气量超过阶梯三
 					} else {
 						// 先计算出阶段三的气量和金额
-						stair3num = stair3amount - sumamont;
-						stair3fee = stair3num * stair3price;
-						stair4num = (prefee - stair3fee) / stair4price;
-						stair4fee = prefee - stair3fee;
-						chargeamont = stair3num + stair4num;
+						stair3num = stair3amount.subtract(sumamont);
+						stair3fee = stair3num.multiply(stair3price);
+						stair4num = (prefee_bd.subtract(stair3fee))
+								.divide(stair4price);
+						stair4fee = prefee_bd.subtract(stair3fee);
+						chargeamont = stair3num.add(stair4num);
 
 					}
 					// 当前已购气量超过阶梯三
-				} else if (sumamont >= stair3amount) {
-					stair4num = prefee / stair4price;
-					stair4fee = prefee;
+				} else if (sumamont.compareTo(stair3amount) >= 0) {
+					stair4num = prefee_bd.divide(stair4price);
+					stair4fee = prefee_bd;
 					chargeamont = stair4num;
 				}
 				// 该用户未设置阶梯气价
 			} else {
 				log.debug("该用户未设置阶梯气价");
 				;
-				chargeamont = prefee / gasprice;
-				stair1num = 0;
-				stair2num = 0;
-				stair3num = 0;
-				stair4num = 0;
-				stair1fee = 0;
-				stair2fee = 0;
-				stair3fee = 0;
-				stair4fee = 0;
+				chargeamont = prefee_bd.divide(gasprice);
+				stair1num = new BigDecimal(0);
+				stair2num = new BigDecimal(0);
+				stair3num = new BigDecimal(0);
+				stair4num = new BigDecimal(0);
+				stair1fee = new BigDecimal(0);
+				stair2fee = new BigDecimal(0);
+				stair3fee = new BigDecimal(0);
+				stair4fee = new BigDecimal(0);
 			}
 			Map sell = new HashMap();
 			sell.put("f_stair1amount", stair1num);
@@ -398,24 +436,24 @@ public class CardCharge {
 			}
 			Map<String, Object> usermap = (Map<String, Object>) userlist.get(0);
 			stairtype = usermap.get("f_stairtype").toString();
-			gasprice = Double.parseDouble(usermap.get("f_gasprice").toString());
-			stair1amount = Double.parseDouble(usermap.get("f_stair1amount")
+			gasprice = new BigDecimal(usermap.get("f_gasprice").toString());
+			stair1amount = new BigDecimal(usermap.get("f_stair1amount")
 					.toString());
-			stair2amount = Double.parseDouble(usermap.get("f_stair2amount")
+			stair2amount = new BigDecimal(usermap.get("f_stair2amount")
 					.toString());
-			stair3amount = Double.parseDouble(usermap.get("f_stair3amount")
+			stair3amount = new BigDecimal(usermap.get("f_stair3amount")
 					.toString());
-			stair1price = Double.parseDouble(usermap.get("f_stair1price")
+			stair1price = new BigDecimal(usermap.get("f_stair1price")
 					.toString());
-			stair2price = Double.parseDouble(usermap.get("f_stair2price")
+			stair2price = new BigDecimal(usermap.get("f_stair2price")
 					.toString());
-			stair3price = Double.parseDouble(usermap.get("f_stair3price")
+			stair3price = new BigDecimal(usermap.get("f_stair3price")
 					.toString());
-			stair4price = Double.parseDouble(usermap.get("f_stair4price")
+			stair4price = new BigDecimal(usermap.get("f_stair4price")
 					.toString());
 			stairmonths = Integer.parseInt(usermap.get("f_stairmonths")
 					.toString());
-			zhye = Double.parseDouble(usermap.get("f_zhye").toString());
+			zhye = new BigDecimal(usermap.get("f_zhye").toString());
 
 			CountDate();
 			// 查出该用户阶梯气价信息
@@ -441,7 +479,7 @@ public class CardCharge {
 				throw new RSException("查询到多条用户收费信息");
 			}
 			Map<String, Object> sellmap = (Map<String, Object>) selllist.get(0);
-			sumamont = Double.parseDouble(sellmap.get("f_pregas").toString());
+			sumamont = new BigDecimal(sellmap.get("f_pregas").toString());
 			log.debug("查询用户阶梯信息 结束");
 		} catch (Exception e) {
 			log.debug("查询用户阶梯信息  失败" + e.getMessage());
