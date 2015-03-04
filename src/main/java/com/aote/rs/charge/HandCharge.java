@@ -214,6 +214,10 @@ public class HandCharge {
 		String menzhan = "空";
 		// 抄表员
 		String inputtor = map.get("f_inputtor") + "";
+		// 如果抄表员为空则抛出异常，交由上层处理
+		if (inputtor.equals("")) {
+			throw new RSException(map.get("f_userid") + "没有抄表员，不能录入。");
+		}
 		// 最后一次抄表日期
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String dateStr = lastinputdate.substring(0, 10);
@@ -420,11 +424,13 @@ public class HandCharge {
 					// 最后购气量 最后购气日期 最后购气时间
 					+ "f_finallybought= ?, f_finabuygasdate=?, f_finabuygastime=? "
 					+ "where f_userid=?";
-			hibernateTemplate.bulkUpdate(hql,
-					new Object[] { f_zhye.subtract(chargenum).doubleValue(), reading,
-							lastinputDate, f_metergasnums.add(gas).doubleValue(),
-							f_cumulativepurchase.add(gas).doubleValue(), gas.doubleValue(), inputdate,
-							inputdate, userid });
+			hibernateTemplate.bulkUpdate(
+					hql,
+					new Object[] { f_zhye.subtract(chargenum).doubleValue(),
+							reading, lastinputDate,
+							f_metergasnums.add(gas).doubleValue(),
+							f_cumulativepurchase.add(gas).doubleValue(),
+							gas.doubleValue(), inputdate, inputdate, userid });
 			String sellId = sellid + "";
 			// 更新抄表记录
 			hql = "update t_handplan set f_state='已抄表',shifoujiaofei='是',f_handdate=?,f_stairtype='"
@@ -636,6 +642,8 @@ public class HandCharge {
 			@PathParam("handdate") String handdate) {
 		log.debug("批量抄表记录上传 开始");
 		String ret = "";
+		// 错误信息
+		String error = "";
 		try {
 			// 取出所有数据
 			JSONArray rows = new JSONArray(data);
@@ -644,16 +652,23 @@ public class HandCharge {
 				JSONObject row = rows.getJSONObject(i);
 				String userid = row.getString("userid");
 				double reading = row.getDouble("reading");
-
 				// 获取余气量，机表录入，没有余气量，传Double.NaN
 				double leftgas = 0;
 				if (row.has("leftgas")) {
 					leftgas = row.getDouble("leftgas");
 				}
-
-				// BigDecimal readingThis = new BigDecimal(reading + "");
-				afrecordInput(userid, reading, sgnetwork, sgoperator,
-						lastinputdate, handdate, leftgas);
+				try {
+					afrecordInput(userid, reading, sgnetwork, sgoperator,
+							lastinputdate, handdate, leftgas);
+					// 获得自定义异常
+				} catch (RSException e) {
+					// 拼接错误信息
+					error += e.getMessage();
+				}
+			}
+			// 如果有错误信息则抛出异常，返回到前台提示
+			if (!error.equals("")) {
+				throw new RSException(error);
 			}
 			log.debug("批量抄表记录上传 结束");
 		} catch (Exception e) {
