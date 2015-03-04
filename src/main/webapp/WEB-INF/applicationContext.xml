@@ -15,11 +15,11 @@
 		class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-		<property name="url" value="jdbc:sqlserver://192.168.1.202:1433;database=meihekougas;" />
+		<property name="url" value="jdbc:sqlserver://127.0.0.1:1433;database=alashan;" />
 
 		<property name="username" value="sa" />
 
-		<property name="password" value="000000" />
+		<property name="password" value="123" />
 	</bean>
 
 
