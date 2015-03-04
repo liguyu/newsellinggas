@@ -79,7 +79,7 @@ namespace Com.Aote.Pages
             }
             //将产生的json串送后台服务进行处理
             WebClientInfo wci = Application.Current.Resources["server"] as WebClientInfo;
-            string uri = wci.BaseAddress + "/handcharge/record/batch/" + ui_handdate.SelectedDate + "/" + ui_sgnetwork.Text + "/" + ui_sgoperator.Text + "/" + chaobiaoriqi.SelectedDate + meter.SelectedValue.ToString() + "?uuid=" + System.Guid.NewGuid().ToString();
+            string uri = wci.BaseAddress + "/handcharge/record/batch/" + ui_handdate.SelectedDate + "/" + ui_sgnetwork.Text + "/" + ui_sgoperator.Text + "/" + chaobiaoriqi.SelectedDate + "/" + meter.SelectedValue.ToString() + "?uuid=" + System.Guid.NewGuid().ToString();
             WebClient client = new WebClient();
          	client.UploadStringCompleted += client_UploadStringCompleted;
             client.UploadStringAsync(new Uri(uri), json);
