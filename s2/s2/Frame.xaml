@@ -128,7 +128,7 @@
 			<o:ObjectList Name="usertypelist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='用户类型查询用' order by id"/>
 			<o:ObjectList Name="usertypelistnull"  EntityType="paramvalue" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='用户类型查询用' order by id" HasEmptyRow="True"/>
 
-            <!--用户类型查询用-->
+            <!--表状态-->
             <o:ObjectList Name="meterstatelist" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='表状态' order by id"/>
             <o:ObjectList Name="meterstatelistnull"  EntityType="paramvalue" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='表状态' order by id" HasEmptyRow="True"/>
             <!--表安装位置-->
