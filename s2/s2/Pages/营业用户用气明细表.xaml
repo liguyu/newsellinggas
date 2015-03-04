@@ -55,7 +55,7 @@
 			and s.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and s.f_deliverydate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 			group by f_username
 			) d on a.f_username\=d.f_username order by a.f_username desc}"/>
-			<o:PropertySetter PropertyName="JB" Value="{m:Exp Str=$select a.f_username\,a.总户数\,ISNULL(b.抄表户数\,0) 抄表户数\,
+			<o:PropertySetter PropertyName="JB" Value="{m:Exp Str=$select a.f_username\,a.总户数\,ISNULL(b.抄表户数\,0) 抄表户数\,isnull(h.购气户数\,0) 购气户数\,
 			ISNULL(c.应收气量\,0) 应收气量\,ISNULL(c.应收金额\,0) 应收金额\,ISNULL(d.实收气量\,0) 实收气量\,
 			ISNULL(d.实收金额\,0) 实收金额\,ISNULL(e.欠款气量\,0) 欠款气量\,ISNULL(e.欠款金额\,0) 欠款金额\,
 			ISNULL(f.收回陈欠气量\,0) 清欠气量\,ISNULL(f.收回陈欠金额\,0) 清欠金额\,ISNULL(g.累计欠费金额\,0) 累计欠款  from (
@@ -74,8 +74,8 @@
 			left join 
 			(
 			/*本月应收*/
-			select f_username\,isnull(sum(oughtfee)\,2) 应收气量\,
-			round(sum(oughtamount)\,2) 应收金额 from t_handplan
+			select f_username\,round(sum(oughtfee)\,2) 应收金额\,
+			round(sum(oughtamount)\,2) 应收气量 from t_handplan
 			where f_usertype\=\'非民用\' 
 			and lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 			group by f_username
@@ -83,8 +83,8 @@
 			left join
 			(
 			/*本月实收*/
-			select f_username\,sum(oughtfee) 实收气量\,
-			round(sum(oughtamount)\,2) 实收金额 from t_handplan
+			select f_username\,round(sum(oughtfee)\,2) 实收金额\,
+			round(sum(oughtamount)\,2) 实收气量 from t_handplan
 			where f_usertype\=\'非民用\' and shifoujiaofei\=\'是\'
 			and lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 			group by f_username
@@ -92,8 +92,8 @@
 			left join
 			(
 			/*本月欠费*/
-			select f_username\,isnull(sum(oughtfee)\,0) 欠款气量\,
-			isnull(sum(oughtamount)\,0) 欠款金额 from t_handplan
+			select f_username\,round(sum(oughtfee)\,2) 欠款金额\,
+			round(sum(oughtamount)\,2) 欠款气量 from t_handplan
 			where f_usertype\=\'非民用\' and shifoujiaofei\=\'否\'
 			and lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 			group by f_username
@@ -116,7 +116,16 @@
 			select f_username\,SUM(oughtamount) 累计欠费气量\,round(SUM(oughtfee)\,2) 累计欠费金额 from t_handplan 
 			where shifoujiaofei\=\'否\' and f_usertype\=\'非民用\'
 			group by f_username
-			) g on a.f_username\=g.f_username order by a.f_username desc}"/>
+			) g on a.f_username\=g.f_username 
+			left join 
+			(
+			/*购气户数*/
+			select f_username\,COUNT(*) 购气户数 from
+			(select f_username\,f_userid from t_handplan
+			where f_usertype\=\'非民用\' and shifoujiaofei\=\'是\'
+			and lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+			group by f_username\,f_userid)a group by f_username
+			) h on a.f_username\=h.f_username order by a.f_username desc}"/>
 		</o:GeneralObject>
 	         
 	</m:ResourceLoad >	
@@ -212,7 +221,7 @@
 							<sdk:DataGridTextColumn Header="购气户数" Binding="{Binding 购气户数}"/>
                             <sdk:DataGridTextColumn Header="本月应收气量" Binding="{Binding 应收气量}"/>
                             <sdk:DataGridTextColumn Header="本月应收金额" Binding="{Binding 应收金额}"/>
-                            <sdk:DataGridTextColumn Header="本月实收气量" Binding="{Binding 应收气量}"/>
+                            <sdk:DataGridTextColumn Header="本月实收气量" Binding="{Binding 实收气量}"/>
                             <sdk:DataGridTextColumn Header="本月实收金额" Binding="{Binding 实收金额}"/>
                             <sdk:DataGridTextColumn Header="本月欠款气量" Binding="{Binding 欠款气量}"/>
                             <sdk:DataGridTextColumn Header="本月欠款金额" Binding="{Binding 欠款金额}"/>

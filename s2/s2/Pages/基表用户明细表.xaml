@@ -181,7 +181,7 @@
 								and GETDATE()>\= DATEADD(DAY\,30\,h.lastinputdate)) a
 								group by f_districtname\,f_cusDom  
 								) j on a.f_cusDom\=j.f_cusDom and a.f_districtname\=j.f_districtname
-								order by a.f_districtname\,a.f_cusDom}"
+								order by a.f_districtname\,right(\'00\'+a.f_cusDom\,2)}"
 								Path="sql" PageIndex="{m:Exp Str=pager2.PageIndex}" PageSize="{m:Exp Str=pager2.PageSize}" SumNames=","/>
                         </a:Data.Items>
                         <sdk:DataGrid.Columns>
