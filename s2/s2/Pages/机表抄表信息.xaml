@@ -150,7 +150,7 @@
                             </a:Data.Prop>
                         </ComboBox>
                         <Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="4" Grid.Column="6" Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="20,0,0,0" FontSize="14"  />
-                        <Button Content=" 置  空"  Grid.Row="4" Grid.Column="7" Click="{m:Exp Str=daninfosearch.DataContext.f_network\=null;daninfosearch.DataContext.f_operator\=null;daninfosearch.DataContext.f_yytdate11\=null;daninfosearch.DataContext.f_yytdate22\=null;daninfosearch.DataContext.f_olduserid\=null;daninfosearch.DataContext.f_yhxz\=null;daninfosearch.DataContext.f_handdate\=null;daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null;tj5.SelectedValue\=null;tj6.SelectedValue\=null;tj9.SelectedValue\=null;tja.SelectedValue\=null;tjwangdian.SelectedValue\=null;tjczy.SelectedValue\=null;tjc.SelectedValue\=null;tjb.SelectedValue\=null;zerenbumen.SelectedValue\=null;daninfosearch.DataContext.f_address\=null}" FontSize="14" HorizontalAlignment="Left" Width="60"  />
+                        <Button Content=" 置  空"  Grid.Row="4" Grid.Column="7" Click="{m:Exp Str=daninfosearch.DataContext.f_network\=null;daninfosearch.DataContext.f_operator\=null;daninfosearch.DataContext.f_yytdate11\=null;daninfosearch.DataContext.f_yytdate22\=null;daninfosearch.DataContext.f_olduserid\=null;daninfosearch.DataContext.f_yhxz\=null;daninfosearch.DataContext.f_handdate\=null;daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null;tj5.SelectedValue\=null;tj6.SelectedValue\=null;meterstate.SelectedValue\=null;tj9.SelectedValue\=null;tja.SelectedValue\=null;tjwangdian.SelectedValue\=null;tjczy.SelectedValue\=null;tjc.SelectedValue\=null;tjb.SelectedValue\=null;zerenbumen.SelectedValue\=null;daninfosearch.DataContext.f_address\=null}" FontSize="14" HorizontalAlignment="Left" Width="60"  />
                         <TextBlock TextWrapping="Wrap" Visibility="Collapsed" Text="气表品牌：" Grid.Column="2"  Margin="0,2,0,1" Height="25" TextAlignment="Right" />
                         <ComboBox Name="tj5" Visibility="Collapsed" SelectedValue="{m:Bind Path=f_gaswatchbrand}" Grid.Column="3" ItemsSource="{m:Exp Str=qblist}"  Margin="0,2,0,1"  SelectedValuePath="name"  Height="25">
                             <ComboBox.ItemTemplate>
@@ -250,7 +250,7 @@
                         <c:Excel x:Name="toExcel"
                                  HQL="{m:Exp Str=$\{daninfos.ItemsSource.HQL\}}"
                                  Completed="{m:Exp Str=downLoad.Down()}"
-                                 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_handdate:抄表计划日期|f_zerenbumen:责任部门|f_userid:用户ID|f_username:用户姓名|f_address:用户地址|lastrecord:本次抄表底数|lastinputgasnum:上次抄表底数|oughtamount:应交气量|f_gasprice:气价|oughtfee:应交金额|f_state:抄表单状态|shifoujiaofei:是否缴费|f_network:网点|f_inputtor:抄表员|f_inputdate:录入日期$}"/>
+                                 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_handdate:抄表计划日期|f_zerenbumen:责任部门|f_userid:用户ID||f_meterstate:表状态|f_username:用户姓名|f_address:用户地址|lastrecord:本次抄表底数|lastinputgasnum:上次抄表底数|oughtamount:应交气量|f_gasprice:气价|oughtfee:应交金额|f_state:抄表单状态|shifoujiaofei:是否缴费|f_network:网点|f_inputtor:抄表员|f_inputdate:录入日期$}"/>
                         <c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}" Filter="(*.xls)|*.xls" Margin="0,1,2,2"  Grid.Column="9" Width="60" HorizontalAlignment="Right" />
                         <TextBlock TextWrapping="Wrap" Text="小区名称："  Margin="2,0,-2,3" Height="25" TextAlignment="Right" Grid.Row="2" Grid.Column="2" />
                         <TextBox x:Name="tjwhf_Copy" TextWrapping="Wrap" Grid.Row="2" Grid.Column="3" Text="{m:Bind Path=f_districtname}" Width="150" Margin="0,0,0,0" Height="25" Grid.ColumnSpan="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" >
@@ -293,6 +293,17 @@
 								</ComboBox.ItemTemplate>
 							<a:Data.Prop>
                                 <o:PropertySetter PropertyName="f_yhxz"  Operator="f_yhxz = 'this'"/>
+                            </a:Data.Prop>
+                        </ComboBox>
+                        <TextBlock TextWrapping="Wrap" Text="表状态：" Grid.Column="8"  Margin="7,2,0,1" Height="25" TextAlignment="Right" Grid.Row="2" HorizontalAlignment="Left" Width="74" />
+                        <ComboBox x:Name="meterstate"  SelectedValue="{m:Bind Path=f_meterstate}" Grid.Row="2" Grid.Column="8" ItemsSource="{m:Exp Str=meterstatelistnull}"  Margin="81,2,4,1"  SelectedValuePath="name"  Height="25" Grid.ColumnSpan="1">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding name}" Height="20"></TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                            <a:Data.Prop>
+                                <o:PropertySetter PropertyName="f_meterstate"  Operator="f_meterstate = 'this'"/>
                             </a:Data.Prop>
                         </ComboBox>
                         <TextBox x:Name="tjwhf_Copy4" TextWrapping="Wrap" Grid.Row="3" Grid.Column="7" Text="{m:Bind Path=f_olduserid}" Width="150" Margin="0,0,0,0" Height="25" Grid.ColumnSpan="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment" >
@@ -359,12 +370,13 @@
                             <sdk:DataGridTextColumn Header="计划年月" Binding="{Binding f_handdate, StringFormat=yyyy-MM}"/>
                             <sdk:DataGridTextColumn Header="责任部门" Binding="{Binding f_zerenbumen}"/>
                             <sdk:DataGridTextColumn Header="用户编号" Binding="{Binding f_userid}"/>
+                            <sdk:DataGridTextColumn Header="表状态" Binding="{Binding f_meterstate}"/>
                             <sdk:DataGridTextColumn Header="旧用户编号" Binding="{Binding f_olduserid}"/>
                             <sdk:DataGridTextColumn Header="用户姓名" Binding="{Binding f_username}"/>
                             <sdk:DataGridTextColumn Header="地址" Binding="{Binding f_address}"/>
                             <sdk:DataGridTextColumn Header="上次抄表底数" Binding="{Binding lastinputgasnum}"/>
                             <sdk:DataGridTextColumn Header="本次抄表底数" Binding="{Binding lastrecord}"/>
-
+                            
                             <sdk:DataGridTextColumn Header="本月用气量" Binding="{Binding oughtamount}"/>
                             <sdk:DataGridTextColumn Header="气价" Binding="{Binding f_gasprice}"/>
                             <sdk:DataGridTextColumn Header="本月用气量金额" Binding="{Binding oughtfee}"/>

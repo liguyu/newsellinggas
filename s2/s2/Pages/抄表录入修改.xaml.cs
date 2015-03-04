@@ -80,14 +80,14 @@ namespace Com.Aote.Pages
 
             //oughtfee shifoujiaofei f_operator f_inputtor f_zhinajindate
             //拼接更新sql
-
+            
             string sql = "update t_handplan set lastrecord= " + decimal.Parse(ui_lastrecord.Text) +
                 ",oughtfee=" + decimal.Parse(ui_oughtfee.Text) +
                 ",shifoujiaofei='" + ui_shifoujiaofei.Text +
                 "',f_operator='" + ui_operator.Text +
                 "',f_inputtor='" + ui_inputtor.Text +
                 "',f_zhinajindate='" + ui_zhinajindate.SelectedDate.ToString().Substring(0, 10) +
-
+                "',f_meterstate='" + meterstate.SelectedValue.ToString() +
                 "',oughtamount=" + decimal.Parse(ui_oughtamount.Text);
             if (updatehandplan.GetPropertyValue("lastinputgasnum") != null)
             {

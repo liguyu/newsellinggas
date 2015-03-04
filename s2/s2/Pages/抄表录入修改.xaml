@@ -272,6 +272,12 @@
                             <o:PropertySetter PropertyName="oughtamount" />
                         </a:Data.Prop>
                     </TextBox>
+                    <sdk:Label Content="表状态："   Margin="0,4,4,7" Grid.Row="9" HorizontalAlignment="Right" d:LayoutOverrides="Height"/>
+                    <ComboBox x:Name="meterstate" ItemsSource="{m:Exp Str=meterstatelistnull}" DisplayMemberPath="name" SelectedValuePath="name" SelectedValue="{m:Bind Path=f_meterstate}"  Margin="0,3,0,2" Grid.Column="1" Grid.Row="9" Height="25" IsEnabled="true" FontSize="13.333" RenderTransformOrigin="-5.111,4.2">
+                        <a:Data.Prop>
+                            <o:PropertySetter PropertyName="f_meterstate"/>
+                        </a:Data.Prop>
+                    </ComboBox>
                     <sdk:Label Content="气价类型：" Margin="0,0,0,5" Grid.Row="5"  HorizontalAlignment="Right" RenderTransformOrigin="0.477,1.842" VerticalAlignment="Bottom" d:LayoutOverrides="GridBox"/>
                     <TextBox x:Name="ui_f_gaspricetype" Text="{m:Bind Path=f_gaspricetype}"  Margin="0,2,0,0"  AllowDrop="True" Height="26" VerticalAlignment="Top" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Stretch" Width="Auto" IsReadOnly="True" d:LayoutOverrides="HorizontalAlignment">
                         <a:Data.Prop>
