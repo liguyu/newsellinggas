@@ -34,8 +34,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import com.aote.rs.charge.HandCharge.HibernateSQLCall;
+import com.aote.rs.util.RSException;
 
 @Path("handcharge")
 @Component
@@ -46,12 +50,11 @@ public class HandCharge {
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
 
-
 	private int stairmonths;
-	
+
 	private String stardate;
 	private String enddate;
-	
+
 	// 抄表单下载，返回JSON串
 	// operator 抄表员中文名
 	@GET
@@ -70,39 +73,42 @@ public class HandCharge {
 		}
 		return array;
 	}
-	//查询批量抄表单	
-    @POST
+
+	// 查询批量抄表单
+	@POST
 	@Path("download")
 	public String downLoadRecord(String condition) {
-		
-		String sql = "select top 1000 u.f_userid,u.f_username,u.f_address,u.lastinputgasnum " +
-				"from t_handplan h left join t_userfiles u on h.f_userid = u.f_userid where h.shifoujiaofei='否' and u.f_userstate!='注销' and h.f_state='未抄表' and " 
+
+		String sql = "select top 1000 u.f_userid,u.f_username,u.f_address,u.lastinputgasnum "
+				+ "from t_handplan h left join t_userfiles u on h.f_userid = u.f_userid where h.shifoujiaofei='否' and u.f_userstate!='注销' and h.f_state='未抄表' and "
 				+ condition + "	order by u.f_address,u.f_apartment";
-		List<Object> list = this.hibernateTemplate.executeFind(new HibernateSQLCall(sql));
-//		String result="[";
-		boolean check=false;
+		List<Object> list = this.hibernateTemplate
+				.executeFind(new HibernateSQLCall(sql));
+		// String result="[";
+		boolean check = false;
 		JSONArray array = new JSONArray();
 		for (Object obj : list) {
-			JSONObject json = (JSONObject) new JsonTransfer().MapToJson((Map<String, Object>)obj);
-//			Map<String, Object> map = (Map<String, Object>) json;
-//			if(!result.equals("[")){
-//				result+=",";
-//			}
-//			String item="";
-//			//计划月份用户编号用户姓名地址上次底数本次底数用气量
-//			item+="{";
-//			item+="f_userid:'"+map.get("f_userid")+"',";
-//			item+="f_username:'"+map.get("f_username")+"',";
-//			item+="f_address:'"+map.get("f_address")+"',";
-//			item+="lastinputgasnum:"+map.get("lastinputgasnum");
-//			item+="}";
-//			
-//			result += item;
+			JSONObject json = (JSONObject) new JsonTransfer()
+					.MapToJson((Map<String, Object>) obj);
+			// Map<String, Object> map = (Map<String, Object>) json;
+			// if(!result.equals("[")){
+			// result+=",";
+			// }
+			// String item="";
+			// //计划月份用户编号用户姓名地址上次底数本次底数用气量
+			// item+="{";
+			// item+="f_userid:'"+map.get("f_userid")+"',";
+			// item+="f_username:'"+map.get("f_username")+"',";
+			// item+="f_address:'"+map.get("f_address")+"',";
+			// item+="lastinputgasnum:"+map.get("lastinputgasnum");
+			// item+="}";
+			//
+			// result += item;
 			array.put(json);
 		}
-//		result+="]";
-//		System.out.println(result);
-		
+		// result+="]";
+		// System.out.println(result);
+
 		return array.toString();
 	}
 
@@ -110,40 +116,42 @@ public class HandCharge {
 	// 本方法不可重入
 	@SuppressWarnings("unchecked")
 	@GET
-	@Path("record/one/{userid}/{reading}/{sgnetwork}/{sgoperator}/{lastinputdate}/{handdate}")
+	@Path("record/one/{userid}/{reading}/{sgnetwork}/{sgoperator}/{lastinputdate}/{handdate}/{meterstate}")
 	@Produces("application/json")
-	public String RecordInputForOne(
-			@PathParam("userid") String userid,
+	public String RecordInputForOne(@PathParam("userid") String userid,
 			@PathParam("reading") double reading,
 			@PathParam("sgnetwork") String sgnetwork,
 			@PathParam("sgoperator") String sgoperator,
 			@PathParam("lastinputdate") String lastinputdate,
 			@PathParam("handdate") String handdate,
 			@PathParam("meterstate") String meterstate) {
+		String ret = "";
 		try {
-			return recordInput(userid, reading, sgnetwork, sgoperator,
+			return afrecordInput(userid, reading, sgnetwork, sgoperator,
 					lastinputdate, handdate, 0,meterstate);
 		} catch (Exception e) {
-			log.error(e.getMessage());
-			throw new WebApplicationException(401);
+			log.debug(e.getMessage());
+			ret = e.getMessage();
+		} finally {
+			return ret;
 		}
 	}
-	
+
 	// 单桧表抄表录入的内部方法，支持卡表及机表，卡表可录入余气量。
-	private String recordInput(String userid, double reading, String sgnetwork,
-			String sgoperator, String lastinputdate, String handdate, double leftgas, String meterstate)
-			throws ParseException {
-		Map<String,String> singles = getSingles();// 获取所有单值
-		double chargenum = 0;
-		double stair1num = 0;
-		double stair2num = 0;
-		double stair3num = 0;
-		double stair4num = 0;
-		double stair1fee = 0;
-		double stair2fee = 0;
-		double stair3fee = 0;
-		double stair4fee = 0;
-		double sumamont = 0;
+	public String afrecordInput(String userid, double reading,
+			String sgnetwork, String sgoperator, String lastinputdate,
+			String handdate, double leftgas, String meterstate) throws Exception {
+		Map<String, String> singles = getSingles();// 获取所有单值
+		BigDecimal chargenum = new BigDecimal(0);
+		BigDecimal stair1num = new BigDecimal(0);
+		BigDecimal stair2num = new BigDecimal(0);
+		BigDecimal stair3num = new BigDecimal(0);
+		BigDecimal stair4num = new BigDecimal(0);
+		BigDecimal stair1fee = new BigDecimal(0);
+		BigDecimal stair2fee = new BigDecimal(0);
+		BigDecimal stair3fee = new BigDecimal(0);
+		BigDecimal stair4fee = new BigDecimal(0);
+		BigDecimal sumamont = new BigDecimal(0);
 		String hql = "";
 		final String sql = "select isnull(u.f_userid,'') f_userid, isnull(u.f_zhye,'') f_zhye , isnull(u.lastinputgasnum,'') lastinputgasnum, isnull(u.f_gasprice,0) f_gasprice, isnull(u.f_username,'')  f_username,"
 				+ "isnull(u.f_stair1amount,0)f_stair1amount,isnull(u.f_stair2amount,0)f_stair2amount,isnull(u.f_stair3amount,0)f_stair3amount,isnull(u.f_stair1price,0)f_stair1price,isnull(u.f_stair2price,0)f_stair2price,isnull(u.f_stair3price,0)f_stair3price,isnull(u.f_stair4price,0)f_stair4price,isnull(u.f_stairmonths,0)f_stairmonths,isnull(u.f_stairtype,'未设')f_stairtype,"
@@ -156,180 +164,218 @@ public class HandCharge {
 				+ "') h "
 				+ "left join (select f_userid, COUNT(*) c from t_handplan where f_state='已抄表' and shifoujiaofei='否' "
 				+ "group by f_userid) q on h.f_userid=q.f_userid join t_userfiles u on h.f_userid=u.f_userid";
-		List<Map<String, Object>> list =(List<Map<String, Object>>) hibernateTemplate.execute(new HibernateCallback() {
-			public Object doInHibernate(Session session)throws HibernateException {
-				Query q = session.createSQLQuery(sql);
-				q.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-				List result = q.list();
-				return result;
-			}
-		});
+		List<Map<String, Object>> list = (List<Map<String, Object>>) hibernateTemplate
+				.execute(new HibernateCallback() {
+					public Object doInHibernate(Session session)
+							throws HibernateException {
+						Query q = session.createSQLQuery(sql);
+						q.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+						List result = q.list();
+						return result;
+					}
+				});
 		// 取出未抄表记录以及资料
 		Map<String, Object> map = (Map<String, Object>) list.get(0);
-		double gasprice = Double.parseDouble(map.get("f_gasprice").toString());
+		BigDecimal gasprice = new BigDecimal(map.get("f_gasprice").toString());
 		String stairtype = map.get("f_stairtype").toString();
-		double stair1amount = Double.parseDouble(map.get("f_stair1amount").toString());
-		double stair2amount = Double.parseDouble(map.get("f_stair2amount").toString());
-		double  stair3amount = Double.parseDouble(map.get("f_stair3amount").toString());
-		double stair1price = Double.parseDouble(map.get("f_stair1price").toString());
-		double stair2price = Double.parseDouble(map.get("f_stair2price").toString());
-		double stair3price = Double.parseDouble(map.get("f_stair3price").toString());
-		double stair4price = Double.parseDouble(map.get("f_stair4price").toString());
+		BigDecimal stair1amount = new BigDecimal(map.get("f_stair1amount")
+				.toString());
+		BigDecimal stair2amount = new BigDecimal(map.get("f_stair2amount")
+				.toString());
+		BigDecimal stair3amount = new BigDecimal(map.get("f_stair3amount")
+				.toString());
+		BigDecimal stair1price = new BigDecimal(map.get("f_stair1price")
+				.toString());
+		BigDecimal stair2price = new BigDecimal(map.get("f_stair2price")
+				.toString());
+		BigDecimal stair3price = new BigDecimal(map.get("f_stair3price")
+				.toString());
+		BigDecimal stair4price = new BigDecimal(map.get("f_stair4price")
+				.toString());
 		stairmonths = Integer.parseInt(map.get("f_stairmonths").toString());
 		// 上期读数（上期的本次抄表底数）上期底数（）
-		double lastReading = Double.parseDouble(map.get("lastinputgasnum")+ "");
+		BigDecimal lastReading = new BigDecimal(map.get("lastinputgasnum") + "");
 		// 气量
-		double gas = reading-lastReading;
+		BigDecimal gas = new BigDecimal(reading).subtract(lastReading);
 		// 从户里取出余额(上期余额)
-		double f_zhye = Double.parseDouble(map.get("f_zhye") + "");
-		//用户地址
+		BigDecimal f_zhye = new BigDecimal(map.get("f_zhye") + "");
+		// 用户地址
 		String address = map.get("f_address").toString();
-		//用户姓名
+		// 用户姓名
 		String username = map.get("f_username").toString();
 		// 以前欠费条数
 		int items = Integer.parseInt(map.get("c") + "");
-		//抄表id
+		// 抄表id
 		String handid = map.get("id") + "";
 		// 用户缴费类型
 		String payment = map.get("f_payment").toString();
 		// 责任部门
-		String zerenbumen ="空";
+		String zerenbumen = "空";
 		// 门站
-		String menzhan ="空";
+		String menzhan = "空";
 		// 抄表员
-		String inputtor = map.get("f_inputtor")+"";
-		//最后一次抄表日期
-		DateFormat df=new SimpleDateFormat("yyyy-MM-dd");
-		String dateStr=lastinputdate.substring(0, 10);
-		Date lastinputDate=df.parse(dateStr);
-		//取出抄表日期得到缴费截止日期DateFormat.parse(String s) 
-		Date date=endDate(lastinputdate);//缴费截止日期
-		//录入日期  
-		Date inputdate=new Date();
-		//计划月份
-		DateFormat hd=new SimpleDateFormat("yyyy-MM");
-		String dateStr1=handdate.substring(0, 7);
-		Date handDate=hd.parse(dateStr1);
-		//当前表累计购气量 （暂）
-		double f_metergasnums =Double.parseDouble(map.get("f_metergasnums")+""); 
-		//f_cumulativepurchase 总累计购气量
-		double f_cumulativepurchase =Double.parseDouble(map.get("f_cumulativepurchase")+"");
+		String inputtor = map.get("f_inputtor") + "";
+		// 最后一次抄表日期
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String dateStr = lastinputdate.substring(0, 10);
+		Date lastinputDate = df.parse(dateStr);
+		// 取出抄表日期得到缴费截止日期DateFormat.parse(String s)
+		Date date = endDate(lastinputdate);// 缴费截止日期
+		// 录入日期
+		Date inputdate = new Date();
+		// 计划月份
+		DateFormat hd = new SimpleDateFormat("yyyy-MM");
+		String dateStr1 = handdate.substring(0, 7);
+		Date handDate = hd.parse(dateStr1);
+		// 当前表累计购气量 （暂）
+		BigDecimal f_metergasnums = new BigDecimal(map.get("f_metergasnums")
+				+ "");
+		// f_cumulativepurchase 总累计购气量
+		BigDecimal f_cumulativepurchase = new BigDecimal(
+				map.get("f_cumulativepurchase") + "");
 		//表状态
 		String meterState = meterstate;
-		//针对设置阶梯气价的用户运算
+		// 针对设置阶梯气价的用户运算
 		CountDate();
-		if(!stairtype.equals("未设")){
-	        final String gassql = " select isnull(sum(oughtamount),0)oughtamount from t_handplan " +
-	        		"where f_userid='"+userid+"' and lastinputdate>='"+stardate+"' and lastinputdate<='"+enddate+"'";
-			List<Map<String, Object>> gaslist =(List<Map<String, Object>>) hibernateTemplate.execute(new HibernateCallback() {
-				public Object doInHibernate(Session session)throws HibernateException {
-					Query q = session.createSQLQuery(gassql);
-					q.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-					List result = q.list();
-					return result;
-				}
-			});
+		if (!stairtype.equals("未设")) {
+			final String gassql = " select isnull(sum(oughtamount),0)oughtamount from t_handplan "
+					+ "where f_userid='"
+					+ userid
+					+ "' and lastinputdate>='"
+					+ stardate + "' and lastinputdate<='" + enddate + "'";
+			List<Map<String, Object>> gaslist = (List<Map<String, Object>>) hibernateTemplate
+					.execute(new HibernateCallback() {
+						public Object doInHibernate(Session session)
+								throws HibernateException {
+							Query q = session.createSQLQuery(gassql);
+							q.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+							List result = q.list();
+							return result;
+						}
+					});
 			Map<String, Object> gasmap = (Map<String, Object>) gaslist.get(0);
-			//当前购气量
-			sumamont = Double.parseDouble(gasmap.get("oughtamount").toString());
-			//累计购气量
-			double allamont = sumamont+gas;
-			//当前购气量在第一阶梯
-			if(sumamont<stair1amount){
-				if(allamont<stair1amount){
+			// 当前购气量
+			sumamont = new BigDecimal(gasmap.get("oughtamount").toString());
+			// 累计购气量
+			BigDecimal allamont = sumamont.add(gas);
+			// 当前购气量在第一阶梯
+			if (sumamont.compareTo(stair1amount) < 0) {
+				if (allamont.compareTo(stair1amount) < 0) {
 					stair1num = gas;
-					stair1fee = gas*stair1price;
-					chargenum = gas*stair1price;
-				}else if(allamont>=stair1amount && allamont<stair2amount){
-					stair1num = stair1amount-sumamont;
-					stair1fee = (stair1amount-sumamont)*stair1price;
-					stair2num = allamont-stair1amount;
-					stair2fee = (allamont-stair1amount)*stair2price;
-					chargenum = stair1fee+stair2fee;
-				}else if(allamont>=stair2amount && allamont<stair3amount){
-					stair1num = stair1amount-sumamont;
-					stair1fee = (stair1amount-sumamont)*stair1price;
-					stair2num = stair2amount-stair1amount;
-					stair2fee = (stair2amount-stair1amount)*stair2price;
-					stair3num = allamont-stair2amount;
-					stair3fee = (allamont-stair2amount)*stair3price;
-					chargenum = stair1fee+stair2fee+stair3fee;
-				}else if(allamont>=stair3amount){
-					stair1num = stair1amount-sumamont;
-					stair1fee = (stair1amount-sumamont)*stair1price;
-					stair2num = stair2amount-stair1amount;
-					stair2fee = (stair2amount-stair1amount)*stair2price;
-					stair3num = stair3amount-stair2amount;
-					stair3fee = (stair3amount-stair2amount)*stair3price;
-					stair4num = allamont-stair3amount;
-					stair4fee = (allamont-stair3amount)*stair4price;
-					chargenum = stair1fee+stair2fee+stair3fee+stair4fee;
+					stair1fee = gas.multiply(stair1price);
+					chargenum = gas.multiply(stair1price);
+				} else if (allamont.compareTo(stair1amount) >= 0
+						&& allamont.compareTo(stair2amount) < 0) {
+					stair1num = stair1amount.subtract(sumamont);
+					stair1fee = (stair1amount.subtract(sumamont))
+							.multiply(stair1price);
+					stair2num = allamont.subtract(stair1amount);
+					stair2fee = (allamont.subtract(stair1amount))
+							.multiply(stair2price);
+					chargenum = stair1fee.add(stair2fee);
+				} else if (allamont.compareTo(stair2amount) >= 0
+						&& allamont.compareTo(stair3amount) < 0) {
+					stair1num = stair1amount.subtract(sumamont);
+					stair1fee = (stair1amount.subtract(sumamont))
+							.multiply(stair1price);
+					stair2num = stair2amount.subtract(stair1amount);
+					stair2fee = (stair2amount.subtract(stair1amount))
+							.multiply(stair2price);
+					stair3num = allamont.subtract(stair2amount);
+					stair3fee = (allamont.subtract(stair2amount))
+							.multiply(stair3price);
+					chargenum = stair1fee.add(stair2fee).add(stair3fee);
+				} else if (allamont.compareTo(stair3amount) >= 0) {
+					stair1num = stair1amount.subtract(sumamont);
+					stair1fee = (stair1amount.subtract(sumamont))
+							.multiply(stair1price);
+					stair2num = stair2amount.subtract(stair1amount);
+					stair2fee = (stair2amount.subtract(stair1amount))
+							.multiply(stair2price);
+					stair3num = stair3amount.subtract(stair2amount);
+					stair3fee = (stair3amount.subtract(stair2amount))
+							.multiply(stair3price);
+					stair4num = allamont.subtract(stair3amount);
+					stair4fee = (allamont.subtract(stair3amount))
+							.multiply(stair4price);
+					chargenum = stair1fee.add(stair2fee).add(stair3fee)
+							.add(stair4fee);
 				}
-			//当前已购气量在阶梯二内
-			}else if(sumamont>=stair1amount && sumamont<stair2amount){
-				if(allamont<stair2amount){
+				// 当前已购气量在阶梯二内
+			} else if (sumamont.compareTo(stair1amount) >= 0
+					&& sumamont.compareTo(stair2amount) < 0) {
+				if (allamont.compareTo(stair2amount) < 0) {
 					stair2num = gas;
-					stair2fee = gas*stair2price;
+					stair2fee = gas.multiply(stair2price);
 					chargenum = stair2fee;
-				}else if(allamont>=stair2amount && allamont<stair3amount){
-					stair2num = stair2amount-sumamont;
-					stair2fee = (stair2amount-sumamont)*stair2price;
-					stair3num = allamont-stair2amount;
-					stair3fee = (allamont-stair2amount)*stair3price;
-					chargenum = stair2fee+stair3fee;
-				}else{
-					stair2num = stair2amount-sumamont;
-					stair2fee = (stair2amount-sumamont)*stair2price;
-					stair3num = stair3amount-stair2amount;
-					stair3fee = (stair3amount-stair2amount)*stair3price;
-					stair4num = allamont-stair3amount;
-					stair4fee = (allamont-stair3amount)*stair4price;
-					chargenum = stair2fee+stair3fee+stair4fee;
+				} else if (allamont.compareTo(stair2amount) >= 0
+						&& allamont.compareTo(stair3amount) < 0) {
+					stair2num = stair2amount.subtract(sumamont);
+					stair2fee = (stair2amount.subtract(sumamont))
+							.multiply(stair2price);
+					stair3num = allamont.subtract(stair2amount);
+					stair3fee = (allamont.subtract(stair2amount))
+							.multiply(stair3price);
+					chargenum = stair2fee.add(stair3fee);
+				} else {
+					stair2num = stair2amount.subtract(sumamont);
+					stair2fee = (stair2amount.subtract(sumamont))
+							.multiply(stair2price);
+					stair3num = stair3amount.subtract(stair2amount);
+					stair3fee = (stair3amount.subtract(stair2amount))
+							.multiply(stair3price);
+					stair4num = allamont.subtract(stair3amount);
+					stair4fee = (allamont.subtract(stair3amount))
+							.multiply(stair4price);
+					chargenum = stair2fee.add(stair3fee).add(stair4fee);
 				}
-			//当前已购气量在阶梯三内
-			}else if(sumamont>=stair2amount && sumamont<stair3amount){
-				if(allamont<stair3amount){
+				// 当前已购气量在阶梯三内
+			} else if (sumamont.compareTo(stair2amount) >= 0
+					&& sumamont.compareTo(stair3amount) < 0) {
+				if (allamont.compareTo(stair3amount) < 0) {
 					stair3num = gas;
-					stair3fee = gas*stair3price;
+					stair3fee = gas.multiply(stair3price);
 					chargenum = stair3fee;
-				}else{
-					stair3num = stair3amount-sumamont;
-					stair3fee = (stair3amount-sumamont)*stair3price;
-					stair4num = allamont-stair3amount;
-					stair4fee = (allamont-stair3amount)*stair4price;
-					chargenum = stair3fee+stair4fee;
+				} else {
+					stair3num = stair3amount.subtract(sumamont);
+					stair3fee = (stair3amount.subtract(sumamont))
+							.multiply(stair3price);
+					stair4num = allamont.subtract(stair3amount);
+					stair4fee = (allamont.subtract(stair3amount))
+							.multiply(stair4price);
+					chargenum = stair3fee.add(stair4fee);
 				}
-			//当前已购气量超过阶梯三
-			}else if(sumamont>=stair3amount){
+				// 当前已购气量超过阶梯三
+			} else if (sumamont.compareTo(stair3amount) >= 0) {
 				stair4num = gas;
-				stair4fee = gas*stair4price;
-				chargenum =	stair4fee;
+				stair4fee = gas.multiply(stair4price);
+				chargenum = stair4fee;
 			}
-		//该用户未设置阶梯气价
-		}else{
-			chargenum = gas*gasprice;
-			stair1num = 0;
-			stair2num = 0;
-			stair3num = 0;
-			stair4num = 0;
-			stair1fee = 0;
-			stair2fee = 0;
-			stair3fee = 0;
-			stair4fee = 0;
+			// 该用户未设置阶梯气价
+		} else {
+			chargenum = gas.multiply(gasprice);
+			stair1num = new BigDecimal(0);
+			stair2num = new BigDecimal(0);
+			stair3num = new BigDecimal(0);
+			stair4num = new BigDecimal(0);
+			stair1fee = new BigDecimal(0);
+			stair2fee = new BigDecimal(0);
+			stair3fee = new BigDecimal(0);
+			stair4fee = new BigDecimal(0);
 		}
-		if(chargenum<f_zhye && items<1){
-			//自动下账
+		if (chargenum.compareTo(f_zhye) < 0 && items < 1) {
+			// 自动下账
 			Map<String, Object> sell = new HashMap<String, Object>();
 			sell.put("f_userid", map.get("f_userid")); // 用户ID
 			sell.put("f_payfeevalid", "有效");// 交费是否有效
 			sell.put("f_payfeetype", "自动下账");// 收费类型
-			sell.put("lastinputgasnum", lastReading); // 上期底数
+			sell.put("lastinputgasnum", lastReading.doubleValue()); // 上期底数
 			sell.put("lastrecord", reading); // 本期底数
-			sell.put("f_totalcost", chargenum); // 应交金额
-			sell.put("f_grossproceeds", chargenum); // 收款
+			sell.put("f_totalcost", chargenum.doubleValue()); // 应交金额
+			sell.put("f_grossproceeds", chargenum.doubleValue()); // 收款
 			sell.put("f_deliverydate", new Date()); // 交费日期
-			sell.put("f_zhye", f_zhye); // 上期结余
-			sell.put("f_benqizhye", f_zhye-chargenum); // 本期结余
+			sell.put("f_zhye", f_zhye.doubleValue()); // 上期结余
+			sell.put("f_benqizhye", f_zhye.subtract(chargenum).doubleValue()); // 本期结余
 			sell.put("f_gasmeterstyle", map.get("f_gasmeterstyle")); // 气表类型
 			sell.put("f_comtype", "天然气公司"); // 公司类型，分为天然气公司、银行
 			sell.put("f_username", map.get("f_username")); // 用户/单位名称
@@ -340,151 +386,260 @@ public class HandCharge {
 			sell.put("f_idnumber", map.get("f_idnumber")); // 身份证号
 			sell.put("f_gaswatchbrand", map.get("f_gaswatchbrand")); // 气表品牌
 			sell.put("f_gaspricetype", map.get("f_gaspricetype")); // 气价类型
-			sell.put("f_gasprice", gasprice); // 气价
+			sell.put("f_gasprice", gasprice.doubleValue()); // 气价
 			sell.put("f_usertype", map.get("f_usertype")); // 用户类型
 			sell.put("f_gasproperties", map.get("f_gasproperties")); // 用气性质
-			sell.put("f_pregas", gas); // 气量
-			sell.put("f_preamount", chargenum); // 金额
+			sell.put("f_pregas", gas.doubleValue()); // 气量
+			sell.put("f_preamount", chargenum.doubleValue()); // 金额
 			sell.put("f_payment", "现金"); // 付款方式
 			sell.put("f_sgnetwork", sgnetwork); // 网点
 			sell.put("f_sgoperator", sgoperator); // 操 作 员
-			sell.put("f_cardid", map.get("f_cardid"));//卡号
+			sell.put("f_cardid", map.get("f_cardid"));// 卡号
 			sell.put("f_filiale", map.get("f_filiale")); // 分公司
 			sell.put("f_useful", handid); // 抄表id
-			sell.put("f_stair1amount", stair1num);
-			sell.put("f_stair2amount", stair2num);
-			sell.put("f_stair3amount", stair3num);
-			sell.put("f_stair4amount", stair4num);
-			sell.put("f_stair1fee", stair1fee);
-			sell.put("f_stair2fee", stair2fee);
-			sell.put("f_stair3fee", stair3fee);
-			sell.put("f_stair4fee", stair4fee);
-			sell.put("f_stair1price", stair1price);
-			sell.put("f_stair2price", stair2price);
-			sell.put("f_stair3price", stair3price);
-			sell.put("f_stair4price", stair4price);
+			sell.put("f_stair1amount", stair1num.doubleValue());
+			sell.put("f_stair2amount", stair2num.doubleValue());
+			sell.put("f_stair3amount", stair3num.doubleValue());
+			sell.put("f_stair4amount", stair4num.doubleValue());
+			sell.put("f_stair1fee", stair1fee.doubleValue());
+			sell.put("f_stair2fee", stair2fee.doubleValue());
+			sell.put("f_stair3fee", stair3fee.doubleValue());
+			sell.put("f_stair4fee", stair4fee.doubleValue());
+			sell.put("f_stair1price", stair1price.doubleValue());
+			sell.put("f_stair2price", stair2price.doubleValue());
+			sell.put("f_stair3price", stair3price.doubleValue());
+			sell.put("f_stair4price", stair4price.doubleValue());
 			sell.put("f_stardate", stardate);
 			sell.put("f_enddate", enddate);
-			sell.put("f_allamont", sumamont);
-			int sellid = (Integer)hibernateTemplate.save("t_sellinggas", sell);
-			hql = "update t_userfiles set f_zhye=?,lastinputgasnum=?," +
-			// 本次抄表日期
-					"  lastinputdate=? " +
+			sell.put("f_allamont", sumamont.doubleValue());
+			int sellid = (Integer) hibernateTemplate.save("t_sellinggas", sell);
+			hql = "update t_userfiles set f_zhye=?,lastinputgasnum=?,"
+					+
+					// 本次抄表日期
+					"  lastinputdate=? "
+					+
 					// 当前表累计购气量 （暂） 总累计购气量
-					 ",f_metergasnums=  ?, f_cumulativepurchase= ? ,"
+					",f_metergasnums=  ?, f_cumulativepurchase= ? ,"
 					// 最后购气量 最后购气日期 最后购气时间
 					+ "f_finallybought= ?, f_finabuygasdate=?, f_finabuygastime=? "
 					+ "where f_userid=?";
-
-			hibernateTemplate.bulkUpdate(hql, new Object[] {
-					f_zhye-chargenum,reading, lastinputDate,f_metergasnums+gas,f_cumulativepurchase+gas,gas,inputdate,inputdate,userid });
-			String sellId = sellid+"";
+			hibernateTemplate.bulkUpdate(hql,
+					new Object[] { f_zhye.subtract(chargenum).doubleValue(), reading,
+							lastinputDate, f_metergasnums.add(gas).doubleValue(),
+							f_cumulativepurchase.add(gas).doubleValue(), gas.doubleValue(), inputdate,
+							inputdate, userid });
+			String sellId = sellid + "";
 			// 更新抄表记录
-			hql = "update t_handplan set f_state='已抄表',shifoujiaofei='是',f_handdate=?,f_stairtype=?,"
-					+ "lastinputdate=?,   f_zerenbumen=?, f_menzhan=?, f_inputtor=?,lastrecord=? ,oughtamount=? ,oughtfee=? ,f_address=?, f_username=?, f_zhye=?, f_bczhye=?,"
-					+ "f_stair1amount=?,f_stair2amount=?,f_stair3amount=?,f_stair4amount=?,f_stair1fee=?,f_stair2fee=?,f_stair3fee=?,f_stair4fee=?,f_stair1price=?,f_stair2price=?,f_stair3price=?,f_stair4price=?,"
-					+ "f_stardate=?,f_enddate=?,f_allamont=? ,f_sellid=?, f_leftgas=? , f_inputdate=?,f_network=?,f_operator=?,f_meterstate=?  "
-					+ "where f_userid=? and f_state='未抄表'";
-			hibernateTemplate.bulkUpdate(hql, new Object[] { handDate,stairtype,
-					lastinputDate,zerenbumen, menzhan, inputtor,reading,
-					gas,chargenum, address, username,f_zhye,f_zhye-chargenum,
-					stair1num,stair2num,stair3num,stair4num,
-					stair1fee,stair2fee,stair3fee,stair4fee,
-					stair1price,stair2price,stair3price,stair4price,
-					stardate,enddate,sumamont,sellId, leftgas,inputdate,sgnetwork,sgoperator,meterState,
-					userid });
-		}else{
+			hql = "update t_handplan set f_state='已抄表',shifoujiaofei='是',f_handdate=?,f_stairtype='"
+					+ stairtype
+					+ "',lastinputdate=?,f_zerenbumen='"
+					+ zerenbumen
+					+ "',f_menzhan='"
+					+ menzhan
+					+ "', f_inputtor='"
+					+ inputtor
+					+ "',lastrecord="
+					+ reading
+					+ " ,"
+					+ "oughtamount="
+					+ gas
+					+ " ,oughtfee="
+					+ chargenum
+					+ " ,f_address='"
+					+ address
+					+ "', f_username='"
+					+ username
+					+ "', f_zhye="
+					+ f_zhye
+					+ ", f_bczhye="
+					+ f_zhye.subtract(chargenum)
+					+ ","
+					+ "f_stair1amount="
+					+ stair1num
+					+ ",f_stair2amount="
+					+ stair2num
+					+ ",f_stair3amount="
+					+ stair3num
+					+ ",f_stair4amount="
+					+ stair4num
+					+ ",f_stair1fee="
+					+ stair1fee
+					+ ",f_stair2fee="
+					+ stair2fee
+					+ ",f_stair3fee="
+					+ stair3fee
+					+ ",f_stair4fee="
+					+ stair4fee
+					+ ",f_stair1price="
+					+ stair1price
+					+ ",f_stair2price="
+					+ stair2price
+					+ ",f_stair3price="
+					+ stair3price
+					+ ",f_stair4price="
+					+ stair4price
+					+ ","
+					+ "f_stardate='"
+					+ stardate
+					+ "',f_enddate='"
+					+ enddate					
+					+ "',f_allamont="
+					+ sumamont
+					+ " ,f_sellid="
+					+ sellId
+					+ ", f_leftgas="
+					+ leftgas
+					+ " , f_inputdate=?,f_meterstate=?,f_network='"
+					+ sgnetwork
+					+ "',f_operator='"
+					+ sgoperator
+					+ "'  "
+					+ "where f_userid='" + userid + "' and f_state='未抄表'";
+			hibernateTemplate.bulkUpdate(hql, new Object[] { handDate,
+					lastinputDate, inputdate,meterState });
+		} else {
 			// 更新用户档案
 			hql = "update t_userfiles " +
 			// 本次抄表底数 本次抄表日期
 					"set lastinputgasnum=? ,  lastinputdate=?  where f_userid=?";
-			hibernateTemplate.bulkUpdate(hql, new Object[] {reading, lastinputDate, userid });
+			hibernateTemplate.bulkUpdate(hql, new Object[] { reading,
+					lastinputDate, userid });
 
 			// 欠费,更新抄表记录的状态f_state、抄表日期、本次抄表底数
-			hql = "update t_handplan set f_state ='已抄表', shifoujiaofei='否',f_handdate=?,"
-				+ "lastinputdate=?,   f_zerenbumen=?, f_menzhan=?, f_inputtor=?, lastrecord=? ,f_stairtype=?," 
-				+ "oughtamount=?,  f_endjfdate=? , oughtfee=?, f_inputdate=?,f_network=?,f_operator=? ,f_address=?, f_username=?,"
-				+ "f_stair1amount=?,f_stair2amount=?,f_stair3amount=?,f_stair4amount=?,f_stair1fee=?,f_stair2fee=?,f_stair3fee=?,f_stair4fee=?," 
-				+ "f_stair1price=?,f_stair2price=?,f_stair3price=?,f_stair4price=?,"
-				+ "f_stardate=?,f_enddate=?,f_allamont=?, f_leftgas=?,f_meterstate=? "
-				+ "where f_userid=? and f_state='未抄表'";
-		hibernateTemplate.bulkUpdate(hql, new Object[] { handDate,lastinputDate,
-				zerenbumen, menzhan, inputtor,reading,stairtype,gas,date,
-				chargenum,inputdate,sgnetwork,sgoperator, address, username,
-				stair1num,stair2num,stair3num,stair4num,
-				stair1fee,stair2fee,stair3fee,stair4fee,
-				stair1price,stair2price,stair3price,stair4price,
-				stardate,enddate,sumamont,leftgas,meterState,
-				userid });
+			hql = "update t_handplan set f_state ='已抄表', shifoujiaofei='否',f_handdate=?,lastinputdate=?,f_zerenbumen='"
+					+ zerenbumen
+					+ "', f_menzhan='"
+					+ menzhan
+					+ "', f_inputtor='"
+					+ inputtor
+					+ "', lastrecord="
+					+ reading
+					+ " ,f_stairtype='"
+					+ stairtype
+					+ "',"
+					+ "oughtamount="
+					+ gas
+					+ ",  f_endjfdate=?, oughtfee="
+					+ chargenum
+					+ ", f_inputdate=?,f_meterstate=?,f_network='"
+					+ sgnetwork
+					+ "',f_operator='"
+					+ sgoperator
+					+ "' ,f_address='"
+					+ address
+					+ "', f_username='"
+					+ username
+					+ "',"
+					+ "f_stair1amount="
+					+ stair1num
+					+ ",f_stair2amount="
+					+ stair2num
+					+ ",f_stair3amount="
+					+ stair3num
+					+ ",f_stair4amount="
+					+ stair4num
+					+ ",f_stair1fee="
+					+ stair1fee
+					+ ",f_stair2fee="
+					+ stair2fee
+					+ ",f_stair3fee="
+					+ stair3fee
+					+ ",f_stair4fee="
+					+ stair4fee
+					+ ","
+					+ "f_stair1price="
+					+ stair1price
+					+ ",f_stair2price="
+					+ stair2price
+					+ ",f_stair3price="
+					+ stair3price
+					+ ",f_stair4price="
+					+ stair4price
+					+ ","
+					+ "f_stardate='"
+					+ stardate
+					+ "',f_enddate='"
+					+ enddate
+					+ "',f_allamont="
+					+ sumamont
+					+ ", f_leftgas= "
+					+ leftgas
+					+ " where f_userid='" + userid + "' and f_state='未抄表'";
+			hibernateTemplate.bulkUpdate(hql, new Object[] { handDate,
+					lastinputDate, date, inputdate,meterState});
 		}
 		return "";
 	}
-	
-	//计算开始时间方法
-	private	void CountDate(){
-		//计算当前月在哪个阶梯区间
+
+	// 计算开始时间方法
+	private void CountDate() {
+		// 计算当前月在哪个阶梯区间
 		Calendar cal = Calendar.getInstance();
 		int thismonth = cal.get(Calendar.MONTH) + 1;
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		if(stairmonths==1){
-			cal.set(Calendar.DAY_OF_MONTH,1);
-	        stardate = format.format(cal.getTime());
-	        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));  
-	        enddate = format.format(cal.getTime());
-		}else if(stairmonths==0){
-			stardate ="";
+		if (stairmonths == 1) {
+			cal.set(Calendar.DAY_OF_MONTH, 1);
+			stardate = format.format(cal.getTime());
+			cal.set(Calendar.DAY_OF_MONTH,
+					cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			enddate = format.format(cal.getTime());
+		} else if (stairmonths == 0) {
+			stardate = "";
 			enddate = "";
-		}else{
-			/*阶梯起始月数计算
-			 *起始月 = 当前月/阶梯月数*阶梯月数+1
-			 *结束月 = 当前月/阶梯月数*阶梯月数+阶梯月数
-			 *注：该运算 当前月是12月时则需要剪1 上面已经算出阶梯月数为1个月时的金额
-			 *一下运算阶梯月数至少为两个月  所以对算区间没有影响
-			 * */
-			if(thismonth==12){
-				thismonth=11;
+		} else {
+			/*
+			 * 阶梯起始月数计算起始月 = 当前月/阶梯月数*阶梯月数+1结束月 = 当前月/阶梯月数*阶梯月数+阶梯月数注：该运算
+			 * 当前月是12月时则需要剪1 上面已经算出阶梯月数为1个月时的金额一下运算阶梯月数至少为两个月 所以对算区间没有影响
+			 */
+			if (thismonth == 12) {
+				thismonth = 11;
 			}
-			//计算起始月
-			int star = Math.round(thismonth/stairmonths)*stairmonths+1;
-			//计算结束月
-			int end = Math.round(thismonth/stairmonths)*stairmonths+stairmonths;
-			//获得起始日期和结束日期
-	        cal.set(Calendar.MONTH, star-1);
-	        cal.set(Calendar.DAY_OF_MONTH,1);
-	        stardate = format.format(cal.getTime());
-		    cal.set(Calendar.MONTH, end-1);
-	        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-	        enddate = format.format(cal.getTime());
+			// 计算起始月
+			int star = Math.round(thismonth / stairmonths) * stairmonths + 1;
+			// 计算结束月
+			int end = Math.round(thismonth / stairmonths) * stairmonths
+					+ stairmonths;
+			// 获得起始日期和结束日期
+			cal.set(Calendar.MONTH, star - 1);
+			cal.set(Calendar.DAY_OF_MONTH, 1);
+			stardate = format.format(cal.getTime());
+			cal.set(Calendar.MONTH, end - 1);
+			cal.set(Calendar.DAY_OF_MONTH,
+					cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			enddate = format.format(cal.getTime());
 		}
 	}
+
 	// 获取所有单值，转换成Map
 	private Map<String, String> getSingles() {
 		Map result = new HashMap<String, String>();
-		
+
 		String sql = "select name,value from t_singlevalue";
-		List<Map<String, Object>> list = this.hibernateTemplate.executeFind(new HibernateSQLCall(sql));
+		List<Map<String, Object>> list = this.hibernateTemplate
+				.executeFind(new HibernateSQLCall(sql));
 		for (Map<String, Object> hand : list) {
 			result.put(hand.get("name"), hand.get("value"));
 		}
 		return result;
 	}
+
 	private Object String(String zerenbumen) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-
 	// 批量抄表记录上传
 	// data以JSON格式上传，[{userid:'用户编号', showNumber:本期抄表数},{}]
 	@Path("record/batch/{handdate}/{sgnetwork}/{sgoperator}/{lastinputdate}/{meterstate}")
 	@POST
-	public String RecordInputForMore(String data,
+	public String afRecordInputForMore(String data,
 			@PathParam("sgnetwork") String sgnetwork,
 			@PathParam("sgoperator") String sgoperator,
 			@PathParam("lastinputdate") String lastinputdate,
 			@PathParam("handdate") String handdate,
-			@PathParam("meterstate") String meterstate)  {
+			@PathParam("meterstate") String meterstate) {
+		log.debug("批量抄表记录上传 开始");
+		String ret = "";
 		try {
 			// 取出所有数据
 			JSONArray rows = new JSONArray(data);
@@ -493,36 +648,43 @@ public class HandCharge {
 				JSONObject row = rows.getJSONObject(i);
 				String userid = row.getString("userid");
 				double reading = row.getDouble("reading");
-				
-				//获取余气量，机表录入，没有余气量，传Double.NaN
+
+				// 获取余气量，机表录入，没有余气量，传Double.NaN
 				double leftgas = 0;
-				if(row.has("leftgas")) {
+				if (row.has("leftgas")) {
 					leftgas = row.getDouble("leftgas");
 				}
-				
-				//BigDecimal readingThis = new BigDecimal(reading + "");
-				recordInput(userid, reading, sgnetwork, sgoperator,lastinputdate,handdate, leftgas,meterstate);
+
+				// BigDecimal readingThis = new BigDecimal(reading + "");
+				afrecordInput(userid, reading, sgnetwork, sgoperator,
+						lastinputdate, handdate, leftgas,meterstate);
 			}
+			log.debug("批量抄表记录上传 结束");
 		} catch (Exception e) {
-			return "{\"ok\":\"nok\", msg:\"" + e.toString() + "\"}";
+			log.debug("批量抄表记录上传 失败：" + e.getMessage());
+			ret = e.getMessage();
+		} finally {
+			return ret;
 		}
-		return "";
 	}
-	private String SolitaryCopyMeter(){
+
+	private String SolitaryCopyMeter() {
 		return null;
-		
+
 	}
-	//产生交费截止日期
+
+	// 产生交费截止日期
 	private Date endDate(String str) throws ParseException {
-		DateFormat df=new SimpleDateFormat("yyyy-MM-dd");
-		String dateStr=str.substring(0, 10);
-		Date now=df.parse(dateStr);
-		Calendar c=Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String dateStr = str.substring(0, 10);
+		Date now = df.parse(dateStr);
+		Calendar c = Calendar.getInstance();
 		c.setTime(now);
 		c.add(Calendar.MONTH, 1);
 		c.set(Calendar.DATE, 10);
 		return c.getTime();
 	}
+
 	// 转换器，在转换期间会检查对象是否已经转换过，避免重新转换，产生死循环
 	class JsonTransfer {
 		// 保存已经转换过的对象
@@ -592,6 +754,7 @@ public class HandCharge {
 			return false;
 		}
 	}
+
 	class HibernateSQLCall implements HibernateCallback {
 		String sql;
 
