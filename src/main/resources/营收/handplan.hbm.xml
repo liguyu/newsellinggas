@@ -48,6 +48,8 @@
 		<property name="f_gaswatchbrand" type="string"/>
 		<!--气表编号-->
 		<property name="f_meternumber" type="string"/>
+		<!--表状态-->
+		<property name="f_meterstate" type="string"/>
 		<!--气表型号-->
 		<property name="f_metertype" type="string"/>
 		<!--气表厂家-->

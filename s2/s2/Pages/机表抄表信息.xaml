@@ -150,7 +150,7 @@
                             </a:Data.Prop>
                         </ComboBox>
                         <Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="4" Grid.Column="6" Click="{m:Exp Str=daninfosearch.DataContext.Search()}" Margin="20,0,0,0" FontSize="14"  />
-                        <Button Content=" 置  空"  Grid.Row="4" Grid.Column="7" Click="{m:Exp Str=daninfosearch.DataContext.f_network\=null;daninfosearch.DataContext.f_operator\=null;daninfosearch.DataContext.f_yytdate11\=null;daninfosearch.DataContext.f_yytdate22\=null;daninfosearch.DataContext.f_olduserid\=null;daninfosearch.DataContext.f_yhxz\=null;daninfosearch.DataContext.f_handdate\=null;daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null;tj5.SelectedValue\=null;tj6.SelectedValue\=null;tj9.SelectedValue\=null;tja.SelectedValue\=null;tjwangdian.SelectedValue\=null;tjczy.SelectedValue\=null;tjc.SelectedValue\=null;tjb.SelectedValue\=null;zerenbumen.SelectedValue\=null;daninfosearch.DataContext.f_address\=null}" FontSize="14" HorizontalAlignment="Left" Width="60"  />
+                        <Button Content=" 置  空"  Grid.Row="4" Grid.Column="7" Click="{m:Exp Str=daninfosearch.DataContext.f_network\=null;daninfosearch.DataContext.f_operator\=null;daninfosearch.DataContext.f_yytdate11\=null;daninfosearch.DataContext.f_yytdate22\=null;daninfosearch.DataContext.f_olduserid\=null;daninfosearch.DataContext.f_yhxz\=null;daninfosearch.DataContext.f_handdate\=null;daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null;tj5.SelectedValue\=null;tj6.SelectedValue\=null;meterstate.SelectedValue\=null;tj9.SelectedValue\=null;tja.SelectedValue\=null;tjwangdian.SelectedValue\=null;tjczy.SelectedValue\=null;tjc.SelectedValue\=null;tjb.SelectedValue\=null;zerenbumen.SelectedValue\=null;daninfosearch.DataContext.f_address\=null}" FontSize="14" HorizontalAlignment="Left" Width="60"  />
                         <TextBlock TextWrapping="Wrap" Visibility="Collapsed" Text="气表品牌：" Grid.Column="2"  Margin="0,2,0,1" Height="25" TextAlignment="Right" />
                         <ComboBox Name="tj5" Visibility="Collapsed" SelectedValue="{m:Bind Path=f_gaswatchbrand}" Grid.Column="3" ItemsSource="{m:Exp Str=qblist}"  Margin="0,2,0,1"  SelectedValuePath="name"  Height="25">
                             <ComboBox.ItemTemplate>
@@ -293,6 +293,17 @@
 								</ComboBox.ItemTemplate>
 							<a:Data.Prop>
                                 <o:PropertySetter PropertyName="f_yhxz"  Operator="f_yhxz = 'this'"/>
+                            </a:Data.Prop>
+                        </ComboBox>
+                        <TextBlock TextWrapping="Wrap" Text="表状态：" Grid.Column="8"  Margin="7,2,0,1" Height="25" TextAlignment="Right" Grid.Row="2" HorizontalAlignment="Left" Width="74" />
+                        <ComboBox x:Name="meterstate"  SelectedValue="{m:Bind Path=f_meterstate}" Grid.Row="2" Grid.Column="8" ItemsSource="{m:Exp Str=meterstatelistnull}"  Margin="81,2,4,1"  SelectedValuePath="name"  Height="25" Grid.ColumnSpan="1">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding name}" Height="20"></TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                            <a:Data.Prop>
+                                <o:PropertySetter PropertyName="f_meterstate"  Operator="f_meterstate = 'this'"/>
                             </a:Data.Prop>
                         </ComboBox>
                         <TextBox x:Name="tjwhf_Copy4" TextWrapping="Wrap" Grid.Row="3" Grid.Column="7" Text="{m:Bind Path=f_olduserid}" Width="150" Margin="0,0,0,0" Height="25" Grid.ColumnSpan="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" d:LayoutOverrides="HorizontalAlignment" >
