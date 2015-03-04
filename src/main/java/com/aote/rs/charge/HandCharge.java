@@ -116,18 +116,19 @@ public class HandCharge {
 	// 本方法不可重入
 	@SuppressWarnings("unchecked")
 	@GET
-	@Path("record/one/{userid}/{reading}/{sgnetwork}/{sgoperator}/{lastinputdate}/{handdate}")
+	@Path("record/one/{userid}/{reading}/{sgnetwork}/{sgoperator}/{lastinputdate}/{handdate}/{meterstate}")
 	@Produces("application/json")
 	public String RecordInputForOne(@PathParam("userid") String userid,
 			@PathParam("reading") double reading,
 			@PathParam("sgnetwork") String sgnetwork,
 			@PathParam("sgoperator") String sgoperator,
 			@PathParam("lastinputdate") String lastinputdate,
-			@PathParam("handdate") String handdate) {
+			@PathParam("handdate") String handdate,
+			@PathParam("meterstate") String meterstate) {
 		String ret = "";
 		try {
 			return afrecordInput(userid, reading, sgnetwork, sgoperator,
-					lastinputdate, handdate, 0);
+					lastinputdate, handdate, 0,meterstate);
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			ret = e.getMessage();
@@ -139,7 +140,7 @@ public class HandCharge {
 	// 单桧表抄表录入的内部方法，支持卡表及机表，卡表可录入余气量。
 	public String afrecordInput(String userid, double reading,
 			String sgnetwork, String sgoperator, String lastinputdate,
-			String handdate, double leftgas) throws Exception {
+			String handdate, double leftgas, String meterstate) throws Exception {
 		Map<String, String> singles = getSingles();// 获取所有单值
 		BigDecimal chargenum = new BigDecimal(0);
 		BigDecimal stair1num = new BigDecimal(0);
@@ -232,6 +233,8 @@ public class HandCharge {
 		// f_cumulativepurchase 总累计购气量
 		BigDecimal f_cumulativepurchase = new BigDecimal(
 				map.get("f_cumulativepurchase") + "");
+		//表状态
+		String meterState = meterstate;
 		// 针对设置阶梯气价的用户运算
 		CountDate();
 		if (!stairtype.equals("未设")) {
@@ -479,21 +482,21 @@ public class HandCharge {
 					+ "f_stardate='"
 					+ stardate
 					+ "',f_enddate='"
-					+ enddate
+					+ enddate					
 					+ "',f_allamont="
 					+ sumamont
 					+ " ,f_sellid="
 					+ sellId
 					+ ", f_leftgas="
 					+ leftgas
-					+ " , f_inputdate=?,f_network='"
+					+ " , f_inputdate=?,f_meterstate=?,f_network='"
 					+ sgnetwork
 					+ "',f_operator='"
 					+ sgoperator
 					+ "'  "
 					+ "where f_userid='" + userid + "' and f_state='未抄表'";
 			hibernateTemplate.bulkUpdate(hql, new Object[] { handDate,
-					lastinputDate, inputdate });
+					lastinputDate, inputdate,meterState });
 		} else {
 			// 更新用户档案
 			hql = "update t_userfiles " +
@@ -518,7 +521,7 @@ public class HandCharge {
 					+ gas
 					+ ",  f_endjfdate=?, oughtfee="
 					+ chargenum
-					+ ", f_inputdate=?,f_network='"
+					+ ", f_inputdate=?,f_meterstate=?,f_network='"
 					+ sgnetwork
 					+ "',f_operator='"
 					+ sgoperator
@@ -563,7 +566,7 @@ public class HandCharge {
 					+ leftgas
 					+ " where f_userid='" + userid + "' and f_state='未抄表'";
 			hibernateTemplate.bulkUpdate(hql, new Object[] { handDate,
-					lastinputDate, date, inputdate });
+					lastinputDate, date, inputdate,meterState});
 		}
 		return "";
 	}
@@ -627,13 +630,14 @@ public class HandCharge {
 
 	// 批量抄表记录上传
 	// data以JSON格式上传，[{userid:'用户编号', showNumber:本期抄表数},{}]
-	@Path("record/batch/{handdate}/{sgnetwork}/{sgoperator}/{lastinputdate}")
+	@Path("record/batch/{handdate}/{sgnetwork}/{sgoperator}/{lastinputdate}/{meterstate}")
 	@POST
 	public String afRecordInputForMore(String data,
 			@PathParam("sgnetwork") String sgnetwork,
 			@PathParam("sgoperator") String sgoperator,
 			@PathParam("lastinputdate") String lastinputdate,
-			@PathParam("handdate") String handdate) {
+			@PathParam("handdate") String handdate,
+			@PathParam("meterstate") String meterstate) {
 		log.debug("批量抄表记录上传 开始");
 		String ret = "";
 		try {
@@ -653,7 +657,7 @@ public class HandCharge {
 
 				// BigDecimal readingThis = new BigDecimal(reading + "");
 				afrecordInput(userid, reading, sgnetwork, sgoperator,
-						lastinputdate, handdate, leftgas);
+						lastinputdate, handdate, leftgas,meterstate);
 			}
 			log.debug("批量抄表记录上传 结束");
 		} catch (Exception e) {
