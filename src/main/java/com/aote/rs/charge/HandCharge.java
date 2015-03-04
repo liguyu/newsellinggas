@@ -128,7 +128,7 @@ public class HandCharge {
 		String ret = "";
 		try {
 			return afrecordInput(userid, reading, sgnetwork, sgoperator,
-					lastinputdate, handdate, 0,meterstate);
+					lastinputdate, handdate, 0, meterstate);
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 			ret = e.getMessage();
@@ -140,7 +140,8 @@ public class HandCharge {
 	// 单桧表抄表录入的内部方法，支持卡表及机表，卡表可录入余气量。
 	public String afrecordInput(String userid, double reading,
 			String sgnetwork, String sgoperator, String lastinputdate,
-			String handdate, double leftgas, String meterstate) throws Exception {
+			String handdate, double leftgas, String meterstate)
+			throws Exception {
 		Map<String, String> singles = getSingles();// 获取所有单值
 		BigDecimal chargenum = new BigDecimal(0);
 		BigDecimal stair1num = new BigDecimal(0);
@@ -215,6 +216,10 @@ public class HandCharge {
 		String menzhan = "空";
 		// 抄表员
 		String inputtor = map.get("f_inputtor") + "";
+		// 如果抄表员为空则抛出异常，交由上层处理
+		if (inputtor.equals("")) {
+			throw new RSException(map.get("f_userid") + "没有抄表员，不能录入。");
+		}
 		// 最后一次抄表日期
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String dateStr = lastinputdate.substring(0, 10);
@@ -233,7 +238,7 @@ public class HandCharge {
 		// f_cumulativepurchase 总累计购气量
 		BigDecimal f_cumulativepurchase = new BigDecimal(
 				map.get("f_cumulativepurchase") + "");
-		//表状态
+		// 表状态
 		String meterState = meterstate;
 		// 针对设置阶梯气价的用户运算
 		CountDate();
@@ -423,11 +428,13 @@ public class HandCharge {
 					// 最后购气量 最后购气日期 最后购气时间
 					+ "f_finallybought= ?, f_finabuygasdate=?, f_finabuygastime=? "
 					+ "where f_userid=?";
-			hibernateTemplate.bulkUpdate(hql,
-					new Object[] { f_zhye.subtract(chargenum).doubleValue(), reading,
-							lastinputDate, f_metergasnums.add(gas).doubleValue(),
-							f_cumulativepurchase.add(gas).doubleValue(), gas.doubleValue(), inputdate,
-							inputdate, userid });
+			hibernateTemplate.bulkUpdate(
+					hql,
+					new Object[] { f_zhye.subtract(chargenum).doubleValue(),
+							reading, lastinputDate,
+							f_metergasnums.add(gas).doubleValue(),
+							f_cumulativepurchase.add(gas).doubleValue(),
+							gas.doubleValue(), inputdate, inputdate, userid });
 			String sellId = sellid + "";
 			// 更新抄表记录
 			hql = "update t_handplan set f_state='已抄表',shifoujiaofei='是',f_handdate=?,f_stairtype='"
@@ -482,7 +489,7 @@ public class HandCharge {
 					+ "f_stardate='"
 					+ stardate
 					+ "',f_enddate='"
-					+ enddate					
+					+ enddate
 					+ "',f_allamont="
 					+ sumamont
 					+ " ,f_sellid="
@@ -496,7 +503,7 @@ public class HandCharge {
 					+ "'  "
 					+ "where f_userid='" + userid + "' and f_state='未抄表'";
 			hibernateTemplate.bulkUpdate(hql, new Object[] { handDate,
-					lastinputDate, inputdate,meterState });
+					lastinputDate, inputdate, meterState });
 		} else {
 			// 更新用户档案
 			hql = "update t_userfiles " +
@@ -566,7 +573,7 @@ public class HandCharge {
 					+ leftgas
 					+ " where f_userid='" + userid + "' and f_state='未抄表'";
 			hibernateTemplate.bulkUpdate(hql, new Object[] { handDate,
-					lastinputDate, date, inputdate,meterState});
+					lastinputDate, date, inputdate, meterState });
 		}
 		return "";
 	}
@@ -640,6 +647,8 @@ public class HandCharge {
 			@PathParam("meterstate") String meterstate) {
 		log.debug("批量抄表记录上传 开始");
 		String ret = "";
+		// 错误信息
+		String error = "";
 		try {
 			// 取出所有数据
 			JSONArray rows = new JSONArray(data);
@@ -648,16 +657,25 @@ public class HandCharge {
 				JSONObject row = rows.getJSONObject(i);
 				String userid = row.getString("userid");
 				double reading = row.getDouble("reading");
-
 				// 获取余气量，机表录入，没有余气量，传Double.NaN
 				double leftgas = 0;
 				if (row.has("leftgas")) {
 					leftgas = row.getDouble("leftgas");
 				}
 
-				// BigDecimal readingThis = new BigDecimal(reading + "");
-				afrecordInput(userid, reading, sgnetwork, sgoperator,
-						lastinputdate, handdate, leftgas,meterstate);
+				try {
+					afrecordInput(userid, reading, sgnetwork, sgoperator,
+							lastinputdate, handdate, leftgas, meterstate);
+					// 获得自定义异常
+				} catch (RSException e) {
+					// 拼接错误信息
+					error += e.getMessage();
+				}
+			}
+			// 如果有错误信息则抛出异常，返回到前台提示
+			if (!error.equals("")) {
+				throw new RSException(error);
+
 			}
 			log.debug("批量抄表记录上传 结束");
 		} catch (Exception e) {
