@@ -119,7 +119,7 @@
     <Grid x:Name="LayoutRoot">
         <m:ResourceLoad x:Name="pageResource">
             <o:PagedList Name="repairManList" WebClientInfo="{StaticResource dbclient}" Path="sql"
-                         HQL="{m:Exp Str=$select ID\, NAME from t_user  where instr(roles\,(select id from t_role where NAME\=\'维修人员\')\,1)\=1$}"
+                         HQL="{m:Exp Str=$select ID\, NAME from t_user  where charindex((select id from t_role where NAME\=\'维修人员\')\,roles\,1)\=1$}"
                          Names="REPAIRMAN_ID,REPAIRMAN,rn" PageIndex="0" PageSize="9999" SumNames=","/>
         </m:ResourceLoad>
         <Grid>
@@ -173,7 +173,7 @@
                     <sdk:DataGridTextColumn Header="无人（户）" Binding="{Binding wuren}"/>
                     <sdk:DataGridTextColumn Header="拒检（户）" Binding="{Binding jujian}"/>
                     <sdk:DataGridTextColumn Header="发通知书(户）" Binding="{Binding tongzhishu}"/>
-                    <sdk:DataGridTextColumn Header="漏气(处)" Binding="{Binding louqi}"/>
+                    <sdk:DataGridTextColumn Header="漏气(户)" Binding="{Binding louqi}"/>
                     <sdk:DataGridTextColumn Header="表故障(块)" Binding="{Binding biao}"/>
                 </sdk:DataGrid.Columns>
             </sdk:DataGrid>
