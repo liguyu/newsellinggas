@@ -16,106 +16,6 @@
     xmlns:data="clr-namespace:System.Windows.Data;assembly=System.Windows"
     xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
     xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit">
-    <UserControl.Resources>
-        <toolkit:ObjectCollection x:Key="ROOM_STRUCTURE">
-            <v:Pair CName="平房" Code="平房"></v:Pair>
-            <v:Pair CName="多层" Code="多层"></v:Pair>
-            <v:Pair CName="小高层" Code="小高层"></v:Pair>
-            <v:Pair CName="高层" Code="高层"></v:Pair>
-            <v:Pair CName="别墅" Code="别墅"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="WARM">
-            <v:Pair CName="热力公司集中供暖" Code="热力公司集中供暖"></v:Pair>
-            <v:Pair CName="小区集中供暖" Code="小区集中供暖"></v:Pair>
-            <v:Pair CName="客户自行供暖" Code="客户自行供暖"></v:Pair>
-            <v:Pair CName="其他供暖" Code="其他供暖"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="RQB_AROUND">
-            <v:Pair CName="左表" Code="左表"></v:Pair>
-            <v:Pair CName="右表" Code="右表"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="METER_TYPE">
-            <v:Pair CName="G2.5" Code="G2.5"></v:Pair>
-            <v:Pair CName="G4" Code="G4"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="JB_METER_NAME">
-            <v:Pair CName="丹东" Code="丹东"></v:Pair>
-            <v:Pair CName="重检" Code="重检"></v:Pair>
-            <v:Pair CName="赛福" Code="赛福"></v:Pair>
-            <v:Pair CName="重前" Code="重前"></v:Pair>
-            <v:Pair CName="山城" Code="山城"></v:Pair>
-            <v:Pair CName="天津自动化" Code="天津自动化"></v:Pair>
-            <v:Pair CName="其他" Code="其他"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="IC_METER_NAME">
-            <v:Pair CName="华捷" Code="华捷"></v:Pair>
-            <v:Pair CName="赛福" Code="赛福"></v:Pair>
-            <v:Pair CName="秦川" Code="秦川"></v:Pair>
-            <v:Pair CName="秦港" Code="秦港"></v:Pair>
-            <v:Pair CName="致力" Code="致力"></v:Pair>
-            <v:Pair CName="其他" Code="其他"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="RIGIDITY">
-            <v:Pair CName="合格" Code="合格"></v:Pair>
-            <v:Pair CName="不合格" Code="不合格"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="USER_SATISFIED">
-            <v:Pair CName="满意" Code="满意"></v:Pair>
-            <v:Pair CName="基本满意" Code="基本满意"></v:Pair>
-            <v:Pair CName="不满意" Code="不满意"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="COOK_BRAND">
-            <v:Pair CName="港华紫荆" Code="港华紫荆"></v:Pair>
-            <v:Pair CName="万和" Code="万和"></v:Pair>
-            <v:Pair CName="万家乐" Code="万家乐"></v:Pair>
-            <v:Pair CName="林内" Code="林内"></v:Pair>
-            <v:Pair CName="海尔" Code="海尔"></v:Pair>
-            <v:Pair CName="阿里斯顿" Code="阿里斯顿"></v:Pair>
-            <v:Pair CName="樱花" Code="樱花"></v:Pair>
-            <v:Pair CName="华帝" Code="华帝"></v:Pair>
-            <v:Pair CName="其他" Code="其他"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="WATER_BRAND">
-            <v:Pair CName="港华紫荆" Code="港华紫荆"></v:Pair>
-            <v:Pair CName="万和" Code="万和"></v:Pair>
-            <v:Pair CName="万家乐" Code="万家乐"></v:Pair>
-            <v:Pair CName="林内" Code="林内"></v:Pair>
-            <v:Pair CName="海尔" Code="海尔"></v:Pair>
-            <v:Pair CName="阿里斯顿" Code="阿里斯顿"></v:Pair>
-            <v:Pair CName="樱花" Code="樱花"></v:Pair>
-            <v:Pair CName="华帝" Code="华帝"></v:Pair>
-            <v:Pair CName="其他" Code="其他"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="WHE_BRAND">
-            <v:Pair CName="港华紫荆" Code="港华紫荆"></v:Pair>
-            <v:Pair CName="万和" Code="万和"></v:Pair>
-            <v:Pair CName="万家乐" Code="万家乐"></v:Pair>
-            <v:Pair CName="林内" Code="林内"></v:Pair>
-            <v:Pair CName="海尔" Code="海尔"></v:Pair>
-            <v:Pair CName="阿里斯顿" Code="阿里斯顿"></v:Pair>
-            <v:Pair CName="樱花" Code="樱花"></v:Pair>
-            <v:Pair CName="华帝" Code="华帝"></v:Pair>
-            <v:Pair CName="其他" Code="其他"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="COOK_TYPE">
-            <v:Pair CName="台式单眼" Code="台式单眼"></v:Pair>
-            <v:Pair CName="台式双眼" Code="台式双眼"></v:Pair>
-            <v:Pair CName="镶嵌双眼" Code="镶嵌双眼"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="WATER_FLUE">
-            <v:Pair CName="平衡" Code="平衡"></v:Pair>
-            <v:Pair CName="强排" Code="强排"></v:Pair>
-            <v:Pair CName="烟道" Code="烟道"></v:Pair>
-            <v:Pair CName="直排" Code="直排"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="precaution">
-            <v:Pair CName="" Code=""></v:Pair>
-            <v:Pair CName="使用直排式热水器" Code="使用直排式热水器"></v:Pair>
-            <v:Pair CName="热水器或壁挂炉安装在卧室" Code="热水器或壁挂炉安装在卧室"></v:Pair>
-            <v:Pair CName="燃气设施安装在卧室" Code="燃气设施安装在卧室"></v:Pair>
-            <v:Pair CName="热水器未安装烟道或烟道未接到室外" Code="热水器未安装烟道或烟道未接到室外"></v:Pair>
-        </toolkit:ObjectCollection>
-    </UserControl.Resources>
     <Grid x:Name="LayoutRoot">
         <m:ResourceLoad x:Name="pageResource">
             <o:PagedList Name="repairManList" WebClientInfo="{StaticResource dbclient}" Path="sql"
@@ -171,7 +71,7 @@
                     </Grid>
                     <sdk:DataGrid x:Name="checkerGrid" Margin="0"  AutoGenerateColumns="False"  Background="{x:Null}" IsReadOnly="True" SelectionChanged="checkerGrid_SelectionChanged" d:IsHidden="True">
                         <a:Data.Items>
-                            <o:PagedList x:Name="checkerList" WebClientInfo="{StaticResource dbclient}"  EntityType="t_singlevalue"
+                            <o:PagedList x:Name="checkerList" WebClientInfo="{StaticResource dbclient}"  EntityType="t_inspection"
                                 PageIndex="0" PageSize="10000000" SumNames=","/>
                         </a:Data.Items>
                         <sdk:DataGrid.Columns>
@@ -179,10 +79,10 @@
                             <sdk:DataGridTextColumn Header="安检员" Binding="{Binding save_people}"/>
                             <sdk:DataGridTextColumn Header="出勤（天）" Binding="{Binding days}"/>
                             <sdk:DataGridTextColumn Header="实查（户）" Binding="{Binding papers}"/>
-                            <sdk:DataGridTextColumn Header="告知书（户）" Binding="{Binding notifications}"/>
+                            <sdk:DataGridTextColumn Header="整改单（户）" Binding="{Binding notifications}"/>
                             <sdk:DataGridTextColumn Header="到访不遇（户）" Binding="{Binding notins}"/>
                             <sdk:DataGridTextColumn Header="故障表（块）" Binding="{Binding defects}"/>
-                            <sdk:DataGridTextColumn Header="漏气" Binding="{Binding leakages}"/>
+                            <sdk:DataGridTextColumn Header="漏气（户）" Binding="{Binding leakages}"/>
                         </sdk:DataGrid.Columns>
                     </sdk:DataGrid>
                 </toolkit:DockPanel >
@@ -218,344 +118,446 @@
                 </toolkit:DockPanel >
             </c:BusyIndicatorEx>
             <ContentControl x:Name="slipPaper" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
-                <Grid Margin="0,0,0,0">
+                <Grid x:Name="userfile" DataContext="{m:Exp Str=slipGrid.SelectedItem}" Margin="0,0,0,0"  Grid.Column="1" Height="700" DataContextChanged="userfile_DataContextChanged" >
                     <!--非民用主操作区-->
-                    <sdk:TabControl Name="userfile" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Width="810" >
-                        <sdk:TabItem Name="BasicTab" Header="基本信息">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Width="auto">
-                                <Grid Margin="0" HorizontalAlignment="Stretch"  >
+                    <sdk:TabControl HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Width="810" Height="Auto">
+                        <sdk:TabItem Header="基本信息">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Width="auto" Height="auto">
+                                <Grid Margin="0" HorizontalAlignment="Stretch" Height="800">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="50"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="117"/>
-                                        <ColumnDefinition Width="168"/>
-                                        <ColumnDefinition Width="112"/>
-                                        <ColumnDefinition Width="124"/>
-                                        <ColumnDefinition Width="81"/>
-                                        <ColumnDefinition Width="180"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="检查情况：" Grid.Column="0" Margin="0" Grid.Row="0" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBox IsReadOnly="True"  Text="{m:Bind Path=CONDITION}" Grid.Column="1"  Grid.Row="0" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" IsEnabled="False"/>
-                                    <TextBlock Text="已发到访不遇卡：" Grid.Column="2" Grid.Row="0" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox IsReadOnly="True"  IsEnabled="False" Text="{m:Bind Path=HASNOTIFIED}" Grid.Column="3"  Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Margin="0"/>
-                                    <TextBlock Text="IC卡号：" Grid.Column="4" Grid.Row="0" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=CARD_ID}" Grid.Column="5" Grid.Row="0" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto"  />
-                                    <TextBlock Text="到达时间：" Grid.Column="0"  Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <oo:DateTimePicker IsEnabled="False" SelectedDateTimeStr="{m:Bind Path=ARRIVAL_TIME}" Grid.Column="1"  Grid.Row="1" Grid.ColumnSpan="2" ></oo:DateTimePicker>
-                                    <TextBlock Text="离开时间：" Grid.Column="3"  Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right"  />
-                                    <oo:DateTimePicker IsEnabled="False" SelectedDateTimeStr="{m:Bind Path=DEPARTURE_TIME}" Grid.Column="4"  Grid.Row="1" Grid.ColumnSpan="2"></oo:DateTimePicker>
-                                    <TextBlock Text="用户名：" Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBox IsReadOnly="True"  Text="{m:Bind Path=USER_NAME}" Grid.Column="1"  Grid.Row="2" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" Margin="0" Grid.RowSpan="1" />
-                                    <TextBlock Text="电话：" Grid.Column="2" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right"  HorizontalAlignment="Right" Width="95"   />
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=TELPHONE}" Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto"/>
-                                    <TextBlock Text="小区名称：" Grid.Column="4" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox IsReadOnly="True"  IsEnabled="False" Text="{m:Bind Path=UNIT_NAME}" Grid.Column="5"  Grid.Row="2" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto"  />
-                                    <TextBlock Text="街道：" Grid.Column="0" Grid.Row="3"  TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox IsReadOnly="True"  IsEnabled="False" Text="{m:Bind Path=ROAD}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
-                                    <TextBlock Text="楼号：" Grid.Column="2" Grid.Row="3" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBox IsReadOnly="True"  IsEnabled="False" Text="{m:Bind Path=CUS_DOM}" Grid.Column="3" Margin="0" Grid.Row="3" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="单元：" Grid.Column="4"  Grid.Row="3" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox IsReadOnly="True"  IsEnabled="False" Text="{m:Bind Path=CUS_DY}" Grid.Column="5" Margin="0" Grid.Row="3" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="楼层：" Grid.Column="0"  Grid.Row="4" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBox IsReadOnly="True"  IsEnabled="False" Text="{m:Bind Path=CUS_FLOOR}" Grid.Column="1" Margin="0" Grid.Row="4" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="房号：" Grid.Column="2" Grid.Row="4" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBox IsReadOnly="True"  IsEnabled="False" Text="{m:Bind Path=CUS_ROOM}" Grid.Column="3" Margin="0" Grid.Row="4" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="房屋结构：" Grid.Column="4" Grid.Row="4" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <ComboBox IsEnabled="False"  SelectedValue="{m:Bind Path=ROOM_STRUCTURE}" Grid.Row="4" Grid.Column="5" ItemsSource="{Binding Source={StaticResource ROOM_STRUCTURE}}"  DisplayMemberPath="CName" SelectedValuePath="Code"/>
-                                    <TextBlock Text="旧用户档案地址：" Grid.Column="0"  Grid.Row="5" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBox IsReadOnly="True"  IsEnabled="False" Text="{m:Bind Path=OLD_ADDRESS}" Grid.Column="1" Margin="0" Grid.Row="5" Grid.ColumnSpan="5" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="当前用户档案地址：" Grid.Column="0"  Grid.Row="6" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBox IsReadOnly="True"  Name="CurrentArchiveAddress" IsEnabled="False" Grid.Column="1" Margin="0" Grid.Row="6" Grid.ColumnSpan="5" TextWrapping="Wrap" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="供暖方式：" Grid.Column="0"  Grid.Row="7" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <ComboBox IsEnabled="False"  Name="WARM" Grid.Row="7" Grid.Column="1" ItemsSource="{Binding Source={StaticResource WARM}}"  DisplayMemberPath="CName" SelectedValuePath="Code" />
-                                    <TextBlock Text="其他供暖方式：" Grid.Column="2" Grid.Row="7" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox IsReadOnly="True"  Name="WARM_OTHER" Grid.Column="3" Margin="0" Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="基表数：" Grid.Column="4" Grid.Row="7" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=JB_NUMBER}" Grid.Column="5" Margin="0" Grid.Row="7" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="表内剩余气量：" Grid.Column="0" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Right"  />
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=SURPLUS_GAS}" Grid.Column="1" Grid.Row="8" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="燃气表基表号：" Grid.Column="2" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=RQB_JBCODE}" Grid.Column="3"  Grid.Row="8" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="左右表：" Grid.Column="4" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <ComboBox IsEnabled="False" SelectedValue="{m:Bind Path=RQB_AROUND}" Grid.Row="8" Grid.Column="5" ItemsSource="{Binding Source={StaticResource RQB_AROUND}}"  DisplayMemberPath="CName" SelectedValuePath="Code"/>
-                                    <TextBlock Text="燃气表生成年份：" Grid.Column="0" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=METERMADEYEAR}" Grid.Column="1" Grid.Row="9" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="燃气表隐患：" Grid.Column="2" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <StackPanel Name="MeterDefectsPane" Orientation="Horizontal" Grid.Column="3" Grid.Row="9" Grid.ColumnSpan="3">
-                                        <CheckBox IsEnabled="False"  Content="正常" Name="RQB"  IsChecked="{m:Exp Str=data.RQB\=\=$正常$}"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="包裹"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="漏气"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="长通表"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="死表"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="表不过气"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="其他"></CheckBox>
-                                    </StackPanel>
-                                    <TextBlock Text="基表厂家型号：" Grid.Column="0"  Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right"  />
-                                    <ComboBox IsEnabled="False"  Name="JB_METER_NAME" Grid.Row="10" Grid.Column="1" ItemsSource="{Binding Source={StaticResource JB_METER_NAME}}"  DisplayMemberPath="CName" SelectedValuePath="Code"/>
-                                    <TextBlock Text="其他厂家型号：" Grid.Column="2" Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox IsReadOnly="True" Name="JB_METER_NAME_OTHER" Grid.Column="3" Grid.Row="10" TextWrapping="Wrap" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="表型：" Grid.Column="4"  Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <ComboBox IsEnabled="False"  SelectedValue="{m:Bind Path=METER_TYPE}" Grid.Row="10" Grid.Column="5" ItemsSource="{Binding Source={StaticResource METER_TYPE}}"  DisplayMemberPath="CName" SelectedValuePath="Code"/>
-                                    <TextBlock Text="IC卡表厂家型号：" Grid.Column="0"  Grid.Row="11" TextWrapping="Wrap" TextAlignment="Right"  />
-                                    <ComboBox IsEnabled="False"  x:Name="IC_METER_NAME" Grid.Row="11" Grid.Column="1" ItemsSource="{Binding Source={StaticResource IC_METER_NAME}}"  DisplayMemberPath="CName" SelectedValuePath="Code"/>
-                                    <TextBlock Text="其他型号：" Grid.Column="2" Grid.Row="11" TextWrapping="Wrap" TextAlignment="Right"/>
-                                    <TextBox IsReadOnly="True" Name="IC_METER_NAME_OTHER" Grid.Column="3" Grid.Row="11" TextWrapping="Wrap" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="管道"  Grid.Column="0" Grid.Row="12" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBlock Text="立管：" Grid.Column="0" Grid.Row="13" TextAlignment="Right" />
-                                    <StackPanel Name="PlumbingDefectsPane" Orientation="Horizontal" Grid.Column="1" Grid.Row="13" Grid.ColumnSpan="5">
-                                        <CheckBox IsEnabled="False"  Content="正常" Name="STANDPIPE" IsChecked="{m:Exp Str=data.STANDPIPE\=\=$正常$}"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="包裹"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="腐蚀" Name="cbEroded"></CheckBox>
-                                        <TextBlock Text="("></TextBlock>
-                                        <RadioButton IsEnabled="False"   Content="严重" Name="rbErodedSevere"></RadioButton>
-                                        <RadioButton IsEnabled="False"   Content="中度" Name="rbErodedModerate" ></RadioButton>
-                                        <RadioButton IsEnabled="False"   Content="轻微" Name="rbErodedSlight"></RadioButton>
-                                        <TextBlock Text=")"></TextBlock>
-                                        <CheckBox IsEnabled="False"  Content="漏气"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="其他"></CheckBox>
-                                    </StackPanel>
-                                    <TextBlock Text="严密性测试：" Grid.Column="0" Grid.Row="14" TextAlignment="Right" />
-                                    <StackPanel Name="PlumbingProofPane" Orientation="Horizontal" Grid.Column="1" Grid.Row="14" >
-                                        <CheckBox IsEnabled="False"  Content="正常" IsChecked="{m:Exp Str=data.RIGIDITY\=\=$正常$}" Name="cbRIGIDITYNormal"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="漏气" IsChecked="{m:Exp Str=data.RIGIDITY\=\=$漏气$}" Name="cbRIGIDITYLeakage"></CheckBox>
-                                    </StackPanel>
-                                    <TextBlock Text="静止压力：" Grid.Column="2" Grid.Row="14" TextAlignment="Right"/>
-                                    <StackPanel Name="PlumbingPressurePane" Orientation="Horizontal" Grid.Column="3" Grid.Row="14" Grid.ColumnSpan="2">
-                                        <CheckBox IsEnabled="False"  Content="合格" IsChecked="{m:Exp Str=data.STATIC\=\=$合格$}" Name="cbPressureNormal"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="不合格" IsChecked="{m:Exp Str=data.STATIC\=\=$不合格$}" Name="cbPressureAbnormal"></CheckBox>
-                                        <TextBox IsReadOnly="True" Width="100" Text="{m:Bind Path=STATIC_DATA}"/>
-                                        <TextBlock Text="Pa"></TextBlock>
-                                    </StackPanel>
-                                    <TextBlock Text="阀门"  Grid.Column="0" Grid.Row="15" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <TextBlock Text="表前阀：" Grid.Column="0" Grid.Row="16" TextAlignment="Right" />
-                                    <StackPanel Name="PlumbingMeterValvePane" Orientation="Horizontal" Grid.Column="1" Grid.Row="16" Grid.ColumnSpan="5">
-                                        <CheckBox IsEnabled="False"  Content="正常" Name="TABLE_TAP" IsChecked="{m:Exp Str=data.TABLE_TAP\=\=$正常$}"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="内漏"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="漏气"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="球阀"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="旋塞"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="包裹"></CheckBox>
-                                    </StackPanel>
-                                    <TextBlock Text="灶前阀：" Grid.Column="0" Grid.Row="17" TextAlignment="Right" />
-                                    <StackPanel Name="PlumbingCookerValvePane" Orientation="Horizontal" Grid.Column="1" Grid.Row="17" Grid.ColumnSpan="5">
-                                        <CheckBox IsEnabled="False"  Content="正常" Name="COOK_TAP" IsChecked="{m:Exp Str=data.COOK_TAP\=\=$正常$}"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="内漏"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="漏气"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="包裹"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="安装过高"></CheckBox>
-                                    </StackPanel>
-                                    <TextBlock Text="自闭阀：" Grid.Column="0" Grid.Row="18" TextAlignment="Right" />
-                                    <StackPanel Name="PlumbingAutomaticValvePane" Orientation="Horizontal" Grid.Column="1" Grid.Row="18" Grid.ColumnSpan="5">
-                                        <CheckBox IsEnabled="False"  Content="正常" Name="CLOSE_TAP" IsChecked="{m:Exp Str=data.CLOSE_TAP\=\=$正常$}"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="内漏"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="漏气"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="失灵"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="包裹"></CheckBox>
-                                    </StackPanel>
-                                    <TextBlock Text="户内管"  Grid.Column="0" Grid.Row="19" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <StackPanel Name="PlumbingPipePane" Orientation="Horizontal" Grid.Column="1" Grid.Row="20" Grid.ColumnSpan="5">
-                                        <CheckBox IsEnabled="False"  Content="正常" Name="INDOOR" IsChecked="{m:Exp Str=data.INDOOR\=\=$正常$}"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="漏气"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="穿客厅"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="穿卧室"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="与电器过近"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="包裹"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="私改"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="厨房他用"></CheckBox>
-                                    </StackPanel>
-                                    <TextBlock Text="漏气"  Grid.Column="0" Grid.Row="21" TextWrapping="Wrap" TextAlignment="Right" />
-                                    <StackPanel Name="PlumbingLeakagePane" Orientation="Horizontal" Grid.Column="1" Grid.Row="22" Grid.ColumnSpan="5">
-                                        <CheckBox IsEnabled="False"  Content="灶具漏气" IsChecked="{m:Exp Str=data.LEAKAGE_COOKER\=\=$灶具漏气$}" Name="cbLEAKAGE_COOKER"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="热水器漏气" IsChecked="{m:Exp Str=data.LEAKAGE_HEATER\=\=$热水器漏气$}" Name="cbLEAKAGE_HEATER"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="壁挂炉漏气" IsChecked="{m:Exp Str=data.LEAKAGE_BOILER\=\=$壁挂炉漏气$}" Name="cbLEAKAGE_BOILER"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="已发定期安检告知书" IsChecked="{m:Exp Str=data.LEAKAGE_NOTIFIED\=\=$已发定期安检告知书$}" Name="cbLEAKAGE_NOTIFIED"></CheckBox>
-                                    </StackPanel>
-                                </Grid>
-                            </ScrollViewer>
-                        </sdk:TabItem>
-                        <sdk:TabItem Name="GasDeviceTab" Header="用气信息" >
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Width="auto">
-                                <Grid Height="700">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Text="灶具：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="0" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <TextBlock Text="品牌：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Height="25" />
-                                    <ComboBox IsEnabled="False"  SelectedValue="{m:Bind Path=COOK_BRAND}" Grid.Row="1" Grid.Column="1" Height="25" ItemsSource="{Binding Source={StaticResource COOK_BRAND}}"  DisplayMemberPath="CName" SelectedValuePath="Code">
-                                    </ComboBox>
-                                    <TextBlock Text="型号：" Grid.Column="2" Margin="0,3,0,2" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Height="25" />
-                                    <ComboBox IsEnabled="False"  SelectedValue="{m:Bind Path=COOK_TYPE}" Grid.Row="1" Grid.Column="3" Height="25" ItemsSource="{Binding Source={StaticResource COOK_TYPE}}"  DisplayMemberPath="CName" SelectedValuePath="Code">
-                                    </ComboBox>
-                                    <TextBlock Text="购置时间：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=COOK_DATE}" Grid.Column="1" Margin="0,5,0,0" Grid.Row="2" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="软管：" Grid.Column="2" Margin="0,3,0,2" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right" Height="25" Foreground="Black"/>
-                                    <StackPanel Name="CookerPipePane" Orientation="Horizontal" Margin="0,3,0,2" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="3">
-                                        <CheckBox IsEnabled="False"  Content="正常" Name="COOKPIPE_NORMAL" IsChecked="{m:Exp Str=data.COOKPIPE_NORMAL\=\=$正常$}"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="漏气"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="老化"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="有安全隐患"></CheckBox>
-                                    </StackPanel>
-                                    <TextBlock Text="安装管卡个数：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="3" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=COOKERPIPECLAMPCOUNT}" Grid.Column="1" Margin="0,5,0,0" Grid.Row="3" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="更换软管长度：" Grid.Column="2" Margin="0,3,0,2" Grid.Row="3" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=COOKERPIPYLENGTH}" Grid.Column="3" Margin="0,5,0,0" Grid.Row="3" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="热水器：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="4" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <TextBlock Text="品牌：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="5" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <ComboBox IsEnabled="False"  SelectedValue="{m:Bind Path=WATER_BRAND}" Grid.Row="5" Grid.Column="1" Height="25" ItemsSource="{Binding Source={StaticResource WATER_BRAND}}"  DisplayMemberPath="CName" SelectedValuePath="Code">
-                                    </ComboBox>
-                                    <TextBlock Text="型号：" Grid.Column="2" Margin="0,3,0,2" Grid.Row="5" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=WATER_TYPE}" Grid.Column="3" Margin="0,5,0,0" Grid.Row="5" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="购置时间：" Grid.Column="4" Margin="0,3,0,2" Grid.Row="5" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=WATER_DATE}" Grid.Column="5" Margin="0,5,0,0" Grid.Row="5" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="软管：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="6" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <StackPanel Name="BoilerPipePane" Orientation="Horizontal" Margin="0,3,0,2" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3">
-                                        <CheckBox IsEnabled="False"  Content="正常" Name="WATER_PIPE" IsChecked="{m:Exp Str=data.WATER_PIPE\=\=$正常$}"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="漏气"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="老化"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="有安全隐患"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="铝塑管"></CheckBox>
-                                    </StackPanel>
-                                    <TextBlock Text="更换管卡个数：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="7" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=WATER_NUME}" Grid.Column="1" Margin="0,5,0,0" Grid.Row="7" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="烟道：" Grid.Column="2" Margin="0,3,0,2" Grid.Row="7" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <ComboBox IsEnabled="False"  SelectedValue="{m:Bind Path=WATER_FLUE}" Grid.Row="7" Grid.Column="3" Height="25" ItemsSource="{Binding Source={StaticResource WATER_FLUE}}"  DisplayMemberPath="CName" SelectedValuePath="Code">
-                                    </ComboBox>
-                                    <TextBlock Text="安全隐患：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <StackPanel Name="BoilerDefectsPane" Orientation="Horizontal" Margin="0,3,0,2" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="5">
-                                        <CheckBox IsEnabled="False"  Content="无" Name="WATER_HIDDEN" IsChecked="{m:Exp Str=data.WATER_HIDDEN\=\=$正常$}"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="直排热水器"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="未安装烟道"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="烟道未排到室外"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="严禁使用"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="安装在卧室"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="烟道破损"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="包裹烟道"></CheckBox>
-                                    </StackPanel>
-                                    <TextBlock Text="壁挂锅炉：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <TextBlock Text="品牌：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <ComboBox IsEnabled="False"  SelectedValue="{m:Bind Path=WHE_BRAND}" Grid.Row="10" Grid.Column="1" Height="25" ItemsSource="{Binding Source={StaticResource WHE_BRAND}}"  DisplayMemberPath="CName" SelectedValuePath="Code">
-                                    </ComboBox>
-                                    <TextBlock Text="型号：" Grid.Column="2" Margin="0,3,0,2" Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=WHE_TYPE}" Grid.Column="3" Margin="0,5,0,0" Grid.Row="10" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="购置时间：" Grid.Column="4" Margin="0,3,0,2" Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=WHE_DATE}" Grid.Column="5" Margin="0,5,0,0" Grid.Row="10" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
-                                    <TextBlock Text="隐患：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="11" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <StackPanel Name="WHEDefectsPane" Orientation="Horizontal" Margin="0,3,0,2" Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="5">
-                                        <CheckBox IsEnabled="False"  Content="正常" Name="WHE_HIDDEN" IsChecked="{m:Exp Str=data.WHE_HIDDEN\=\=$正常$}"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="壁挂炉安装在卧室"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="已发定期安检告知书"></CheckBox>
-                                    </StackPanel>
-                                    <CheckBox IsEnabled="False"  Content="是否维修" x:Name="NEEDS_REPAIR" IsChecked="{m:Exp Str=data.NEEDS_REPAIR\=\=$是$}" Grid.Column="1" Margin="0,3,0,2" Grid.Row="12"  Height="25"/>
-                                    <TextBlock Text="维修人：" Grid.Column="2" Margin="0,3,0,2" Grid.Row="12" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                    <ComboBox IsEnabled="False"  Name="cmbRepair" SelectedValue="{m:Bind Path=REPAIRMAN_ID}" Grid.Row="12" Grid.Column="3" Height="25" ItemsSource="{m:Exp Str=repairManList}"  DisplayMemberPath="REPAIRMAN" SelectedValuePath="REPAIRMAN_ID">
-                                    </ComboBox>
-                                </Grid>
-                            </ScrollViewer>
-                        </sdk:TabItem>
-                        <sdk:TabItem Name="PrecautionTab" Header="隐患">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Width="auto">
-                                <Grid Height="700">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="600"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="80"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="30"/>
-                                    </Grid.RowDefinitions>
-                                    <toolkit:WrapPanel Orientation="Horizontal" Name="precautionCheckPane"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-                                        <CheckBox IsEnabled="False"  Content="燃气设施安装在卧室/卫生间"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="燃气设备安装在卧室"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="软管过长"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="软管暗敷"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="软管接三通"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="软管穿柜/门窗/顶棚"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="软管穿墙/地面"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="使用非天然气专用软管"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="软管上有接头"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="软管离火源太近"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="软管包裹"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="已发近期安检报告书"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="无管卡"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="燃气具安装，摆放位置不规范"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="与液化气共处一室"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="连接软管在户外"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="使用非安全燃气具"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="软管连接没有固定"></CheckBox>
-                                        <CheckBox IsEnabled="False"  Content="燃气管挂物接触电源线"></CheckBox>
-                                    </toolkit:WrapPanel>
-                                    <!--<TextBlock Text="{m:Exp Str=data.LINES[data.EQUIPMENT\=\=$安全隐患$].ToString(CONTENT)}" Grid.Row="0"  Grid.ColumnSpan="6" />-->
 
-                                    <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1">
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="0"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="98.343"/>
+                                        <ColumnDefinition Width="21.657"/>
+                                        <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition Width="128"/>
+                                        <ColumnDefinition Width="108"/>
+                                        <ColumnDefinition Width="86.552"/>
+                                        <ColumnDefinition Width="27.448"/>
+
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="状态：" Grid.Column="0" Grid.Row="0" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2" Grid.ColumnSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=CONDITION}" Grid.Column="2"  Grid.Row="0" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Margin="0" Grid.RowSpan="1" />
+                                    <TextBlock Text="发到访不遇卡：" Grid.Column="5" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=HASNOTIFIED}" Grid.Column="6"  Grid.Row="2" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Margin="0,0,-16,0" Grid.RowSpan="1" Grid.ColumnSpan="2" />
+                                    <TextBlock Text="日期：" Grid.Column="3" Margin="0,2,0,23" Grid.Row="0" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_anjianriqi}" Grid.Column="4"  Grid.Row="0" TextWrapping="NoWrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Margin="0" Grid.RowSpan="1" />
+                                    <TextBlock Text="到达时间：" Grid.Column="5" Margin="34,2,0,23" Grid.Row="0" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=ARRIVAL_TIME}" Grid.Column="6"  Grid.Row="0" TextWrapping="NoWrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Margin="0,-2,-16,2" Grid.RowSpan="1" Grid.ColumnSpan="2" />
+                                    <TextBlock Text="离开时间：" Grid.Column="0" Margin="0,2,0,23" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2" Grid.ColumnSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=DEPARTURE_TIME}" Grid.Column="2"  Grid.Row="1" TextWrapping="NoWrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Margin="0" Grid.RowSpan="1" Grid.ColumnSpan="1" />
+                                    <TextBlock Text="安检单类型：" Grid.Column="3" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" />
+                                    <TextBox IsEnabled="False" Text="{m:Bind Path=f_checktype}" Grid.Column="4"  Grid.Row="1" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" Margin="0" Grid.RowSpan="1" />
+                                    <TextBlock Text="卡号：" Grid.Column="5" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Margin="34,0,0,0" />
+                                    <TextBox IsEnabled="False" Text="{m:Bind Path=f_cardnum}" Grid.Column="6"  Grid.Row="0" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" Margin="0,21,-16,4" Grid.RowSpan="2" Grid.ColumnSpan="2" />
+                                    <TextBlock Text="用户名：" Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right" Grid.ColumnSpan="2" />
+                                    <TextBox IsEnabled="False" Text="{m:Bind Path=f_consumername}" Grid.Column="2"  Grid.Row="2" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" Margin="0" Grid.RowSpan="1" />
+                                    <TextBlock Text="电话：" Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right"  HorizontalAlignment="Right" Width="95" Grid.RowSpan="2"  />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_consumerphone}" Grid.Column="4" Margin="0,2" Grid.Row="2" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto"/>
+                                    <!--
+                                <TextBlock Text="市：" Grid.Column="0" Margin="0,2,0,23" Grid.Row="3" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+                                <TextBox  IsEnabled="False" Text="{m:Bind Path=city}" Grid.Column="2"  Grid.Row="3" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,0,22" Grid.RowSpan="2" />
+                                <TextBlock Text="区：" Grid.Column="3" Margin="0,2,0,23" Grid.Row="3"  TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2"/>
+                                <TextBox  IsEnabled="False" Text="{m:Bind Path=f_area}" Grid.Column="4" Margin="0" Grid.Row="3" Grid.ColumnSpan="1" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
+                                -->
+                                    <TextBlock Text="街道：" Grid.Column="0" Margin="0,2,0,23" Grid.Row="3"  TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=ROAD}" Grid.Column="2" Margin="0" Grid.Row="3" Grid.ColumnSpan="1" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
+
+                                    <TextBlock Text="小区名称：" Grid.Column="2" Margin="0,2,0,23" Grid.Row="3" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=UNIT_NAME}" Grid.Column="4"  Grid.Row="3" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,2,0,22" Grid.RowSpan="2" />
+                                    <TextBlock Text="楼号：" Grid.Column="5" Margin="0,2,0,22" Grid.Row="3" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=CUS_DOM}" Grid.Column="6" Margin="0,2,-16,0" Grid.Row="3" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="2"  />
+                                    <TextBlock Text="单元：" Grid.Column="0" Margin="0,2,0,17" Grid.Row="4" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=CUS_DY}" Grid.Column="2" Margin="0,2,0,0" Grid.Row="4" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" />
+                                    <TextBlock Text="楼层：" Grid.Column="2" Margin="0,8,0,17" Grid.Row="4" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=CUS_FLOOR}" Grid.Column="4" Margin="0" Grid.Row="4" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="房号：" Grid.Column="5" Margin="0,8,0,17" Grid.Row="4" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=CUS_ROOM}" Grid.Column="6" Margin="0,0,-16,0" Grid.Row="4" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="2" />
+                                    <TextBlock Text="用气设备：" Grid.Column="5" Margin="0,3,0,17" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_devices}" Grid.Column="6" Margin="0,0,-16,0" Grid.Row="8" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="2" />
+                                    <TextBlock Text="用户档案地址：" Grid.Column="0" Margin="0,3,0,22" Grid.Row="6" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+                                    <TextBox  x:Name="CurrentArchiveAddress" IsEnabled="False" Text="{m:Bind Path=f_archiveaddress}" Grid.Column="2" Margin="0" Grid.Row="6" Grid.ColumnSpan="3" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto"  />
+                                    <TextBlock Text="常住人口：" Grid.Column="5" Margin="0,2,0,23" Grid.Row="6" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2"/>
+                                    <TextBox IsEnabled="False"  Text="{m:Bind Path=f_renkou}" Grid.Column="6" Margin="0,3,-16,22" Grid.Row="6" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="2" Grid.RowSpan="2" />
+                                    <TextBlock Text="租住：" Grid.Column="0" Margin="0,3,0,0" Grid.Row="7" TextWrapping="Wrap" TextAlignment="Right" Grid.ColumnSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_zuzhu}" Grid.Column="2" Margin="0" Grid.Row="7" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto"  />
+                                    <TextBlock Text="小区性质：" Grid.Column="3" Margin="0,3,0,5" Grid.Row="7" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="1"  />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_property}" Grid.Column="4" Margin="0" Grid.Row="7" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto"  />
+                                    <TextBlock Text="网格编码：" Grid.Column="5" Margin="0,2,0,5" Grid.Row="7"  TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="1"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=REGION_NAME}" Grid.Column="6" Margin="0,0,-16,0" Grid.Row="7" Grid.ColumnSpan="2" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto"/>
+                                    <TextBlock Text="是否重点用户：" Grid.Column="0" Margin="0,3,0,0" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Right" Grid.ColumnSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_iszhongdian}" Grid.Column="2" Margin="0" Grid.Row="8"  TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto"  />
+                                    <TextBlock Text="供暖方式：" Grid.Column="3" Margin="0,3,0,22" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Right" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_gongnuan}" Grid.Column="4" Margin="0" Grid.Row="8" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto"  />
+                                    <TextBlock Text="报警器有否：" Grid.Column="0" Margin="0,5,0,0" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right" HorizontalAlignment="Left" Width="120" Grid.ColumnSpan="2"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_baojingqi}" Grid.Column="2" Margin="0,0,0,2" Grid.Row="9" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Grid.RowSpan="1" />
+                                    <TextBlock Text="报警器厂家：" Grid.Column="3" Margin="0,3,0,2" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_baojingqichang}" Grid.Column="4" Margin="0,0,0,2" Grid.Row="9" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Bottom" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="报警器安装时间：" Grid.Column="5" Margin="0,3,0,2" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_alarm_installation_time}" Grid.Column="6" Margin="0,0,-16,2" Grid.Row="9" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="2" />
+                                    <TextBlock Text="报警器到期时间：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right" Grid.ColumnSpan="2"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_alarm_expire_time}" Grid.Column="2" Margin="0,0,0,2" Grid.Row="10" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+
+                                    <TextBlock Text="立管类型：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="11" TextWrapping="Wrap" TextAlignment="Right" Grid.ColumnSpan="2"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_plumbing_type}" Grid.Column="2" Margin="0,0,0,2" Grid.Row="11" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="立管管件详情：" Grid.Column="0" Margin="0" Grid.Row="12" TextAlignment="Right" Grid.ColumnSpan="2" />
+                                    <CheckBox  IsEnabled="False" Content="立管阀" IsChecked="{m:Bind Path=f_plumbing_valve}" Grid.Row="12"  Grid.Column="2"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="活结" IsChecked="{m:Bind Path=f_plumbing_slipknot}" Grid.Row="12"  Grid.Column="3"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="伸缩结" IsChecked="{m:Bind Path=f_plumbing_scaleknot}" Grid.Row="12"  Grid.Column="4"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="变径" IsChecked="{m:Bind Path=f_plumbing_diameter}" Grid.Row="12"  Grid.Column="5"  Margin="0,5,0,0"/>
+                                    <TextBlock Text="立管隐患类型：" Grid.Column="0" Margin="0" Grid.Row="13" TextAlignment="Right" Grid.ColumnSpan="2" />
+                                    <CheckBox  IsEnabled="False" Content="正常" IsChecked="{m:Bind Path=f_lgzhengchang}" Grid.Row="13"  Grid.Column="2"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="腐蚀" IsChecked="{m:Bind Path=f_lgfushi}" Grid.Row="13"  Grid.Column="3"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="私改" IsChecked="{m:Bind Path=f_lgsigai}" Grid.Row="13"  Grid.Column="4"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="漏气" IsChecked="{m:Bind Path=f_lglouqi}" Grid.Row="13"  Grid.Column="5"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="包裹" IsChecked="{m:Bind Path=f_lgbaoguo}" Grid.Row="13"  Grid.Column="6"  Margin="0,5,0,0" Grid.ColumnSpan="2"/>
+                                    <CheckBox  IsEnabled="False" Content="与电源或火源过近" IsChecked="{m:Bind Path=f_lghuoyuan}" Grid.Row="14"  Grid.Column="3"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="未固定" IsChecked="{m:Bind Path=f_lgweiguding}" Grid.Row="14"  Grid.Column="4"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="穿越禁止区域" IsChecked="{m:Bind Path=f_lgchuanyue}" Grid.Row="14"  Grid.Column="5"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="不便维修" IsChecked="{m:Bind Path=f_lgbubianweixiu}" Grid.Row="14"  Grid.Column="6"  Margin="0,5,0,0" Grid.ColumnSpan="2"/>
+                                    <CheckBox  IsEnabled="False" Content="挂物" IsChecked="{m:Bind Path=f_lgguawu}" Grid.Row="14"  Grid.Column="2"  Margin="0,5,0,0"/>
+                                    <TextBlock Text="漏气位置：" Grid.Column="0" Margin="0" Grid.Row="15" TextAlignment="Right" Grid.ColumnSpan="2" />
+                                    <CheckBox  IsEnabled="False" Content="阀门" IsChecked="{m:Bind Path=f_plumbing_leakage_valve}" Grid.Row="15"  Grid.Column="2"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="伸缩结" IsChecked="{m:Bind Path=f_plumbing_leakage_scaleknot}" Grid.Row="15"  Grid.Column="3"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="活结" IsChecked="{m:Bind Path=f_plumbing_leakage_slipknot}" Grid.Row="15"  Grid.Column="4"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="三通" IsChecked="{m:Bind Path=f_plumbing_leakage_triple}" Grid.Row="15"  Grid.Column="5"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="变径" IsChecked="{m:Bind Path=f_plumbing_leakage_diameter}" Grid.Row="15"  Grid.Column="6"  Margin="0,5,0,0" Grid.ColumnSpan="2"/>
+
+                                    <TextBlock Text="表前阀类型：" Grid.Column="0" Margin="0,3,0,0" Grid.Row="16" TextWrapping="Wrap" TextAlignment="Right" Grid.ColumnSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_metervalve_type}" Grid.Column="2" Margin="0" Grid.Row="16" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto"  />
+                                    <TextBlock Text="表前阀：" Grid.Column="3" Margin="0,3,0,0" Grid.Row="16" TextWrapping="Wrap" TextAlignment="Right" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_biaoqianfa}" Grid.Column="4" Margin="0" Grid.Row="16" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto"  />
+                                    <TextBlock Text="灶前阀：" Grid.Column="5" Margin="0,3,0,0" Grid.Row="16" TextWrapping="Wrap" TextAlignment="Right" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_zaoqianfa}" Grid.Column="6" Margin="0" Grid.Row="16" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="2"  />
+                                    <TextBlock Text="自闭阀：" Grid.Column="0" Margin="0,3,0,0" Grid.Row="17" TextWrapping="Wrap" TextAlignment="Right" Grid.ColumnSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_zibifa}" Grid.Column="2" Margin="0" Grid.Row="17" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto"  />
+
+                                    <TextBlock Text="表后管隐患类型：" Grid.Column="0" Margin="0" Grid.Row="18" TextAlignment="Right" Grid.ColumnSpan="2" />
+                                    <CheckBox  IsEnabled="False" Content="正常" IsChecked="{m:Bind Path=f_bhgzhengchang}" Grid.Row="18"  Grid.Column="2"  Margin="0,5,0,0"/>
+
+                                    <CheckBox  IsEnabled="False" Content="包裹" IsChecked="{m:Bind Path=f_bhgbaoguan}" Grid.Row="18"  Grid.Column="3"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="挂物" IsChecked="{m:Bind Path=f_bhgguawu}" Grid.Row="18"  Grid.Column="4"  Margin="0,5,0,0"/>
+
+                                    <CheckBox  IsEnabled="False" Content="漏气" IsChecked="{m:Bind Path=f_bhglouqi}" Grid.Row="18"  Grid.Column="5"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="穿越禁止区域" IsChecked="{m:Bind Path=f_bhgjinzhiquyu}" Grid.Row="18"  Grid.Column="6"  Margin="0,5,0,0" Grid.ColumnSpan="2"/>
+                                    <CheckBox  IsEnabled="False" Content="与电源或火源过近" IsChecked="{m:Bind Path=f_bhgdianyuan}" Grid.Row="19"  Grid.Column="2"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="私改" IsChecked="{m:Bind Path=f_bhggaiguan}" Grid.Row="19"  Grid.Column="3"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="软三通" IsChecked="{m:Bind Path=f_bhgrst}" Grid.Row="19"  Grid.Column="4"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="腐蚀" IsChecked="{m:Bind Path=f_bhgfushi}" Grid.Row="19"  Grid.Column="5"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="不便维修" IsChecked="{m:Bind Path=f_bhgbubianweixiu}" Grid.Row="19"  Grid.Column="6"  Margin="0,5,0,0" Grid.ColumnSpan="2"/>
+                                    <CheckBox  IsEnabled="False" Content="未固定" IsChecked="{m:Bind Path=f_bhgwxd}" Grid.Row="20"  Grid.Column="2"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="其他" IsChecked="{m:Bind Path=f_bhgqita}" Grid.Row="20"  Grid.Column="3"  Margin="0,5,0,0"/>
+                                    <TextBlock Text="其他：" Grid.Column="4" Margin="0,3,0,0" Grid.Row="20" TextWrapping="Wrap" TextAlignment="Right" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_bhgbeizhu}" Grid.Column="5" Margin="0" Grid.Row="20" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto"  />
+
+                                    <TextBlock Text="灶具连接管：" Grid.Column="0" Margin="0" Grid.Row="21" TextAlignment="Right" Grid.ColumnSpan="2" />
+                                    <CheckBox  IsEnabled="False" Content="未安装" IsChecked="{m:Bind Path=f_jpgwu}" Grid.Row="21"  Grid.Column="2"  Margin="0,5,0,0"/>
+                                    <TextBlock Text="连接管类型：" Grid.Column="2" Margin="0" Grid.Row="21" TextAlignment="Right" Grid.ColumnSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_jpg_type}" Grid.Column="4" Margin="0,0,0,2" Grid.Row="21" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="隐患类型：" Grid.Column="0" Margin="0" Grid.Row="22" TextAlignment="Right" Grid.ColumnSpan="2" />
+                                    <CheckBox  IsEnabled="False" Content="正常" IsChecked="{m:Bind Path=f_jpgzhengchang}" Grid.Row="22"  Grid.Column="2"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="漏气" IsChecked="{m:Bind Path=f_jpglouqi}" Grid.Row="22"  Grid.Column="3"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="老化" IsChecked="{m:Bind Path=f_jpglaohua}" Grid.Row="22"  Grid.Column="4"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="过长" IsChecked="{m:Bind Path=f_jpgguochang}" Grid.Row="22"  Grid.Column="5"  Margin="0,5,0,0"/>
+
+                                    <CheckBox  IsEnabled="False" Content="无管夹" IsChecked="{m:Bind Path=f_jpgwuguanjia}" Grid.Row="22"  Grid.Column="6"  Margin="0,5,0,0" Grid.ColumnSpan="2"/>
+                                    <CheckBox  IsEnabled="False" Content="穿墙或吊顶" IsChecked="{m:Bind Path=f_jpgdiaoding}" Grid.Row="23"  Grid.Column="2"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="暗埋" IsChecked="{m:Bind Path=f_jpganmai}" Grid.Row="23"  Grid.Column="3"  Margin="0,5,0,0"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </sdk:TabItem>
+                        <sdk:TabItem Header="用气信息" Height="27" VerticalAlignment="Top" >
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Width="auto" >
+
+                                <Grid  Height="1500" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="140"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="140"/>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="160"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="燃气表卡号：" Grid.Column="0" Grid.Row="0" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_kahao}" Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,0,0" Grid.RowSpan="1" Grid.ColumnSpan="1"  />
+                                    <TextBlock Text="表编号：" Grid.Column="2" Grid.Row="0" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_biaohao}" Grid.Column="3" Grid.Row="0" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,0,0" Grid.RowSpan="1"  />
+                                    <TextBlock Text="表型：" Grid.Column="4" Grid.Row="0" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_meter_type}" Grid.Column="5" Grid.Row="0" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,10,0" Grid.RowSpan="1"  />
+                                    <TextBlock Text="左右表：" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_rqbiaoxing}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,0,0" Grid.RowSpan="1"  />
+                                    <TextBlock Text="生产时间：" Grid.Column="2" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_meter_manufacture_date}" Grid.Column="3" Grid.Row="1" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,0,0" Grid.RowSpan="1"  />
+                                    <TextBlock Text="基表厂家：" Grid.Column="4" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_biaochang}" Grid.Column="5" Grid.Row="1" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,10,0" Grid.RowSpan="1"  />
+                                    <TextBlock Text="基表读数：" Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_jbdushu}" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,0,0" Grid.RowSpan="1"  />
+                                    <TextBlock Text="IC卡表厂家：" Grid.Column="2" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_kachangjia}" Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,0,0" Grid.RowSpan="1"  />
+                                    <TextBlock Text="IC卡表类型：" Grid.Column="4" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_iccard_type}" Grid.Column="5" Grid.Row="2" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,10,0" Grid.RowSpan="1"  />
+                                    <TextBlock Text="剩余气量：" Grid.Column="0" Grid.Row="3" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_shengyu}" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,0,0" Grid.RowSpan="1"  />
+                                    <TextBlock Text="剩余金额：" Grid.Column="2" Grid.Row="3" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_balance}" Grid.Column="3" Grid.Row="3" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,0,0" Grid.RowSpan="1"  />
+
+                                    <CheckBox  IsEnabled="False" Content="换表" IsChecked="{m:Bind Path=f_newmeter}" Grid.Row="3"  Grid.Column="4"  />
+                                    <TextBlock Text="总购气量：" Grid.Column="0" Grid.Row="4" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_buygas}" Grid.Column="1" Grid.Row="4" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,0,0" Grid.RowSpan="1"  />
+                                    <TextBlock Text="燃气表故障类型：" Grid.Column="0" Margin="0,5,0,0" Grid.Row="5" TextAlignment="Right" Grid.ColumnSpan="1" />
+                                    <CheckBox  IsEnabled="False" Content="死表" IsChecked="{m:Bind Path=f_sibiao}" Grid.Row="5"  Grid.Column="1"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="常通" IsChecked="{m:Bind Path=f_changtong}" Grid.Row="5"  Grid.Column="2"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="反装" IsChecked="{m:Bind Path=f_fanzhuang}" Grid.Row="5"  Grid.Column="3"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="漏气" IsChecked="{m:Bind Path=f_qblouqi}" Grid.Row="5"  Grid.Column="4"  Margin="0,5,0,0"/>
+
+                                    <CheckBox  IsEnabled="False" Content="气量不符" IsChecked="{m:Bind Path=f_reading_mismatch}" Grid.Row="5"  Grid.Column="5"  Margin="0,5,0,0"/>
+                                    <TextBlock Text="其他：" Grid.Column="0" Grid.Row="6" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_qibiao}" Grid.Column="1" Grid.Row="6" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,0,0" Grid.RowSpan="1"  />
+                                    <TextBlock Text="表封：" Grid.Column="2" Grid.Row="6" TextWrapping="Wrap" TextAlignment="Right" Margin="0,8,0,17" Grid.RowSpan="2" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_meter_cover}" Grid.Column="3" Grid.Row="6" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="Auto" Margin="0,3,0,0" Grid.RowSpan="1"  />
+
+                                    <TextBlock Text="燃气表隐患类型：" Grid.Column="0" Margin="0,5,0,0" Grid.Row="7" TextAlignment="Right" Grid.ColumnSpan="1" />
+                                    <CheckBox  IsEnabled="False" Content="包裹" IsChecked="{m:Bind Path=f_meter_wrapped}" Grid.Row="7"  Grid.Column="1"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="挂物" IsChecked="{m:Bind Path=f_meter_hanger}" Grid.Row="7"  Grid.Column="2"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="与电源或火源过近" IsChecked="{m:Bind Path=f_meter_nearfire}" Grid.Row="7"  Grid.Column="3"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="不便维修" IsChecked="{m:Bind Path=f_meter_unfavorable}" Grid.Row="7"  Grid.Column="4"  Margin="0,5,0,0"/>
+                                    <TextBlock Text="灶具：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <CheckBox IsEnabled="False" Content="未安装" IsChecked="{m:Bind Path=f_zjshiyong}" Grid.Column="1" Margin="0,3,0,2" Grid.Row="9" HorizontalAlignment="Left" Height="Auto" Width="80"/>
+                                    <TextBlock Text="品牌：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_zjpinpai}" Grid.Column="1" Margin="0,5,0,0" Grid.Row="10" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="类型：" Grid.Column="2" Margin="0,3,0,2" Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_zjleixing}" Grid.Column="3" Margin="0,5,0,0" Grid.Row="10" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="安装时间：" Grid.Column="4" Margin="0,3,0,2" Grid.Row="10" TextWrapping="Wrap" TextAlignment="Right" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_cooker_installation_time}" Grid.Column="5" Margin="0,5,0,0" Grid.Row="10" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="到期时间：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="11" TextWrapping="Wrap" TextAlignment="Right" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_cooker_expire_time}" Grid.Column="1" Margin="0,5,0,0" Grid.Row="11" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="现状：" Grid.Column="2" Margin="0,3,0,2" Grid.Row="11" TextWrapping="Wrap" TextAlignment="Right" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_zjxianzhuang}" Grid.Column="3" Margin="0,5,0,0" Grid.Row="11" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="隐患类型：" Grid.Column="0" Margin="0,5,0,0" Grid.Row="12" TextAlignment="Right" Grid.ColumnSpan="1" />
+                                    <CheckBox  IsEnabled="False" Content="超期使用" IsChecked="{m:Bind Path=f_cooker_overdue}" Grid.Row="12"  Grid.Column="1"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="无熄火保护或熄火保护失效" IsChecked="{m:Bind Path=f_cooker_nofireprotection}" Grid.Row="12"  Grid.Column="2"  Margin="0,5,78,0" Grid.ColumnSpan="2"/>
+                                    <CheckBox  IsEnabled="False" Content="漏气" IsChecked="{m:Bind Path=f_cooker_leakage}" Grid.Row="12"  Grid.Column="3"  Margin="94,5,0,0"/>
+
+                                    <TextBlock Text="备注：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="13" TextWrapping="Wrap" TextAlignment="Right" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_cooker_precaution_remark}" Grid.Column="1" Margin="0,5,0,0" Grid.Row="13" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="3" />
+
+                                    <TextBlock Text="热水器：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="16" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <CheckBox IsEnabled="False" Content="未安装"  IsChecked="{m:Bind Path=f_rshqshiyong}" Grid.Column="1" Margin="0,3,0,2" Grid.Row="16" HorizontalAlignment="Left" Height="Auto" Width="80"/>
+                                    <TextBlock Text="品牌：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="17" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox IsEnabled="False"  Text="{m:Bind Path=f_rshqpinpai}" Grid.Column="1" Margin="0,5,0,0" Grid.Row="17" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="功率：" Grid.Column="2" Margin="0,3,0,2" Grid.Row="17" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_rshqxinghao}" Grid.Column="3" Margin="0,5,0,0" Grid.Row="17" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="安装时间：" Grid.Column="4" Margin="0,3,0,2" Grid.Row="17" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_heater_installation_time}" Grid.Column="5" Margin="0,5,0,0" Grid.Row="17" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="到期时间：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="18" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_heater_expire_time}" Grid.Column="1" Margin="0,5,0,0" Grid.Row="18" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="现状：" Grid.Column="2" Margin="0,3,0,2" Grid.Row="18" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_rshqxianzhuang}" Grid.Column="3" Margin="0,5,0,0" Grid.Row="18" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="安装位置：" Grid.Column="4" Margin="0,3,0,2" Grid.Row="18" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_heater_place}" Grid.Column="5" Margin="0,5,0,0" Grid.Row="18" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+
+
+                                    <TextBlock Text="隐患类型：" Grid.Column="0" Margin="0,5,0,0" Grid.Row="19" TextAlignment="Right" Grid.ColumnSpan="1" />
+                                    <CheckBox  IsEnabled="False" Content="超期使用" IsChecked="{m:Bind Path=f_heater_overdue}" Grid.Row="19"  Grid.Column="1"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="软管连接" IsChecked="{m:Bind Path=f_heater_softconnector}" Grid.Row="19"  Grid.Column="2"  Margin="0,5,92,0" Grid.ColumnSpan="2"/>
+                                    <CheckBox  IsEnabled="False" Content="直排" IsChecked="{m:Bind Path=f_heater_emit}" Grid.Row="19"  Grid.Column="3" Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="烟道未排出室外" IsChecked="{m:Bind Path=f_heater_trapped}" Grid.Row="19"  Grid.Column="4" Grid.ColumnSpan="2" Margin="0,5,118,0" />
+                                    <CheckBox  IsEnabled="False" Content="漏气" IsChecked="{m:Bind Path=f_heater_leakage}" Grid.Row="19"  Grid.Column="5"  Margin="64,5,0,0"/>
+
+                                    <TextBlock Text="漏气位置：" Grid.Column="0" Margin="0,5,0,0" Grid.Row="20" TextAlignment="Right" Grid.ColumnSpan="1" />
+                                    <CheckBox  IsEnabled="False" Content="接口" IsChecked="{m:Bind Path=f_heater_leakage_connetor}" Grid.Row="20"  Grid.Column="1"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="球阀" IsChecked="{m:Bind Path=f_heater_leakage_valve}" Grid.Row="20"  Grid.Column="2"  Margin="0,5,92,0" Grid.ColumnSpan="2"/>
+                                    <CheckBox  IsEnabled="False" Content="机身" IsChecked="{m:Bind Path=f_heater_leakage_heater}" Grid.Row="20"  Grid.Column="3" Margin="0,5,0,0"/>
+
+                                    <TextBlock Text="备注：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="21" TextWrapping="Wrap" TextAlignment="Right" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_heater_precaution_remark}" Grid.Column="1" Margin="0,5,0,0" Grid.Row="21" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="3" />
+
+                                    <TextBlock Text="壁挂锅炉：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="23" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <CheckBox IsEnabled="False" Content="未安装"  IsChecked="{m:Bind Path=f_bglshiyong}" Grid.Column="1" Margin="0,3,0,2" Grid.Row="23" HorizontalAlignment="Left" Height="Auto" Width="80"/>
+                                    <TextBlock Text="品牌：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="24" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox IsEnabled="False"  Text="{m:Bind Path=f_bglpinpai}" Grid.Column="1" Margin="0,5,0,0" Grid.Row="24" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="安装时间：" Grid.Column="2" Margin="0,3,0,2" Grid.Row="24" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox IsEnabled="False"  Text="{m:Bind Path=f_furnace_installation_time}" Grid.Column="3" Margin="0,5,0,0" Grid.Row="24" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="到期时间：" Grid.Column="4" Margin="0,3,0,2" Grid.Row="24" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox IsEnabled="False"  Text="{m:Bind Path=f_furnace_expire_time}" Grid.Column="5" Margin="0,5,0,0" Grid.Row="24" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="现状：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="25" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox IsEnabled="False"  Text="{m:Bind Path=f_bglxianzhuang}" Grid.Column="1" Margin="0,5,0,0" Grid.Row="25" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="位置：" Grid.Column="2" Margin="0,3,0,2" Grid.Row="25" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox IsEnabled="False"  Text="{m:Bind Path=f_bglweizhi}" Grid.Column="3" Margin="0,5,0,0" Grid.Row="25" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+                                    <TextBlock Text="功率：" Grid.Column="4" Margin="0,3,0,2" Grid.Row="25" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox IsEnabled="False"  Text="{m:Bind Path=f_bglgonglv}" Grid.Column="5" Margin="0,5,0,0" Grid.Row="25" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" />
+
+                                    <TextBlock Text="隐患类型：" Grid.Column="0" Margin="0,5,0,0" Grid.Row="26" TextAlignment="Right" Grid.ColumnSpan="1" />
+                                    <CheckBox  IsEnabled="False" Content="超期使用" IsChecked="{m:Bind Path=f_furnace_overdue}" Grid.Row="26"  Grid.Column="1"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="软管连接" IsChecked="{m:Bind Path=f_furnace_softconnector}" Grid.Row="26"  Grid.Column="2"  Margin="0,5,92,0" Grid.ColumnSpan="2"/>
+                                    <CheckBox  IsEnabled="False" Content="直排" IsChecked="{m:Bind Path=f_furnace_emit}" Grid.Row="26"  Grid.Column="3"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="烟道未排出室外" IsChecked="{m:Bind Path=f_furnace_trapped}" Grid.Row="26"  Grid.Column="4"  Margin="-50,5,20,0"/>
+                                    <CheckBox  IsEnabled="False" Content="漏气" IsChecked="{m:Bind Path=f_furnace_leakage}" Grid.Row="26"  Grid.Column="5"  Margin="0,5,0,0"/>
+                                    <TextBlock Text="漏气位置：" Grid.Column="0" Margin="0,5,0,0" Grid.Row="27" TextAlignment="Right" Grid.ColumnSpan="1" />
+                                    <CheckBox  IsEnabled="False" Content="接口" IsChecked="{m:Bind Path=f_furnace_leakage_connetor}" Grid.Row="27"  Grid.Column="1"  Margin="0,5,0,0"/>
+                                    <CheckBox  IsEnabled="False" Content="球阀" IsChecked="{m:Bind Path=f_furnace_leakage_valve}" Grid.Row="27"  Grid.Column="2"  Margin="0,5,0,0" Grid.ColumnSpan="2"/>
+                                    <CheckBox  IsEnabled="False" Content="机身" IsChecked="{m:Bind Path=f_furnace_leakage_furnace}" Grid.Row="27"  Grid.Column="3"  Margin="0,5,0.5,0"/>
+                                    <TextBlock Text="备注：" Grid.Column="0" Margin="0,3,0,2" Grid.Row="28" TextWrapping="Wrap" TextAlignment="Right" />
+                                    <TextBox  IsEnabled="False" Text="{m:Bind Path=f_furnace_precaution_remark}" Grid.Column="1" Margin="0,5,0,0" Grid.Row="28" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="-1.739,-0.923" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="3" />
+                                </Grid>
+                            </ScrollViewer>
+                        </sdk:TabItem>
+                        <sdk:TabItem Header="隐患">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Width="auto">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="0"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="580"/>
+                                    </Grid.RowDefinitions>
+                                    <CheckBox IsEnabled="False" Content="密闭式厨房" Grid.Row="0" IsChecked="{m:Bind Path=f_precaution_kitchen}" Grid.Column="0" />
+                                    <CheckBox IsEnabled="False" Content="开放式厨房" Grid.Row="0" IsChecked="{m:Bind Path=f_precaution_openkitchen}" Grid.Column="1" />
+                                    <CheckBox IsEnabled="False" Content="多种火源" Grid.Row="0" IsChecked="{m:Bind Path=f_precaution_multisource}" Grid.Column="2" Grid.ColumnSpan="2"/>
+                                    <TextBlock Text="更改用途：" Grid.Column="3" Grid.Row="0" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox Grid.Column="4" Grid.Row="0" IsEnabled="False" Text="{m:Bind Path=f_precaution_otheruse}" Width="100"></TextBox>
+                                    <TextBlock Text="安检告知单单号：" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox Grid.Column="1" Grid.Row="1" IsEnabled="False" Text="{m:Bind Path=f_renow_id}" ></TextBox>
+                                    <TextBlock Text="是否维修：" Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox Grid.Column="1" Grid.Row="2" IsEnabled="False" Text="{m:Bind Path=NEEDS_REPAIR}" ></TextBox>
+                                    <TextBlock Text="维修人员：" Grid.Column="2" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right"/>
+                                    <TextBox Grid.Column="3" Grid.Row="2" IsEnabled="False" Text="{m:Bind Path=REPAIRMAN}" ></TextBox>
+                                    <TextBlock Text="满意度：" Grid.Column="0" Margin="28,3,5,2" Grid.Row="4" TextWrapping="Wrap" TextAlignment="Left"/>
+                                    <TextBox Grid.Column="0" Grid.Row="4" IsEnabled="False" Text="{m:Bind Path=f_kehupingjia}" Grid.ColumnSpan="2" Margin="100,0,0,0"></TextBox>
+                                    <TextBlock Text="备注：" Grid.Column="2" Margin="0,3,91,2" Grid.Row="4" TextWrapping="Wrap" TextAlignment="Left"/>
+                                    <TextBox Grid.Column="2" Grid.Row="4" IsEnabled="False" Text="{m:Bind Path=f_zgbeizhu}" Grid.ColumnSpan="4" Margin="47,0,0,0"></TextBox>
+                                    <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="5" Height="580">
                                         <Image x:Name="picture1" MouseEnter="picture_MouseEnter" Source="{m:Exp Str=data.PHOTO_FIRST\=\=null:$$\,$\{dbclient.BaseAddress\}/file/\{data.PHOTO_FIRST\}$}" Width="80" Height="50" OpacityMask="#FFE42626" Margin="0,5,5,0"></Image>
                                         <Image x:Name="picture2" MouseEnter="picture_MouseEnter" Source="{m:Exp Str=data.PHOTO_SECOND\=\=null:$$\,$\{dbclient.BaseAddress\}/file/\{data.PHOTO_SECOND\}$}" Width="80" Height="50" OpacityMask="#FFE42626" Margin="0,5,5,0"></Image>
                                         <Image x:Name="picture3" MouseEnter="picture_MouseEnter" Source="{m:Exp Str=data.PHOTO_THIRD\=\=null:$$\,$\{dbclient.BaseAddress\}/file/\{data.PHOTO_THIRD\}$}" Width="80" Height="50" OpacityMask="#FFE42626" Margin="0,5,5,0"></Image>
                                         <Image x:Name="picture4" MouseEnter="picture_MouseEnter" Source="{m:Exp Str=data.PHOTO_FOUTH\=\=null:$$\,$\{dbclient.BaseAddress\}/file/\{data.PHOTO_FOUTH\}$}" Width="80" Height="50" OpacityMask="#FFE42626" Margin="0,5,5,0"></Image>
                                         <Image x:Name="picture5" MouseEnter="picture_MouseEnter" Source="{m:Exp Str=data.PHOTO_FIFTH\=\=null:$$\,$\{dbclient.BaseAddress\}/file/\{data.PHOTO_FIFTH\}$}" Width="80" Height="50" OpacityMask="#FFE42626" Margin="0,5,5,0"></Image>
-                                        <Image x:Name="picture6" MouseEnter="picture_MouseEnter" Source="{m:Exp Str=data.PHOTO_SIXTH\=\=null:$$\,$\{dbclient.BaseAddress\}/file/\{data.PHOTO_SIXTH\}$}" Width="80" Height="50" OpacityMask="#FFE42626" Margin="0,5,5,0"></Image>
-                                        <Image x:Name="picture7" MouseEnter="picture_MouseEnter" Source="{m:Exp Str=data.PHOTO_SEVENTH\=\=null:$$\,$\{dbclient.BaseAddress\}/file/\{data.PHOTO_SEVENTH\}$}" Width="80" Height="50" OpacityMask="#FFE42626" Margin="0,5,5,0"></Image>
                                     </StackPanel>
-                                    <Image x:Name="bigPic" Source="{m:Exp Str=data.PHOTO_FIRST\=\=null:$$\,$\{dbclient.BaseAddress\}/file/\{data.PHOTO_FIRST\}$}" Width="700" Height="580" Grid.Column="1" Grid.Row="1" OpacityMask="#FFE42626"  Margin="5,5,5,5" ></Image>
+                                    <Image x:Name="bigPic" Source="{m:Exp Str=data.PHOTO_FIRST\=\=null:$$\,$\{dbclient.BaseAddress\}/file/\{data.PHOTO_FIRST\}$}" Width="700" Height="580" Grid.Column="1" Grid.Row="5" OpacityMask="#FFE42626"  Margin="5,5,5,5" Grid.ColumnSpan="5"></Image>
                                 </Grid>
                             </ScrollViewer>
                         </sdk:TabItem>
-                        <sdk:TabItem Name="SignatureTab" Header="签名">
-                            <StackPanel Orientation="Vertical">
-                                <StackPanel Orientation="Horizontal" Margin="5">
-                                    <TextBlock Text="满意度：" Margin="0,3,0,2" TextWrapping="Wrap"/>
-                                    <ComboBox IsEnabled="False" SelectedValue="{m:Bind Path=USER_SATISFIED}" Width="100" Height="25" ItemsSource="{Binding Source={StaticResource USER_SATISFIED}}"  DisplayMemberPath="CName" SelectedValuePath="Code">
-                                    </ComboBox>
-                                    <TextBlock Text="签名人电话：" Grid.Column="2" Grid.Row="2" TextWrapping="Wrap" TextAlignment="Right"  HorizontalAlignment="Right" Width="95"   />
-                                    <TextBox IsReadOnly="True"   Text="{m:Bind Path=SIGNTELEPHONE}" Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" Height="Auto" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Width="140"/>
-                                </StackPanel>
-                                <StackPanel Background="LightSteelBlue" Height="500" Width="600" HorizontalAlignment="Left">
-                                    <Image x:Name="image" Source="{m:Exp Str=data.USER_SIGN\=\=null:$$\,$\{dbclient.BaseAddress\}/file/\{data.USER_SIGN\}$}" Height="500" Width="600" />
-                                </StackPanel>
-                            </StackPanel>
+                        <sdk:TabItem Header="维修建议">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Width="auto">
+                                <toolkit:WrapPanel x:Name="suggestionPane" Orientation="Vertical" Height="550">
+
+                                </toolkit:WrapPanel>
+                            </ScrollViewer>
+                        </sdk:TabItem>
+                        <sdk:TabItem Header="签名">
+                            <Grid Background="LightSteelBlue" Height="700">
+                                <Image x:Name="image" Source="{m:Exp Str=data.USER_SIGN\=\=null:$$\,$\{dbclient.BaseAddress\}/file/\{data.USER_SIGN\}$}" Width="600" Height="600"/>
+                            </Grid>
+                        </sdk:TabItem>
+                        <sdk:TabItem Header="售气记录">
+                            <toolkit:DockPanel Width="Auto"   >
+                                <toolkit:DockPanel   Background="#94a8cd" toolkit:DockPanel.Dock="Bottom" Margin="0,0,0,5" Height="25" >
+                                    <Grid>
+                                        <sdk:DataPager x:Name="pagerPurchase" Source="{Binding ItemsSource.Count, Converter={StaticResource DataPagerConverter}, ElementName=lspurchaselist}"   PageSize="18"  />
+                                        <TextBlock TextWrapping="NoWrap" Text="{m:Exp Str=$共 \{lspurchaselist.ItemsSource.Count\} 项}" Width="100"  Margin="10,0,0,3" HorizontalAlignment="Left" />
+                                        <TextBlock TextWrapping="NoWrap" Text="{m:Exp Str=userfile.DataContext.f_kahao!\=null:$金额小计 \{lspurchaselist.ItemsSource.f_preamount.MathRound(2)\} 元$\,$0元$}" Width="200" Margin="100,0,0,3" HorizontalAlignment="Left" />
+                                        <TextBlock TextWrapping="NoWrap" Text="{m:Exp Str=userfile.DataContext.f_kahao!\=null:$气量小计 \{lspurchaselist.ItemsSource.f_pregas\} 方$\,$0方$}" Width="200" Margin="300,0,0,3" HorizontalAlignment="Left" />
+                                    </Grid>
+                                </toolkit:DockPanel>
+                                <sdk:DataGrid  Width="Auto"  Height="Auto" Background="{x:Null}" IsReadOnly="True" AutoGenerateColumns="False" x:Name="lspurchaselist"  Margin="0,0,0,2" >
+                                    <a:Data.Items>
+                                        <o:PagedObjectList x:Name="sellgas"   WebClientInfo="{StaticResource dbclient}" LoadOnPathChanged="False"
+									MultiPath="{m:Exp Str=userfile.DataContext.f_userid!\=null:$from t_sellinggas where f_userid\=\'\{userfile.DataContext.f_userid\}\'$\,$from t_sellinggas where f_userid\=abc$}"
+									Path="{m:Exp Str=userfile.DataContext.f_userid!\=null:$from t_sellinggas where f_userid\=\'\{userfile.DataContext.f_userid\}\' order by f_deliverytime desc$\, $from t_sellinggas where f_userid\=abc$}"
+									PageIndex="{m:Exp Str=pagerPurchase.PageIndex}" PageSize="{m:Exp Str=pagerPurchase.PageSize}" SumNames="f_preamount,f_pregas"
+									IsOld="{m:Exp Str=userfile.DataContext.id!\=null}"/>
+                                    </a:Data.Items>
+                                    <sdk:DataGrid.Columns>
+
+                                        <sdk:DataGridTextColumn Header="用户编号" d:IsLocked="True" Binding="{Binding f_userid}" />
+                                        <sdk:DataGridTextColumn Header="售气日期" Binding="{Binding f_deliverydate,StringFormat=yyyy-MM-dd}"/>
+                                        <sdk:DataGridTextColumn Header="气量" Binding="{Binding f_pregas}"/>
+                                        <sdk:DataGridTextColumn Header="金额" Binding="{Binding f_preamount}"/>
+
+                                    </sdk:DataGrid.Columns>
+                                </sdk:DataGrid>
+                            </toolkit:DockPanel>
                         </sdk:TabItem>
                     </sdk:TabControl>
 
@@ -567,7 +569,7 @@
  		<c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}"></c:DownLoad-->
 		<c:Excel x:Name="toExcel" HQL="{m:Exp Str=$sql:\{checkerList.HQL\}}" 
    			Completed="{m:Exp Str=downLoad.Down()}"
-	   		Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{checkerGrid.ItemsSource.Count\}/SAVE_PEOPLE:安检员|DAYS:出勤(天)|PAPERS:实查(户)|NOTIFICATIONS:告知书(户)|NOTINS:到访不遇(户)|DEFECTS:故障表(块)|LEAKAGES:漏气$}"/>
-	 		<c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}"></c:DownLoad>
+	   		Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{checkerGrid.ItemsSource.Count\}/save_people:安检员|days:出勤(天)|papers:实查(户)|notifications:告知书(户)|notins:到访不遇(户)|defects:故障表(块)|leakages:漏气(户)$}"/>
+        <c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}" Filter="(*.xls)|*.xls"></c:DownLoad>
     </Grid>
 </UserControl>
