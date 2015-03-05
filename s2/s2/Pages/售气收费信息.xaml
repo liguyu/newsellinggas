@@ -269,7 +269,7 @@
 
                     <toolkit:DockPanel   Background="#FFC3E4FD" toolkit:DockPanel.Dock="Bottom" Height="51">
                         <sdk:DataPager x:Name="pager2" Source="{Binding ItemsSource.Count, Converter={StaticResource DataPagerConverter}, ElementName=daninfos}" Margin="0,0,0,0" PageSize="42" toolkit:DockPanel.Dock="Top" Height="24"   />
-                        <TextBlock TextWrapping="Wrap"  Margin="0,0,5,0" Text="{m:Exp Str=$共\{daninfos.ItemsSource.Count\}项 总气量\{daninfos.ItemsSource.f_pregas\} 应收金额\{daninfos.ItemsSource.f_preamount\}元  实收金额\{daninfos.ItemsSource.f_grossproceeds\}元 违约金\{daninfos.ItemsSource.f_zhinajin\}元}"   Foreground="#FF140000" Width="901" toolkit:DockPanel.Dock="Bottom" Height="25" HorizontalAlignment="Right" TextAlignment="Right" />
+                        <TextBlock TextWrapping="Wrap"  Margin="0,0,5,0" Text="{m:Exp Str=$共\{daninfos.ItemsSource.Count\}项 总气量\{daninfos.ItemsSource.Count!\=0:daninfos.ItemsSource.f_pregas\,$0$\} 应收金额\{daninfos.ItemsSource.Count!\=0:daninfos.ItemsSource.f_preamount\,$0$\}元  实收金额\{daninfos.ItemsSource.Count!\=0:daninfos.ItemsSource.f_grossproceeds\,$0$\}元 违约金\{daninfos.ItemsSource.Count!\=0:daninfos.ItemsSource.f_zhinajin\,$0$\}元}"   Foreground="#FF140000" Width="901" toolkit:DockPanel.Dock="Bottom" Height="25" HorizontalAlignment="Right" TextAlignment="Right" />
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
                     </toolkit:DockPanel>
 

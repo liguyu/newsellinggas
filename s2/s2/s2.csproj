@@ -130,6 +130,9 @@
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\余额表.xaml.cs">
+      <DependentUpon>余额表.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\其他收费查看.xaml.cs">
       <DependentUpon>其他收费查看.xaml</DependentUpon>
     </Compile>
@@ -1419,6 +1422,10 @@
     <Page Include="Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\余额表.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\其他收费查看.xaml">
       <Generator>MSBuild:Compile</Generator>
