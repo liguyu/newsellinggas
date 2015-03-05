@@ -72,11 +72,12 @@ Margin="18.667,248.69,381.139,0"/>
 			<TextBlock Text="立方米" Margin="430,119,0,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="44"/>
 			<TextBlock Text="元/立方米"  HorizontalAlignment="Right" Margin="0,120,383,0"  Width="106" Height="20" VerticalAlignment="Top"/>
 			<sdk:Label HorizontalAlignment="Left" Content="开票日期：" FontSize="15" Height="22" Margin="36,0,0,68" VerticalAlignment="Bottom" Width="75"/>
-			<TextBlock Text="{m:Exp Str=SysTime.Now}" Margin="130,0,0,69" TextWrapping="Wrap" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="143"/>
+			<TextBlock Text="{m:Exp Str=sellgasobj.f_deliverydate.ToString($yyyy-MM-dd$)}" Margin="130,0,0,69" TextWrapping="Wrap" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="93"/>
+			<TextBlock Text="{m:Exp Str=sellgasobj.f_deliverytime.ToString($HH:mm:ss$)}" Margin="229,0,0,69" TextWrapping="Wrap" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="93"/>
 		
 		</Grid>
 
-<!--卡表收费收据-->
+	<!--卡表收费收据-->
 <Grid Name="aofengprint" Background="b" Margin="-1630,0,0,-488"  Width="1125" Height="346" VerticalAlignment="Bottom" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left">
             <a:Data.Context>
                 <o:GeneralObject  x:Name="fkprint1" WebClientInfo="{StaticResource dbclient}" EntityType="t_sellinggas"  />
@@ -131,7 +132,6 @@ Margin="18.667,0,381.139,132.294" Height="1" VerticalAlignment="Bottom"/>
             <TextBlock Text="{m:Exp Str=kbfee.f_address}"  HorizontalAlignment="Stretch" Margin="385,117,381,0"  Width="Auto" Height="20" VerticalAlignment="Top" d:LayoutOverrides="Height, GridBox"/>
             <TextBlock Text="{m:Exp Str=kbfee.f_userid}"  HorizontalAlignment="Left" Margin="389,89,0,0"  Width="141" Height="20" VerticalAlignment="Top" Padding="0,2,0,0"/>
             <TextBlock Text="{m:Exp Str=kbfee.f_cardid}"  HorizontalAlignment="Left" Margin="131,88,0,0"  Width="143" Height="20" VerticalAlignment="Top" Padding="0,2,0,0"/>
-            <TextBlock Text="{m:Exp Str=kbfee.f_deliverydate}"  HorizontalAlignment="Left" Margin="132,183,0,0"  Width="142" Height="20" VerticalAlignment="Top" Padding="0,2,0,0"/>
             <TextBlock Text="{m:Exp Str=kbfee.f_totalcost}"  HorizontalAlignment="Right" Margin="0,150,381,0"  Width="109" Height="20" VerticalAlignment="Top"/>
             <TextBlock Text="{m:Exp Str=kbfee.f_grossproceeds}"  HorizontalAlignment="Right" Margin="0,149,851,0"  Width="144" Height="20" VerticalAlignment="Top"/>
             <TextBlock Text="{m:Exp Str=LoginUser.name}"  HorizontalAlignment="Right" Margin="0,0,850,106" TextWrapping="Wrap" Width="144" Height="20" VerticalAlignment="Bottom"/>
@@ -151,9 +151,11 @@ Margin="18.667,0,381.139,132.294" Height="1" VerticalAlignment="Bottom"/>
             <TextBlock Text="{m:Exp Str=kbusers.f_districtname}" Margin="632,88,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="112"/>
             <sdk:Label  Content="收费截止日期：" Height="16" Margin="486,66,541,0"  VerticalAlignment="Top"/>
             <TextBlock Text="{m:Exp Str=kbfee.endinputdate}" Margin="0,65,385,0" TextWrapping="Wrap" Height="18" VerticalAlignment="Top" d:LayoutOverrides="Height, GridBox" HorizontalAlignment="Right" Width="149"/>
+            <TextBlock Text="{m:Exp Str=kbfee.f_deliverydate.ToString($yyyy-MM-dd$)}"  HorizontalAlignment="Left" Margin="132,183,0,0"  Width="77" Height="20" VerticalAlignment="Top" Padding="0,2,0,0"/>
+            <TextBlock Text="{m:Exp Str=kbfee.f_deliverytime.ToString($HH:mm:ss$)}"  HorizontalAlignment="Left" Margin="214,183,0,0"  Width="61" Height="20" VerticalAlignment="Top" Padding="0,2,0,0"/>
         </Grid>
 
-<!--机表交费-->
+	<!--机表交费-->
 <Grid Name="aofengprint" Background="b" Margin="-1630,0,0,-488"  Width="1125" Height="346" VerticalAlignment="Bottom" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left">
             <a:Data.Context>
                 <o:GeneralObject  x:Name="fkprint1" WebClientInfo="{StaticResource dbclient}" EntityType="t_sellinggas"  />
@@ -208,7 +210,7 @@ Margin="18.667,0,381.139,132.294" Height="1" VerticalAlignment="Bottom"/>
             <TextBlock Text="{m:Exp Str=kbfee.f_address}"  HorizontalAlignment="Stretch" Margin="385,117,381,0"  Width="Auto" Height="20" VerticalAlignment="Top" d:LayoutOverrides="Height, GridBox"/>
             <TextBlock Text="{m:Exp Str=kbfee.f_userid}"  HorizontalAlignment="Left" Margin="389,89,0,0"  Width="141" Height="20" VerticalAlignment="Top" Padding="0,2,0,0"/>
             <TextBlock Text="{m:Exp Str=kbfee.f_cardid}"  HorizontalAlignment="Left" Margin="131,88,0,0"  Width="143" Height="20" VerticalAlignment="Top" Padding="0,2,0,0"/>
-            <TextBlock Text="{m:Exp Str=kbfee.f_deliverydate}"  HorizontalAlignment="Left" Margin="132,183,0,0"  Width="142" Height="20" VerticalAlignment="Top" Padding="0,2,0,0"/>
+            <TextBlock Text="{m:Exp Str=kbfee.f_deliverydate.ToString($yyyy-MM-dd$)}"  HorizontalAlignment="Left" Margin="132,183,0,0"  Width="77" Height="20" VerticalAlignment="Top" Padding="0,2,0,0"/>
             <TextBlock Text="{m:Exp Str=kbfee.f_totalcost}"  HorizontalAlignment="Right" Margin="0,150,381,0"  Width="109" Height="20" VerticalAlignment="Top"/>
             <TextBlock Text="{m:Exp Str=kbfee.f_grossproceeds}"  HorizontalAlignment="Right" Margin="0,149,851,0"  Width="144" Height="20" VerticalAlignment="Top"/>
             <TextBlock Text="{m:Exp Str=LoginUser.name}"  HorizontalAlignment="Right" Margin="0,0,850,106" TextWrapping="Wrap" Width="144" Height="20" VerticalAlignment="Bottom"/>
@@ -228,4 +230,5 @@ Margin="18.667,0,381.139,132.294" Height="1" VerticalAlignment="Bottom"/>
             <TextBlock Text="{m:Exp Str=kbusers.f_districtname}" Margin="632,88,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="112"/>
             <sdk:Label  Content="收费截止日期：" Height="16" Margin="486,66,541,0"  VerticalAlignment="Top"/>
             <TextBlock Text="{m:Exp Str=kbfee.endinputdate}" Margin="0,65,385,0" TextWrapping="Wrap" Height="18" VerticalAlignment="Top" d:LayoutOverrides="Height, GridBox" HorizontalAlignment="Right" Width="149"/>
+            <TextBlock Text="{m:Exp Str=kbfee.f_deliverytime.ToString($HH:mm:ss$)}"  HorizontalAlignment="Left" Margin="214,183,0,0"  Width="61" Height="20" VerticalAlignment="Top" Padding="0,2,0,0"/>
         </Grid>

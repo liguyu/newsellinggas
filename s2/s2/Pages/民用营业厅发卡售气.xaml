@@ -733,11 +733,11 @@
                                 </a:Data.Prop>
                             </ComboBox>
                             <TextBlock Grid.Column="2" Margin="0" Grid.Row="13" TextWrapping="Wrap" TextAlignment="Right" Height="25"><Run Text="购气"/><Run Text="时间"/><Run Text="："/></TextBlock>
-                            <toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="3" Margin="0,3,0,2" Grid.Row="13"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" >
+                             <toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="3" Margin="0,3,0,2" Grid.Row="13"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="1" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_deliverytime" NoDependValue="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
                                 </a:Data.Prop>
-                            </toolkit:TimePicker>
+                            </toolkit:TimePicker>  
                             <TextBox Text="{m:Bind Path=f_cardidjia}" Grid.Column="3" Margin="0,3,1,2" Grid.Row="4" TextWrapping="Wrap" IsReadOnly="True" Height="25" HorizontalAlignment="Right" Width="1" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_cardidjia" NoDependValue="{m:Exp Str=userfile.DataContext.f_cardid!\=null:userfile.DataContext.f_cardid.ToLong()\+1\,null}"
@@ -848,10 +848,8 @@
             <TextBlock Text="{m:Exp Str=sellgasobj.f_cardfees}" Grid.Column="1" Margin="120,0,0,15" Grid.Row="6" TextWrapping="Wrap" Height="20" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="29"/>
 
         </Grid>
-
-
-        <!--奥枫发票打印-->
-		<Grid Name="aofengprint" Background="b" Margin="-1640,0,0,-498"  Width="1125" Height="346" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+<!--发卡售气收费-->
+<Grid Name="aofengprint" Background="b" Margin="-1640,0,0,-498"  Width="1125" Height="346" VerticalAlignment="Bottom" HorizontalAlignment="Left">
 		<a:Data.Context>
 			<o:GeneralObject  x:Name="fkprint1" WebClientInfo="{StaticResource dbclient}" EntityType="t_sellinggas"  />
 		</a:Data.Context>
@@ -924,9 +922,13 @@ Margin="18.667,248.69,381.139,0"/>
 			<TextBlock Text="立方米" Margin="430,119,0,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="44"/>
 			<TextBlock Text="元/立方米"  HorizontalAlignment="Right" Margin="0,120,383,0"  Width="106" Height="20" VerticalAlignment="Top"/>
 			<sdk:Label HorizontalAlignment="Left" Content="开票日期：" FontSize="15" Height="22" Margin="36,0,0,68" VerticalAlignment="Bottom" Width="75"/>
-			<TextBlock Text="{m:Exp Str=SysTime.Now}" Margin="130,0,0,69" TextWrapping="Wrap" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="143"/>
+			<TextBlock Text="{m:Exp Str=sellgasobj.f_deliverydate.ToString($yyyy-MM-dd$)}" Margin="130,0,0,69" TextWrapping="Wrap" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="93"/>
+			<TextBlock Text="{m:Exp Str=sellgasobj.f_deliverytime.ToString($HH:mm:ss$)}" Margin="229,0,0,69" TextWrapping="Wrap" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="93"/>
 		
 		</Grid>
+
+
+        <!--奥枫发票打印-->
         <!--<Grid Name="aofengprint" Background="b" Margin="-1869,0,0,-488"  Width="1125" Height="346" VerticalAlignment="Bottom" d:LayoutOverrides="VerticalAlignment" HorizontalAlignment="Left">
             <a:Data.Context>
                 <o:GeneralObject  x:Name="fkprint1" WebClientInfo="{StaticResource dbclient}" EntityType="t_sellinggas"  />
