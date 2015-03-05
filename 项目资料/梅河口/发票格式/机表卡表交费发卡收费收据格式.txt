@@ -134,7 +134,7 @@ Margin="18.667,248.69,381.139,0"/>
             <TextBlock Text="{m:Exp Str=SysTime.Now.ToString($yyyy$)}" Grid.Column="0"  HorizontalAlignment="Left" Margin="59,63,0,0" TextWrapping="Wrap" Width="52" Height="18" VerticalAlignment="Top" d:LayoutOverrides="Height, GridBox"/>
             <TextBlock Text="{m:Exp Str=SysTime.Now.ToString($MM$)}"  HorizontalAlignment="Left" Margin="133,65,0,0" TextWrapping="Wrap" Width="25" Height="18" VerticalAlignment="Top" d:LayoutOverrides="Height, GridBox"/>
             <TextBlock Text="{m:Exp Str=SysTime.Now.ToString($dd$)}"  HorizontalAlignment="Left" Margin="181,65,0,0" TextWrapping="Wrap" Width="27" Height="18" VerticalAlignment="Top" d:LayoutOverrides="Height, GridBox"/>
-            <TextBlock Text="{m:Exp Str=sellgasfee.f_pregas}" Margin="132,150,0,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top" Grid.ColumnSpan="1" d:LayoutOverrides="Height, GridBox" HorizontalAlignment="Left" Width="142"/>
+            <TextBlock Text="{m:Exp Str=kbfee.f_pregas}" Margin="132,150,0,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top" Grid.ColumnSpan="1" d:LayoutOverrides="Height, GridBox" HorizontalAlignment="Left" Width="142"/>
             <TextBlock Text="{m:Exp Str=LoginUser.f_fapiaotaitu}" Margin="130,0,0,103" TextWrapping="Wrap" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="143"/>
             <TextBlock Text="{m:Exp Str=kbfee.f_gasprice}" Margin="379,153,0,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="147"/>
             <TextBlock Text="{m:Exp Str=kbfee.f_grossproceeds.ToChinaMoney()}"  HorizontalAlignment="Left" Margin="132,189,0,137" TextWrapping="Wrap" Width="399" Height="20"/>
