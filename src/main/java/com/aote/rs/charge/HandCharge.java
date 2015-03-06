@@ -370,6 +370,7 @@ public class HandCharge {
 		}
 		if (chargenum.compareTo(f_zhye) < 0 && items < 1) {
 			// 自动下账
+			double grossproceeds=0;
 			Map<String, Object> sell = new HashMap<String, Object>();
 			sell.put("f_userid", map.get("f_userid")); // 用户ID
 			sell.put("f_payfeevalid", "有效");// 交费是否有效
@@ -377,7 +378,7 @@ public class HandCharge {
 			sell.put("lastinputgasnum", lastReading.doubleValue()); // 上期底数
 			sell.put("lastrecord", reading); // 本期底数
 			sell.put("f_totalcost", chargenum.doubleValue()); // 应交金额
-			sell.put("f_grossproceeds", chargenum.doubleValue()); // 收款
+			sell.put("f_grossproceeds", grossproceeds); // 收款
 			sell.put("f_deliverydate", new Date()); // 交费日期
 			sell.put("f_zhye", f_zhye.doubleValue()); // 上期结余
 			sell.put("f_benqizhye", f_zhye.subtract(chargenum).doubleValue()); // 本期结余

@@ -755,7 +755,7 @@ Margin="18.667,0,381.139,132.294" Height="1" VerticalAlignment="Bottom"/>
             <TextBlock Text="{m:Exp Str=kbfee.f_grossproceeds}"  HorizontalAlignment="Right" Margin="0,149,851,0"  Width="144" Height="20" VerticalAlignment="Top"/>
             <TextBlock Text="{m:Exp Str=LoginUser.name}"  HorizontalAlignment="Right" Margin="0,0,850,106" TextWrapping="Wrap" Width="144" Height="20" VerticalAlignment="Bottom"/>
             <sdk:Label HorizontalAlignment="Left" Content="截止表数" FontSize="15" Margin="293,0,0,142" Width="65" Height="22" VerticalAlignment="Bottom"/>
-            <TextBlock Text="{m:Exp Str=kbfee.f_premetergasnums}" Margin="384,0,0,142" TextWrapping="Wrap" Height="20" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="142" VerticalAlignment="Bottom"/>
+            <TextBlock Text="{m:Exp Str=kbfee.lastrecord}" Margin="384,0,0,142" TextWrapping="Wrap" Height="20" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="142" VerticalAlignment="Bottom"/>
             <Path Data="M72,0 L72,276.02899" Margin="0,85.602,492.013,234.398" Stretch="Fill" Stroke="Black" StrokeThickness="1" UseLayoutRounding="False" HorizontalAlignment="Right" Width="2" RenderTransformOrigin="0.5,0.5">
                 <Path.RenderTransform>
                     <CompositeTransform ScaleX="-1"/>
