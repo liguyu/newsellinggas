@@ -38,6 +38,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import sunw.io.Serializable;
+
 import com.aote.rs.charge.HandCharge.HibernateSQLCall;
 import com.aote.rs.util.RSException;
 
@@ -137,12 +139,17 @@ public class HandCharge {
 		}
 	}
 
-	// 单桧表抄表录入的内部方法，支持卡表及机表，卡表可录入余气量。
+	// 单块表抄表录入的内部方法，支持卡表及机表，卡表可录入余气量。
 	public String afrecordInput(String userid, double reading,
 			String sgnetwork, String sgoperator, String lastinputdate,
 			String handdate, double leftgas, String meterstate)
 			throws Exception {
-		Map<String, String> singles = getSingles();// 获取所有单值
+		// 查找用户未抄表记录
+		Map map = this.findHandPlan(userid);
+
+		// 下面程序执行hql变量
+		String hql = "";
+		// Map<String, String> singles = getSingles();// 获取所有单值
 		BigDecimal chargenum = new BigDecimal(0);
 		BigDecimal stair1num = new BigDecimal(0);
 		BigDecimal stair2num = new BigDecimal(0);
@@ -153,30 +160,6 @@ public class HandCharge {
 		BigDecimal stair3fee = new BigDecimal(0);
 		BigDecimal stair4fee = new BigDecimal(0);
 		BigDecimal sumamont = new BigDecimal(0);
-		String hql = "";
-		final String sql = "select isnull(u.f_userid,'') f_userid, isnull(u.f_zhye,'') f_zhye , isnull(u.lastinputgasnum,'') lastinputgasnum, isnull(u.f_gasprice,0) f_gasprice, isnull(u.f_username,'')  f_username,"
-				+ "isnull(u.f_stair1amount,0)f_stair1amount,isnull(u.f_stair2amount,0)f_stair2amount,isnull(u.f_stair3amount,0)f_stair3amount,isnull(u.f_stair1price,0)f_stair1price,isnull(u.f_stair2price,0)f_stair2price,isnull(u.f_stair3price,0)f_stair3price,isnull(u.f_stair4price,0)f_stair4price,isnull(u.f_stairmonths,0)f_stairmonths,isnull(u.f_stairtype,'未设')f_stairtype,"
-				+ "isnull(u.f_address,'')f_address ,isnull(u.f_districtname,'')f_districtname,isnull(u.f_cusDom,'')f_cusDom,isnull(u.f_cusDy,'')f_cusDy,isnull(u.f_gasmeterstyle,'') f_gasmeterstyle, isnull(u.f_idnumber,'') f_idnumber, isnull(u.f_gaswatchbrand,'')f_gaswatchbrand, isnull(u.f_usertype,'')f_usertype, "
-				+ "isnull(u.f_gasproperties,'')f_gasproperties,isnull(u.f_dibaohu,0)f_dibaohu,isnull(u.f_payment,'')f_payment,isnull(u.f_zerenbumen,'')f_zerenbumen,isnull(u.f_menzhan,'')f_menzhan,isnull(u.f_inputtor,'')f_inputtor, isnull(q.c,0) c,"
-				+ "isnull(u.f_metergasnums,0) f_metergasnums,isnull(u.f_cumulativepurchase,0)f_cumulativepurchase, "
-				+ "isnull(u.f_finallybought,0)f_finallybought,isnull(u.f_cardid,'NULL') f_cardid,isnull(u.f_filiale,'NULL')f_filiale,"
-				+ "h.id id from (select * from t_handplan where f_state='未抄表' and f_userid='"
-				+ userid
-				+ "') h "
-				+ "left join (select f_userid, COUNT(*) c from t_handplan where f_state='已抄表' and shifoujiaofei='否' "
-				+ "group by f_userid) q on h.f_userid=q.f_userid join t_userfiles u on h.f_userid=u.f_userid";
-		List<Map<String, Object>> list = (List<Map<String, Object>>) hibernateTemplate
-				.execute(new HibernateCallback() {
-					public Object doInHibernate(Session session)
-							throws HibernateException {
-						Query q = session.createSQLQuery(sql);
-						q.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-						List result = q.list();
-						return result;
-					}
-				});
-		// 取出未抄表记录以及资料
-		Map<String, Object> map = (Map<String, Object>) list.get(0);
 		BigDecimal gasprice = new BigDecimal(map.get("f_gasprice").toString());
 		String stairtype = map.get("f_stairtype").toString();
 		BigDecimal stair1amount = new BigDecimal(map.get("f_stair1amount")
@@ -241,6 +224,7 @@ public class HandCharge {
 		// 表状态
 		String meterState = meterstate;
 		// 针对设置阶梯气价的用户运算
+		// 阶梯起价处理
 		CountDate();
 		if (!stairtype.equals("未设")) {
 			final String gassql = " select isnull(sum(oughtamount),0)oughtamount from t_handplan "
@@ -356,7 +340,6 @@ public class HandCharge {
 				stair4fee = gas.multiply(stair4price);
 				chargenum = stair4fee;
 			}
-			// 该用户未设置阶梯气价
 		} else {
 			chargenum = gas.multiply(gasprice);
 			stair1num = new BigDecimal(0);
@@ -368,9 +351,10 @@ public class HandCharge {
 			stair3fee = new BigDecimal(0);
 			stair4fee = new BigDecimal(0);
 		}
+		// 结余够，并且前面没欠费，自动下账
 		if (chargenum.compareTo(f_zhye) < 0 && items < 1) {
 			// 自动下账
-			double grossproceeds=0;
+			double grossproceeds = 0;
 			Map<String, Object> sell = new HashMap<String, Object>();
 			sell.put("f_userid", map.get("f_userid")); // 用户ID
 			sell.put("f_payfeevalid", "有效");// 交费是否有效
@@ -512,7 +496,6 @@ public class HandCharge {
 					"set lastinputgasnum=? ,  lastinputdate=?  where f_userid=?";
 			hibernateTemplate.bulkUpdate(hql, new Object[] { reading,
 					lastinputDate, userid });
-
 			// 欠费,更新抄表记录的状态f_state、抄表日期、本次抄表底数
 			hql = "update t_handplan set f_state ='已抄表', shifoujiaofei='否',f_handdate=?,lastinputdate=?,f_zerenbumen='"
 					+ zerenbumen
@@ -576,7 +559,121 @@ public class HandCharge {
 			hibernateTemplate.bulkUpdate(hql, new Object[] { handDate,
 					lastinputDate, date, inputdate, meterState });
 		}
+		// 保存用户清欠账务,并更新档案中账户余额
+		if (gas.doubleValue() > 0) {
+			financedetailSave(map, gas, chargenum, sgnetwork, sgoperator);
+		}
 		return "";
+	}
+
+	/**
+	 * 保存用户财务明细
+	 */
+	private void financedetailSave(Map<String, Object> handplan,
+			BigDecimal gas, BigDecimal money, String sgnetwork,
+			String sgoperator) throws Exception {
+		Date now = new Date();
+		Map<String, Object> finance = new HashMap<String, Object>();
+		// <!--用户编号-->
+		finance.put("f_userid", handplan.get("f_userid"));
+		// <!--应收气量-->
+		finance.put("f_oughtamount", gas.doubleValue());
+		// <!--应收金额-->
+		finance.put("f_oughtfee", money.doubleValue());
+		// 账户结余
+		String acczhyeStr = handplan.get("f_accountzhye").toString();
+		if (acczhyeStr == null || acczhyeStr.equals("")) {
+			throw new RSException(handplan.get("f_userid") + "没有账户实际结余数据错误。");
+		}
+		BigDecimal accountzhye = new BigDecimal(acczhyeStr);
+		//原账户余额
+		finance.put("f_prevaccountzhye", accountzhye.doubleValue());
+		// 结余 > 应收 ， 已收金额 =应收金额, 欠费金额= 0,账户余额 = 结余- 应收
+		if (accountzhye.compareTo(money) >= 0) {
+			// <!--已收金额-->
+			finance.put("f_realmoney", money.doubleValue());
+			// <!--欠费金额-->
+			finance.put("f_debtmoney", 0.0);
+			// <!--账户结余-->
+			finance.put("f_accountzhye", accountzhye.subtract(money)
+					.doubleValue());
+		}
+		// 结余小于应收, 已收金额=结余金额, ,欠费金额=应收金额-结余金额,
+		// 账户余额= 0
+		else if (accountzhye.compareTo(money) < 0) {
+			// <!--已收金额-->
+			finance.put("f_realmoney", accountzhye.doubleValue());
+			// <!--欠费金额-->
+			finance.put("f_debtmoney", money.subtract(accountzhye).doubleValue());
+			// <!--账户结余-->
+			finance.put("f_accountzhye", 0.0);
+		}
+		// 单价
+		BigDecimal gasPrice = new BigDecimal(handplan.get("f_gasprice")
+				.toString());
+		finance.put("f_gasprice", gasPrice.doubleValue());
+		// <!--欠款日期,(交费时含义为收回的欠款的日期)-->
+		finance.put("f_debtdate", now);
+		// <!--数据类型(欠费/交费)-->
+		finance.put("f_datatype", "欠费");
+		// <!--是否有效(有效/无效)-->
+		finance.put("f_payfeevalid", "有效");
+		// <!--网点-->
+		finance.put("f_network", sgnetwork);
+		// <!--操作员-->
+		finance.put("f_opertor", sgoperator);
+		// 操作日期，时间
+		finance.put("f_deliverydate", now);
+		finance.put("f_deliverytime", now);
+		// 抄表id
+		finance.put("f_sourceid", handplan.get("id").toString());
+		// 保存
+		JSONObject financeJson = (JSONObject) new JsonTransfer()
+				.MapToJson(finance);
+		log.debug("保存清欠明细数据" + financeJson);
+		Object idObj = hibernateTemplate.save("t_financedetail", finance);
+		int saveId = Integer.parseInt(idObj.toString());
+		log.debug("保存成功,数据id" + saveId);
+		// 更新档案账户结余f_accountzhye
+		String uid = finance.get("f_userid").toString();
+		String accZhye = finance.get("f_accountzhye").toString();
+		String updateUserFile = "update t_userfiles set f_accountzhye="
+				+ accZhye + " where f_userid='" + uid + "'";
+		log.debug("更新档案账户结余" + updateUserFile);
+		this.hibernateTemplate.bulkUpdate(updateUserFile);
+		log.debug("更新档案账户成功");
+	}
+
+	/**
+	 * 查找用户未抄表记录
+	 */
+	private Map<String, Object> findHandPlan(String userid) {
+		Map<String, Object> result = null;
+		String hql = "";
+		final String sql = "select isnull(u.f_userid,'') f_userid, isnull(u.f_zhye,'') f_zhye ,isnull(u.f_accountzhye,'') f_accountzhye ,  isnull(u.lastinputgasnum,'') lastinputgasnum, isnull(u.f_gasprice,0) f_gasprice, isnull(u.f_username,'')  f_username,"
+				+ "isnull(u.f_stair1amount,0)f_stair1amount,isnull(u.f_stair2amount,0)f_stair2amount,isnull(u.f_stair3amount,0)f_stair3amount,isnull(u.f_stair1price,0)f_stair1price,isnull(u.f_stair2price,0)f_stair2price,isnull(u.f_stair3price,0)f_stair3price,isnull(u.f_stair4price,0)f_stair4price,isnull(u.f_stairmonths,0)f_stairmonths,isnull(u.f_stairtype,'未设')f_stairtype,"
+				+ "isnull(u.f_address,'')f_address ,isnull(u.f_districtname,'')f_districtname,isnull(u.f_cusDom,'')f_cusDom,isnull(u.f_cusDy,'')f_cusDy,isnull(u.f_gasmeterstyle,'') f_gasmeterstyle, isnull(u.f_idnumber,'') f_idnumber, isnull(u.f_gaswatchbrand,'')f_gaswatchbrand, isnull(u.f_usertype,'')f_usertype, "
+				+ "isnull(u.f_gasproperties,'')f_gasproperties,isnull(u.f_dibaohu,0)f_dibaohu,isnull(u.f_payment,'')f_payment,isnull(u.f_zerenbumen,'')f_zerenbumen,isnull(u.f_menzhan,'')f_menzhan,isnull(u.f_inputtor,'')f_inputtor, isnull(q.c,0) c,"
+				+ "isnull(u.f_metergasnums,0) f_metergasnums,isnull(u.f_cumulativepurchase,0)f_cumulativepurchase, "
+				+ "isnull(u.f_finallybought,0)f_finallybought,isnull(u.f_cardid,'NULL') f_cardid,isnull(u.f_filiale,'NULL')f_filiale,"
+				+ "h.id id from (select * from t_handplan where f_state='未抄表' and f_userid='"
+				+ userid
+				+ "') h "
+				+ "left join (select f_userid, COUNT(*) c from t_handplan where f_state='已抄表' and shifoujiaofei='否' "
+				+ "group by f_userid) q on h.f_userid=q.f_userid join t_userfiles u on h.f_userid=u.f_userid";
+		List<Map<String, Object>> list = (List<Map<String, Object>>) hibernateTemplate
+				.execute(new HibernateCallback() {
+					public Object doInHibernate(Session session)
+							throws HibernateException {
+						Query q = session.createSQLQuery(sql);
+						q.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+						List result = q.list();
+						return result;
+					}
+				});
+		// 取出未抄表记录以及资料
+		result = (Map<String, Object>) list.get(0);
+		return result;
 	}
 
 	// 计算开始时间方法
