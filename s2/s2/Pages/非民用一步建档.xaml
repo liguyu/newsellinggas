@@ -71,6 +71,8 @@
 			EntityType="t_userfiles"
 			IsInit="{m:Exp Str=SaveAction.State\=\=$End}"        	>
 			<o:PropertySetter PropertyName="f_zhye" Default="0"/>
+			<!--账户实际结余-->
+			<o:PropertySetter PropertyName="f_accountzhye" Default="0"/>
 			<o:PropertySetter PropertyName="f_state" Default="正常"/>
 			<o:PropertySetter  PropertyName="f_substate" Default="完成"/>
 			<o:PropertySetter PropertyName="f_device" Default="{m:Exp Str=devicelist}"></o:PropertySetter>
@@ -675,12 +677,12 @@
 													</a:Data.Prop>
 												</TextBox>
 												<TextBlock Grid.Column="4" Margin="0,3,0,2" Grid.Row="26" TextWrapping="Wrap" Text="建档时间：" TextAlignment="Right" Height="25"/>
-												<!--<toolkit:TimePicker Value="{m:Bind Path=f_yyttime}" IsEnabled="False" Grid.Column="5" Margin="0,3,0,2" Grid.Row="26"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
+												<toolkit:TimePicker Value="{m:Bind Path=f_yyttime}" IsEnabled="False" Grid.Column="5" Margin="0,3,0,2" Grid.Row="26"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
 													<a:Data.Prop>
 														<o:PropertySetter PropertyName="f_yyttime" 
 															Value="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
 													</a:Data.Prop>
-												</toolkit:TimePicker>-->
+												</toolkit:TimePicker>
 												<TextBox Text="{m:Bind Path=f_districtname}"  Grid.Column="2" Margin="0,3,0,2" Grid.Row="9" TextWrapping="Wrap" IsReadOnly="True" Height="25" VerticalAlignment="Stretch" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="0" >
 													<a:Data.Prop>
 														<o:PropertySetter PropertyName="f_districtname"  Default="."/>

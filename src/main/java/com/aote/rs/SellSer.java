@@ -227,20 +227,22 @@ public class SellSer {
 				hibernateTemplate.bulkUpdate(updateHandplan);
 			}
 			log.debug("售气交费 结束");
-			// 清欠处理,账户实际余额如果>0,说明实际不欠费，不处理
+			log.debug("清欠费开始" + userid);
+			// 清欠处理,账户实际余额如果>0,说明实际不欠费，不处理，加上收款，更新档案
+			if (f_accountZhye.compareTo(BigDecimal.ZERO) > 0) {
+				addUserAccountzhye(userid, accReceMoney);
+				return ret;
+			}
+			// 是否真实的抄表记录
+			if (userinfo.get("handid") == null) {
+				addUserAccountzhye(userid, accReceMoney);
+				return ret;
+			}
 			// 否则，根据收款逐条处理抄表记录欠款，产生清欠费记录，并计算最新余额最后写入档案
 			for (Map<String, Object> map : list) {
-				// 是否真实的抄表记录
-				if (map.get("handid") == null) {
-					continue;
-				}
-				if (f_accountZhye.compareTo(BigDecimal.ZERO) > 0) {
-					break;
-				}
 				financedetailDisp(loginUser, map, f_accountZhye, accReceMoney,
 						sellId);
 			}
-
 			// 抓取自定义异常
 		} catch (RSException e) {
 			log.debug("售气交费 失败!");
@@ -250,6 +252,22 @@ public class SellSer {
 			ret = ex.getMessage();
 		} finally {
 			return ret;
+		}
+	}
+
+	/**
+	 * 添加账户结余
+	 */
+	private void addUserAccountzhye(String userid, BigDecimal money) {
+		try {
+			// 更新档案账户结余f_accountzhye
+			String updateUserFile = "update t_userfiles set f_accountzhye=f_accountzhye+"
+					+ money + " where f_userid='" + userid + "'";
+			log.debug("实际不欠款更新档案账户结余" + updateUserFile);
+			this.hibernateTemplate.bulkUpdate(updateUserFile);
+			log.debug("实际不欠款更新档案账户成功");
+		} catch (RuntimeException e) {
+			throw new RSException("添加账户结余失败,用户" + userid + ",金额" + money);
 		}
 	}
 
