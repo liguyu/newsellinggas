@@ -655,7 +655,7 @@ public class HandCharge {
 		String handId = handplan.get("id").toString();
 		String updateHandplan = "update t_handplan set f_debtmoney=" + debtmoney
 				+ " where id='" + handId + "'";
-		log.debug("更新抄表欠费");
+		log.debug("更新抄表欠费"+updateHandplan);
 		this.hibernateTemplate.bulkUpdate(updateHandplan);
 	}
 
