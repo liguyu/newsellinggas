@@ -653,7 +653,7 @@ public class HandCharge {
 		log.debug("更新档案账户成功");
 		// 更新抄表记录实际欠费
 		String handId = handplan.get("id").toString();
-		String updateHandplan = "update t_handplan set f_debtmoney=" + accZhye
+		String updateHandplan = "update t_handplan set f_debtmoney=" + debtmoney
 				+ " where id='" + handId + "'";
 		log.debug("更新抄表欠费");
 		this.hibernateTemplate.bulkUpdate(updateHandplan);

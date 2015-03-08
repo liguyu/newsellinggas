@@ -125,7 +125,25 @@
 			<!--更新抄表记录未交-->
 			<b:HQLAction Name="UpdateHandplan"   WebClientInfo="{StaticResource dbclient}" 
 				HQL="{m:Exp Str=$update t_handplan set shifoujiaofei\=\'否\' where id in (\{userfile.DataContext.f_useful\})}"/>  
-																	
+								
+								
+								
+		    <!--清欠对象-->
+		<o:GeneralObject Name="financeobj" NotEmpty="True" LoadOnPathChanged="False" WebClientInfo="{StaticResource dbclient}" EntityType="t_financedetail"
+		 	Path="{m:Exp Str=$one/from t_financedetail where  id \= (select max(id) from t_financedetail where f_payfeevalid\=\'有效\'  and f_payfeetype\=\'交费\' and f_sellid\=\{sellinggas.id\})$}"
+			IsOld="{m:Exp Str=sellinggas.State\=\=$Loaded$}"
+			IsInit="{m:Exp Str=financeobj.State\=\=$LoadError$ |or| sellinggas.State\=\=$LoadError$}">
+			<o:PropertySetter PropertyName="f_payfeevalid" NoDependValue="{m:Exp Str=SaveAction\=>Saving!\=null:$无效$\,null}"/>
+		</o:GeneralObject>
+
+		<!--根据清欠对象更新档案账户余额-->
+		<b:HQLAction Name="updateUserAccount"   WebClientInfo="{StaticResource dbclient}" 
+			HQL="{m:Exp Str=$update t_userfiles set f_accountzhye\= \{financeobj.f_prevaccountzhye\}  where f_userid \= \'\{financeobj.f_userid\}\' }"/> 
+	    <!--更新清欠数据未无效-->
+		<b:HQLAction Name="updatefinancedatas"   WebClientInfo="{StaticResource dbclient}" 
+			HQL="{m:Exp Str=$update t_financedetail set f_payfeevalid\= \'无效\'   where f_sellid \= \{sellinggas.id\} }"/> 
+	   
+											
 			<!--保存对象 -->
 			<b:BatchExcuteAction Name="SaveAction"  WebClientInfo="{StaticResource dbclient}">
 				<!--更新售气记录无效-->
@@ -140,6 +158,11 @@
 				<b:BatchInfo Source="{m:Exp Str=Updatefapiao}" MethodName="InvokeToJson" />-->
 				<!--更新用户记录-->
 				<b:BatchInfo Source="{m:Exp Str=UpdateUser}" MethodName="InvokeToJson"/> 
+				<!--更新档案实际余额-->
+				<b:BatchInfo Source="{m:Exp Str=updateUserAccount}"   CanSave="{m:Exp Str=financeobj.id!\=null}"  MethodName="InvokeToJson"/>
+				<!--清欠数据无效-->
+				<b:BatchInfo Source="{m:Exp Str=updatefinancedatas}"   CanSave="{m:Exp Str=financeobj.id!\=null}" MethodName="InvokeToJson"/>
+		
 			</b:BatchExcuteAction>
 			
 			<!--用户列表部分-->
@@ -489,11 +512,11 @@
 							
 							<TextBlock Text="表上次累计购气量：" Margin="0,6" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="6" Grid.Column="2" Height="25"/>
 							<TextBlock Grid.Column="4" Margin="0,6,0,5" Grid.Row="14" TextWrapping="Wrap" TextAlignment="Right" Height="25"><Run Text="交费"/><Run Text="时间"/><Run Text="："/></TextBlock>
-							<!--<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="5" Margin="0,6,0,5" Grid.Row="14"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
+							<toolkit:TimePicker Value="{m:Bind Path=f_deliverytime}" IsEnabled="False" Grid.Column="5" Margin="0,6,0,5" Grid.Row="14"   IsDropDownOpen="False"  VerticalAlignment="Stretch" Height="25" >
 								<a:Data.Prop>
 									<o:PropertySetter PropertyName="f_deliverytime" NoDependValue="{m:Exp Str=sellinggas.f_deliverytime}"/>
 								</a:Data.Prop>
-							</toolkit:TimePicker>-->
+							</toolkit:TimePicker> 
 							
 							<TextBlock Text="发 票 号：" Grid.Column="2" Margin="0,6,0,5" Grid.Row="14" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
 							<TextBox Text="{m:Bind Path=f_invoicenum}" Grid.Column="3" IsReadOnly="True" Margin="0,6,0,5" Grid.Row="14" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" Grid.RowSpan="1" >
