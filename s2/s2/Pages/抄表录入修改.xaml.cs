@@ -80,7 +80,6 @@ namespace Com.Aote.Pages
 
             //oughtfee shifoujiaofei f_operator f_inputtor f_zhinajindate
             //拼接更新sql
-            
             string sql = "update t_handplan set lastrecord= " + decimal.Parse(ui_lastrecord.Text) +
                 ",oughtfee=" + decimal.Parse(ui_oughtfee.Text) +
                 ",shifoujiaofei='" + ui_shifoujiaofei.Text +
