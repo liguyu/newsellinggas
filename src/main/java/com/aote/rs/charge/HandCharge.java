@@ -561,7 +561,7 @@ public class HandCharge {
 		}
 		// 保存用户清欠账务,并更新档案中账户余额
 		if (gas.doubleValue() > 0) {
-			financedetailSave(map, gas, chargenum, sgnetwork, sgoperator);
+			financedetailDisp(map, gas, chargenum, sgnetwork, sgoperator);
 		}
 		return "";
 	}
@@ -569,7 +569,7 @@ public class HandCharge {
 	/**
 	 * 保存用户财务明细
 	 */
-	private void financedetailSave(Map<String, Object> handplan,
+	private void financedetailDisp(Map<String, Object> handplan,
 			BigDecimal gas, BigDecimal money, String sgnetwork,
 			String sgoperator) throws Exception {
 		// 取出账户结余
@@ -581,11 +581,7 @@ public class HandCharge {
 		// 如果账户余额 = 0，抄表气费为欠费，不产生清欠记录
 		if (accountzhye.doubleValue() <= 0) {
 			String handId = handplan.get("id").toString();
-			String updateHandplan = "update t_handplan set f_debtmoney="
-					+ money + " where id='" + handId + "'";
-			log.debug("用户" + handplan.get("f_userid") + "账户实际结余0,更新"
-					+ updateHandplan);
-			this.hibernateTemplate.bulkUpdate(updateHandplan);
+			noBalance(handId, money);
 			return;
 		}
 		// 清欠处理 ,计算实收，欠费，账户最新结余
@@ -614,7 +610,6 @@ public class HandCharge {
 		finance.put("f_debtmoney", debtmoney.doubleValue());
 		// <!--账户结余-->
 		finance.put("f_accountzhye", newaccountzhye.doubleValue());
-
 		// <!--用户编号-->
 		finance.put("f_userid", handplan.get("f_userid"));
 		// 原账户余额
@@ -623,8 +618,7 @@ public class HandCharge {
 		finance.put("f_oughtamount", gas.doubleValue());
 		// <!--应收金额-->
 		finance.put("f_oughtfee", money.doubleValue());
-
-		// 单价
+	    // 单价
 		BigDecimal gasPrice = new BigDecimal(handplan.get("f_gasprice")
 				.toString());
 		finance.put("f_gasprice", gasPrice.doubleValue());
@@ -641,7 +635,7 @@ public class HandCharge {
 		finance.put("f_deliverydate", now);
 		finance.put("f_deliverytime", now);
 		// 抄表id
-		finance.put("f_handid", handplan.get("id").toString());
+		finance.put("f_handid", handplan.get("id"));
 		// 保存
 		JSONObject financeJson = (JSONObject) new JsonTransfer()
 				.MapToJson(finance);
@@ -663,6 +657,19 @@ public class HandCharge {
 				+ " where id='" + handId + "'";
 		log.debug("更新抄表欠费");
 		this.hibernateTemplate.bulkUpdate(updateHandplan);
+	}
+
+	// 无账户实际结余处理
+	private void noBalance(String handId, BigDecimal money) {
+		try {
+			String updateHandplan = "update t_handplan set f_debtmoney="
+					+ money.doubleValue() + " where id='" + handId + "'";
+			log.debug("账户实际结余0,更新抄表" + updateHandplan + "欠款"
+					+ money.doubleValue());
+			this.hibernateTemplate.bulkUpdate(updateHandplan);
+		} catch (RuntimeException e) {
+			throw new RSException("结余为0时,更新抄表" + handId + "失败");
+		}
 
 	}
 

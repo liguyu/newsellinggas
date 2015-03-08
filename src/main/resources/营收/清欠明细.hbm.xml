@@ -46,9 +46,9 @@
 		<property name="f_deliverytime" type="time"/>
 	
 	  	<!--抄表id-->
-		<property name="f_handid" type="string"/>
+		<property name="f_handid" type="int"/>
 	  	<!--交费id-->
-		<property name="f_sellid" type="string"/>
+		<property name="f_sellid" type="int"/>
 	
 		
 	</class>
