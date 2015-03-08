@@ -572,52 +572,67 @@ public class HandCharge {
 	private void financedetailSave(Map<String, Object> handplan,
 			BigDecimal gas, BigDecimal money, String sgnetwork,
 			String sgoperator) throws Exception {
-		Date now = new Date();
-		Map<String, Object> finance = new HashMap<String, Object>();
-		// <!--用户编号-->
-		finance.put("f_userid", handplan.get("f_userid"));
-		// <!--应收气量-->
-		finance.put("f_oughtamount", gas.doubleValue());
-		// <!--应收金额-->
-		finance.put("f_oughtfee", money.doubleValue());
-		// 账户结余
+		// 取出账户结余
 		String acczhyeStr = handplan.get("f_accountzhye").toString();
 		if (acczhyeStr == null || acczhyeStr.equals("")) {
-			throw new RSException(handplan.get("f_userid") + "没有账户实际结余数据错误。");
+			throw new RSException(handplan.get("f_userid") + "没有账户实际结!");
 		}
 		BigDecimal accountzhye = new BigDecimal(acczhyeStr);
-		//原账户余额
-		finance.put("f_prevaccountzhye", accountzhye.doubleValue());
+		// 如果账户余额 = 0，抄表气费为欠费，不产生清欠记录
+		if (accountzhye.doubleValue() <= 0) {
+			String handId = handplan.get("id").toString();
+			String updateHandplan = "update t_handplan set f_debtmoney="
+					+ money + " where id='" + handId + "'";
+			log.debug("用户" + handplan.get("f_userid") + "账户实际结余0,更新"
+					+ updateHandplan);
+			this.hibernateTemplate.bulkUpdate(updateHandplan);
+			return;
+		}
+		// 清欠处理 ,计算实收，欠费，账户最新结余
+		BigDecimal realmony = new BigDecimal(0);
+		BigDecimal debtmoney = new BigDecimal(0);
+		BigDecimal newaccountzhye = new BigDecimal(0);
 		// 结余 > 应收 ， 已收金额 =应收金额, 欠费金额= 0,账户余额 = 结余- 应收
 		if (accountzhye.compareTo(money) >= 0) {
-			// <!--已收金额-->
-			finance.put("f_realmoney", money.doubleValue());
-			// <!--欠费金额-->
-			finance.put("f_debtmoney", 0.0);
-			// <!--账户结余-->
-			finance.put("f_accountzhye", accountzhye.subtract(money)
-					.doubleValue());
+			realmony = money;
+			debtmoney = new BigDecimal(0);
+			newaccountzhye = accountzhye.subtract(money);
 		}
 		// 结余小于应收, 已收金额=结余金额, ,欠费金额=应收金额-结余金额,
 		// 账户余额= 0
 		else if (accountzhye.compareTo(money) < 0) {
-			// <!--已收金额-->
-			finance.put("f_realmoney", accountzhye.doubleValue());
-			// <!--欠费金额-->
-			finance.put("f_debtmoney", money.subtract(accountzhye).doubleValue());
-			// <!--账户结余-->
-			finance.put("f_accountzhye", 0.0);
+			realmony = accountzhye;
+			debtmoney = money.subtract(accountzhye);
+			newaccountzhye = new BigDecimal(0);
 		}
+		// 放入清欠数据
+		Date now = new Date();
+		Map<String, Object> finance = new HashMap<String, Object>();
+		// <!--已收金额-->
+		finance.put("f_realmoney", realmony.doubleValue());
+		// <!--欠费金额-->
+		finance.put("f_debtmoney", debtmoney.doubleValue());
+		// <!--账户结余-->
+		finance.put("f_accountzhye", newaccountzhye.doubleValue());
+
+		// <!--用户编号-->
+		finance.put("f_userid", handplan.get("f_userid"));
+		// 原账户余额
+		finance.put("f_prevaccountzhye", accountzhye.doubleValue());
+		// <!--应收气量-->
+		finance.put("f_oughtamount", gas.doubleValue());
+		// <!--应收金额-->
+		finance.put("f_oughtfee", money.doubleValue());
+
 		// 单价
 		BigDecimal gasPrice = new BigDecimal(handplan.get("f_gasprice")
 				.toString());
 		finance.put("f_gasprice", gasPrice.doubleValue());
-		// <!--欠款日期,(交费时含义为收回的欠款的日期)-->
+		// 抄表记录的日期
 		finance.put("f_debtdate", now);
-		// <!--数据类型(欠费/交费)-->
-		finance.put("f_datatype", "欠费");
 		// <!--是否有效(有效/无效)-->
 		finance.put("f_payfeevalid", "有效");
+		finance.put("f_payfeetype", "抄表");
 		// <!--网点-->
 		finance.put("f_network", sgnetwork);
 		// <!--操作员-->
@@ -626,7 +641,7 @@ public class HandCharge {
 		finance.put("f_deliverydate", now);
 		finance.put("f_deliverytime", now);
 		// 抄表id
-		finance.put("f_sourceid", handplan.get("id").toString());
+		finance.put("f_handid", handplan.get("id").toString());
 		// 保存
 		JSONObject financeJson = (JSONObject) new JsonTransfer()
 				.MapToJson(finance);
@@ -642,6 +657,13 @@ public class HandCharge {
 		log.debug("更新档案账户结余" + updateUserFile);
 		this.hibernateTemplate.bulkUpdate(updateUserFile);
 		log.debug("更新档案账户成功");
+		// 更新抄表记录实际欠费
+		String handId = handplan.get("id").toString();
+		String updateHandplan = "update t_handplan set f_debtmoney=" + accZhye
+				+ " where id='" + handId + "'";
+		log.debug("更新抄表欠费");
+		this.hibernateTemplate.bulkUpdate(updateHandplan);
+
 	}
 
 	/**

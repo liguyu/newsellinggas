@@ -22,19 +22,19 @@
 	   <property name="f_gasprice" type="double"/>
 	   
 	   
-	   	<!--上次账户余额-->
+	   	<!--上次账户余额(未扣除前)-->
 		<property name="f_prevaccountzhye" type="double"/>
-	 
-		<!--账户余额(有结余就扣除)-->
+	  	<!--账户余额(有结余就扣除)-->
 		<property name="f_accountzhye" type="double"/>
 	 
 		
 		
 		
-		<!--数据类型(欠费/交费)-->
-		<property name="f_datatype" type="string"/>
-	   <!--是否有效(有效/无效)-->
+	  <!--是否有效(有效/无效)-->
 	   <property name="f_payfeevalid" type="string"/>
+	    <!--数据类型(抄表扣除/交费扣除)-->
+	   <property name="f_payfeetype" type="string"/>
+	
 	   
 		<!--部门-->
 		<property name="f_department" type="string"/>
@@ -45,8 +45,10 @@
 		<!--交费时间-->
 		<property name="f_deliverytime" type="time"/>
 	
-	  	<!--费用id（抄表id/交费id)-->
-		<property name="f_sourceid" type="string"/>
+	  	<!--抄表id-->
+		<property name="f_handid" type="string"/>
+	  	<!--交费id-->
+		<property name="f_sellid" type="string"/>
 	
 		
 	</class>
