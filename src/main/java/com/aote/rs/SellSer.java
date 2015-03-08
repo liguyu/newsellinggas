@@ -220,7 +220,7 @@ public class SellSer {
 			String result = "{id:" + sellId + ", f_deliverydate:'"
 					+ f2.format(now) + "'}";
 			// 更新抄表记录sellid
-			if (!handIds.equals("0")) {
+			if (handIds != null && !handIds.equals("") && !handIds.equals("0")) {
 				String updateHandplan = "update t_handplan set f_sellid ="
 						+ sellId + " where id in (" + handIds + ")";
 				log.debug("更新抄表记录sql：" + updateHandplan);
@@ -238,12 +238,9 @@ public class SellSer {
 				addUserAccountzhye(userid, accReceMoney);
 				return ret;
 			}
-			// 否则，根据收款逐条处理抄表记录欠款，产生清欠费记录，并计算最新余额最后写入档案
-			for (Map<String, Object> map : list) {
-				financedetailDisp(loginUser, map, f_accountZhye, accReceMoney,
-						sellId);
-			}
-			// 抓取自定义异常
+			// 清欠费处理
+			financedetailDisp(loginUser,list,accReceMoney,sellId);
+ 			// 抓取自定义异常
 		} catch (RSException e) {
 			log.debug("售气交费 失败!");
 			ret = e.getMessage();
@@ -282,52 +279,60 @@ public class SellSer {
 	 *            收款
 	 */
 	private void financedetailDisp(Map<String, Object> loginUser,
-			Map<String, Object> hand, BigDecimal accountZhye,
-			BigDecimal shoukuan, int sellid) throws Exception {
-		int handId = Integer.parseInt(hand.get("handid").toString());
-		String userId = hand.get("f_userid").toString();
-		BigDecimal unitPrice = new BigDecimal(hand.get("f_gasprice").toString());
-		String sgnetwork = loginUser.get("f_parentname").toString();
-		String sgoperator = loginUser.get("name").toString();
-		BigDecimal debtM = new BigDecimal(hand.get("f_debtmoney").toString());
-		// 实收
-		BigDecimal realMoney = new BigDecimal(0);
-		// 新欠款
-		BigDecimal newdebtmoney = new BigDecimal(0);
-		BigDecimal newaccountzhye = new BigDecimal(0);
-		// 不欠费，返回
-		if (debtM.doubleValue() <= 0) {
-			return;
+		 List<Map<String,Object>> hands,	   BigDecimal shoukuan, int sellid)
+			throws Exception {
+		// 否则，根据收款逐条处理抄表记录欠款，产生清欠费记录，并计算最新余额最后写入档案
+		for (Map<String, Object> hand : hands) {
+			log.debug("清欠一条抄表记录" + hand.toString());
+			int handId = Integer.parseInt(hand.get("handid").toString());
+			String userId = hand.get("f_userid").toString();
+			BigDecimal unitPrice = new BigDecimal(hand.get("f_gasprice")
+					.toString());
+			String sgnetwork = loginUser.get("f_parentname").toString();
+			String sgoperator = loginUser.get("name").toString();
+			BigDecimal debtM = new BigDecimal(hand.get("f_debtmoney")
+					.toString());
+			//原来结余
+			BigDecimal oldAccountzhye= shoukuan;
+			// 实收
+			BigDecimal realMoney = new BigDecimal(0);
+			// 新欠款
+			BigDecimal newdebtmoney = new BigDecimal(0);
+			BigDecimal newaccountzhye = new BigDecimal(0);
+			// 不欠费，返回
+			if (debtM.doubleValue() <= 0) {
+				return;
+			}
+			// 收款 > 欠费 ，实收=欠费，抄表新欠费 =0 ,新结余=收款-欠费，设置总结余
+			if (shoukuan.compareTo(debtM) >= 0) {
+				realMoney = debtM;
+				newdebtmoney = new BigDecimal(0);
+				newaccountzhye = shoukuan.subtract(debtM);
+				shoukuan = shoukuan.subtract(debtM);
+			}
+			// 收款小于欠费, 实收=收款，抄表新欠费 = 欠费-收款 ,新结余=0，设置总结余
+			else {
+				realMoney = shoukuan;
+				newdebtmoney = debtM.subtract(shoukuan);
+				newaccountzhye = new BigDecimal(0);
+				shoukuan = new BigDecimal(0);
+			}
+			//存清欠记录
+			this.financedetailSave(handId, userId, debtM, oldAccountzhye,
+					realMoney, unitPrice, newdebtmoney, newaccountzhye,
+					sgnetwork, sgoperator, sellid, hand.get("lastinputdate"));
+			// 更新档案账户结余f_accountzhye
+			String updateUserFile = "update t_userfiles set f_accountzhye="
+					+ newaccountzhye.doubleValue() + " where f_userid='"
+					+ userId + "'";
+			log.debug("更新档案账户结余" + updateUserFile);
+			this.hibernateTemplate.bulkUpdate(updateUserFile);
+			// 更新抄表记录实际欠费
+			String updateHandplan = "update t_handplan set f_debtmoney="
+					+ newdebtmoney.doubleValue() + " where id='" + handId + "'";
+			log.debug("更新抄表欠费" + updateHandplan);
+			this.hibernateTemplate.bulkUpdate(updateHandplan);
 		}
-		// 收款 > 欠费 ，实收=欠费，抄表新欠费 =0 ,新结余=收款-欠费，设置总结余
-		if (shoukuan.compareTo(debtM) >= 0) {
-			realMoney = debtM;
-			newdebtmoney = new BigDecimal(0);
-			newaccountzhye = shoukuan.subtract(debtM);
-			shoukuan = newaccountzhye;
-		}
-		// 收款小于欠费, 实收=收款，抄表新欠费 = 欠费-收款 ,新结余=0，设置总结余
-		else {
-			realMoney = shoukuan;
-			newdebtmoney = debtM.subtract(shoukuan);
-			newaccountzhye = new BigDecimal(0);
-			shoukuan = newaccountzhye;
-		}
-		this.financedetailSave(handId, userId, debtM, accountZhye, realMoney,
-				unitPrice, newdebtmoney, newaccountzhye, sgnetwork, sgoperator,
-				sellid);
-		// 更新档案账户结余f_accountzhye
-		String updateUserFile = "update t_userfiles set f_accountzhye="
-				+ newaccountzhye.doubleValue() + " where f_userid='" + userId
-				+ "'";
-		log.debug("更新档案账户结余" + updateUserFile);
-		this.hibernateTemplate.bulkUpdate(updateUserFile);
-		log.debug("更新档案账户成功");
-		// 更新抄表记录实际欠费
-		String updateHandplan = "update t_handplan set f_debtmoney="
-				+ newdebtmoney.doubleValue() + " where id='" + handId + "'";
-		log.debug("更新抄表欠费");
-		this.hibernateTemplate.bulkUpdate(updateHandplan);
 	}
 
 	/**
@@ -337,7 +342,7 @@ public class SellSer {
 			BigDecimal ysMoney, BigDecimal oldAccountZhye, BigDecimal realmony,
 			BigDecimal unitprice, BigDecimal debtmoney,
 			BigDecimal newaccountzhye, String sgnetwork, String sgoperator,
-			int sellid) throws Exception {
+			int sellid, Object chaobiaoDate) throws Exception {
 		// 放入清欠数据
 		Date now = new Date();
 		Map<String, Object> finance = new HashMap<String, Object>();
@@ -356,7 +361,7 @@ public class SellSer {
 		// 单价
 		finance.put("f_gasprice", unitprice.doubleValue());
 		// 抄表记录的日期
-		finance.put("f_debtdate", now);
+		finance.put("f_debtdate", chaobiaoDate);
 		// <!--是否有效(有效/无效)-->
 		finance.put("f_payfeevalid", "有效");
 		finance.put("f_payfeetype", "交费");
@@ -385,7 +390,7 @@ public class SellSer {
 		String sql = " select u.f_zhye f_zhye, u.f_accountzhye f_accountzhye, u.f_username f_username,u.f_cardid f_cardid, u.f_address f_address,u.f_districtname f_districtname,u.f_cusDom f_cusDom,u.f_cusDy f_cusDy,u.f_beginfee f_beginfee, u.f_metergasnums f_metergasnums, u.f_cumulativepurchase f_cumulativepurchase,"
 				+ "u.f_idnumber f_idnumber, u.f_gaspricetype f_gaspricetype, u.f_gasprice f_gasprice, u.f_usertype f_usertype,"
 				+ "u.f_gasproperties f_gasproperties, u.f_userid f_userid, h.id handid, h.oughtamount oughtamount, h.lastinputgasnum lastinputgasnum,"
-				+ "h.lastrecord lastrecord, h.shifoujiaofei shifoujiaofei, h.oughtfee oughtfee,h.f_debtmoney  f_debtmoney from t_userfiles u "
+				+ "h.lastrecord lastrecord, h.shifoujiaofei shifoujiaofei, h.oughtfee oughtfee,h.f_debtmoney  f_debtmoney ,h.lastinputdate from t_userfiles u "
 				+ "left join (select * from t_handplan where f_state = '已抄表' and shifoujiaofei = '否') h on u.f_userid = h.f_userid where u.f_userid = '"
 				+ userid
 				+ "' "
