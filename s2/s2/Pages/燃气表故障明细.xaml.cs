@@ -39,10 +39,9 @@ namespace s2.Pages
 
             checkerList.LoadOnPathChanged = false;
             checkerList.Path = "sql";
-            checkerList.Names = "id,CONDITION,UNIT_NAME,CUS_DOM,CUS_DY,CUS_FLOOR,CUS_ROOM,USER_NAME,CARD_ID,TELPHONE,SAVE_PEOPLE,DEPARTURE_TIME,ARRIVAL_TIME,RQB_AROUND,REPAIRMAN,CONTENT,sn";
-            String sql = @"select t.id,t.CONDITION,t.UNIT_NAME,t.CUS_DOM,t.CUS_DY,t.CUS_FLOOR,t.CUS_ROOM,t.USER_NAME,t.CARD_ID,t.TELPHONE,t.SAVE_PEOPLE,t.DEPARTURE_TIME,t.ARRIVAL_TIME,t.RQB_AROUND,t.REPAIRMAN,tt.CONTENT from T_INSPECTION t , T_INSPECTION_LINE tt where t.id=tt.inspection_id  
- and (t.DELETED is null or t.DELETED <> '是') and tt.EQUIPMENT='燃气表' and tt.CONTENT in ('表不过气', '长通表', '死表') and {0} and {1}";
-            checkerList.HQL = String.Format(sql, new String[]{conditions.Condition, dt}).Replace("\r\n", " ");
+            checkerList.Names = "id,CONDITION,UNIT_NAME,CUS_DOM,CUS_DY,CUS_FLOOR,CUS_ROOM,USER_NAME,TELPHONE,RQB_AROUND,CONTENT,SAVE_PEOPLE,DEPARTURE_TIME,REPAIRMAN";
+            String sql = @"SELECT id, CONDITION, UNIT_NAME, CUS_DOM, CUS_DY, CUS_FLOOR, CUS_ROOM, f_consumername USER_NAME, f_consumerphone TELPHONE, f_rqbiaoxing RQB_AROUND, CAST(CASE f_sibiao WHEN 1 THEN '死表' ELSE '' END AS VARCHAR (50)) + CAST(CASE f_changtong WHEN 1 THEN '常通' ELSE '' END AS VARCHAR (50)) + CAST(CASE f_fanzhuang WHEN 1 THEN '反装' ELSE '' END AS VARCHAR (50)) + CAST(CASE f_qblouqi WHEN 1 THEN '漏气' ELSE '' END AS VARCHAR (50)) + CAST(CASE f_reading_mismatch WHEN 1 THEN '气量不符' ELSE '' END AS VARCHAR (50)) + CAST(CASE f_qbqita WHEN 1 THEN f_qibiao ELSE '' END AS VARCHAR (50)) CONTENT, SAVE_PEOPLE, DEPARTURE_TIME, REPAIRMAN FROM T_INSPECTION WHERE 1=1 AND (f_sibiao = 1 OR f_changtong = 1 OR f_fanzhuang = 1 OR f_qblouqi = 1 OR f_reading_mismatch = 1 OR f_qbqita = 1) AND {0} AND {1}";
+            checkerList.HQL = String.Format(sql, new String[]{conditions.Condition, dt}).Replace("\r", " ").Replace("\t", " ").Replace("\n", " ");
             checkerList.Load();
         }
 
@@ -82,7 +81,7 @@ namespace s2.Pages
             {
                 userfile.DataContext = null;
                 ClearAll();
-                userfile.IsEnabled = false;
+                //userfile.IsEnabled = false;
             }
         }
 
@@ -109,33 +108,33 @@ namespace s2.Pages
             ClearChecks();
             bigPic.Source = null;
             CurrentArchiveAddress.Text = "";
-            WARM_OTHER.Text = "";
-            JB_METER_NAME_OTHER.Text = "";
-            IC_METER_NAME_OTHER.Text = "";
-            WARM.SelectedItem = null;
-            IC_METER_NAME.SelectedItem = null;
-            JB_METER_NAME.SelectedItem = null;
+            //WARM_OTHER.Text = "";s
+            //JB_METER_NAME_OTHER.Text = "";s
+            //IC_METER_NAME_OTHER.Text = "";
+            //WARM.SelectedItem = null;
+            //IC_METER_NAME.SelectedItem = null;
+            //JB_METER_NAME.SelectedItem = null;
         }
 
         private void ClearChecks()
         {
-            Panel[] panels = { MeterDefectsPane,  PlumbingDefectsPane, PlumbingProofPane, PlumbingPressurePane, PlumbingMeterValvePane, PlumbingCookerValvePane, PlumbingAutomaticValvePane, PlumbingPipePane, PlumbingLeakagePane, 
-                                 CookerPipePane, BoilerPipePane, BoilerDefectsPane, WHEDefectsPane, precautionCheckPane };
-            foreach (Panel p in panels)
-            {
-                foreach (UIElement element in p.Children)
-                {
-                    if (element is CheckBox && !(element as CheckBox).Content.ToString().Equals("正常") && !(element as CheckBox).Content.ToString().Equals("无"))
-                    {
-                        if (element == cbRIGIDITYLeakage || element == cbRIGIDITYNormal || element == cbPressureNormal || element == cbPressureAbnormal ||
-                            element == cbLEAKAGE_COOKER || element == cbLEAKAGE_BOILER || element == cbLEAKAGE_HEATER || element == cbLEAKAGE_NOTIFIED)
-                            continue;
-                        (element as CheckBox).IsChecked = false;
-                    }
-                    if (element is RadioButton)
-                        (element as RadioButton).IsChecked = false;
-                }
-            }
+            //Panel[] panels = { MeterDefectsPane,  PlumbingDefectsPane, PlumbingProofPane, PlumbingPressurePane, PlumbingMeterValvePane, PlumbingCookerValvePane, PlumbingAutomaticValvePane, PlumbingPipePane, PlumbingLeakagePane, 
+            //                     CookerPipePane, BoilerPipePane, BoilerDefectsPane, WHEDefectsPane, precautionCheckPane };
+            //foreach (Panel p in panels)
+            //{
+            //    foreach (UIElement element in p.Children)
+            //    {
+            //        if (element is CheckBox && !(element as CheckBox).Content.ToString().Equals("正常") && !(element as CheckBox).Content.ToString().Equals("无"))
+            //        {
+            //            if (element == cbRIGIDITYLeakage || element == cbRIGIDITYNormal || element == cbPressureNormal || element == cbPressureAbnormal ||
+            //                element == cbLEAKAGE_COOKER || element == cbLEAKAGE_BOILER || element == cbLEAKAGE_HEATER || element == cbLEAKAGE_NOTIFIED)
+            //                continue;
+            //            (element as CheckBox).IsChecked = false;
+            //        }
+            //        if (element is RadioButton)
+            //            (element as RadioButton).IsChecked = false;
+            //    }
+            //}
         }
 
 
@@ -143,98 +142,98 @@ namespace s2.Pages
         {
             if (go.GetPropertyValue("CONDITION").ToString().Equals("正常"))
             {
-                //供暖方式
-                ObjectCollection oc = this.Resources["WARM"] as ObjectCollection;
-                bool found = false;
-                foreach (Pair pair in oc)
-                {
-                    if (pair.CName.Equals(go.GetPropertyValue("WARM").ToString()))
-                    {
-                        found = true;
-                        WARM.SelectedItem = pair;
-                    }
-                }
-                if (!found)
-                {
-                    WARM_OTHER.Text = go.GetPropertyValue("WARM").ToString();
-                    WARM.SelectedIndex = oc.Count - 1;
-                }
+                ////供暖方式
+                //ObjectCollection oc = this.Resources["WARM"] as ObjectCollection;
+                //bool found = false;
+                //foreach (Pair pair in oc)
+                //{
+                //    if (pair.CName.Equals(go.GetPropertyValue("WARM").ToString()))
+                //    {
+                //        found = true;
+                //        WARM.SelectedItem = pair;
+                //    }
+                //}
+                //if (!found)
+                //{
+                //    WARM_OTHER.Text = go.GetPropertyValue("WARM").ToString();
+                //    WARM.SelectedIndex = oc.Count - 1;
+                //}
 
-                //基表厂家型号
-                oc = this.Resources["JB_METER_NAME"] as ObjectCollection;
-                found = false;
-                foreach (Pair pair in oc)
-                {
-                    if (pair.CName.Equals(go.GetPropertyValue("JB_METER_NAME").ToString()))
-                    {
-                        JB_METER_NAME.SelectedItem = pair;
-                        found = true;
-                    }
-                }
-                if (!found)
-                {
-                    JB_METER_NAME_OTHER.Text = go.GetPropertyValue("JB_METER_NAME").ToString();
-                    JB_METER_NAME.SelectedIndex = oc.Count - 1;
-                }
+                ////基表厂家型号
+                //oc = this.Resources["JB_METER_NAME"] as ObjectCollection;
+                //found = false;
+                //foreach (Pair pair in oc)
+                //{
+                //    if (pair.CName.Equals(go.GetPropertyValue("JB_METER_NAME").ToString()))
+                //    {
+                //        JB_METER_NAME.SelectedItem = pair;
+                //        found = true;
+                //    }
+                //}
+                //if (!found)
+                //{
+                //    JB_METER_NAME_OTHER.Text = go.GetPropertyValue("JB_METER_NAME").ToString();
+                //    JB_METER_NAME.SelectedIndex = oc.Count - 1;
+                //}
 
-                //IC卡表厂家型号
-                oc = this.Resources["IC_METER_NAME"] as ObjectCollection;
-                found = false;
-                foreach (Pair pair in oc)
-                {
-                    if (pair.CName.Equals(go.GetPropertyValue("IC_METER_NAME").ToString()))
-                    {
-                        found = true;
-                        IC_METER_NAME.SelectedItem = pair;
-                    }
-                }
-                if (!found)
-                {
-                    IC_METER_NAME_OTHER.Text = go.GetPropertyValue("IC_METER_NAME").ToString();
-                    go.SetPropertyValue("IC_METER_NAME", (oc.ElementAt(oc.Count - 1) as Pair).Code, true, true);
-                    IC_METER_NAME.SelectedIndex = oc.Count - 1;
-                }
+                ////IC卡表厂家型号
+                //oc = this.Resources["IC_METER_NAME"] as ObjectCollection;
+                //found = false;
+                //foreach (Pair pair in oc)
+                //{
+                //    if (pair.CName.Equals(go.GetPropertyValue("IC_METER_NAME").ToString()))
+                //    {
+                //        found = true;
+                //        IC_METER_NAME.SelectedItem = pair;
+                //    }
+                //}
+                //if (!found)
+                //{
+                //    IC_METER_NAME_OTHER.Text = go.GetPropertyValue("IC_METER_NAME").ToString();
+                //    go.SetPropertyValue("IC_METER_NAME", (oc.ElementAt(oc.Count - 1) as Pair).Code, true, true);
+                //    IC_METER_NAME.SelectedIndex = oc.Count - 1;
+                //}
 
-                ObjectList lines = go.GetPropertyValue("LINES") as ObjectList;
-                //不存在隐患
-                if (lines == null)
-                    return;
+                //ObjectList lines = go.GetPropertyValue("LINES") as ObjectList;
+                ////不存在隐患
+                //if (lines == null)
+                //    return;
 
-                foreach (GeneralObject line in lines)
-                {
-                    String EQUIPMENT = line.GetPropertyValue("EQUIPMENT") as string;
-                    String CONTENT = line.GetPropertyValue("CONTENT") as string;
-                    if (EQUIPMENT.Equals("安全隐患"))
-                        CheckCheckBox(CONTENT, precautionCheckPane);
-                    else if (EQUIPMENT.Equals("燃气表"))
-                        CheckCheckBox(CONTENT, MeterDefectsPane);
-                    else if (EQUIPMENT.Equals("立管"))
-                        CheckPlumbingBox(CONTENT, PlumbingDefectsPane);
-                    else if (EQUIPMENT.Equals("阀门表前阀"))
-                        CheckCheckBox(CONTENT, PlumbingMeterValvePane);
-                    else if (EQUIPMENT.Equals("阀门灶前阀"))
-                        CheckCheckBox(CONTENT, PlumbingCookerValvePane);
-                    else if (EQUIPMENT.Equals("阀门自闭阀"))
-                        CheckCheckBox(CONTENT, PlumbingAutomaticValvePane);
-                    else if (EQUIPMENT.Equals("户内管"))
-                        CheckCheckBox(CONTENT, PlumbingPipePane);
-                    else if (EQUIPMENT.Equals("灶具软管"))
-                        CheckCheckBox(CONTENT, CookerPipePane);
-                    else if (EQUIPMENT.Equals("热水器软管"))
-                        CheckCheckBox(CONTENT, BoilerPipePane);
-                    else if (EQUIPMENT.Equals("热水器安全隐患"))
-                        CheckCheckBox(CONTENT, BoilerDefectsPane);
-                    else if (EQUIPMENT.Equals("壁挂锅炉安全隐患"))
-                        CheckCheckBox(CONTENT, WHEDefectsPane);
-                }
+                //foreach (GeneralObject line in lines)
+                //{
+                //    String EQUIPMENT = line.GetPropertyValue("EQUIPMENT") as string;
+                //    String CONTENT = line.GetPropertyValue("CONTENT") as string;
+                //    if (EQUIPMENT.Equals("安全隐患"))
+                //        CheckCheckBox(CONTENT, precautionCheckPane);
+                //    else if (EQUIPMENT.Equals("燃气表"))
+                //        CheckCheckBox(CONTENT, MeterDefectsPane);
+                //    else if (EQUIPMENT.Equals("立管"))
+                //        CheckPlumbingBox(CONTENT, PlumbingDefectsPane);
+                //    else if (EQUIPMENT.Equals("阀门表前阀"))
+                //        CheckCheckBox(CONTENT, PlumbingMeterValvePane);
+                //    else if (EQUIPMENT.Equals("阀门灶前阀"))
+                //        CheckCheckBox(CONTENT, PlumbingCookerValvePane);
+                //    else if (EQUIPMENT.Equals("阀门自闭阀"))
+                //        CheckCheckBox(CONTENT, PlumbingAutomaticValvePane);
+                //    else if (EQUIPMENT.Equals("户内管"))
+                //        CheckCheckBox(CONTENT, PlumbingPipePane);
+                //    else if (EQUIPMENT.Equals("灶具软管"))
+                //        CheckCheckBox(CONTENT, CookerPipePane);
+                //    else if (EQUIPMENT.Equals("热水器软管"))
+                //        CheckCheckBox(CONTENT, BoilerPipePane);
+                //    else if (EQUIPMENT.Equals("热水器安全隐患"))
+                //        CheckCheckBox(CONTENT, BoilerDefectsPane);
+                //    else if (EQUIPMENT.Equals("壁挂锅炉安全隐患"))
+                //        CheckCheckBox(CONTENT, WHEDefectsPane);
+                //}
 
                 //提取用户档案地址
-                String card_id = go.GetPropertyValue("CARD_ID") as string;
-                if(IsNullOrEmpty(card_id))
+                String user_id = go.GetPropertyValue("f_userid") as string;
+                if(IsNullOrEmpty(user_id))
                     return;
                 WebClient wc = new WebClient();
                 wc.DownloadStringCompleted += wc_GetUserProfileCompleted;
-                wc.DownloadStringAsync(new Uri(go.WebClientInfo.BaseAddress + "/one/from T_IC_USERFILE where CARD_ID='" + card_id +"'"));
+                wc.DownloadStringAsync(new Uri(go.WebClientInfo.BaseAddress + "/one/from t_userfiles where f_userid='" + user_id + "'"));
             }
             
         }
@@ -283,7 +282,7 @@ namespace s2.Pages
                     if (aBox.Content.ToString().Equals(CONTENT))
                     {
                         aBox.IsChecked = true;
-                        cbEroded.IsChecked = true;
+                        //cbEroded.IsChecked = true;
                     }
                 }
             }
@@ -307,28 +306,63 @@ namespace s2.Pages
             return value == null || value.Trim().Length == 0;
         }
 
-        /*private void outputButton_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-        	// TODO: Add event handler implementation here.
-			SearchObject conditions = (criteriaPanel.DataContext as SearchObject);
-            conditions.Search();
-			WebClientInfo wci = App.Current.Resources["dbclient"] as WebClientInfo;
-            String dt = " t.DEPARTURE_TIME>='" + StartDate.Text + "' and t.DEPARTURE_TIME<='" + EndDate.Text + " 23:59:59' ";
-            checkerList.LoadOnPathChanged = false;
-            checkerList.Path = "sql";
-            checkerList.Names = "id,CONDITION,UNIT_NAME,CUS_DOM,CUS_DY,CUS_FLOOR,CUS_ROOM,USER_NAME,CARD_ID,TELPHONE,SAVE_PEOPLE,DEPARTURE_TIME,ARRIVAL_TIME,RQB_AROUND,REPAIRMAN,CONTENT,sn";
-            String sql = @"select t.id,t.CONDITION,t.UNIT_NAME,t.CUS_DOM,t.CUS_DY,t.CUS_FLOOR,t.CUS_ROOM,t.USER_NAME,t.CARD_ID,t.TELPHONE,t.SAVE_PEOPLE,t.DEPARTURE_TIME,t.ARRIVAL_TIME,t.RQB_AROUND,t.REPAIRMAN,tt.CONTENT from T_INSPECTION t , T_INSPECTION_LINE tt where t.id=tt.inspection_id  
- and (t.DELETED is null or t.DELETED <> '是') and tt.EQUIPMENT='燃气表' and tt.CONTENT in ('表不过气', '长通表', '死表') and {0} and {1}";
-            checkerList.HQL = String.Format(sql, new String[]{conditions.Condition, dt}).Replace("\r\n", " ");
-			toExcel.HQL = checkerList.HQL;
-            toExcel.Completed += new EventHandler(toExcel_Completed);
-            toExcel.Path = wci.BaseAddress + "/excel/" + (checkerGrid.ItemsSource as ObjectList).Count + "/UNIT_NAME:小区|CUS_DOM:楼号|CUS_DY:单元|CUS_FLOOR:楼层|CUS_ROOM:房号|USER_NAME:用户名|TELPHONE:用户电话|CARD_ID:卡号|SAVE_PEOPLE:安检员|DEPARTURE_TIME:安检时间|RQB_AROUND:表向|CONTENT:故障类型|REPAIRMAN:维修员";
-            toExcel.ToExcel();
-        }
-		void toExcel_Completed(object sender, EventArgs e)
-        {
-            downLoad.Down();
-        }*/
 
+        private void userfile_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            //clear up suggestions
+            suggestionPane.Children.Clear();
+            GeneralObject go = (sender as Grid).DataContext as GeneralObject;
+            if (go == null)
+                return;
+            String id = go.GetPropertyValue("id") as String;
+            ObjectList lines = new ObjectList();
+            lines.WebClientInfo = Application.Current.Resources["dbclient"] as WebClientInfo;
+            lines.EntityType = "T_INSPECTION_LINE";
+            lines.LoadOnPathChanged = false;
+            lines.Path = "from T_INSPECTION_LINE where INSPECTION_ID='" + id + "'order by EQUIPMENT";
+            lines.DataLoaded += lines_DataLoaded;
+            lines.Load();
+        }
+
+        private void lines_DataLoaded(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            String[] devices = { "燃气表", "立管", "表后管", "灶具连接管", "灶具", "热水器", "壁挂炉", "其他隐患" };
+            if (e.Error == null)
+            {
+                ObjectList lines = sender as ObjectList;
+                if (lines.Size == 0)
+                    return;
+                foreach (String aDevice in devices)
+                {
+                    Border border = new Border();
+                    border.Background = new SolidColorBrush(Colors.Blue);
+                    border.Width = suggestionPane.Width;
+                    TextBlock tb = new TextBlock();
+                    border.Margin = new Thickness(10, 5, 0, 0);
+                    tb.Text = aDevice + "隐患选项";
+                    tb.Foreground = new SolidColorBrush(Colors.White);
+                    border.Child = tb;
+                    StackPanel nullPane = new StackPanel();
+                    nullPane.Orientation = Orientation.Vertical;
+                    foreach (GeneralObject go in lines)
+                    {
+                        String device = go.GetPropertyValue("EQUIPMENT") as string;
+                        if (aDevice.Equals(device))
+                        {
+                            TextBlock atb = new TextBlock();
+                            atb.Text = go.GetPropertyValue("NAME") + ":" + go.GetPropertyValue("VALUE");
+                            atb.Margin = new Thickness(30, 5, 0, 0);
+                            nullPane.Children.Add(atb);
+                        }
+                    }
+                    if (nullPane.Children.Count > 0)
+                    {
+                        suggestionPane.Children.Add(border);
+                        suggestionPane.Children.Add(nullPane);
+                    }
+
+                }
+            }
+        }
     }
 }

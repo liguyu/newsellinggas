@@ -16,106 +16,7 @@
     xmlns:data="clr-namespace:System.Windows.Data;assembly=System.Windows"
     xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
     xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit">
-    <UserControl.Resources>
-        <toolkit:ObjectCollection x:Key="ROOM_STRUCTURE">
-            <v:Pair CName="平房" Code="平房"></v:Pair>
-            <v:Pair CName="多层" Code="多层"></v:Pair>
-            <v:Pair CName="小高层" Code="小高层"></v:Pair>
-            <v:Pair CName="高层" Code="高层"></v:Pair>
-            <v:Pair CName="别墅" Code="别墅"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="WARM">
-            <v:Pair CName="热力公司集中供暖" Code="热力公司集中供暖"></v:Pair>
-            <v:Pair CName="小区集中供暖" Code="小区集中供暖"></v:Pair>
-            <v:Pair CName="客户自行供暖" Code="客户自行供暖"></v:Pair>
-            <v:Pair CName="其他供暖" Code="其他供暖"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="RQB_AROUND">
-            <v:Pair CName="左表" Code="左表"></v:Pair>
-            <v:Pair CName="右表" Code="右表"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="METER_TYPE">
-            <v:Pair CName="G2.5" Code="G2.5"></v:Pair>
-            <v:Pair CName="G4" Code="G4"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="JB_METER_NAME">
-            <v:Pair CName="丹东" Code="丹东"></v:Pair>
-            <v:Pair CName="重检" Code="重检"></v:Pair>
-            <v:Pair CName="赛福" Code="赛福"></v:Pair>
-            <v:Pair CName="重前" Code="重前"></v:Pair>
-            <v:Pair CName="山城" Code="山城"></v:Pair>
-            <v:Pair CName="天津自动化" Code="天津自动化"></v:Pair>
-            <v:Pair CName="其他" Code="其他"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="IC_METER_NAME">
-            <v:Pair CName="华捷" Code="华捷"></v:Pair>
-            <v:Pair CName="赛福" Code="赛福"></v:Pair>
-            <v:Pair CName="秦川" Code="秦川"></v:Pair>
-            <v:Pair CName="秦港" Code="秦港"></v:Pair>
-            <v:Pair CName="致力" Code="致力"></v:Pair>
-            <v:Pair CName="其他" Code="其他"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="RIGIDITY">
-            <v:Pair CName="合格" Code="合格"></v:Pair>
-            <v:Pair CName="不合格" Code="不合格"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="USER_SATISFIED">
-            <v:Pair CName="满意" Code="满意"></v:Pair>
-            <v:Pair CName="基本满意" Code="基本满意"></v:Pair>
-            <v:Pair CName="不满意" Code="不满意"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="COOK_BRAND">
-            <v:Pair CName="港华紫荆" Code="港华紫荆"></v:Pair>
-            <v:Pair CName="万和" Code="万和"></v:Pair>
-            <v:Pair CName="万家乐" Code="万家乐"></v:Pair>
-            <v:Pair CName="林内" Code="林内"></v:Pair>
-            <v:Pair CName="海尔" Code="海尔"></v:Pair>
-            <v:Pair CName="阿里斯顿" Code="阿里斯顿"></v:Pair>
-            <v:Pair CName="樱花" Code="樱花"></v:Pair>
-            <v:Pair CName="华帝" Code="华帝"></v:Pair>
-            <v:Pair CName="其他" Code="其他"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="WATER_BRAND">
-            <v:Pair CName="港华紫荆" Code="港华紫荆"></v:Pair>
-            <v:Pair CName="万和" Code="万和"></v:Pair>
-            <v:Pair CName="万家乐" Code="万家乐"></v:Pair>
-            <v:Pair CName="林内" Code="林内"></v:Pair>
-            <v:Pair CName="海尔" Code="海尔"></v:Pair>
-            <v:Pair CName="阿里斯顿" Code="阿里斯顿"></v:Pair>
-            <v:Pair CName="樱花" Code="樱花"></v:Pair>
-            <v:Pair CName="华帝" Code="华帝"></v:Pair>
-            <v:Pair CName="其他" Code="其他"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="WHE_BRAND">
-            <v:Pair CName="港华紫荆" Code="港华紫荆"></v:Pair>
-            <v:Pair CName="万和" Code="万和"></v:Pair>
-            <v:Pair CName="万家乐" Code="万家乐"></v:Pair>
-            <v:Pair CName="林内" Code="林内"></v:Pair>
-            <v:Pair CName="海尔" Code="海尔"></v:Pair>
-            <v:Pair CName="阿里斯顿" Code="阿里斯顿"></v:Pair>
-            <v:Pair CName="樱花" Code="樱花"></v:Pair>
-            <v:Pair CName="华帝" Code="华帝"></v:Pair>
-            <v:Pair CName="其他" Code="其他"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="COOK_TYPE">
-            <v:Pair CName="台式单眼" Code="台式单眼"></v:Pair>
-            <v:Pair CName="台式双眼" Code="台式双眼"></v:Pair>
-            <v:Pair CName="镶嵌双眼" Code="镶嵌双眼"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="WATER_FLUE">
-            <v:Pair CName="平衡" Code="平衡"></v:Pair>
-            <v:Pair CName="强排" Code="强排"></v:Pair>
-            <v:Pair CName="烟道" Code="烟道"></v:Pair>
-            <v:Pair CName="直排" Code="直排"></v:Pair>
-        </toolkit:ObjectCollection>
-        <toolkit:ObjectCollection x:Key="precaution">
-            <v:Pair CName="" Code=""></v:Pair>
-            <v:Pair CName="使用直排式热水器" Code="使用直排式热水器"></v:Pair>
-            <v:Pair CName="热水器或壁挂炉安装在卧室" Code="热水器或壁挂炉安装在卧室"></v:Pair>
-            <v:Pair CName="燃气设施安装在卧室" Code="燃气设施安装在卧室"></v:Pair>
-            <v:Pair CName="热水器未安装烟道或烟道未接到室外" Code="热水器未安装烟道或烟道未接到室外"></v:Pair>
-        </toolkit:ObjectCollection>
-    </UserControl.Resources>
+  
     <Grid x:Name="LayoutRoot">
         <m:ResourceLoad x:Name="pageResource">
             <o:PagedList Name="repairManList" WebClientInfo="{StaticResource dbclient}" Path="sql"
@@ -172,9 +73,9 @@
                     <sdk:DataGridTextColumn Header="入户（户）" Binding="{Binding ruhu}"/>
                     <sdk:DataGridTextColumn Header="无人（户）" Binding="{Binding wuren}"/>
                     <sdk:DataGridTextColumn Header="拒检（户）" Binding="{Binding jujian}"/>
-                    <sdk:DataGridTextColumn Header="发通知书(户）" Binding="{Binding tongzhishu}"/>
                     <sdk:DataGridTextColumn Header="漏气(户)" Binding="{Binding louqi}"/>
                     <sdk:DataGridTextColumn Header="表故障(块)" Binding="{Binding biao}"/>
+                    <sdk:DataGridTextColumn Header="发通知书(户）" Binding="{Binding tongzhishu}"/>
                 </sdk:DataGrid.Columns>
             </sdk:DataGrid>
                 </toolkit:DockPanel >
