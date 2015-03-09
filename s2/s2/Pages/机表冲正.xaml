@@ -130,7 +130,7 @@
 								
 		    <!--清欠对象-->
 		<o:GeneralObject Name="financeobj" NotEmpty="True" LoadOnPathChanged="False" WebClientInfo="{StaticResource dbclient}" EntityType="t_financedetail"
-		 	Path="{m:Exp Str=$one/from t_financedetail where  id \= (select max(id) from t_financedetail where f_payfeevalid\=\'有效\'  and f_payfeetype\=\'交费\' and f_sellid\=\{sellinggas.id\})$}"
+		 	Path="{m:Exp Str=$one/from t_financedetail where  id \= (select min(id) from t_financedetail where f_payfeevalid\=\'有效\'  and f_payfeetype\=\'交费\' and f_sellid\=\{sellinggas.id\})$}"
 			IsOld="{m:Exp Str=sellinggas.State\=\=$Loaded$}"
 			IsInit="{m:Exp Str=financeobj.State\=\=$LoadError$ |or| sellinggas.State\=\=$LoadError$}">
 			<o:PropertySetter PropertyName="f_payfeevalid" NoDependValue="{m:Exp Str=SaveAction\=>Saving!\=null:$无效$\,null}"/>
