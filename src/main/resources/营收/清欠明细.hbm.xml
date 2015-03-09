@@ -37,7 +37,7 @@
 	
 	   
 		<!--部门-->
-		<property name="f_department" type="string"/>
+		<property name="f_sgnetwork" type="string"/>
 		<!--操作人-->
 		<property name="f_opertor" type="string"/>
 		<!--日期-->

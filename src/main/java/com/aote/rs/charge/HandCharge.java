@@ -628,7 +628,7 @@ public class HandCharge {
 		finance.put("f_payfeevalid", "有效");
 		finance.put("f_payfeetype", "抄表");
 		// <!--网点-->
-		finance.put("f_network", sgnetwork);
+		finance.put("f_sgnetwork", sgnetwork);
 		// <!--操作员-->
 		finance.put("f_opertor", sgoperator);
 		// 操作日期，时间
