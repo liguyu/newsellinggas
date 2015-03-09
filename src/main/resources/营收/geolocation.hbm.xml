@@ -18,9 +18,9 @@
 		<!--经度-->
 		<property name="longitude" type="string"/>
 		<!--纬度-->
-		<property name="latiitude" type="string"/>
+		<property name="latitude" type="string"/>
 		<!--高度-->
-		<property name="altiitude" type="string"/>
+		<property name="altitude" type="string"/>
 		<!--坐标-->
 		<property name="provider" type="string"/>
 	</class>
