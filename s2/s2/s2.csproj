@@ -136,15 +136,6 @@
     <Compile Include="Pages\其他收费查看.xaml.cs">
       <DependentUpon>其他收费查看.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\呼叫\工单回访.xaml.cs">
-      <DependentUpon>工单回访.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\呼叫\工单派发.xaml.cs">
-      <DependentUpon>工单派发.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\呼叫\工单调度单.xaml.cs">
-      <DependentUpon>工单调度单.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\天然气用气汇总表.xaml.cs">
       <DependentUpon>天然气用气汇总表.xaml</DependentUpon>
     </Compile>
@@ -1437,18 +1428,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\其他收费查看.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\呼叫\工单回访.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\呼叫\工单派发.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\呼叫\工单调度单.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -10,8 +10,6 @@
 		</id>
 		<!--用户编号-->
 		<property name="f_userid" type="string"/>
-		<!--是否维修-->
-		<property name="f_sfwx" type="string"/>
 		<!--用户姓名-->
 		<property name="f_username" type="string"/>
 		<!--联系方式-->	
@@ -120,13 +118,6 @@
 	    <!--是否查看-->
 		<property name="f_issee" type="string"/>
 		
-		
-		
-		<!--业务状态-->
-		<property name="f_state" type="string"/>
-		<!--派发子状态-->
-		<property name="f_substate" type="string"/>
-
 		<!--安检传的-->
 		<property name="anjianid" type="string"/>
 	</class>
