@@ -146,7 +146,8 @@ public class HandCharge {
 			throws Exception {
 		// 查找用户未抄表记录
 		Map map = this.findHandPlan(userid);
-
+        //获取表类型
+		String meterType = map.get("f_gasmeterstyle").toString();
 		// 下面程序执行hql变量
 		String hql = "";
 		// Map<String, String> singles = getSingles();// 获取所有单值
@@ -560,7 +561,7 @@ public class HandCharge {
 					lastinputDate, date, inputdate, meterState });
 		}
 		// 保存用户清欠账务,并更新档案中账户余额
-		if (gas.doubleValue() > 0) {
+		if (meterType !=null && meterType.equals("机表")  && gas.doubleValue() > 0) {
 			financedetailDisp(map, gas, chargenum, sgnetwork, sgoperator);
 		}
 		return "";
