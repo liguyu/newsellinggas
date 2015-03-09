@@ -353,6 +353,8 @@
         <property name="NEEDS_REPAIR" type="string">
         </property>
         <!-- 维修人 -->
+        <property name="f_department" type="string"/>
+        <!-- 维修人 -->
         <property name="REPAIRMAN" type="string">
         </property>
         <!-- 维修人ID -->

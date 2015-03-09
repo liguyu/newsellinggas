@@ -26,9 +26,13 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
@@ -241,6 +245,7 @@ public class IndoorInspectService {
 			Map<String, String> redundantCols, Map<String, String> slaveMap) {
 		String snippet1 = "";
 		String snippet2 = "";
+		Map<String, String> map = new HashMap<String, String>();
 		for (Map.Entry<String, String> entry : redundantCols.entrySet()) {
 		    snippet1 += "," +  entry.getKey();
 			if(entry.getKey().equals("JB_NUMBER") || entry.getKey().equals("SURPLUS_GAS"))
@@ -260,10 +265,12 @@ public class IndoorInspectService {
 		}
 	}
 	
-	@Path("CAupdate")
+	@Path("CAupdate/{operator}/{department}")
 	@POST
 	@Produces("application/json")
-	public String CAUpdateOrSave(String stringifiedObj) {
+	public String CAUpdateOrSave(@PathParam("operator") String operator,
+								@PathParam("department") String department,
+								String stringifiedObj) {
 		log.debug("传入的安检记录：" + stringifiedObj);
 		try {
 			JSONObject row = new JSONObject(stringifiedObj);
@@ -272,7 +279,7 @@ public class IndoorInspectService {
 			String planId = row.getString("CHECKPLAN_ID");
 			String state = row.getString("CONDITION");
 			CADeletePossiblePriorRow(uuid, state);
-			if(CAInsertNewRow(row))
+			if(CAInsertNewRow(row,operator,department))
 				return "{\"ok\":\"ok\"}";
 			else
 				return "{\"ok\":\"nok\"}";				
@@ -363,7 +370,7 @@ public class IndoorInspectService {
 	 * @param row
 	 * @throws JSONException 
 	 */
-	private boolean CAInsertNewRow(JSONObject row) throws JSONException {
+	private boolean CAInsertNewRow(JSONObject row,String operator,String department) throws JSONException {
 			String uuid = row.getString("ID");
 			String condition = row.getString("CONDITION");
 			String userid = row.getString("f_userid");
@@ -430,7 +437,7 @@ public class IndoorInspectService {
 							"f_nextCheckDate = DATEADD(YEAR, 1, SUBSTRING(" + checkDate + ", 1, 10)) " +
 							"where f_userid = " + userid;
 			execSQL(updateSQL);
-			
+			StringBuffer sb = new StringBuffer("");
 			if(suggestions != null)
 			{
 				JSONArray lines = new JSONArray(suggestions);
@@ -445,9 +452,59 @@ public class IndoorInspectService {
 					+ "','" + line.getString("BZ") 
 					+ "','" + line.getString("INSPECTION_ID")  + "')";
 					execSQL(sql1);
+					sb.append(line.getString("EQUIPMENT")+":"+line.getString("NAME")+"\n");
 				}
+				String state = "'未派发'";
+				String accepter = null;
+				String substate = null;
+				String sender = null;
+				String senddate = null;
+				String sendtime = null;
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date d = new Date();
+				String date = sdf.format(d);
+				List list = (List) hibernateTemplate
+						.execute(new HibernateCallback() {
+							public Object doInHibernate(Session session)
+									throws HibernateException {
+								SQLQuery query = session.createSQLQuery("select value from t_singlevalue where name='工单模式'");
+								return query.list();
+							}
+						});
+				if(list.size()==1){
+					String sta = list.get(0) + "";
+					if("直接派发到APP模式".equals(sta)){
+						state = "'已派发'";
+						accepter = row.getString("REPAIRMAN");
+						substate = "'未下载'";
+						sender = "'"+operator+"'";
+						senddate = "'"+date.substring(0,10)+"'";
+						sendtime = "'"+date.substring(11,19)+"'";
+					}
+				}
+				String uuid2 = UUID.randomUUID().toString();
+				updateSQL = "insert into t_repairsys(id,anjianid,f_userid,f_username,f_linktype,"
+						+ "f_address,f_metergasnums,f_operator,f_usertype,f_meetunit,"
+						+ "f_repairreason,f_department,f_teltype,f_repairtype,"
+						+ "f_dealtype,f_dealonline,f_havacomplete,f_havadeal,f_meternumber,"
+						+ "f_gasmeteraccomodations,f_metertype,f_aroundmeter,f_recorddate,f_reporttime,"
+						+ "f_cucode,f_state,f_accepter,f_substate,f_sender,"
+						+ "f_senddate,f_sendtime)" +
+						"VALUES('"+uuid2+"',"+uuid+","+userid+","+row.getString("f_consumername")+","+row.getString("f_consumerphone")+",'"+
+						rejectionNull(road)+rejectionNull(unitName)+rejectionNull(cusDom)+rejectionNull(cusDy)+rejectionNull(cusFloor)+rejectionNull(cusRoom)+"',"+row.getString("f_buygas")+",'"+operator+"',(select f_usertype from t_userfiles where f_userid="+userid+"),"+row.getString("f_department")+",'"+
+						sb.toString()+"','"+department+"',"+"'安检转维修'"+","+"'安检转维修'"+","+
+						"'安检转维修'"+","+"'安检转维修'"+","+"'未完成'"+","+"'是'"+","+row.getString("f_biaohao")+","+
+						row.getString("f_jbdushu")+","+row.getString("f_meter_type")+","+row.getString("f_rqbiaoxing")+",'"+date.substring(11,19)+"','"+date.substring(0,10)+"','aj"+
+						new Date().getTime()+"',"+state+","+accepter+","+substate+","+sender+","+
+						senddate+","+sendtime+")";
+				execSQL(updateSQL);
 			}
 			DeletePics(uuid.replace("'", ""));
 			return true;
-	}	
+	}
+	private String rejectionNull(String s){
+		if("'null'".equals(s.toLowerCase()))
+			return "";
+		return s.replace("'", "");
+	}
 }
