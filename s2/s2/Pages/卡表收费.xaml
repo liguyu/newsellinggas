@@ -639,7 +639,7 @@
                                 <TextBox x:Name="ui_totalcost" Text="{m:Bind Path=f_totalcost}" FontWeight="Bold" Foreground="Red" IsReadOnly="True" Grid.Column="5" Margin="0" Grid.Row="7" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" Grid.ColumnSpan="1" >
                                     <a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_totalcost"
-										Value="{m:Exp Str=kbfee.f_preamount+kbfee.f_amountmaintenance+kbfee.f_qsje-kbfee.f_zhye>\=0:kbfee.f_preamount+kbfee.f_amountmaintenance+kbfee.f_qsje-kbfee.f_zhye\,0}"/>
+										Value="{m:Exp Str=kbfee.f_preamount+kbfee.f_amountmaintenance+kbfee.f_qsje-kbfee.f_zhye>\=0:(kbfee.f_preamount+kbfee.f_amountmaintenance+kbfee.f_qsje-kbfee.f_zhye).MathRound(2)\,0}"/>
                                     </a:Data.Prop>
                                 </TextBox>
                                 <TextBox Text="{m:Bind Path=f_benqizhye}"  Grid.Column="5" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="9"  HorizontalAlignment="Stretch" Height="25" VerticalAlignment="Stretch" >
@@ -941,7 +941,7 @@
                                 <TextBlock Text="上期结余：" Grid.Column="2" Margin="0" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right" Height="25" VerticalAlignment="Center"/>
                                 <TextBox Text="{m:Bind Path=f_zhye}"  Grid.Column="3" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="9"  HorizontalAlignment="Stretch" Height="25" VerticalAlignment="Stretch" >
                                     <a:Data.Prop>
-                                        <o:PropertySetter PropertyName="f_zhye" NoDependValue="{m:Exp Str=kbusers.f_zhye\=&gt;Completed}" NotNull="True"/>
+                                        <o:PropertySetter PropertyName="f_zhye" NoDependValue="{m:Exp Str=kbusers.f_zhye.MathRound(2)\=&gt;Completed}" NotNull="True"/>
                                     </a:Data.Prop>
                                 </TextBox>
                             </Grid>
@@ -975,7 +975,10 @@
                                 <sdk:DataGridTextColumn Header="交费日期" Binding="{Binding f_deliverydate, StringFormat=yyyy-MM-dd}"/>
                                 <sdk:DataGridTextColumn Header="交费时间" Binding="{Binding f_deliverytime, StringFormat=hh:mm:ss tt}"/>
                                 <sdk:DataGridTextColumn Header="购 气 量" Binding="{Binding f_pregas}"/>
-                                <sdk:DataGridTextColumn Header="气    价" Binding="{Binding f_gasprice}"/>
+                                <sdk:DataGridTextColumn Header="阶梯一单价" Binding="{Binding f_stair1price}"/>
+                                <sdk:DataGridTextColumn Header="阶梯二单价" Binding="{Binding f_stair2price}"/>
+                                <sdk:DataGridTextColumn Header="阶梯三单价" Binding="{Binding f_stair3price}"/>
+                                <sdk:DataGridTextColumn Header="超过阶梯三单价" Binding="{Binding f_stair4price}"/>
                                 <sdk:DataGridTextColumn Header="购气金额" Binding="{Binding f_preamount}"/>
                                 <sdk:DataGridTextColumn Header="网　　点" Binding="{Binding f_sgnetwork}"/>
                                 <sdk:DataGridTextColumn Header="操 作 员" Binding="{Binding f_sgoperator}"/>
