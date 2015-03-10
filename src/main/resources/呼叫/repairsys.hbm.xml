@@ -118,5 +118,7 @@
 	    <!--是否查看-->
 		<property name="f_issee" type="string"/>
 		
+		<!--安检传的-->
+		<property name="anjianid" type="string"/>
 	</class>
 </hibernate-mapping>

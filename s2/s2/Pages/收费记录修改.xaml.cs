@@ -150,6 +150,7 @@ namespace Com.Aote.Pages
                  ",lastinputgasnum=" + decimal.Parse(ui_f_lastinputgasnums.Text) +
                  ",lastrecord=" + decimal.Parse(ui_f_lastrecord.Text) +
                  ",f_userid='" + ui_userid.Text +
+                 "',f_payment='" +ui_payment.SelectedValue +
                  "',f_username='" + ui_username.Text +
                  "',f_address='" + ui_address.Text +
                  "',f_districtname='" + ui_f_districtname.Text +

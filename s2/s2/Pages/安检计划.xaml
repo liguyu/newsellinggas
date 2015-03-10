@@ -29,7 +29,6 @@
                                   Default="{m:Exp Str=SysTime.Now.ToString($yyyy-MM-dd HH:mm:ss$)}"
                                   Operator="substring('this',1,10)" NotNull="True" />
                 <o:PropertySetter PropertyName="f_enddate" 
-                                  Default="{m:Exp Str=SysTime.MonthsAfterToday(1).ToString($yyyy-MM-dd HH:mm:ss$)}"
                                   Operator="substring('this',1,10)" NotNull="True" />
                 <o:PropertySetter PropertyName="f_issued" 
 				Default="{m:Exp Str=$否$}"/>

@@ -95,6 +95,7 @@ namespace Com.Aote.Pages
          private void action_Completed1(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
             userList.IsOld = true;
+            userList.IsClear = true;
             ui_meterBusy.IsBusy = false;
         }
     }
