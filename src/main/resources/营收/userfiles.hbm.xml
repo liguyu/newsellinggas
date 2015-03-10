@@ -23,6 +23,9 @@
 		<property name="f_oldid" type="string"/>
 		<!--机表用户账户结余-->
 		<property name="f_zhye" type="double"/>
+		<!--机表用户清欠结余-->
+		<property name="f_accountzhye" type="double"/>
+	
 		<!--初始化卡购气标记-->
 		<property name="f_initcardsellgas" type="string"/>
 		<!--公司类型，分为天然气公司、银行 -->

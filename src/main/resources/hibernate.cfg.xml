@@ -204,7 +204,9 @@
    	   <mapping resource="营收/bankreturn.hbm.xml" />
    	     <!--交费方式转换-->
    	   <mapping resource="营收/changepayment.hbm.xml" />
-   	   
+   	    <!--置忙时间记录-->
+   	    <mapping resource="营收/清欠明细.hbm.xml"/>
+     
    	     <!-- 街道 -->
    	    <mapping resource="营收/road.hbm.xml"/>
 	<!--安检员位置-->
@@ -322,7 +324,7 @@
    	    <mapping resource="呼叫/note.hbm.xml" />
    	    <!--置忙时间记录-->
    	    <mapping resource="呼叫/opbusyrecord.hbm.xml"/>
-      
+       
         
        
 	</session-factory>

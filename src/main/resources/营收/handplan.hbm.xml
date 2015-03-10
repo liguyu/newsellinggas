@@ -133,7 +133,11 @@
 		<!--抄表单状态-->
 		<property name="f_state" type="string"/>
 		<!--是否已生成短信，是、否-->
-		<property name="f_sms" type="string"/>		
+		<property name="f_sms" type="string"/>	
+		<!--实际欠费金额,有结余就减去-->
+	    <property name="f_debtmoney" type="double"/>	
+	
+			
 		
 			<!-- **************阶梯气价信息**************** -->
 	<!-- 存储用户当前购气时，气价和气量的具体信息，购气量在阶段几种  获得当前阶段的单价 算出购气金额 -->
