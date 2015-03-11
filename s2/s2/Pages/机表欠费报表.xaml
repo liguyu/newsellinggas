@@ -146,7 +146,7 @@
                                 left join (select * from t_handplan tt where tt.shifoujiaofei\=\'否\' and tt.f_state\=\'已抄表\') t on t.f_userid \= tuser.f_userid
                                 where \{daninfosearch.DataContext.Condition\} and t.oughtfee is not null
                                 group by  tuser.id\,t.f_inputtor
-}"
+								}"
 									HQL="{m:Exp Str=$
                                 SELECT tuser.f_userid f_userid\,tuser.f_username f_username\, tuser.f_address f_address\, tuser.f_phone f_phone\, tuser.lastinputgasnum lastinputgasnum\, tuser.f_zhye f_zhye\,sum(sell.f_grossproceeds) f_grossproceeds\,
                                 COUNT(t.oughtfee) f_cnt\, sum(t.oughtfee) f_oughtfee\, tuser.f_zhye - sum(t.oughtfee) f_balance\, 
@@ -155,10 +155,10 @@
                                 left join (select DISTINCT f_userid\,(select substring(convert(varchar(50)\,lastinputdate \,120)\,1 \,7)+ \' \, \' from t_handplan a where a.shifoujiaofei\=\'否\' and a.f_state\=\'已抄表\'and a.f_userid \=b.f_userid group by lastinputdate order by lastinputdate for xml path(\'\')) as f_date from t_handplan b) s
                                 on t.f_userid\=s.f_userid and s.f_userid\=tuser.f_userid
                                 left join
-(select f_userid\,SUM(f_grossproceeds) f_grossproceeds from t_sellinggas 
-where f_payfeevalid \= \'有效\'
-group by f_userid)  sell 
-on  sell.f_userid \= tuser.f_userid
+								(select f_userid\,SUM(f_grossproceeds) f_grossproceeds from t_sellinggas 
+								where f_payfeevalid \= \'有效\'
+								group by f_userid)  sell 
+								on  sell.f_userid \= tuser.f_userid
                                 where t.shifoujiaofei\=\'否\' and t.f_state\=\'已抄表\' and \{daninfosearch.DataContext.Condition\}and \{f_cnt.IsChecked:$tuser.f_zhye>0$\,$1\=1$\}
                                 group by  f_date\,tuser.f_userid\, tuser.f_username\, tuser.f_address\, tuser.f_phone\, tuser.f_zhye\,t.f_inputtor\,t.f_userid\,tuser.lastinputgasnum
                                 order by t.f_inputtor\, \{this.SortName\} \{this.Order\}

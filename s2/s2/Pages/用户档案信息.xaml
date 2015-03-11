@@ -56,7 +56,7 @@
             </Grid.ColumnDefinitions>
             <c:BusyIndicatorEx x:Name="ui_busys" BusyContent="正在查询，请稍等" IsBusy="{m:Exp Str=daninfos.ItemsSource.IsBusy or toExcel.IsBusy}">
                 <toolkit:DockPanel>
-                    <Grid x:Name="daninfosearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" Width="Auto" HorizontalAlignment="Stretch" >
+                     <Grid x:Name="daninfosearch"  toolkit:DockPanel.Dock="Top" Margin="0,0,0,3" Background="#FFCFEFFF" Width="Auto" HorizontalAlignment="Stretch" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="28"/>
                             <RowDefinition Height="28"/>
@@ -73,8 +73,10 @@
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="0.53*"/>
-                            <ColumnDefinition Width="0.47*"/>
+                            <ColumnDefinition Width="131"/>
+                            <ColumnDefinition Width="130.333"/>
+                            <ColumnDefinition Width="48.667"/>
+                            <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
                         <a:Data.Context>
                             <o:SearchObject />
@@ -117,9 +119,9 @@
                                 <o:PropertySetter PropertyName="f_yytdepa"  Operator="f_yytdepa = 'this'"/>
                             </a:Data.Prop>
                         </ComboBox>
-                        <Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="4" Grid.Column="8" Click="dansearchbutton_Click"  Margin="6,-4,0,4" FontSize="14" HorizontalAlignment="Left" Width="60"  />
-                        <Button Content=" 置  空"  Grid.Row="4" Grid.Column="8" Click="{m:Exp Str=daninfosearch.DataContext.f_dibaohu\=null;daninfosearch.DataContext.f_wallhangboiler\=null;daninfosearch.DataContext.f_bankname\=null;daninfosearch.DataContext.f_idofcard\=null;daninfosearch.DataContext.f_usermc\=null;daninfosearch.DataContext.f_yytdate11\=null;daninfosearch.DataContext.f_yytdate22\=null;daninfosearch.DataContext.f_inputtor\=null;daninfosearch.DataContext.f_gasmeterstyle\=null;daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_zhye\=null;daninfosearch.DataContext.f_cardid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_address\=null;daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null;tj5.SelectedValue\=null;tj6.SelectedValue\=null;tj9.SelectedValue\=null;tja.SelectedValue\=null;tjwangdian.SelectedValue\=null;tjb.SelectedValue\=null;daninfosearch.DataContext.f_districtname\=null}" Margin="70,-4,0,3" FontSize="14" HorizontalAlignment="Left" Width="60"  />
-                        <Button Content="导出Excel"  Grid.Row="4" Grid.Column="8" IsEnabled="{m:Exp Str=daninfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel.ToExcel()}" Margin="135,-4,0,3" FontSize="14" HorizontalAlignment="Left" Width="60"  />
+                        <Button Content=" 查  询" x:Name="dansearchbutton" Grid.Row="4" Grid.Column="8" Click="dansearchbutton_Click"  Margin="6,0,0,0" FontSize="14" HorizontalAlignment="Left" Width="60" Height="28" VerticalAlignment="Bottom"  />
+                        <Button Content=" 置  空"  Grid.Row="4" Grid.Column="8" Click="{m:Exp Str=daninfosearch.DataContext.f_dibaohu\=null;daninfosearch.DataContext.f_wallhangboiler\=null;daninfosearch.DataContext.f_bankname\=null;daninfosearch.DataContext.f_idofcard\=null;daninfosearch.DataContext.f_usermc\=null;daninfosearch.DataContext.f_yytdate11\=null;daninfosearch.DataContext.f_yytdate22\=null;daninfosearch.DataContext.f_inputtor\=null;daninfosearch.DataContext.f_gasmeterstyle\=null;daninfosearch.DataContext.f_userid\=null;daninfosearch.DataContext.f_zhye\=null;daninfosearch.DataContext.f_cardid\=null;daninfosearch.DataContext.f_username\=null;daninfosearch.DataContext.f_address\=null;daninfosearch.DataContext.f_yytdate1\=null;daninfosearch.DataContext.f_yytdate2\=null;tj5.SelectedValue\=null;tj6.SelectedValue\=null;tj9.SelectedValue\=null;tja.SelectedValue\=null;tjwangdian.SelectedValue\=null;tjb.SelectedValue\=null;daninfosearch.DataContext.f_districtname\=null}" Margin="70,0,0,0" FontSize="14" HorizontalAlignment="Left" Width="60"  />
+                        <Button Content="导出Excel"  Grid.Row="4" Grid.Column="9" IsEnabled="{m:Exp Str=daninfos.ItemsSource.Count!\=0:True\,False}" Click="{m:Exp Str=toExcel.ToExcel()}" Margin="9,0,0,0" FontSize="14" HorizontalAlignment="Left" Width="Auto"  />
                         <c:Excel x:Name="toExcel" HQL="{m:Exp Str=$sql:\{daninfos.ItemsSource.HQL\}}" 
    							 Completed="{m:Exp Str=downLoad.Down()}"
    							 Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_userid:用户编号|old:旧用户编号|f_meternumber:表号|f_username:用户姓名|f_usertype:用户类型|f_cardid:卡号|f_gaswatchbrand:气表品牌|f_metertype:气表型号|lastinputgasnum:抄表表底|f_zhye:账户余额|f_address:地址|f_phone:电话|f_gasproperties:用气性质|f_gaspricetype:气价类型|f_gasprice:气价|f_wallhangboiler:有无壁挂炉|f_userstate:用户状态|f_anzhuanguser:表安装人|f_watchinstalldate:表安装日期|f_payment:交费方式|f_bankname:银行|f_usermc:账户名|f_idofcard:账号|f_filiale:所属公司|f_yytdepa:建档部门|f_yytoper:建档人|f_yytdate:建档日期|f_examinedepa:审核部门|f_examineoper:审核人|f_examinedate:审核日期$}"/>
@@ -175,8 +177,8 @@
                                 <o:PropertySetter PropertyName="f_usertype"  Operator="f_usertype = 'this'"/>
                             </a:Data.Prop>
                         </ComboBox>
-						<TextBlock TextWrapping="Wrap" Text="阶梯气价类型：" Grid.Column="7"  Margin="0" Height="25" TextAlignment="Right" Grid.Row="1" />
-                        <ComboBox x:Name="tja2"  SelectedValue="{m:Bind Path=f_stairtype}" Grid.Row="1" Grid.Column="8" ItemsSource="{m:Exp Str=stairlist}"  Margin="0"  SelectedValuePath="f_stairtype"  Height="25" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch">
+						<TextBlock TextWrapping="Wrap" Text="阶梯气价类型：" Grid.Column="8"  Margin="0,2,0,1" Height="25" TextAlignment="Right" Grid.Row="1" Width="130" HorizontalAlignment="Left" />
+                        <ComboBox x:Name="tja2"  SelectedValue="{m:Bind Path=f_stairtype}" Grid.Row="1" Grid.Column="9" ItemsSource="{m:Exp Str=stairlist}"  Margin="0,2,0,1"  SelectedValuePath="f_stairtype"  Height="25" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch" d:LayoutOverrides="GridBox, HorizontalMargin">
                              <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Height="20" Text="{Binding f_stairtype}"/>
@@ -232,8 +234,8 @@
                                 <o:PropertySetter PropertyName="f_districtname"  Operator="f_districtname like '%this%'"/>
                             </a:Data.Prop>
                         </TextBox>
-                        <TextBlock TextWrapping="Wrap" Text="气表类型：" Margin="0,3,0,0" Height="25" TextAlignment="Right" Grid.Column="8" HorizontalAlignment="Left" Width="80" />
-                        <TextBox x:Name="tj3_Copy1" TextWrapping="Wrap" Grid.Column="8" Grid.Row="0" Text="{m:Bind Path=f_gasmeterstyle}" Width="160" Margin="80,3,0,0" Height="25" HorizontalAlignment="Left" Grid.ColumnSpan="1" VerticalAlignment="Stretch" >
+                        <TextBlock TextWrapping="Wrap" Text="气表类型：" Margin="0,2,0,1" Height="25" TextAlignment="Right" Grid.Column="8" />
+                        <TextBox x:Name="tj3_Copy1" TextWrapping="Wrap" Grid.Column="9" Grid.Row="0" Text="{m:Bind Path=f_gasmeterstyle}" Width="Auto" Margin="0,2,0.333,1" Height="25" HorizontalAlignment="Stretch" Grid.ColumnSpan="1" VerticalAlignment="Stretch" d:LayoutOverrides="GridBox" >
                             <a:Data.Prop>
                                 <o:PropertySetter PropertyName="f_gasmeterstyle"  Operator="f_gasmeterstyle like 'this%'"/>
                             </a:Data.Prop>
@@ -244,12 +246,12 @@
 										             
 									</a:Data.Prop>
 								</CheckBox-->
-                        <CheckBox x:Name="dbcheck" IsChecked="{m:Bind Path=f_wallhangboiler}" Content="有无壁挂炉" Margin="9,9,0,-9"  Grid.Row="2" Grid.Column="8" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.RowSpan="1" d:LayoutOverrides="HorizontalAlignment">
+                        <CheckBox x:Name="dbcheck" IsChecked="{m:Bind Path=f_wallhangboiler}" Content="有无壁挂炉" Margin="9,0,0,0"  Grid.Row="2" Grid.Column="8" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.RowSpan="1" d:LayoutOverrides="HorizontalAlignment">
                             <a:Data.Prop>
                                 <o:PropertySetter PropertyName="f_wallhangboiler"  Operator="{m:Exp Str=dbcheck.IsChecked \:$f_wallhangboiler \= 1$ \,$f_wallhangboiler\=0$}" />
                             </a:Data.Prop>
                         </CheckBox>
-                        <CheckBox x:Name="dbhheck" IsChecked="{m:Bind Path=f_dibaohu}" Content="低保户" Margin="9,9,0,-9"  Grid.Row="2" Grid.Column="8" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Right"  Grid.RowSpan="1" d:LayoutOverrides="HorizontalAlignment">
+                        <CheckBox x:Name="dbhheck" IsChecked="{m:Bind Path=f_dibaohu}" Content="低保户" Margin="0"  Grid.Row="2" Grid.Column="9" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Right"  Grid.RowSpan="1" Width="75">
                             <a:Data.Prop>
                                 <o:PropertySetter PropertyName="f_dibaohu"  Operator="{m:Exp Str=dbhheck.IsChecked \:$f_dibaohu \= 1$ \,$f_dibaohu\=0$}" />
                             </a:Data.Prop>

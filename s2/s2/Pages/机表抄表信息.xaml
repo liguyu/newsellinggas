@@ -178,7 +178,7 @@
                             <a:Data.Prop>
                                 <!-- Value="{m:Exp Str=SysTime.Today}"-->
                                 <o:PropertySetter PropertyName="f_yytdate1"   
-											Operator="lastinputdate >= substring('this',1,10)"/>
+											Operator="lastinputdate >= substring('this',1,10) + ' 00:00:00'"/>
                             </a:Data.Prop>
                         </sdk:DatePicker>
                         <sdk:DatePicker Name="tj8" SelectedDate="{m:Bind Path=f_yytdate2}" Grid.Row="3" Grid.Column="3" a:ControlAttach.DefaultButton="searchbutton" Width="Auto" Margin="0,0,0,3" Height="25" Grid.ColumnSpan="1" >
