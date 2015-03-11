@@ -93,7 +93,12 @@
 		  		Path="one/from t_singlevalue where name='非民用月维护费' "   ></o:GeneralObject>
             <o:GeneralObject Name="fapiaogeshi" EntityType="t_singlevalue" WebClientInfo="{StaticResource dbclient}" 
 		  	Path="one/from t_singlevalue where name='发票格式'"   ></o:GeneralObject>
-
+			<!--金额合计-->
+            
+			<o:GeneralObject Name="heji" EntityType="t_sellinggas" WebClientInfo="{StaticResource dbclient}"
+				Path="{m:Exp Str=kbusers.f_userid !\= null:$one/select new Map(Sum(f_grossproceeds) as f_grossproceeds) from t_sellinggas where f_userid \=\{kbusers.f_userid\}$\,$0$}"
+				IsOld="{m:Exp Str=heji.State\=\=$End$}" >
+			</o:GeneralObject>
             <!--用户对象-->
             <o:GeneralObject Name="kbusers" EntityType="t_userfiles" WebClientInfo="{StaticResource dbclient}"
              Path="{m:Exp Str=card.CardId !\= null and card.Factory !\=null and card.Factory \=\=$jinka$ :$one/from t_userfiles where f_userstate !\=\'注销\' and f_cardid\=\'\{card.CardId\}\' and dqdm \= \'\{card.Dqdm\}\' and f_aliasname\=\'\{card.Factory\}\'$\,card.CardId !\= null and card.Factory !\=null:$one/from t_userfiles where f_cardid\=\'\{card.CardId\}\' and f_aliasname\=\'\{card.Factory\}\'$\,$null$}" 
@@ -267,7 +272,7 @@
 				IsBusy="{m:Exp Str=kbusers.IsBusy or kbfee1.DataContext.IsBusy or SaveAction.IsBusy}"  Grid.Column="1" Margin="0" Grid.ColumnSpan="1" d:LayoutOverrides="GridBox">
                 <toolkit:DockPanel>
                     <StackPanel toolkit:DockPanel.Dock="Top">
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Width="Auto" Height="370">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Width="Auto" Height="419"  >
                             <Grid   Margin="0" x:Name="kbfee1" DataContext="{m:Exp Str=kbfee}" >
                                 <Grid.Background>
                                     <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -873,6 +878,9 @@
                                         <o:PropertySetter PropertyName="f_deliverytime" Value="{m:Exp Str=SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now\,$$}"/>
                                     </a:Data.Prop>
                                 </toolkit:TimePicker>
+								<TextBlock Text="历史收费金额：" Margin="0,6" Grid.Row="12" TextWrapping="Wrap" TextAlignment="Right" Grid.Column="4" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+		                                <TextBox Text="{m:Exp Str=$\{heji.f_grossproceeds\!\=null:heji.f_grossproceeds\,$0$\}}"  Grid.Column="5" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="12" Height="25" VerticalAlignment="Stretch">
+		                                </TextBox>
                                 <TextBlock Text="卡内气量：" Margin="0" TextWrapping="Wrap" TextAlignment="Right" Grid.Row="1" Grid.Column="4" Height="25"/>
                                 <TextBox Text="{Binding f_beginfeebj, StringFormat=yyyy-MM-dd}" Grid.Column="2" Margin="18.167,6,0,6" Grid.Row="6" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Stretch" Height="25" HorizontalAlignment="Left" Width="43"  Visibility="Collapsed" >
                                     <a:Data.Prop>
@@ -912,7 +920,7 @@
                                     </a:Data.Prop>
                                 </TextBox>
                                 <TextBlock Text="发 票 号：" Grid.Column="2" Margin="0,6,0,6" Grid.Row="11" TextWrapping="Wrap" TextAlignment="Right" Height="25"/>
-                                <TextBox Text="{m:Bind Path=f_invoicenum}" Grid.Column="3" Margin="0,6" Grid.Row="11" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" Grid.RowSpan="1" >
+                                <TextBox Text="{m:Bind Path=f_invoicenum}" Grid.Column="3" Margin="0" Grid.Row="11" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" Grid.RowSpan="1" >
                                     <a:Data.Prop>
                                         <o:PropertySetter PropertyName="f_invoicenum"  Default="{m:Exp Str=LoginUserfapiao.fapiaohao !\=null \: LoginUserfapiao.fapiaohao.ToString()\,$$}" NoDependValue="{m:Exp Str=LoginUserfapiao.fapiaohao !\=null \:LoginUserfapiao.fapiaohao.ToString()\,$$}"/>
                                     </a:Data.Prop>

@@ -45,7 +45,12 @@
             <!--选中的对象列表-->
             <o:ObjectList Name="selected" EntityType="kbsellgas"
 			Source="{m:Exp Str=dataGrid1\=>SelectionChanged!\=null:kbsellgas[data.Pos(kbsellgas)^\=dataGrid1.SelectedItem.Pos(kbsellgas)].ToObjectList()\,null}"/>
-
+ 			<!--金额合计-->
+            
+			<o:GeneralObject Name="heji" EntityType="t_sellinggas" WebClientInfo="{StaticResource dbclient}"
+				Path="{m:Exp Str=userfiles.SelectedItem.f_userid !\= null:$one/select new Map(Sum(f_grossproceeds) as f_grossproceeds) from t_sellinggas where f_userid \=\{userfiles.SelectedItem.f_userid\}$\,$0$}"
+				IsOld="{m:Exp Str=heji.State\=\=$End$}" >
+			</o:GeneralObject>
             <!--机表用户对象-->
             <o:GeneralObject Name="kbusers" NotEmpty="True" LoadOnPathChanged="False" EntityType="t_userfiles" WebClientInfo="{StaticResource dbclient}"
 				Path="{m:Exp Str=$one/from t_userfiles u  where u.id\=\'\{userfiles.SelectedItem.id\}\'$}" 
@@ -712,6 +717,9 @@
                                     		<o:PropertySetter PropertyName="lastinputgasnum_user" NoDependValue="{m:Exp Str=kbusers.lastinputgasnum\=&gt;Completed}"/>
                                     	</a:Data.Prop>
                                     </TextBox>
+									 <TextBlock Text="历史收费金额：" Margin="0,6" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Right" Grid.Column="4" Height="25" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+		                                <TextBox Text="{m:Exp Str=$\{heji.f_grossproceeds\!\=null:heji.f_grossproceeds\,$0$\}}"  Grid.Column="5" Margin="-1,6,1,6" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="9" Height="25" VerticalAlignment="Stretch">
+		                                </TextBox>
                                 </Grid>
                             </StackPanel>
                         </ScrollViewer>
