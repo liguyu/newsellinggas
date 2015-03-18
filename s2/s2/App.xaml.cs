@@ -13,6 +13,7 @@ using Com.Aote.ObjectTools;
 using Com.Aote.Pages;
 using System.Threading;
 using System.Globalization;
+using System.Net.Browser;
 
 namespace s2
 {
@@ -20,6 +21,9 @@ namespace s2
     {
         public App()
         {
+            //注册http和https请求，这样WebClient才能正确返回相应状态码
+            WebRequest.RegisterPrefix("http://", WebRequestCreator.ClientHttp);
+            WebRequest.RegisterPrefix("https://", WebRequestCreator.ClientHttp);
 
 
             if (App.Current.InstallState == InstallState.Installed)
