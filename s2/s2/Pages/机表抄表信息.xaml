@@ -72,11 +72,11 @@
             <o:ObjectList Name="qjlist" EntityType="paramvalue" HasEmptyRow="True"  WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气价类型' order by id"  />
 
             <o:ObjectList Name="qjlistnull" EntityType="paramvalue" WebClientInfo="{StaticResource dbclient}" Path="from paramvalue where param.name='气价类型' " HasEmptyRow="True"/>
-            <!--金额合计-->
-            <o:GeneralObject Name="heji" EntityType="t_handplan" WebClientInfo="{StaticResource dbclient}"
-				Path="{m:Exp Str=LoginUser.f_fengongsi \=\= zonggongsi.value:$one/select new Map(Sum(oughtamount) as oughtamount\,Sum(oughtfee) as oughtfee) from t_handplan where \{daninfosearch.DataContext.Condition\}$\, LoginUser.f_fengongsi \!\= zonggongsi.value:$one/select new Map(Sum(oughtamount) as oughtamount\,Sum(oughtfee) as oughtfee) from t_handplan where \{daninfosearch.DataContext.Condition\} and f_filiale \=\'\{LoginUser.f_fengongsi\}\'$\,$0$}"
+              <!--金额合计-->
+			<o:GeneralObject Name="heji" EntityType="t_handplan" WebClientInfo="{StaticResource dbclient}"
+				Path="{m:Exp Str=LoginUser.f_fengongsi \=\= zonggongsi.value:$one/select new Map(Round(Sum(oughtamount)\,2) as oughtamount\,Round(Sum(oughtfee)\,2) as oughtfee\,Round(Sum(lastinputgasnum)\,2) as lastinputgasnum\,Round(Sum(lastrecord)\,2) as lastrecord) from t_handplan where \{daninfosearch.DataContext.Condition\}$\, LoginUser.f_fengongsi \!\= zonggongsi.value:$one/select new Map(Round(Sum(oughtamount)\,2) as oughtamount\,Round(Sum(oughtfee)\,2) as oughtfee from t_handplan where \{daninfosearch.DataContext.Condition\} and f_filiale \=\'\{LoginUser.f_fengongsi\}\'$\,$0$}"
 				IsOld="{m:Exp Str=heji.State\=\=$End$}">
-            </o:GeneralObject>
+			</o:GeneralObject>
             <!--未用户数-->
             <o:GeneralObject Name="weiyong" EntityType="t_handplan" WebClientInfo="{StaticResource dbclient}"
 				Path="{m:Exp Str=$one/select new Map(count(f_userid) as counts) from t_handplan where oughtamount\=0 and \{daninfosearch.DataContext.Condition\}$}"
