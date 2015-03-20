@@ -132,29 +132,29 @@
 								left join
 								(
 								/*本月实收*/
-								select u.f_districtname\,u.f_cusDom\,SUM(h.oughtamount) 本月实收气量\,round(SUM(h.oughtfee)\,2) 本月实收金额 from t_handplan h\,t_userfiles u 
-								where h.f_userid\=u.f_userid and u.f_gasmeterstyle\=\'机表\' and h.shifoujiaofei\=\'是\'
-								and h.lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+								select u.f_districtname\,u.f_cusDom\,round(SUM(h.f_realmoney/h.f_gasprice)\,0) 本月实收气量\,round(SUM(h.f_realmoney)\,2) 本月实收金额 from t_financedetail h\,t_userfiles u 
+								where h.f_userid\=u.f_userid and h.f_payfeetype\=\'交费\' and h.f_payfeevalid\=\'有效\'
+								and h.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.f_deliverydate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 								and u.f_cusDom is not null and u.f_cusDom !\=\'\'
 								group by u.f_districtname\,u.f_cusDom  
 								) e on a.f_cusDom\=e.f_cusDom and a.f_districtname\=e.f_districtname
 								left join
 								(
 								/*收回陈欠*/
-								select u.f_districtname\,u.f_cusDom\,SUM(h.oughtamount) 收回陈欠气量\,round(SUM(h.oughtfee)\,2) 收回陈欠金额 
-								from t_handplan h\,t_sellinggas s\,t_userfiles u 
+								select u.f_districtname\,u.f_cusDom\,round(SUM(h.f_realmoney/h.f_gasprice)\,0) 收回陈欠气量\,round(SUM(h.f_realmoney)\,2) 收回陈欠金额 
+								from t_financedetail h\,t_userfiles u 
 								where 
-								h.f_userid\=s.f_userid  and h.f_userid\=u.f_userid and u.f_gasmeterstyle\=\'机表\'
-								and h.f_sellid\=s.id and s.f_payfeetype\=\'机表收费\' and s.f_payfeevalid\=\'有效\'
-								and s.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and s.f_deliverydate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
-								and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate1\}\'
+								h.f_userid\=u.f_userid 
+								and h.f_payfeetype\=\'交费\' and h.f_payfeevalid\=\'有效\'
+								and h.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.f_deliverydate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+								and h.f_debtdate^\'\{daninfosearch.DataContext.f_yytdate1\}\'
 								and u.f_cusDom is not null and u.f_cusDom !\=\'\'
 								group by u.f_districtname\,u.f_cusDom  
 								) f on a.f_cusDom\=f.f_cusDom and a.f_districtname\=f.f_districtname
 								left join
 								(
 								/*本月欠费*/
-								select u.f_districtname\,u.f_cusDom\,SUM(h.oughtamount) 本月欠费气量\,round(SUM(h.oughtfee)\,2) 本月欠费金额 from t_handplan h\,t_userfiles u 
+								select u.f_districtname\,u.f_cusDom\,round(SUM(h.f_debtmoney/u.f_gasprice)\,0) 本月欠费气量\,round(SUM(h.f_debtmoney)\,2) 本月欠费金额 from t_handplan h\,t_userfiles u 
 								where h.f_userid\=u.f_userid and h.shifoujiaofei\=\'否\'
 								and h.lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 								and u.f_cusDom is not null and u.f_cusDom !\=\'\'
@@ -163,7 +163,7 @@
 								left join
 								(
 								 /*累计欠费*/
-								select u.f_districtname\,u.f_cusDom\,SUM(h.oughtamount) 累计欠费气量\,round(SUM(h.oughtfee)\,2) 累计欠费金额 from t_handplan h\,t_userfiles u 
+								select u.f_districtname\,u.f_cusDom\,round(SUM(h.f_debtmoney/u.f_gasprice)\,0) 累计欠费气量\,round(SUM(h.f_debtmoney)\,2) 累计欠费金额 from t_handplan h\,t_userfiles u 
 								where h.f_userid\=u.f_userid and h.shifoujiaofei\=\'否\'
 								and u.f_cusDom is not null and u.f_cusDom !\=\'\'
 								group by u.f_districtname\,u.f_cusDom  
@@ -173,7 +173,7 @@
 							    /*滞纳金*/
 								select  f_districtname\,f_cusDom\,round(SUM(滞纳金)\,2) 滞纳金 from (
 								select 
-								round(DATEDIFF(DAY\,GETDATE()\,DATEADD(DAY\,30\,h.lastinputdate))*0.003*h.oughtfee\,2) 滞纳金
+								round(DATEDIFF(DAY\,GETDATE()\,DATEADD(DAY\,30\,h.lastinputdate))*0.003*h.f_debtmoney\,2) 滞纳金
 								\,u.f_districtname\,u.f_cusDom from t_handplan h\,t_userfiles u 
 								where h.f_userid\=u.f_userid and
 								h.shifoujiaofei\=\'否\'
