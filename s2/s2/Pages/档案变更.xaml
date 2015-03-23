@@ -863,6 +863,6 @@
                 </toolkit:DockPanel>
             </c:BusyIndicatorEx>
         </Grid>
-
+               
     </Grid>
 </UserControl>

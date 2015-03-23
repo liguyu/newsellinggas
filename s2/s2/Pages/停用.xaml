@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:a="clr-namespace:Com.Aote.Attachs;assembly=s2DLL"
     xmlns:o="clr-namespace:Com.Aote.ObjectTools;assembly=s2DLL"
+	xmlns:c="clr-namespace:Com.Aote.Controls;assembly=s2DLL"
 	xmlns:oo="clr-namespace:Com.Aote.ObjectTools"
     xmlns:b="clr-namespace:Com.Aote.Behaviors;assembly=s2DLL"
     xmlns:m="clr-namespace:Com.Aote.Marks;assembly=s2DLL"
@@ -42,15 +43,16 @@
 		          IsInit="{m:Exp Str='SaveAction.State==$End'}" >
             			
 			</o:GeneralObject>
+        
 		<!--保存对象 -->	
 			<b:BatchExcuteAction Name="SaveAction" WebClientInfo="{StaticResource dbclient}">
-				<b:BatchInfo Source="{m:Exp Str=userfiles}" MethodName="SaveToJson"/>
 				<b:BatchInfo Source="{m:Exp Str=pipelinego}" MethodName="SaveToJson"/>
-			</b:BatchExcuteAction>
-	
-	</m:ResourceLoad>
-	<Grid >
-		<Grid.ColumnDefinitions>
+				<b:BatchInfo Source="{m:Exp Str=userfiles}" MethodName="SaveToJson"/>
+            </b:BatchExcuteAction>
+
+        </m:ResourceLoad>
+        <Grid >
+            <Grid.ColumnDefinitions>
 			<ColumnDefinition Width="3*"/>
 			<ColumnDefinition Width="7*"/>
 		</Grid.ColumnDefinitions>
@@ -340,5 +342,6 @@
         </toolkit:BusyIndicator>
 		<sdk:DataPager x:Name="pager" Source="{Binding Path=ItemsSource.Count,ElementName=pipelines,Converter={StaticResource DataPagerConverter}}"   Margin="1,0,0,45" PageSize="22" Height="24" VerticalAlignment="Bottom"/>
     </Grid>
-  </Grid>
+        <c:MessageTipObj Tip="{m:Exp  Str=$错误内容：\{SaveAction.Error\=\=null:$$\,SaveAction.Error\}$}" IsShow="{m:Exp Str=SaveAction.State\=\=$Error}"/>
+    </Grid>
 </UserControl>
