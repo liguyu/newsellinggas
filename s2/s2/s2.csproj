@@ -148,6 +148,27 @@
     <Compile Include="Pages\天然气用气汇总表.xaml.cs">
       <DependentUpon>天然气用气汇总表.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\报建\冲正.xaml.cs">
+      <DependentUpon>冲正.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\报建\待办民用碰口.xaml.cs">
+      <DependentUpon>待办民用碰口.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\报建\待办民用竣工验收单.xaml.cs">
+      <DependentUpon>待办民用竣工验收单.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\报建\待办非民用碰口.xaml.cs">
+      <DependentUpon>待办非民用碰口.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\报建\待办非民用竣工验收单.xaml.cs">
+      <DependentUpon>待办非民用竣工验收单.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\报建\日志记录.xaml.cs">
+      <DependentUpon>日志记录.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\报建\设备图片.xaml.cs">
+      <DependentUpon>设备图片.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\营业用户用气明细表.xaml.cs">
       <DependentUpon>营业用户用气明细表.xaml</DependentUpon>
     </Compile>
@@ -1454,6 +1475,34 @@
     </Page>
     <Page Include="Pages\天然气用气汇总表.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\报建\冲正.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\报建\待办民用碰口.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\报建\待办民用竣工验收单.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\报建\待办非民用碰口.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\报建\待办非民用竣工验收单.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\报建\日志记录.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\报建\设备图片.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\营业用户用气明细表.xaml">
