@@ -85,7 +85,7 @@
 			/*本月实收*/
 			select u.f_username\,round(sum(h.f_realmoney)\,2) 实收金额\,
 			round(SUM(h.f_realmoney/h.f_gasprice)\,0) 实收气量 from t_financedetail h\,t_userfiles u 
-			where h.f_userid\=u.f_userid and u.f_usertype\=\'非民用\' and u.f_gasmeterstyle\=\'机表\' and h.f_payfeetype\=\'交费\' and h.f_payfeevalid\=\'有效\'
+			where h.f_userid\=u.f_userid and u.f_usertype\=\'非民用\' and u.f_gasmeterstyle\=\'机表\' and h.f_payfeevalid\=\'有效\'
 			and h.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.f_deliverydate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 			group by u.f_username
 			) d on a.f_username\=d.f_username
@@ -105,9 +105,12 @@
 			from t_financedetail h\,t_userfiles u
 			where 
 			h.f_userid\=u.f_userid and u.f_usertype\=\'非民用\'
+			and h.f_realmoney in (
+			/*以前的欠费*/
+			select f_debtmoney from t_financedetail b where h.f_userid\=b.f_userid
+			and f_debtdate^\'\{daninfosearch.DataContext.f_yytdate1\}\')
 			and h.f_payfeetype\=\'交费\' and h.f_payfeevalid\=\'有效\'
 			and h.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.f_deliverydate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
-			and h.f_debtdate^\'\{daninfosearch.DataContext.f_yytdate1\}\'
 			group by u.f_username  
 			) f on a.f_username\=f.f_username
 			left join
