@@ -8,6 +8,7 @@
 		<id name="id" type="int">
 			<generator class="identity"></generator>
 		</id>
+		<version name="version"></version>
 		<!--用户编号-->
 		<!-- property name="f_userinfoid" type="string" /-->
 		<!--用户档案 -->

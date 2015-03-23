@@ -12,9 +12,6 @@
 		<!-- SQL dialect -->
 		<property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
 
-		<!-- Enable Hibernate's automatic session context management -->
-		<property name="current_session_context_class">thread</property>
-
 		<!-- Disable the second-level cache  -->
 		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
 
@@ -23,6 +20,8 @@
 
 		<!-- Drop and re-create the database schema on startup -->
 		<property name="hbm2ddl.auto">update</property>
+		
+		<property name="hibernate.connection.autocommit">false</property>
 		
         <!-- 下面开始描述数据库信息 -->
         <!-- 参数信息 -->

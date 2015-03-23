@@ -15,11 +15,11 @@
 		class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-		<property name="url" value="jdbc:sqlserver://192.168.1.202:1433;database=meihekougas;" />
+		<property name="url" value="jdbc:sqlserver://125.76.225.223:5223;database=sellinggas;" />
 
 		<property name="username" value="sa" />
 
-		<property name="password" value="000000" />
+		<property name="password" value="af@QFG123" />
 	</bean>
 
 
@@ -39,14 +39,16 @@
    		</property>
 	</bean>
 
-	<!--  配置事务传播特性 -->
+	 <!--配置事务传播特性-->
 	<tx:advice id="TestAdvice" transaction-manager="transactionManager">
     	<tx:attributes>
-    	  	<tx:method name="tx*" propagation="REQUIRED"/>
+    	  	<tx:method name="tx*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+    	  	<tx:method name="query*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+    	  	<tx:method name="get*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
     	</tx:attributes>
 	</tx:advice>
 
-	<!--  配置参与事务的类 -->
+	 <!-- 配置参与事务的类-->
 	<aop:config>
 		<aop:pointcut id="allTestServiceMethod" expression="execution(* com.aote.rs.*.*(..))"/>
 		<aop:advisor pointcut-ref="allTestServiceMethod" advice-ref="TestAdvice" />
