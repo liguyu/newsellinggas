@@ -272,8 +272,7 @@
 							
 							ItemsSource="{m:Exp Str=kbsellgas}" IsReadOnly="True" CanUserSortColumns="False" IsHitTestVisible="False"
 							SelectedItem="{m:Exp Str=
-							kbsellgas[True].EndItem(oughtfee+f_zhinajin\,kbfee.f_grossproceeds+kbfee.f_zhye)                              
-							|or| kbsellgas\=>DataLoaded!\=null:kbsellgas.Last()\,null}"
+							kbsellgas\=>DataLoaded!\=null:kbsellgas.Last()\,null}"
 							ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible">
 							<sdk:DataGrid.Columns>
 								<sdk:DataGridTemplateColumn>
@@ -454,7 +453,7 @@
 							</ComboBox>
 							<TextBox x:Name="shoukuan" a:ControlAttach.FocusToOnEnter="save22" Text="{m:Bind Path=f_grossproceeds}" FontWeight="Bold" Foreground="Red" Grid.Column="3" Margin="0" Grid.Row="11" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch">
 								<a:Data.Prop>
-									<o:PropertySetter PropertyName="f_grossproceeds" NoDependValue="{m:Exp Str=kbsellgas\=&gt;DataLoaded!\=null:data.f_totalcost\,null}" NotNull="True" />
+									<o:PropertySetter PropertyName="f_grossproceeds" ValidationVal="{m:Exp Str=kbfee.f_grossproceeds>\=kbfee.f_totalcost}" ErrorMessage="收款必须大于应交金额！" NoDependValue="{m:Exp Str=kbsellgas\=&gt;DataLoaded!\=null:data.f_totalcost\,null}" NotNull="True" />
 								</a:Data.Prop>
 							</TextBox>	
 							<TextBox Text="{m:Bind Path=f_totalcost}" x:Name="save22" FontWeight="Bold" Foreground="Red" IsReadOnly="True" Grid.Column="5" Margin="0,6" Grid.Row="11" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" Grid.ColumnSpan="1" >
