@@ -9,23 +9,30 @@ isnull(sum(f_pregas),0) ysql,SUM(f_grossproceeds) ssje  from t_sellinggas
 where f_deliverydate>=${daninfosearch.DataContext.f_yytdate1}$ 
  and f_deliverydate<=${daninfosearch.DataContext.f_yytdate2}$ 
 group by f_usertype,f_gasmeterstyle'},{name:'jbqianfei', sql:'/*基表欠款*/
-select u.f_usertype,u.f_gasmeterstyle,round(SUM(h.f_debtmoney/u.f_gasprice),0) qiliang,
-round(SUM(h.f_debtmoney),2) jine from t_handplan h,t_userfiles u 
-where h.f_userid=u.f_userid and h.shifoujiaofei=$否$
+select  u.f_usertype,u.f_gasmeterstyle,round(SUM((h.oughtfee-isnull(清欠实收,0))/u.f_gasprice),0) qiliang,
+round(SUM(h.oughtfee-isnull(清欠实收,0)),2) jine from 
+(
+select * from t_handplan h 
+where h.lastinputdate>=${daninfosearch.DataContext.f_yytdate1}$ and h.lastinputdate<=${daninfosearch.DataContext.f_yytdate2}$) h 
+left join (
+select SUM(f_realmoney) 清欠实收,f_handid from t_financedetail  
+where f_deliverydate>=${daninfosearch.DataContext.f_yytdate1}$  
+and f_deliverydate<=${daninfosearch.DataContext.f_yytdate2}$  
+and f_payfeevalid=$有效$ 
+group by f_handid) b  
+on h.id=b.f_handid  
 and h.lastinputdate>=${daninfosearch.DataContext.f_yytdate1}$ 
- and h.lastinputdate<=${daninfosearch.DataContext.f_yytdate2}$ 
+and h.lastinputdate<=${daninfosearch.DataContext.f_yytdate2}$  
+inner join t_userfiles u on h.f_userid=u.f_userid 
 group by u.f_usertype,u.f_gasmeterstyle'},{name:'jbqingqian', sql:'/*基表清欠*/
 select u.f_usertype,u.f_gasmeterstyle,round(SUM(h.f_realmoney/h.f_gasprice),0) qqql,
 round(SUM(h.f_realmoney),2) qqje 
 from t_financedetail h,t_userfiles u 
-where 
-h.f_userid=u.f_userid  
- and h.f_payfeetype=$交费$ and h.f_payfeevalid=$有效$ 
-and h.f_realmoney in (
-   select f_debtmoney from t_financedetail b where h.f_userid=b.f_userid
-   and f_debtdate<${daninfosearch.DataContext.f_yytdate1}$)
+where h.f_userid=u.f_userid 
+and h.f_payfeevalid=$有效$ 
+and f_debtdate<${daninfosearch.DataContext.f_yytdate1}$
 and h.f_deliverydate>=${daninfosearch.DataContext.f_yytdate1}$ 
- and h.f_deliverydate<=${daninfosearch.DataContext.f_yytdate2}$ 
+and h.f_deliverydate<=${daninfosearch.DataContext.f_yytdate2}$ 
 and h.f_debtdate<${daninfosearch.DataContext.f_yytdate1}$ 
 group by u.f_usertype,u.f_gasmeterstyle'},{name:'jbshishou', sql:'/*机表实收*/
 select u.f_usertype,round(SUM(h.f_realmoney/u.f_gasprice),0) qiliang,

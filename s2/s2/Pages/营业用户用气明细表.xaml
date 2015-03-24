@@ -92,11 +92,16 @@
 			left join
 			(
 			/*本月欠费*/
-			select f_username\,round(sum(f_debtmoney)\,2) 欠款金额\,
-			round(sum(f_debtmoney/f_gasprice)\,0) 欠款气量 from t_handplan
-			where f_usertype\=\'非民用\' and shifoujiaofei\=\'否\'
-			and lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
-			group by f_username
+			select h.f_username\, round(SUM((oughtfee-isnull(清欠实收\,0))/h.f_gasprice)\,0) 欠款气量\,round(SUM(oughtfee-isnull(清欠实收\,0))\,2) 欠款金额 from t_handplan h
+			left join (
+			select SUM(f_realmoney) 清欠实收\,f_handid from t_financedetail
+			where f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and f_deliverydate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+			and f_payfeevalid\=\'有效\'
+			group by f_handid) b
+			on h.id\=b.f_handid
+			and h.f_usertype\=\'非民用\'  
+			and h.lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+			group by h.f_username
 			) e on a.f_username\=e.f_username
 			left join
 			(
@@ -105,20 +110,26 @@
 			from t_financedetail h\,t_userfiles u
 			where 
 			h.f_userid\=u.f_userid and u.f_usertype\=\'非民用\'
-			and h.f_realmoney in (
-			/*以前的欠费*/
-			select f_debtmoney from t_financedetail b where h.f_userid\=b.f_userid
-			and f_debtdate^\'\{daninfosearch.DataContext.f_yytdate1\}\')
-			and h.f_payfeetype\=\'交费\' and h.f_payfeevalid\=\'有效\'
+			and h.f_payfeevalid\=\'有效\'
+			and h.f_debtdate^\'\{daninfosearch.DataContext.f_yytdate1\}\'
 			and h.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.f_deliverydate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 			group by u.f_username  
 			) f on a.f_username\=f.f_username
 			left join
 			(
 			/*累计欠款*/
-			select f_username\,round(SUM(f_debtmoney/f_gasprice)\,0) 累计欠费气量\,round(SUM(f_debtmoney)\,2) 累计欠费金额 from t_handplan 
-			where shifoujiaofei\=\'否\' and f_usertype\=\'非民用\'
-			group by f_username
+			select h.f_username\,round(SUM((h.f_debtmoney+isnull(f.f_realmoney\,0))/h.f_gasprice)\,0) 累计欠费气量\,round(SUM(h.f_debtmoney+isnull(f.f_realmoney\,0))\,2) 累计欠费金额 from
+		    (select * from t_handplan
+			where lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\' and f_usertype\=\'非民用\') h 
+			left join
+			(
+			select sum(f_realmoney) f_realmoney\,f_handid from t_financedetail
+			where f_payfeevalid\=\'有效\'
+			and f_deliverydate>\'\{daninfosearch.DataContext.f_yytdate2\}\' and f_debtdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+			group by f_handid) f
+			on h.id\=f.f_handid
+			and h.f_username is not null and h.f_username !\=\'\'
+			group by h.f_username  
 			) g on a.f_username\=g.f_username 
 			left join 
 			(

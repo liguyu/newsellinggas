@@ -27,7 +27,7 @@ left join
 Fun_抄表员_收回陈欠(${search.f_yytdate1}$,${search.f_yytdate2}$) h 
 on a.f_inputtor=h.抄表员 
 left join 
-Fun_抄表员_累计欠费() j 
+Fun_抄表员_累计欠费(${search.f_yytdate2}$) j 
 on a.f_inputtor=j.抄表员 
 left join 
 Fun_抄表员_滞纳金(${search.f_yytdate1}$,${search.f_yytdate2}$) k 
