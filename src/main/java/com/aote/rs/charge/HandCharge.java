@@ -533,7 +533,7 @@ public class HandCharge {
 				&& gas.doubleValue() > 0) {
 			financedetailDisp(map, gas, chargenum, sgnetwork, sgoperator);
 		}
-		return "";
+		return userid;
 	}
 
 	/**
@@ -731,7 +731,74 @@ public class HandCharge {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	@Path("record/batch/App")
+	@POST
+	public String afAPPUploadBatch(String data) {
+		log.debug("App抄表记录上传 开始");
+		String rs = "";
+		try {
+			JSONArray rows = new JSONArray(data);
+			String re = "";
+			// 对每一个数据，调用单个抄表数据处理过程
+			for (int i = 0; i < rows.length(); i++) {
+				JSONObject row = rows.getJSONObject(i);
+				String userid = row.getString("f_userid");
+				double reading = Double.parseDouble(row.getString("lastrecord"));
+				String handdate = row.getString("f_handdate");
+				String network = row.getString("f_network");
+				String operator = row.getString("f_operator");
+				String inputdate = row.getString("f_inputdate");
+				// 获取余气量，机表录入，没有余气量，传Double.NaN
+				double leftgas = 0;
+				if (row.has("leftgas")) {
+					leftgas = row.getDouble("leftgas");
+				}
+				if("noPlan".equals(row.getString("source"))){
+					if(insertPlan(userid))
+						re= afrecordInput(userid, reading, network, operator,
+								inputdate, handdate, leftgas,"");
+						
+				}else{
+					re= afrecordInput(userid, reading, network, operator,
+							inputdate, handdate, leftgas,"");
+				}
+				if(!"".equals(re)){
+					if("".equals(rs))
+						rs += re;
+					else
+						rs += "," + re;
+				}
+			}	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			return rs;
+		}
+	}
+	private boolean insertPlan(String userid){
+		try{
+			final String sql = "insert into t_handplan(f_userid, f_username, lastinputgasnum, f_gaswatchbrand, f_metertype,"+
+					"f_address, f_districtname, f_usertype, f_gasprice, f_gaspricetype, f_dibaohu, f_apartment,"+
+					"f_phone, scinputdate, f_inputtor, f_yhxz, f_weizhi, f_menzhan,"+
+					"f_zerenbumen, f_state, shifoujiaofei, users, f_cusDom, f_cusDy)"+
+					"select f_userid, f_username, lastinputgasnum, f_gaswatchbrand, f_metertype,"+
+					"f_address, f_districtname, f_usertype, f_gasprice, f_gaspricetype, f_dibaohu, f_apartment,"+
+					"f_phone, lastinputdate, f_inputtor, f_yhxz, f_weizhi, f_menzhan,"+
+					"f_zerenbumen, '未抄表', '否', id, f_cusDom, f_cusDy "+
+					"from t_userfiles where f_userstate='正常' and f_userid='"+userid+
+					"' and f_userid not in(select distinct f_userid from t_handplan where f_state='未抄表')";
+			hibernateTemplate.execute(new HibernateCallback() {
+				public Object doInHibernate(Session session)
+						throws HibernateException {
+					return session.createSQLQuery(sql).executeUpdate();
+				}
+			});
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
 	// 批量抄表记录上传
 	// data以JSON格式上传，[{userid:'用户编号', showNumber:本期抄表数},{}]
 	@Path("record/batch/{handdate}/{sgnetwork}/{sgoperator}/{lastinputdate}/{meterstate}")
@@ -788,6 +855,7 @@ public class HandCharge {
 
 	}
 
+	
 	// 产生交费截止日期
 	private Date endDate(String str) throws ParseException {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
