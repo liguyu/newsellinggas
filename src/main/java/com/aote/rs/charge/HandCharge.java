@@ -748,6 +748,7 @@ public class HandCharge {
 				String network = row.getString("f_network");
 				String operator = row.getString("f_operator");
 				String inputdate = row.getString("f_inputdate");
+				String meterstate = row.getString("f_meterstate");
 				// 获取余气量，机表录入，没有余气量，传Double.NaN
 				double leftgas = 0;
 				if (row.has("leftgas")) {
@@ -756,11 +757,11 @@ public class HandCharge {
 				if("noPlan".equals(row.getString("source"))){
 					if(insertPlan(userid))
 						re= afrecordInput(userid, reading, network, operator,
-								inputdate, handdate, leftgas,"");
+								inputdate, handdate, leftgas,meterstate);
 						
 				}else{
 					re= afrecordInput(userid, reading, network, operator,
-							inputdate, handdate, leftgas,"");
+							inputdate, handdate, leftgas,meterstate);
 				}
 				if(!"".equals(re)){
 					if("".equals(rs))
