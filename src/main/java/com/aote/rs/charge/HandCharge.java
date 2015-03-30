@@ -735,7 +735,7 @@ public class HandCharge {
 	@POST
 	public String afAPPUploadBatch(String data) {
 		log.debug("App抄表记录上传 开始");
-		String rs = "";
+		JSONObject jo = new JSONObject();
 		try {
 			JSONArray rows = new JSONArray(data);
 			String re = "";
@@ -758,22 +758,21 @@ public class HandCharge {
 					if(insertPlan(userid))
 						re= afrecordInput(userid, reading, network, operator,
 								inputdate, handdate, leftgas,meterstate);
-						
 				}else{
+					try{
+						findHandPlan(userid);
+					}catch(Exception er){
+						jo.put(userid, "null");
+					}
 					re= afrecordInput(userid, reading, network, operator,
 							inputdate, handdate, leftgas,meterstate);
+					jo.put(userid, "ok");
 				}
-				if(!"".equals(re)){
-					if("".equals(rs))
-						rs += re;
-					else
-						rs += "," + re;
-				}
-			}	
+			}
+			return jo.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			return rs;
+			return jo.toString();
 		}
 	}
 	private boolean insertPlan(String userid){
