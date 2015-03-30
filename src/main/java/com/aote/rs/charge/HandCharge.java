@@ -146,7 +146,7 @@ public class HandCharge {
 			throws Exception {
 		// 查找用户未抄表记录
 		Map map = this.findHandPlan(userid);
-        //获取表类型
+		// 获取表类型
 		String meterType = map.get("f_gasmeterstyle").toString();
 		// 下面程序执行hql变量
 		String hql = "";
@@ -352,8 +352,9 @@ public class HandCharge {
 			stair3fee = new BigDecimal(0);
 			stair4fee = new BigDecimal(0);
 		}
-		// 结余够，并且前面没欠费，自动下账
-		if (chargenum.compareTo(f_zhye) < 0 && items < 1) {
+		// 气费大于0,结余够，前面无欠费，自动下账
+		if (chargenum.compareTo(BigDecimal.ZERO) > 0
+				&& chargenum.compareTo(f_zhye) < 0 && items < 1) {
 			// 自动下账
 			double grossproceeds = 0;
 			Map<String, Object> sell = new HashMap<String, Object>();
@@ -498,70 +499,38 @@ public class HandCharge {
 			hibernateTemplate.bulkUpdate(hql, new Object[] { reading,
 					lastinputDate, userid });
 			// 欠费,更新抄表记录的状态f_state、抄表日期、本次抄表底数
-			hql = "update t_handplan set f_state ='已抄表', shifoujiaofei='否',f_handdate=?,lastinputdate=?,f_zerenbumen='"
-					+ zerenbumen
-					+ "', f_menzhan='"
-					+ menzhan
-					+ "', f_inputtor='"
-					+ inputtor
-					+ "', lastrecord="
-					+ reading
-					+ " ,f_stairtype='"
-					+ stairtype
-					+ "',"
-					+ "oughtamount="
-					+ gas
-					+ ",  f_endjfdate=?, oughtfee="
-					+ chargenum
-					+ ", f_inputdate=?,f_meterstate=?,f_network='"
-					+ sgnetwork
-					+ "',f_operator='"
-					+ sgoperator
-					+ "' ,f_address='"
-					+ address
-					+ "', f_username='"
-					+ username
-					+ "',"
-					+ "f_stair1amount="
-					+ stair1num
-					+ ",f_stair2amount="
-					+ stair2num
-					+ ",f_stair3amount="
-					+ stair3num
-					+ ",f_stair4amount="
-					+ stair4num
-					+ ",f_stair1fee="
-					+ stair1fee
-					+ ",f_stair2fee="
-					+ stair2fee
-					+ ",f_stair3fee="
-					+ stair3fee
-					+ ",f_stair4fee="
-					+ stair4fee
-					+ ","
-					+ "f_stair1price="
-					+ stair1price
-					+ ",f_stair2price="
-					+ stair2price
-					+ ",f_stair3price="
-					+ stair3price
-					+ ",f_stair4price="
-					+ stair4price
-					+ ","
-					+ "f_stardate='"
-					+ stardate
-					+ "',f_enddate='"
-					+ enddate
-					+ "',f_allamont="
-					+ sumamont
-					+ ", f_leftgas= "
-					+ leftgas
+			// 如果气费 =0 ,是否交费为"是"
+			String shifoujiaofei = "否";
+			if (chargenum.compareTo(BigDecimal.ZERO) <= 0) {
+				shifoujiaofei = "是";
+			}
+			hql = "update t_handplan set f_state ='已抄表', shifoujiaofei='"
+					+ shifoujiaofei
+					+ "',f_handdate=?,lastinputdate=?,f_zerenbumen='"
+					+ zerenbumen + "', f_menzhan='" + menzhan
+					+ "', f_inputtor='" + inputtor + "', lastrecord=" + reading
+					+ " ,f_stairtype='" + stairtype + "'," + "oughtamount="
+					+ gas + ",  f_endjfdate=?, oughtfee=" + chargenum
+					+ ", f_inputdate=?,f_meterstate=?,f_network='" + sgnetwork
+					+ "',f_operator='" + sgoperator + "' ,f_address='"
+					+ address + "', f_username='" + username + "',"
+					+ "f_stair1amount=" + stair1num + ",f_stair2amount="
+					+ stair2num + ",f_stair3amount=" + stair3num
+					+ ",f_stair4amount=" + stair4num + ",f_stair1fee="
+					+ stair1fee + ",f_stair2fee=" + stair2fee + ",f_stair3fee="
+					+ stair3fee + ",f_stair4fee=" + stair4fee + ","
+					+ "f_stair1price=" + stair1price + ",f_stair2price="
+					+ stair2price + ",f_stair3price=" + stair3price
+					+ ",f_stair4price=" + stair4price + "," + "f_stardate='"
+					+ stardate + "',f_enddate='" + enddate + "',f_allamont="
+					+ sumamont + ", f_leftgas= " + leftgas
 					+ " where f_userid='" + userid + "' and f_state='未抄表'";
 			hibernateTemplate.bulkUpdate(hql, new Object[] { handDate,
 					lastinputDate, date, inputdate, meterState });
 		}
 		// 保存用户清欠账务,并更新档案中账户余额
-		if (meterType !=null && meterType.equals("机表")  && gas.doubleValue() > 0) {
+		if (meterType != null && meterType.equals("机表")
+				&& gas.doubleValue() > 0) {
 			financedetailDisp(map, gas, chargenum, sgnetwork, sgoperator);
 		}
 		return "";
@@ -619,7 +588,7 @@ public class HandCharge {
 		finance.put("f_oughtamount", gas.doubleValue());
 		// <!--应收金额-->
 		finance.put("f_oughtfee", money.doubleValue());
-	    // 单价
+		// 单价
 		BigDecimal gasPrice = new BigDecimal(handplan.get("f_gasprice")
 				.toString());
 		finance.put("f_gasprice", gasPrice.doubleValue());
@@ -654,9 +623,9 @@ public class HandCharge {
 		log.debug("更新档案账户成功");
 		// 更新抄表记录实际欠费
 		String handId = handplan.get("id").toString();
-		String updateHandplan = "update t_handplan set f_debtmoney=" + debtmoney
-				+ " where id='" + handId + "'";
-		log.debug("更新抄表欠费"+updateHandplan);
+		String updateHandplan = "update t_handplan set f_debtmoney="
+				+ debtmoney + " where id='" + handId + "'";
+		log.debug("更新抄表欠费" + updateHandplan);
 		this.hibernateTemplate.bulkUpdate(updateHandplan);
 	}
 

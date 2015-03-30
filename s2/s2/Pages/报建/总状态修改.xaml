@@ -128,7 +128,7 @@
 						<sdk:DataGridTextColumn Header="申请户数" Binding="{Binding f_applycount}"/>
 						<sdk:DataGridTextColumn Header="电话" Binding="{Binding f_phone}"/>
 						<sdk:DataGridTextColumn Header="放线人" Binding="{Binding f_survey}"/>
-						<sdk:DataGridTemplateColumn Header="放线日期">
+						<sdk:DataGridTemplateColumn Header="放线完成日期">
             			<sdk:DataGridTemplateColumn.CellTemplate>
             			<DataTemplate>
             				<sdk:DatePicker SelectedDate="{m:Bind Path=f_gcbkcoperdate}" IsEnabled="False">

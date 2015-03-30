@@ -5056,6 +5056,41 @@ StrokeThickness="1" Fill="Black"/>
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="LabelTitleSplit" TargetType="sdk:Label">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="sdk:Label">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Disabled"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ValidationStates">
+                                <VisualState x:Name="Valid"/>
+                                <VisualState x:Name="Invalid"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="RequiredStates">
+                                <VisualState x:Name="NotRequired"/>
+                                <VisualState x:Name="Required">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="FontWeight" Storyboard.TargetName="ContentControl">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="SemiBold"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border Background="{TemplateBinding Background}" CornerRadius="2" Padding="{TemplateBinding Padding}" BorderThickness="0,0,0,2" BorderBrush="#FF203A6C" VerticalAlignment="Center">
+                            <ContentControl x:Name="ContentControl" Cursor="{TemplateBinding Cursor}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" FontStretch="{TemplateBinding FontStretch}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsTabStop="False" VerticalAlignment="{TemplateBinding VerticalAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" FontWeight="Bold" FontSize="13.333" Foreground="#FFE22E06" FontFamily="Microsoft YaHei"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style x:Key="PrintDataGridRow" TargetType="sdk:DataGridRow">
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Template">

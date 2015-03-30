@@ -97,7 +97,7 @@
             </o:GeneralObject>
             <!--收费对象-->
             <o:GeneralObject Name="sellgasobj" EntityType="t_sellinggas" WebClientInfo="{StaticResource dbclient}"
-		IsInit="{m:Exp Str='userfiles1.State\=\=$StartLoad$ |or| SaveAction\=\=$Error$ |or| card.State\=\=$Error$ |or| print.State==$End$ |or| print1.State==$End$'}">
+		IsInit="{m:Exp Str='userfiles1.State\=\=$StartLoad$ |or| SaveAction\=\=$Error$ |or| card.State\=\=$Error$ |or| print.State==$End$ |or| print1.State==$End$ |or| print1.State==$Cancle$ |or| print.State==$Cancle$'}">
                 <o:PropertySetter PropertyName="f_username" NoDependValue="{m:Exp Str=userfile.DataContext.f_username}"/>
                 <o:PropertySetter PropertyName="f_districtname" NoDependValue="{m:Exp Str=userfile.DataContext.f_districtname}"/>
                 <o:PropertySetter PropertyName="f_apartment" NoDependValue="{m:Exp Str=userfile.DataContext.f_apartment}"/>
@@ -150,7 +150,7 @@
             <!--发卡对象-->
             <o:GeneralObject Name="userfilego" WebClientInfo="{StaticResource dbclient}" 
 		EntityType="t_myfaka" 
-		IsInit="{m:Exp Str='userfiles1.State\=\=$StartLoad$ |or| SaveAction\=\=$Error$ |or| card.State\=\=$Error$ |or| print.State==$End$'}">
+		IsInit="{m:Exp Str='userfiles1.State\=\=$StartLoad$ |or| SaveAction\=\=$Error$ |or| card.State\=\=$Error$ |or| print.State==$End$ |or| print.State==$Cancle$'}">
                 <o:PropertySetter PropertyName="f_sgnetwork" NoDependValue="{m:Exp Str=userfile.DataContext.f_sgnetwork}"/>
                 <o:PropertySetter PropertyName="f_comtype" NoDependValue="天然气公司"/>
 

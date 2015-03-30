@@ -80,17 +80,17 @@
                         <a:Data.Items>
                             <o:PagedList x:Name="daninfoslist" WebClientInfo="{StaticResource dbclient}" LoadOnPathChanged="False"
 								SumHQL="{m:Exp Str=$select u.f_districtname\,u.f_cusDom from t_handplan h\,t_userfiles u 
-								where h.f_userid\=u.f_userid and u.f_gasmeterstyle\=\'机表\'
+								where h.f_userid\=u.f_userid and u.f_gasmeterstyle\=\'机表\' and u.f_usertype\=\'民用\'
 								and h.lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 								and u.f_cusDom is not null and u.f_cusDom !\=\'\' group by u.f_districtname\,u.f_cusDom}"
 								HQL="{m:Exp Str=$
-                                select a.f_cusDom\,a.f_districtname\,a.总户数\,b.使用户数\,c.未使用户数\,d.本月应收气量\,d.本月应收金额\,
+                                select a.f_cusDom\,a.f_districtname\,isnull(a.总户数\,0) 总户数 \,isnull(b.使用户数\,0) 使用户数\,isnull(c.未使用户数\,0) 未使用户数\,d.本月应收气量\,d.本月应收金额\,
 								e.本月实收气量\,e.本月实收金额\,f.收回陈欠气量\,f.收回陈欠金额\,g.本月欠费气量\,g.本月欠费金额\,
 								h.累计欠费气量\,h.累计欠费金额\,j.滞纳金 from (
 								/*总户数*/
 								select f_districtname\,f_cusDom\,COUNT(*) 总户数 
 								from (select u.f_districtname\,u.f_cusDom\,u.f_userid from t_handplan h\,t_userfiles u 
-								where h.f_userid\=u.f_userid and u.f_gasmeterstyle\=\'机表\'
+								where h.f_userid\=u.f_userid and u.f_gasmeterstyle\=\'机表\' and u.f_usertype\=\'民用\'
 								and h.lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 								and u.f_cusDom is not null and u.f_cusDom !\=\'\'
 								group by u.f_districtname\,u.f_cusDom\,u.f_userid )a
@@ -102,6 +102,8 @@
 								from (select u.f_districtname\,u.f_cusDom\,u.f_userid   from t_handplan h\,t_userfiles u 
 								where h.f_userid\=u.f_userid and u.f_gasmeterstyle\=\'机表\'
 								and h.oughtamount>0 
+								and h.f_meterstate\=\'正常使用\'
+								and h.f_state\=\'已抄表\'
 								and h.lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 								and u.f_cusDom is not null and u.f_cusDom !\=\'\'
 								group by u.f_districtname\,u.f_cusDom \,u.f_userid )a
@@ -114,6 +116,8 @@
 								from (select u.f_districtname\,u.f_cusDom\,u.f_userid  from t_handplan h\,t_userfiles u 
 								where h.f_userid\=u.f_userid and u.f_gasmeterstyle\=\'机表\'
 								and h.oughtamount\=0
+								and h.f_meterstate\=\'正常使用\'
+								and h.f_state\=\'已抄表\'
 								and h.lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 								and u.f_cusDom is not null and u.f_cusDom !\=\'\'
 								group by u.f_districtname\,u.f_cusDom\,u.f_userid)a
@@ -125,6 +129,7 @@
 								select u.f_districtname\,u.f_cusDom\,SUM(h.oughtamount) 本月应收气量\,round(SUM(h.oughtfee)\,2) 本月应收金额 from t_handplan h\,t_userfiles u 
 								where h.f_userid\=u.f_userid and u.f_gasmeterstyle\=\'机表\'
 								and h.oughtamount>0 
+								and h.f_state\=\'已抄表\'
 								and h.lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 								and u.f_cusDom is not null and u.f_cusDom !\=\'\'
 								group by u.f_districtname\,u.f_cusDom  
@@ -132,54 +137,82 @@
 								left join
 								(
 								/*本月实收*/
-								select u.f_districtname\,u.f_cusDom\,SUM(h.oughtamount) 本月实收气量\,round(SUM(h.oughtfee)\,2) 本月实收金额 from t_handplan h\,t_userfiles u 
-								where h.f_userid\=u.f_userid and u.f_gasmeterstyle\=\'机表\' and h.shifoujiaofei\=\'是\'
-								and h.lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+								select u.f_districtname\,u.f_cusDom\,SUM(s.f_pregas) 本月实收气量\,round(SUM(s.f_preamount)\,2) 本月实收金额 from t_sellinggas s\,t_userfiles u 
+								where s.f_userid\=u.f_userid and s.f_payfeevalid\=\'有效\'
+								and s.f_payfeetype in (\'自动下账\'\,\'机表收费\')
+								and s.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and s.f_deliverydate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 								and u.f_cusDom is not null and u.f_cusDom !\=\'\'
 								group by u.f_districtname\,u.f_cusDom  
 								) e on a.f_cusDom\=e.f_cusDom and a.f_districtname\=e.f_districtname
 								left join
 								(
 								/*收回陈欠*/
-								select u.f_districtname\,u.f_cusDom\,SUM(h.oughtamount) 收回陈欠气量\,round(SUM(h.oughtfee)\,2) 收回陈欠金额 
-								from t_handplan h\,t_sellinggas s\,t_userfiles u 
+								select h.f_districtname\,h.f_cusDom\,SUM(h.oughtamount) 收回陈欠气量\,round(SUM(h.oughtfee)\,2) 收回陈欠金额 
+								from t_handplan h\,t_sellinggas s 
 								where 
-								h.f_userid\=s.f_userid  and h.f_userid\=u.f_userid and u.f_gasmeterstyle\=\'机表\'
+								h.f_userid\=s.f_userid 
 								and h.f_sellid\=s.id and s.f_payfeetype\=\'机表收费\' and s.f_payfeevalid\=\'有效\'
-								and s.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and s.f_deliverydate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 								and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate1\}\'
-								and u.f_cusDom is not null and u.f_cusDom !\=\'\'
-								group by u.f_districtname\,u.f_cusDom  
+								and s.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and s.f_deliverydate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+								and h.f_cusDom is not null and h.f_cusDom !\=\'\'
+								group by h.f_districtname\,h.f_cusDom  
 								) f on a.f_cusDom\=f.f_cusDom and a.f_districtname\=f.f_districtname
 								left join
 								(
 								/*本月欠费*/
-								select u.f_districtname\,u.f_cusDom\,SUM(h.oughtamount) 本月欠费气量\,round(SUM(h.oughtfee)\,2) 本月欠费金额 from t_handplan h\,t_userfiles u 
-								where h.f_userid\=u.f_userid and h.shifoujiaofei\=\'否\'
+								select isnull(oughtamount\,0)+isnull(f_pregas\,0) 本月欠费气量\,round(isnull(oughtfee\,0)+isnull(f_preamount\,0)\,2) 本月欠费金额\,h.f_cusDom\,h.f_districtname from
+								(select f_cusDom\,f_districtname from t_handplan group by f_cusDom\,f_districtname) h
+								left join
+								( 
+								select SUM(oughtamount) oughtamount\,round(SUM(oughtfee)\,2) oughtfee\,f_cusDom\,f_districtname from t_handplan
+								where f_state\=\'已抄表\' and shifoujiaofei\=\'否\'
+								and lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+								group by f_cusDom\,f_districtname) a
+								on a.f_cusDom\=h.f_cusDom and a.f_districtname\=h.f_districtname
+								left join
+								(
+								select SUM(s.f_pregas) f_pregas\,round(SUM(s.f_preamount)\,2) f_preamount\,h.f_cusDom\,h.f_districtname  
+								from t_handplan h\,t_sellinggas s 
+								where 
+								h.f_sellid\=s.id and s.f_payfeetype\=\'机表收费\' and s.f_payfeevalid\=\'有效\'
+								and s.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 								and h.lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
-								and u.f_cusDom is not null and u.f_cusDom !\=\'\'
-								group by u.f_districtname\,u.f_cusDom  
+								group by h.f_cusDom\,h.f_districtname
+								) b
+								on h.f_cusDom\=b.f_cusDom and b.f_districtname\=h.f_districtname
 								) g on a.f_cusDom\=g.f_cusDom and a.f_districtname\=g.f_districtname
 								left join
 								(
 								 /*累计欠费*/
-								select u.f_districtname\,u.f_cusDom\,SUM(h.oughtamount) 累计欠费气量\,round(SUM(h.oughtfee)\,2) 累计欠费金额 from t_handplan h\,t_userfiles u 
-								where h.f_userid\=u.f_userid and h.shifoujiaofei\=\'否\'
-								and u.f_cusDom is not null and u.f_cusDom !\=\'\'
-								group by u.f_districtname\,u.f_cusDom  
+								select isnull(oughtamount\,0)+isnull(f_pregas\,0) 累计欠费气量\,round(isnull(oughtfee\,0)+isnull(f_preamount\,0)\,2) 累计欠费金额\,h.f_cusDom\,h.f_districtname from
+								(select f_cusDom\,f_districtname from t_handplan group by f_cusDom\,f_districtname) h
+								left join
+								( 
+								select SUM(oughtamount) oughtamount\,round(SUM(oughtfee)\,2) oughtfee\,f_cusDom\,f_districtname from t_handplan
+								where f_state\=\'已抄表\' and shifoujiaofei\=\'否\'
+								and lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+								group by f_cusDom\,f_districtname) a
+								on a.f_cusDom\=h.f_cusDom and a.f_districtname\=h.f_districtname
+								left join
+								(
+								select SUM(s.f_pregas) f_pregas\,round(SUM(s.f_preamount)\,2) f_preamount\,h.f_cusDom\,h.f_districtname  
+								from t_handplan h\,t_sellinggas s 
+								where 
+								h.f_sellid\=s.id and s.f_payfeetype\=\'机表收费\' and s.f_payfeevalid\=\'有效\'
+								and s.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+								and h.lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+								group by h.f_cusDom\,h.f_districtname
+								) b
+								on h.f_cusDom\=b.f_cusDom and b.f_districtname\=h.f_districtname
 								) h on a.f_cusDom\=h.f_cusDom and a.f_districtname\=h.f_districtname
 								left join 
 								(
 							    /*滞纳金*/
-								select  f_districtname\,f_cusDom\,round(SUM(滞纳金)\,2) 滞纳金 from (
-								select 
-								round(DATEDIFF(DAY\,GETDATE()\,DATEADD(DAY\,30\,h.lastinputdate))*0.003*h.oughtfee\,2) 滞纳金
-								\,u.f_districtname\,u.f_cusDom from t_handplan h\,t_userfiles u 
-								where h.f_userid\=u.f_userid and
-								h.shifoujiaofei\=\'否\'
-								and h.lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
-								and GETDATE()>\= DATEADD(DAY\,30\,h.lastinputdate)) a
-								group by f_districtname\,f_cusDom  
+								select  u.f_districtname\,u.f_cusDom\,round(SUM(s.f_zhinajin)\,2) 滞纳金 from t_sellinggas s\,t_userfiles u 
+								where s.f_userid\=u.f_userid and
+								s.f_payfeetype\=\'机表收费\' and s.f_payfeevalid\=\'有效\'
+								and s.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and s.f_deliverydate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+								group by u.f_districtname\,u.f_cusDom  
 								) j on a.f_cusDom\=j.f_cusDom and a.f_districtname\=j.f_districtname
 								order by a.f_districtname\,right(\'00\'+a.f_cusDom\,2)}"
 								Path="sql" PageIndex="{m:Exp Str=pager2.PageIndex}" PageSize="{m:Exp Str=pager2.PageSize}" SumNames=","/>

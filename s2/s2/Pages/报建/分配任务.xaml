@@ -235,6 +235,6 @@
 	</StackPanel>
 	<c:MessageTipObj  Name="submittip" Tip="您确认要提交现场勘查吗？" OK="{m:Exp Str=SubmitAction.Invoke()}" />
 	<c:MessageTipObj  Name="shenhesubmittip" Tip="您确认要提前放线审核登记吗？" OK="{m:Exp Str=ShenhesubmitAction.Invoke()}" />
-	<c:PrintObj x:Name="print" UseDefaultPrinter="False" Area="{m:Res Key=persons }" Grid.ColumnSpan="4" />
+	<c:PrintObj x:Name="print" UseDefaultPrinter="False" Area="{m:Res Key=persons}" Grid.ColumnSpan="4" />
     </Grid>
 </UserControl>

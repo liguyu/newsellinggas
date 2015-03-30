@@ -195,6 +195,8 @@
 		<property name="ljwyqje" type="double"/>
 		<!--上次抄表底数-->
 		<property name="lastinputgasnum" type="double"/>
+		<!--最后的抄表指数-->
+		<property name="lastinputgasnum_user" type="double"/>
 		<!--本次抄表底数-->
 		<property name="lastrecord" type="double"/>
 		<!--卡表剩余气量-->

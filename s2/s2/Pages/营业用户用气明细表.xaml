@@ -33,7 +33,7 @@
 			(
 			/*抄表户数*/
 			select f_username\,COUNT(*) 抄表户数 from
-			(select f_username\,f_userid from t_handplan where f_usertype\=\'非民用\'
+			(select f_username\,f_userid from t_handplan where f_usertype\=\'非民用\' and f_meterstate\=\'正常使用\'
 			and lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 			group by f_username\,f_userid)a group by f_username
 			) b on a.f_username\=b.f_username
@@ -58,7 +58,7 @@
 			<o:PropertySetter PropertyName="JB" Value="{m:Exp Str=$select a.f_username\,a.总户数\,ISNULL(b.抄表户数\,0) 抄表户数\,isnull(h.购气户数\,0) 购气户数\,
 			ISNULL(c.应收气量\,0) 应收气量\,ISNULL(c.应收金额\,0) 应收金额\,ISNULL(d.实收气量\,0) 实收气量\,
 			ISNULL(d.实收金额\,0) 实收金额\,ISNULL(e.欠款气量\,0) 欠款气量\,ISNULL(e.欠款金额\,0) 欠款金额\,
-			ISNULL(f.收回陈欠气量\,0) 清欠气量\,ISNULL(f.收回陈欠金额\,0) 清欠金额\,ISNULL(g.累计欠费金额\,0) 累计欠款  from (
+			ISNULL(f.收回陈欠气量\,0) 清欠气量\,ISNULL(f.收回陈欠金额\,0) 清欠金额\,ISNULL(g.累计欠费金额\,0) 累计欠款\,ISNULL(g.累计欠费气量\,0) 累计欠费气量  from (
 			/*总户数*/
 			select f_username\,COUNT(*) 总户数 from (select f_username\,f_userid from t_userfiles where \{daninfosearch.DataContext.Condition\} and f_usertype\=\'非民用\'
 			and f_username!\=\'\'
@@ -68,6 +68,8 @@
 			/*抄表户数*/
 			select f_username\,COUNT(*) 抄表户数 from
 			(select f_username\,f_userid from t_handplan where f_usertype\=\'非民用\'
+			and f_meterstate\=\'正常使用\'
+			and f_state\=\'已抄表\'
 			and lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 			group by f_username\,f_userid)a group by f_username
 			) b on a.f_username\=b.f_username
@@ -76,27 +78,41 @@
 			/*本月应收*/
 			select f_username\,round(sum(oughtfee)\,2) 应收金额\,
 			round(sum(oughtamount)\,2) 应收气量 from t_handplan
-			where f_usertype\=\'非民用\' 
+			where f_usertype\=\'非民用\' and f_state\=\'已抄表\'
 			and lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
 			group by f_username
 			) c on a.f_username\=c.f_username 
 			left join
 			(
 			/*本月实收*/
-			select f_username\,round(sum(oughtfee)\,2) 实收金额\,
-			round(sum(oughtamount)\,2) 实收气量 from t_handplan
-			where f_usertype\=\'非民用\' and shifoujiaofei\=\'是\'
-			and lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
-			group by f_username
+			select u.f_username\,round(SUM(s.f_preamount)\,2) 实收金额\,
+			SUM(s.f_pregas) 实收气量 from t_sellinggas s\,t_userfiles u
+			where s.f_userid\=u.f_userid and u.f_usertype\=\'非民用\' and s.f_payfeetype in (\'自动下账\'\,\'机表收费\') and s.f_payfeevalid\=\'有效\'
+			and s.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and s.f_deliverydate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+			group by u.f_username
 			) d on a.f_username\=d.f_username
 			left join
 			(
 			/*本月欠费*/
-			select f_username\,round(sum(oughtfee)\,2) 欠款金额\,
-			round(sum(oughtamount)\,2) 欠款气量 from t_handplan
-			where f_usertype\=\'非民用\' and shifoujiaofei\=\'否\'
+			select isnull(oughtamount\,0)+isnull(f_pregas\,0) 欠款气量\,round(isnull(oughtfee\,0)+isnull(f_preamount\,0)\,2) 欠款金额\,h.f_username from
+			(select f_username from t_handplan group by f_username) h
+			left join
+			(select SUM(oughtamount) oughtamount\,round(SUM(oughtfee)\,2) oughtfee\,f_username from t_handplan
+			where f_state\=\'已抄表\' and shifoujiaofei\=\'否\'
 			and lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
-			group by f_username
+			group by f_username) a
+			on a.f_username\=h.f_username
+			left join
+			(
+			select SUM(s.f_pregas) f_pregas\,round(SUM(s.f_preamount)\,2) f_preamount\,h.f_username  
+			from t_handplan h\,t_sellinggas s 
+			where 
+			h.f_sellid\=s.id and s.f_payfeetype\=\'机表收费\' and s.f_payfeevalid\=\'有效\'
+			and s.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+			and h.lastinputdate>\=\'\{daninfosearch.DataContext.f_yytdate1\}\' and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+			group by h.f_username
+			) b
+			on h.f_username\=b.f_username
 			) e on a.f_username\=e.f_username
 			left join
 			(
@@ -113,9 +129,25 @@
 			left join
 			(
 			/*累计欠款*/
-			select f_username\,SUM(oughtamount) 累计欠费气量\,round(SUM(oughtfee)\,2) 累计欠费金额 from t_handplan 
-			where shifoujiaofei\=\'否\' and f_usertype\=\'非民用\'
-			group by f_username
+			select isnull(oughtamount\,0)+isnull(f_pregas\,0) 累计欠费气量\,round(isnull(oughtfee\,0)+isnull(f_preamount\,0)\,2) 累计欠费金额\,h.f_username from
+			(select f_username from t_handplan group by f_username) h
+			left join
+			(select SUM(oughtamount) oughtamount\,round(SUM(oughtfee)\,2) oughtfee\,f_username from t_handplan
+			where f_state\=\'已抄表\' and shifoujiaofei\=\'否\'
+			and lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+			group by f_username) a
+			on a.f_username\=h.f_username
+			left join
+			(
+			select SUM(s.f_pregas) f_pregas\,round(SUM(s.f_preamount)\,2) f_preamount\,h.f_username  
+			from t_handplan h\,t_sellinggas s 
+			where 
+			h.f_sellid\=s.id and s.f_payfeetype\=\'机表收费\' and s.f_payfeevalid\=\'有效\'
+			and s.f_deliverydate>\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+			and h.lastinputdate^\=\'\{daninfosearch.DataContext.f_yytdate2\}\'
+			group by h.f_username
+			) b
+			on h.f_username\=b.f_username
 			) g on a.f_username\=g.f_username 
 			left join 
 			(
@@ -184,7 +216,7 @@
                         <Button Content="导出Excel" Click="{m:Exp Str=toExcel.ToExcel()}" VerticalAlignment="Top" Grid.Column="9" Margin="0.469,4,-0.469,0"/>
                         <c:Excel x:Name="toExcel" HQL="{m:Exp Str=$sql:\{daninfos.ItemsSource.HQL\}}" 
 									Completed="{m:Exp Str=downLoad.Down()}"
-									Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_username:用户名称|总户数:总户数|抄表户数:抄表户数|购气户数:购气户数|应收气量:应收气量|应收金额:应收金额|应收气量:实收气量|实收金额:实收金额|欠款气量:欠款气量|欠款金额:欠款金额|清欠气量:清欠气量|清欠金额:清欠金额|累计欠款:累计欠款$}" Height="30" VerticalAlignment="Top" Width="0" Margin="40,0" d:IsLocked="True"/>
+									Path="{m:Exp Str=$\{server.BaseAddress\}/excel/\{daninfos.ItemsSource.Count\}/f_username:用户名称|总户数:总户数|抄表户数:抄表户数|购气户数:购气户数|应收气量:应收气量|应收金额:应收金额|应收气量:实收气量|实收金额:实收金额|欠款气量:欠款气量|欠款金额:欠款金额|清欠气量:清欠气量|清欠金额:清欠金额|累计欠款:累计欠款|累计欠费气量:累计欠费气量$}" Height="30" VerticalAlignment="Top" Width="0" Margin="40,0" d:IsLocked="True"/>
                         <c:DownLoad x:Name="downLoad" Path="{m:Exp Str=$\{server.BaseAddress\}/file/\{toExcel.FileName\}}" Filter="(*.xls)|*.xls" Height="30" VerticalAlignment="Top" Width="0" Margin="40,0"/>
                         <TextBlock TextWrapping="Wrap" Grid.Column="4" Margin="0,0,0,1" Height="25" TextAlignment="Right" Text="气表类型：" VerticalAlignment="Bottom" d:LayoutOverrides="Height"/>
                         <TextBlock TextWrapping="Wrap" Grid.Column="6" Margin="0,0,0,1" Height="25" TextAlignment="Right" Text="用户名称：" VerticalAlignment="Bottom" d:LayoutOverrides="Height"/>
@@ -227,6 +259,7 @@
                             <sdk:DataGridTextColumn Header="本月欠款金额" Binding="{Binding 欠款金额}"/>
                             <sdk:DataGridTextColumn Header="本月清欠气量" Binding="{Binding 清欠气量}"/>
                             <sdk:DataGridTextColumn Header="本月清欠金额" Binding="{Binding 清欠金额}"/>
+                            <sdk:DataGridTextColumn Header="累计欠费气量" Binding="{Binding 累计欠费气量}"/>
                             <sdk:DataGridTextColumn Header="累计欠款" Binding="{Binding 累计欠款}"/>
                         </sdk:DataGrid.Columns>
                     </sdk:DataGrid>

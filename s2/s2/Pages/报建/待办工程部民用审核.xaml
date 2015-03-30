@@ -100,6 +100,8 @@
                         <sdk:DataGridTextColumn Header="片区" Binding="{Binding f_area}"/>
                         <sdk:DataGridTextColumn Header="用户类型" Binding="{Binding f_usertype}"/>
                         <sdk:DataGridTextColumn Header="申请户数" Binding="{Binding f_applycount}"/>
+
+                        <sdk:DataGridTextColumn Header="报建日期" Binding="{Binding f_date,StringFormat=yyyy-MM-dd}"/>
                     </sdk:DataGrid.Columns>
                 </sdk:DataGrid>
                 <StackPanel Orientation="Horizontal" Width="488" Height="25">
@@ -122,7 +124,7 @@
                             <sdk:DataGridTextColumn Header="片区" Binding="{Binding f_area}"/>
                             <sdk:DataGridTextColumn Header="用气地址" Binding="{Binding f_address}"/>
                             <sdk:DataGridTextColumn Header="申请户数" Binding="{Binding f_applycount}"/>
-                            <sdk:DataGridTextColumn Header="报建日期" Binding="{Binding f_date}"/>
+                            <sdk:DataGridTextColumn Header="报建日期" Binding="{Binding f_date,StringFormat=yyyy-MM-dd}"/>
                         </sdk:DataGrid.Columns>
                     </sdk:DataGrid>
                 </StackPanel>
