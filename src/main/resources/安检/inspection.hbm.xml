@@ -541,7 +541,39 @@
 		<property name="f_precaution_multisource" type="boolean"/>
 	 	<!--  隐患 更改用途-->
 		<property name="f_precaution_otheruse" type="string"/>
-
+		<!-- 表帽卡 -->
+		<property name="f_meter_ka" type="boolean"/>
+		<!-- 有无表帽卡 -->
+		<property name="f_meterka" type="string"/>
+		<!-- 灶具接驳 -->
+		<property name="f_zjjiebo" type="string"/>
+		<!-- 热水器接驳 -->
+		<property name="f_heaterjiebo" type="string"/>
+		<!-- 表安装位置 -->
+		<property name="f_installationlocation" type="string"/>
+		<!-- 灶具熄火保护检测结果 -->
+		<property name="f_fireprotection_state" type="string"/>
+		<!-- 表锈蚀 -->
+		<property name="f_meter_xiushi" type="boolean"/>
+		<!-- 表不走字-->
+		<property name="f_meter_bupaozi" type="boolean"/>
+		<!-- 表后管接地-->
+		<property name="f_bhgjiedi" type="boolean"/>
+		<!-- 表后管锈蚀-->
+		<property name="f_bhgxiushi" type="boolean"/>
+		<!-- 表后管无堵头-->
+		<property name="f_bhgwudutou" type="boolean"/>
+		<!-- 立管是否腐蚀-->
+		<property name="f_lgshifoufushi" type="boolean"/>
+		<!-- 立管腐蚀等级-->
+		<property name="f_fushilevel" type="string"/>
+		<!-- 热水器胶管状况-->
+		<property name="f_heaterjgzk" type="string"/>
+		<!-- 表后管类型-->
+		<property name="f_bhgtype" type="string"/>
+		<!-- 热水器与壁挂炉公用烟道-->
+		<property name="f_bothyandao" type="boolean"/>
+		
 	 	<!--  整改单单号-->
 		<property name="f_renow_id" type="string"/>
         
