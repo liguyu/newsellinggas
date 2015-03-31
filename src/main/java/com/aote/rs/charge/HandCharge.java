@@ -146,6 +146,9 @@ public class HandCharge {
 			throws Exception {
 		// 查找用户未抄表记录
 		Map map = this.findHandPlan(userid);
+		if(map == null){
+			return "";
+		}
 		// 获取表类型
 		String meterType = map.get("f_gasmeterstyle").toString();
 		// 下面程序执行hql变量
@@ -671,8 +674,12 @@ public class HandCharge {
 					}
 				});
 		// 取出未抄表记录以及资料
-		result = (Map<String, Object>) list.get(0);
-		return result;
+		if(list.size()>0){
+			result = (Map<String, Object>) list.get(0);
+			return result;
+		}else{
+			return null;
+		}
 	}
 
 	// 计算开始时间方法
@@ -755,48 +762,20 @@ public class HandCharge {
 					leftgas = row.getDouble("leftgas");
 				}
 				if("noPlan".equals(row.getString("source"))){
-					if(insertPlan(userid))
+				}else{
+					if(findHandPlan(userid)==null){
+						jo.put(userid, "null");
+					}else{
 						re= afrecordInput(userid, reading, network, operator,
 								inputdate, handdate, leftgas,meterstate);
-				}else{
-					try{
-						findHandPlan(userid);
-					}catch(Exception er){
-						jo.put(userid, "null");
+						jo.put(re, "ok");
 					}
-					re= afrecordInput(userid, reading, network, operator,
-							inputdate, handdate, leftgas,meterstate);
-					jo.put(userid, "ok");
 				}
 			}
 			return jo.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return jo.toString();
-		}
-	}
-	private boolean insertPlan(String userid){
-		try{
-			final String sql = "insert into t_handplan(f_userid, f_username, lastinputgasnum, f_gaswatchbrand, f_metertype,"+
-					"f_address, f_districtname, f_usertype, f_gasprice, f_gaspricetype, f_dibaohu, f_apartment,"+
-					"f_phone, scinputdate, f_inputtor, f_yhxz, f_weizhi, f_menzhan,"+
-					"f_zerenbumen, f_state, shifoujiaofei, users, f_cusDom, f_cusDy)"+
-					"select f_userid, f_username, lastinputgasnum, f_gaswatchbrand, f_metertype,"+
-					"f_address, f_districtname, f_usertype, f_gasprice, f_gaspricetype, f_dibaohu, f_apartment,"+
-					"f_phone, lastinputdate, f_inputtor, f_yhxz, f_weizhi, f_menzhan,"+
-					"f_zerenbumen, '未抄表', '否', id, f_cusDom, f_cusDy "+
-					"from t_userfiles where f_userstate='正常' and f_userid='"+userid+
-					"' and f_userid not in(select distinct f_userid from t_handplan where f_state='未抄表')";
-			hibernateTemplate.execute(new HibernateCallback() {
-				public Object doInHibernate(Session session)
-						throws HibernateException {
-					return session.createSQLQuery(sql).executeUpdate();
-				}
-			});
-			return true;
-		}catch(Exception e){
-			e.printStackTrace();
-			return false;
 		}
 	}
 	// 批量抄表记录上传
