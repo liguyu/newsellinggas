@@ -130,6 +130,15 @@
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\非民用建档发卡.xaml.cs">
+      <DependentUpon>非民用建档发卡.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\民用建档发卡.xaml.cs">
+      <DependentUpon>民用建档发卡.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\民用建档发卡窗口.xaml.cs">
+      <DependentUpon>民用建档发卡窗口.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\余额表.xaml.cs">
       <DependentUpon>余额表.xaml</DependentUpon>
     </Compile>
@@ -147,6 +156,9 @@
     </Compile>
     <Compile Include="Pages\天然气用气汇总表.xaml.cs">
       <DependentUpon>天然气用气汇总表.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\清欠明细.xaml.cs">
+      <DependentUpon>清欠明细.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\营业用户用气明细表.xaml.cs">
       <DependentUpon>营业用户用气明细表.xaml</DependentUpon>
@@ -1432,6 +1444,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\非民用建档发卡.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\民用建档发卡.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\民用建档发卡窗口.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\余额表.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1454,6 +1478,10 @@
     </Page>
     <Page Include="Pages\天然气用气汇总表.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\清欠明细.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\营业用户用气明细表.xaml">
@@ -3124,7 +3152,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="aofengsign.pfx" />
-    <None Include="s2_TemporaryKey.pfx" />
     <None Include="SampleData\SampleDataSource\SampleDataSource.xsd">
       <SubType>Designer</SubType>
     </None>
