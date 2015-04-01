@@ -1,7 +1,10 @@
 package com.aote.rs;
 
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,6 +39,8 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
+
+import com.aote.rs.util.CalculateStairsPrice;
 
 
 @Path("iis")
@@ -288,6 +293,86 @@ public class IndoorInspectService {
 		}
 	}
 	
+	/**
+	 * 计算机表用户实时结余
+	 */
+	@GET
+	@Path("CalcCurrentBalance/{UserID}/{MeterNum}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String CalculateCurrentBalance(@PathParam("UserID") String UserID, @PathParam("MeterNum") String MeterNum/*本次抄表指数*/)
+	{
+		log.debug("传入的本次抄表指数：" + MeterNum + ", 传入的UserID：" + UserID);
+		String FindUserFileSql = "from t_userfiles where f_userid = '" + UserID + "'";
+		List<Object> UserFileList = new ArrayList<Object>();
+		Map<String, Object> UserFileMap = new HashMap<String, Object>();
+		String GetArrearsMoneysql = "from t_handplan where f_userid = '" + UserID + "' and f_gasmeterstyle = '机表' and shifoujiaofei='否' and f_state = '已抄表'";
+		List<Object> GetArrearsMoneyList = new ArrayList<Object>();
+		List<Map<String, Object>> GetArrearsMoneyMapList = new ArrayList<Map<String, Object>>();
+		Map<String, Object> GetArrearsMoneyMap = new HashMap<String, Object>();
+		String ZHYEStr = "";
+		String LastRecordStr = "";
+		String ArrearsMoneyStr = "";
+		//账户余额
+		double ZHYE = 0;
+		//上次抄表指数
+		double LastRecord = 0;
+		//本次用气量
+		double GasNum = 0;
+		//本次用气金额
+		double GasMoney = 0;
+		//累计欠费金额
+		double ArrearsMoney = 0;
+		//当前结余 = 结余 - 累计欠费 - 本次用气金额
+		double CurrentBalance = 0;
+		try {
+			UserFileList = this.hibernateTemplate.find(FindUserFileSql);
+			if(UserFileList.size() != 1)
+			{
+				//若通过userid查出用户档案不止一条，则返回错误
+				return "{\"ok\":\"err1\"}";
+			}
+			UserFileMap = (Map<String, Object>) UserFileList.get(0);
+			ZHYEStr = UserFileMap.get("f_zhye") == null ? "0" : UserFileMap.get("f_zhye").toString();
+			//得到账户余额
+			ZHYE = Double.parseDouble(ZHYEStr);
+			LastRecordStr = UserFileMap.get("lastrecord") == null ? "0" : UserFileMap.get("lastrecord").toString();
+			LastRecord = Double.parseDouble(LastRecordStr);
+			if(Double.parseDouble(MeterNum) < LastRecord)
+			{
+				//若本次抄表指数小于上次抄表指数，则返回错误
+				return "{\"ok\":\"err2\"}";
+			}
+			GasNum = Double.parseDouble(MeterNum) - LastRecord;
+			//计算本次用气量产生的用气金额
+			Map<String, Object> GasMoneyMap = new HashMap<String, Object>();
+			GasMoneyMap = CalculateStairsPrice.CalculateGasMoney(GasNum, UserFileMap);
+			String GasMoneyStr = GasMoneyMap.get("chargenum") == null ? "0" : GasMoneyMap.get("chargenum").toString();
+			//得到本次用气金额
+			GasMoney = Double.parseDouble(GasMoneyStr);
+			CurrentBalance = ZHYE - GasMoney;
+			GetArrearsMoneyList = this.hibernateTemplate.find(GetArrearsMoneysql);
+			if(GetArrearsMoneyList.size() == 0)
+			{
+				return "{\"ok\":\"" + CurrentBalance + "\"}";
+			}
+			for(int i = 0; i < GetArrearsMoneyList.size(); i++)
+    		{
+				GetArrearsMoneyMapList.add((Map<String, Object>) GetArrearsMoneyList.get(i));
+    		}
+			for(int j = 0; j < GetArrearsMoneyMapList.size(); j++)
+			{
+				ArrearsMoneyStr = GetArrearsMoneyMapList.get(j).get("oughtfee").toString();
+				ArrearsMoney += Double.parseDouble(ArrearsMoneyStr);
+			}
+			CurrentBalance = ZHYE - ArrearsMoney - GasMoney;
+			return "{\"ok\":\"" + CurrentBalance + "\"}";
+		} catch (Exception e) {
+			e.printStackTrace();
+			//出现异常，则返回错误
+			return "{\"ok\":\"err4\"}";
+		}
+	}
+
 	/**
 	 * 
 	 * @param road
