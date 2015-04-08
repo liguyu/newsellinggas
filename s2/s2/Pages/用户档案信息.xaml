@@ -375,6 +375,8 @@ order by id
                             <sdk:DataGridTextColumn Header="阶梯气价类型" Binding="{Binding f_stairtype}"/>
                             <sdk:DataGridTextColumn Header="气价" Binding="{Binding f_gasprice}"/>
                             <sdk:DataGridTextColumn Header="有壁挂炉" Binding="{Binding f_wallhangboiler}"/>
+                            <sdk:DataGridTextColumn Header="有灶具" Binding="{Binding f_kitchen}"/>
+                            <sdk:DataGridTextColumn Header="有热水器" Binding="{Binding f_waterheater}"/>
 
                             <sdk:DataGridTextColumn Header="总购气量" Binding="{Binding f_cumulativepurchase}"/>
                             <sdk:DataGridTextColumn Header="当前表购气量" Binding="{Binding f_metergasnums}"/>
