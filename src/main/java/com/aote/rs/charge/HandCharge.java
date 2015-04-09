@@ -146,6 +146,9 @@ public class HandCharge {
 			throws Exception {
 		// 查找用户未抄表记录
 		Map map = this.findHandPlan(userid);
+		if(map == null){
+			return "";
+		}
 		// 获取表类型
 		String meterType = map.get("f_gasmeterstyle").toString();
 		// 下面程序执行hql变量
@@ -533,7 +536,7 @@ public class HandCharge {
 				&& gas.doubleValue() > 0) {
 			financedetailDisp(map, gas, chargenum, sgnetwork, sgoperator);
 		}
-		return "";
+		return userid;
 	}
 
 	/**
@@ -671,8 +674,12 @@ public class HandCharge {
 					}
 				});
 		// 取出未抄表记录以及资料
-		result = (Map<String, Object>) list.get(0);
-		return result;
+		if(list.size()>0){
+			result = (Map<String, Object>) list.get(0);
+			return result;
+		}else{
+			return null;
+		}
 	}
 
 	// 计算开始时间方法
@@ -731,7 +738,46 @@ public class HandCharge {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	@Path("record/batch/App")
+	@POST
+	public String afAPPUploadBatch(String data) {
+		log.debug("App抄表记录上传 开始");
+		JSONObject jo = new JSONObject();
+		try {
+			JSONArray rows = new JSONArray(data);
+			String re = "";
+			// 对每一个数据，调用单个抄表数据处理过程
+			for (int i = 0; i < rows.length(); i++) {
+				JSONObject row = rows.getJSONObject(i);
+				String userid = row.getString("f_userid");
+				double reading = Double.parseDouble(row.getString("lastrecord"));
+				String handdate = row.getString("f_handdate");
+				String network = row.getString("f_network");
+				String operator = row.getString("f_operator");
+				String inputdate = row.getString("f_inputdate");
+				String meterstate = row.getString("f_meterstate");
+				// 获取余气量，机表录入，没有余气量，传Double.NaN
+				double leftgas = 0;
+				if (row.has("leftgas")) {
+					leftgas = row.getDouble("leftgas");
+				}
+				if("noPlan".equals(row.getString("source"))){
+				}else{
+					if(findHandPlan(userid)==null){
+						jo.put(userid, "null");
+					}else{
+						re= afrecordInput(userid, reading, network, operator,
+								inputdate, handdate, leftgas,meterstate);
+						jo.put(re, "ok");
+					}
+				}
+			}
+			return jo.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return jo.toString();
+		}
+	}
 	// 批量抄表记录上传
 	// data以JSON格式上传，[{userid:'用户编号', showNumber:本期抄表数},{}]
 	@Path("record/batch/{handdate}/{sgnetwork}/{sgoperator}/{lastinputdate}/{meterstate}")
@@ -788,6 +834,7 @@ public class HandCharge {
 
 	}
 
+	
 	// 产生交费截止日期
 	private Date endDate(String str) throws ParseException {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
