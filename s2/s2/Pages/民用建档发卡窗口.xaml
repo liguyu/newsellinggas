@@ -21,7 +21,7 @@
         <m:ResourceLoad x:Name="loader" Margin="0,0,-101,0">
             <!--发票对象-->
             <o:GeneralObject Name="fpinfosobj" EntityType="t_fapiaoinfos" WebClientInfo="{StaticResource dbclient}" 
-         Path="{m:Exp Str=$one/from t_fapiaoinfos where f_invoicenum\=\'\{userfile.DataContext.f_invoicenum\}\'}" 
+         Path="{m:Exp Str=$one/from t_fapiaoinfos where f_invoicenum\=\'\{fakaobj.DataContext.f_invoicenum\}\'}" 
                              
 			IsInit="{m:Exp Str=FaKaAction\=\=$Error$ |or| card.State\=\=$Error$ |or| print1.State\=\=$End$ |or| print.State\=\=$End$}">
                 <o:PropertySetter PropertyName="f_username" NoDependValue="{m:Exp Str=fakaobj.DataContext.f_username}"/>
@@ -87,11 +87,11 @@
                 <o:PropertySetter PropertyName="oldprice" Default="198" />
                 <o:PropertySetter PropertyName="newprice" NoDependValue="198" />
                 <o:PropertySetter PropertyName="f_zhye" 
-				NoDependValue="{m:Exp Str=FaKaAction\=>Saving!\=null:userfile.DataContext.f_givechange\,null}"/>
+				NoDependValue="{m:Exp Str=FaKaAction\=>Saving!\=null:fakaobj.DataContext.f_givechange\,null}"/>
                 <!--维护费起始月份-->
                 <o:PropertySetter PropertyName="f_beginfee" 
-			NoDependValue="{m:Exp Str=FaKaAction\=>Saving!\=null:userfile.DataContext.f_beginfee\,null}" />
-                <o:PropertySetter PropertyName="f_cardid" NoDependValue="{m:Exp Str='userfile.DataContext.f_cardid !\=null:userfile.DataContext.f_cardid\,null'}" />
+			NoDependValue="{m:Exp Str=FaKaAction\=>Saving!\=null:fakaobj.DataContext.f_beginfee\,null}" />
+                <o:PropertySetter PropertyName="f_cardid" NoDependValue="{m:Exp Str='fakaobj.DataContext.f_cardid !\=null:fakaobj.DataContext.f_cardid\,null'}" />
                 <o:PropertySetter PropertyName="f_times" 
 			Value="{m:Exp Str='card.State==$Error$:0,1'}" />
             </o:GeneralObject>
@@ -151,7 +151,7 @@
             <o:GeneralObject Name="userfilego" WebClientInfo="{StaticResource dbclient}" 
 		EntityType="t_myfaka" 
 		IsInit="{m:Exp Str='userfile1.State\=\=$StartLoad$ |or| FaKaAction\=\=$Error$ |or| card.State\=\=$Error$ |or| print.State==$End$ |or| print.State==$Cancle$'}">
-                <o:PropertySetter PropertyName="f_sgnetwork" NoDependValue="{m:Exp Str=userfile.DataContext.f_sgnetwork}"/>
+                <o:PropertySetter PropertyName="f_sgnetwork" NoDependValue="{m:Exp Str=fakaobj.DataContext.f_sgnetwork}"/>
                 <o:PropertySetter PropertyName="f_comtype" NoDependValue="天然气公司"/>
 
             </o:GeneralObject>
@@ -165,8 +165,8 @@
             <!--卡对象GeneralICCard-->
             <oo:NewGeneralICCard Name="card"   
 		 CanInitCard="{m:Exp Str='FaKaAction.State \=\= $End$'}"
-		 Gas="{m:Exp Str=userfile.DataContext.f_pregas}"
-		 CardId="{m:Exp Str=userfile.DataContext.f_cardid}"
+		 Gas="{m:Exp Str=fakaobj.DataContext.f_pregas}"
+		 CardId="{m:Exp Str=fakaobj.DataContext.f_cardid}"
 		 Factory="{m:Exp Str='userfile1.State \=\= $Loaded$:userfile1.f_aliasname,null'}"
 		 BuyTimes="{m:Exp Str=userfilego.f_times\=\=null:0\,userfilego.f_times.ToInt()}" 
 		 Klx="{m:Exp Str='userfile1 != null\:userfile1.klx\,null'}"		
@@ -214,19 +214,26 @@
                 <!--发卡对象-->
                 <b:BatchInfo Source="{m:Exp Str=userfilego}" MethodName="SaveToJson"/>
                 <!--发票对象-->
-                <b:BatchInfo Source="{m:Exp Str=fpinfosobj}" MethodName="SaveToJson"  CanSave="{m:Exp Str=userfile.DataContext.f_makeinvoicetype!\=$普通发票$}"/>
-            	<!--关闭发卡界面-->
+                <b:BatchInfo Source="{m:Exp Str=fpinfosobj}" MethodName="SaveToJson"  CanSave="{m:Exp Str=fakaobj.DataContext.f_makeinvoicetype!\=$普通发票$}"/>
+            	
+            </b:BatchExcuteAction>
+			 <!--关闭发卡界面-->
+			<b:BatchExcuteAction Name="fakachild2" WebClientInfo="{StaticResource dbclient}"
+			CanSave="{m:Exp Str='print.State==$End$  |or| print1.State==$End$'}">
+	         <!--关闭发卡界面-->
                 <b:BatchInfo Source="{m:Exp Str=fakachild}" MethodName="Close" />
             </b:BatchExcuteAction>
+			
+			
             <!--提交-->
             <b:HQLAction Name="SubmitAction" WebClientInfo="{StaticResource dbclient}" 
-			HQL="{m:Exp Str=$update t_userfiles set f_substate\=null where id in (\{userfile.DataContext.id\}) }"/>
+			HQL="{m:Exp Str=$update t_userfiles set f_substate\=null where id in (\{fakaobj.DataContext.id\}) }"/>
         </m:ResourceLoad>
         <Grid Margin="0,0,0,26" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="7*"/>
             </Grid.ColumnDefinitions>
-            <c:BusyIndicatorEx 
+            <c:BusyIndicatorEx Name="ui_busy"
 		BusyContent="{m:Exp Str=FaKaAction.IsBusy:$正在访问服务器，请稍等...$\,card.IsBusy:$正在操作卡，请稍等...$\,$正在工作，请稍等...$}" 
 		IsBusy="{m:Exp Str=userfile1.IsBusy or card.IsBusy or FaKaAction.IsBusy}" Margin="10,0,0,0" Grid.Column="1" >
                 <Grid Background="{x:Null}" x:Name="fakaobj" DataContext="{m:Exp Str=userfilego}" >
@@ -235,7 +242,7 @@
                         <toolkit:DockPanel toolkit:DockPanel.Dock="Bottom"  >
                             <StackPanel Orientation="Horizontal" Width="170">
                                 <Button x:Name="save" Content="写  卡" Margin="5" IsEnabled="{m:Exp Str=!userfilego.HasErrors}"
-						Click="{m:Exp Str=userfile1.f_beginfee\=userfilego.f_beginfee;userfilego.f_times \= userfilego.f_times+1;userfile1.f_times\=userfilego.f_times.ToInt();sellgasobj.f_times\=userfilego.f_times.ToInt();sellgasobj.f_deliverydate\=userfilego.f_deliverydate;sellgasobj.f_deliverytime\=userfilego.f_deliverytime;sellgasobj.f_metergasnums\=userfilego.f_metergasnums;sellgasobj.f_cumulativepurchase\=userfilego.f_cumulativepurchase;userfile1.f_metergasnums\=userfilego.f_metergasnums;userfile1.f_cumulativepurchase\=userfilego.f_cumulativepurchase;userfile1.f_finabuygasdate\=userfilego.f_deliverydate;userfile1.f_dateofopening\=userfilego.f_givecarddate;userfile1.f_givecarddate\=userfilego.f_givecarddate;sellgasobj.f_payfeevalid\=$有效$;sellgasobj.f_comtype\=$天然气公司$;sellgasobj.f_payfeetype\=userfilego.f_payfeetype;userfile1.f_whethergivecard\=$已发$;userfile1.f_whethergivepassbook\=$已发$;sellgasobj.f_payment\=userfilego.f_payment;sellgasobj.f_sgoperator\=userfilego.f_sgoperator;sellgasobj.f_sgnetwork\=userfilego.f_sgnetwork;sellgasobj.f_filiale\=userfilego.f_filiale;userfile1.f_watchinstalldate\=userfilego.f_watchinstalldate;card.Sqrq\=userfilego.f_deliverydate.ToString($yyyyMMdd$);fpinfosobj.f_fapiaotype\=$发卡售气$;fpinfosobj.f_fapiaostatue\=$已用$;fpinfosobj.f_sgnetwork\=userfile.DataContext.f_sgnetwork;fpinfosobj.f_fapiaodate\=userfile.DataContext.f_deliverydate;cardid1.Load()}" Width="50" />
+						Click="{m:Exp Str=userfile1.f_beginfee\=userfilego.f_beginfee;userfilego.f_times \= userfilego.f_times+1;userfile1.f_times\=userfilego.f_times.ToInt();sellgasobj.f_times\=userfilego.f_times.ToInt();sellgasobj.f_deliverydate\=userfilego.f_deliverydate;sellgasobj.f_deliverytime\=userfilego.f_deliverytime;sellgasobj.f_metergasnums\=userfilego.f_metergasnums;sellgasobj.f_cumulativepurchase\=userfilego.f_cumulativepurchase;userfile1.f_metergasnums\=userfilego.f_metergasnums;userfile1.f_cumulativepurchase\=userfilego.f_cumulativepurchase;userfile1.f_finabuygasdate\=userfilego.f_deliverydate;userfile1.f_dateofopening\=userfilego.f_givecarddate;userfile1.f_givecarddate\=userfilego.f_givecarddate;sellgasobj.f_payfeevalid\=$有效$;sellgasobj.f_comtype\=$天然气公司$;sellgasobj.f_payfeetype\=userfilego.f_payfeetype;userfile1.f_whethergivecard\=$已发$;userfile1.f_whethergivepassbook\=$已发$;sellgasobj.f_payment\=userfilego.f_payment;sellgasobj.f_sgoperator\=userfilego.f_sgoperator;sellgasobj.f_sgnetwork\=userfilego.f_sgnetwork;sellgasobj.f_filiale\=userfilego.f_filiale;userfile1.f_watchinstalldate\=userfilego.f_watchinstalldate;card.Sqrq\=userfilego.f_deliverydate.ToString($yyyyMMdd$);fpinfosobj.f_fapiaotype\=$发卡售气$;fpinfosobj.f_fapiaostatue\=$已用$;fpinfosobj.f_sgnetwork\=fakaobj.DataContext.f_sgnetwork;fpinfosobj.f_fapiaodate\=fakaobj.DataContext.f_deliverydate;cardid1.Load()}" Width="50" />
                                 <Button Content="关 闭" Margin="5" Click="{m:Exp Str=fakachild.Close()}" Width="50">
                                 </Button>
                             </StackPanel>
@@ -397,7 +404,7 @@
 									Default="{m:Exp Str=LoginUser.name}"/>
                                 </a:Data.Prop>
                             </TextBox>
-                            <TextBox Text="{m:Bind Path=f_pregas}" x:Name="ui_pregas"   FontWeight="Bold" Foreground="Red" Grid.Column="5" Margin="0" Grid.Row="10" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" >
+                            <TextBox Text="{m:Bind Path=f_pregas}" x:Name="ui_pregas" LostFocus="ui_pregas_LostFocus"  FontWeight="Bold" Foreground="Red" Grid.Column="5" Margin="0" Grid.Row="10" TextWrapping="Wrap" Height="25" VerticalAlignment="Stretch" >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_pregas" NoDependValue="{m:Exp Str='userfilego.f_usertype\=\=$民用$:userfile1.f_kaihuql,null'}" NotNull="True" Validation="{m:Exp Str=value\>0}"  ErrorMessage="开户气量必须大于0！"/>
                                 </a:Data.Prop>
@@ -420,7 +427,7 @@
 								Value="{m:Exp Str='userfilego.f_gasproperties==$混合型$:userfilego.f_myqiliangjine+userfilego.f_feimyqiliangjine,userfilego.f_pregas*userfilego.f_gasprice'}" />
                                 </a:Data.Prop>
                             </TextBox>-->
-                            <TextBox Text="{m:Bind Path=f_preamount}" x:Name="ui_preamount" Grid.Column="3" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="6" Height="25"  >
+                            <TextBox Text="{m:Bind Path=f_preamount}" x:Name="ui_preamount" LostFocus="ui_pregas_LostFocus" Grid.Column="3" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="6" Height="25"  >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_preamount" 
 								 />
@@ -471,7 +478,7 @@
                             <TextBox Text="{m:Bind Path=f_limitbuygas}"  Grid.Column="1" Margin="0" TextWrapping="Wrap" Grid.ColumnSpan="1" IsReadOnly="True" Grid.Row="10" Height="25" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  >
                                 <a:Data.Prop>
                                     <o:PropertySetter PropertyName="f_limitbuygas" 
-									NoDependValue="{m:Exp Str='openxiangou.Result!=null:openxiangou.Result,userfile.DataContext.f_usertype==$民用$:(single[data.name\=\=$民用月限购气量$].ToObjectList().First().value.ToInt()),userfile.DataContext.f_usertype==$非民用$:gsxiangou.f_gscustomgas,0'}"/>
+									NoDependValue="{m:Exp Str='openxiangou.Result!=null:openxiangou.Result,fakaobj.DataContext.f_usertype==$民用$:(single[data.name\=\=$民用月限购气量$].ToObjectList().First().value.ToInt()),fakaobj.DataContext.f_usertype==$非民用$:gsxiangou.f_gscustomgas,0'}"/>
                                 </a:Data.Prop>
                             </TextBox>
                             <Button Content="修改"  Margin="0,0,0,1" Width="34" Grid.Row="10" Grid.Column="2"
@@ -571,7 +578,7 @@
                                 </a:Data.Prop>
                             </TextBox>
                             <TextBlock Margin="0,6,0,0" Grid.Row="3" TextWrapping="Wrap" Text="混合气价：" Height="25" TextAlignment="Right"/>
-                            <StackPanel Grid.ColumnSpan="4" Grid.Column="1" Visibility="{m:Exp Str=userfile.DataContext.f_gasproperties\=\=$混合型$:$Visible$\,$Collapsed$}" Margin="0,2,-11,2" Grid.Row="3" Orientation="Horizontal" Height="25"  >
+                            <StackPanel Grid.ColumnSpan="4" Grid.Column="1" Visibility="{m:Exp Str=fakaobj.DataContext.f_gasproperties\=\=$混合型$:$Visible$\,$Collapsed$}" Margin="0,2,-11,2" Grid.Row="3" Orientation="Horizontal" Height="25"  >
                                 <TextBlock Text="民用气价" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0,2" />
                                 <TextBox Text="{m:Bind Path=f_myprice}" Margin="5,0,0,0" TextWrapping="Wrap" IsReadOnly="True" Height="25" >
                                     <a:Data.Prop>
@@ -656,7 +663,7 @@
                             </toolkit:TimePicker>  
                             <TextBox Text="{m:Bind Path=f_cardidjia}" Grid.Column="3" Margin="0,3,1,2" Grid.Row="4" TextWrapping="Wrap" IsReadOnly="True" Height="25" HorizontalAlignment="Right" Width="1" >
                                 <a:Data.Prop>
-                                    <o:PropertySetter PropertyName="f_cardidjia" NoDependValue="{m:Exp Str=userfile.DataContext.f_cardid!\=null:userfile.DataContext.f_cardid.ToLong()\+1\,null}"
+                                    <o:PropertySetter PropertyName="f_cardidjia" NoDependValue="{m:Exp Str=fakaobj.DataContext.f_cardid!\=null:fakaobj.DataContext.f_cardid.ToLong()\+1\,null}"
 								/>
                                 </a:Data.Prop>
                             </TextBox>
@@ -731,7 +738,7 @@
             <!--<TextBlock Text="{m:Exp Str='SecRefresh\=&gt;TimeEvent!\=null:SysTime.Now.ToString($HH:mm:ss$),$$'}" Grid.Column="2" Margin="-54,4,-19,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Stretch" d:LayoutOverrides="HorizontalAlignment"/>-->
             <sdk:Label Margin="0,0,1,4" Content="发票号码：" FontSize="10" Grid.Row="3" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
 
-            <TextBlock Text="{m:Exp Str=userfile.DataContext.f_invoicenum}" FontSize="10" Grid.Column="1" Margin="10,0,0,3" Grid.Row="3" TextWrapping="Wrap" Height="20" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="111"/>
+            <TextBlock Text="{m:Exp Str=fakaobj.DataContext.f_invoicenum}" FontSize="10" Grid.Column="1" Margin="10,0,0,3" Grid.Row="3" TextWrapping="Wrap" Height="20" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="111"/>
             <sdk:Label Margin="0,1,0,17" Content="收款单位：" FontSize="10" Grid.Row="4" HorizontalAlignment="Right" VerticalContentAlignment="Top"/>
             <sdk:Label Margin="0,2,24,14" Content="东营市黄河燃气有限责任公司" FontSize="10" Grid.Row="4" HorizontalAlignment="Right" VerticalContentAlignment="Top" Grid.Column="1"/>
             <sdk:Label Margin="0,24,1,29" Content="开票日期：" FontSize="10" Grid.Row="4" HorizontalAlignment="Right" VerticalContentAlignment="Top" Grid.RowSpan="2"/>
@@ -1027,10 +1034,10 @@ HorizontalAlignment="Stretch" Margin="114,96,919,0"  Width="Auto" Height="20" Ve
         <!--打印收费票据-->
         <c:PrintObj Name="print" 
 		Message="是否打印收据"
-		IsPrint="{m:Exp Str=card.State\=>Completed\=\=$End$ and userfile.DataContext.f_makeinvoicetype!\=$收据$}" Area="{m:Res Key=aofengprint}" />
+		IsPrint="{m:Exp Str=card.State\=>Completed\=\=$End$ and fakaobj.DataContext.f_makeinvoicetype!\=$收据$}" Area="{m:Res Key=aofengprint}" />
         <c:PrintObj Name="print1" 
 		Message="是否打印国税发票"
-		IsPrint="{m:Exp Str=card.State\=>Completed\=\=$End$ and userfile.DataContext.f_makeinvoicetype\=\=$国税发票$}" Area="{m:Res Key=guoshuiprint}" />
+		IsPrint="{m:Exp Str=card.State\=>Completed\=\=$End$ and fakaobj.DataContext.f_makeinvoicetype\=\=$国税发票$}" Area="{m:Res Key=guoshuiprint}" />
         <c:MessageTipObj Tip="{m:Exp Str=$制卡失败，请重试！如果继续失败，请转维修班处理。错误内容：\{card.Error\=\=null:$$\,card.Error\}$}" IsShow="{m:Exp Str=RollbackAction.State\=\=$End}"/>
         <c:MessageTipObj Tip="{m:Exp Str=$连接服务器失败，请重试！如果继续失败，请联系系统管理员。$}" IsShow="{m:Exp Str=FaKaAction.State\=\=$Error}"/>
         <c:MessageTipObj Tip="{m:Exp Str=$自动冲正失败。库里有记录，卡上无气量，请转维修班处理。$}" IsShow="{m:Exp Str=RollbackAction.State\=\=$Error}"/>
