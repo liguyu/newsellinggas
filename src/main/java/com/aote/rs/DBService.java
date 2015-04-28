@@ -560,7 +560,11 @@ public class DBService {
 			}
 		}
 		this.hibernateTemplate.saveOrUpdate(entityName, map);
-		result.put("id", map.get("id"));
+		if(map.containsKey("id"))
+			result.put("id", map.get("id"));
+		if(map.containsKey("ID"))
+			result.put("id", map.get("ID"));
+		
 		return result;
 	}
 

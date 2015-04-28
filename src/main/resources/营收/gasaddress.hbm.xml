@@ -5,8 +5,8 @@
 <hibernate-mapping >
 	<!--用气地址表-->
 	<class entity-name="t_gasaddress" table="t_gasaddress" dynamic-update="true">
-	   <id name="ID" type="string">
-			<generator class="uuid.hex"></generator>
+	   <id name="ID" type="int">
+			<generator class="identity"></generator>
 		</id>
 		<!--用气地址-->
 		<property name="f_gasaddress" type="string"/>
