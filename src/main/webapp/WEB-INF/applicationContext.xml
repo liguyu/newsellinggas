@@ -58,5 +58,20 @@
 
 	<bean id="Single"
 		class="com.aote.expression.paramprocessor.SingleProcessor">
+		
+	</bean>
+		<bean id="deposit"
+		class="com.aote.bts.Deposit">
+	</bean>
+
+	<bean id="pricing"
+		class="com.aote.bts.Pricing">
+	</bean>
+
+	<bean id="sale"
+		class="com.aote.bts.Sale">
+	</bean>
+	<bean id="cancelOff"
+		class="com.aote.bts.CancelOff">
 	</bean>
 </beans>

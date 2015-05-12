@@ -1,0 +1,42 @@
+﻿<?xml version="1.0"  encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="test">
+	<!-- 银行交易明细 -->
+	<class entity-name="t_bank_trans" table="t_bank_trans" dynamic-update="true">
+		<id name="id" type="int">
+			<generator class="identity"></generator>
+		</id>  
+	    <property name="TRANS_CODE" type="string"/>
+	    <property name="TRANS_SN" type="string"/>
+	    <property name="BANK_DATE" type="string"/>
+	    <property name="BANK_TIME" type="string"/>
+	    <property name="BANK_ID" type="string"/>
+	    <property name="TELLER_ID" type="string"/>
+	    <property name="CHANNEL_ID" type="string"/>
+	    <property name="DEVICE_ID" type="string"/>
+	    <property name="ACK_TRANS_SN" type="string"/>
+	    <property name="RESPONSE_CODE" type="string"/>
+	    <property name="RESPONSE" type="string"/>
+	    <property name="MAC" type="string"/>
+	    
+	    <!-- 1002 机表缴费通知 -->
+	    <property name="USER_ID" type="string"/>
+	    <property name="PAYMENT" type="string"/>
+
+	    <!-- 2003 卡表缴费通知 -->
+	    <property name="CARD_ID" type="string"/>
+	    <property name="GAS_AMOUNT_APPROVED" type="string"/>
+	    <property name="GAS_FEE" type="string"/>
+	    <property name="MAINTENANCE_FEE" type="string"/>
+	    <property name="OTHER_FEE" type="string"/>
+	    <property name="TOTAL_FEE" type="string"/>
+		    
+	    <!-- 交易状态 -->
+	    <property name="STATUS" type="string"/>
+	    
+	    <!-- 缴费id -->
+	    <property name="SALE_ID" type="string"/>
+	</class>
+</hibernate-mapping>

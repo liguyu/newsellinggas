@@ -325,7 +325,8 @@
    	    <!--置忙时间记录-->
    	    <mapping resource="呼叫/opbusyrecord.hbm.xml"/>
        
-        
+   	     <!--银行交易日志-->
+   	   <mapping resource="营收/trans.hbm.xml" />           
        
 	</session-factory>
   
