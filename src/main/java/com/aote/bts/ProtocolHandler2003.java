@@ -42,6 +42,15 @@ public class ProtocolHandler2003 extends ProtocolHandler
 			String otherFee = request.getString("OTHER_FEE");
 			String totalFee = request.getString("TOTAL_FEE");
 			
+			//如果已有缴费，返回错误
+			if(hasPendingSale())
+			{
+				BankTransService.emptyResult(response);
+				response.put(BankTransService.RESPONSE_CODE, BankTransService.ERROR_WRITE_CARD_PENDING);
+				response.put(BankTransService.RESPONSE, BankTransService.MSG.get(BankTransService.ERROR_WRITE_CARD_PENDING));
+				return;
+			}
+			
 			if(isDuplicateRequest())
 			{
 				response.put("ACK_TRANS_SN", UUID.randomUUID().toString().replace("-", ""));
@@ -91,6 +100,23 @@ public class ProtocolHandler2003 extends ProtocolHandler
 		}
 	}
 
+	/**
+	 * 是否有未写卡的缴费，如果有返回true
+	 * @return
+	 * @throws JSONException
+	 */
+	private boolean hasPendingSale() throws JSONException 
+	{
+		//同一个卡号，是否有其他的未写卡的缴费
+		String sql = "from t_bank_trans where MAC != '" + request.getString(BankTransService.MAC) + "' and CARD_ID='" + request.getString("CARD_ID") + "' and STATUS='准缴费'";
+		List list = hibernateTemplate.find(sql);
+		if(list.size()>0)
+			return true;
+		else
+			return false;
+	}
+
+	
 	
 	/**
 	 * 比较划价
