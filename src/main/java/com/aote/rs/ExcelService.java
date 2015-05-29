@@ -1,4 +1,4 @@
-package com.aote.rs;
+ï»¿package com.aote.rs;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,8 +18,12 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
+import org.hibernate.CacheMode;
 import org.hibernate.Query;
+import org.hibernate.ScrollMode;
+import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
+import org.hibernate.StatelessSession;
 import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +39,7 @@ public class ExcelService {
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
 
-	//µ¼excel
+	//å¯¼excel
 	@POST
 	@Path("/{count}/{cols}")
 	public String exporttoexcel(String query, @PathParam("count") int count,
@@ -47,86 +51,77 @@ public class ExcelService {
 			HSSFFont font = workbook.createFont();
 			font.setColor((short) HSSFFont.COLOR_NORMAL);
 			font.setBoldweight((short) HSSFFont.BOLDWEIGHT_BOLD);
-			// ÉèÖÃ¸ñÊ½
+			// è®¾ç½®æ ¼å¼
 			HSSFCellStyle cellStyle = workbook.createCellStyle();
 			cellStyle.setAlignment((short) HSSFCellStyle.ALIGN_CENTER);
 			cellStyle.setFont(font);
 			HSSFRow row = null;
 			HSSFCell cell = null;
-			// ´´½¨µÚ0ĞĞ ±êÌâ
+			// åˆ›å»ºç¬¬0è¡Œ æ ‡é¢˜
 			int rowNum = 0;
 			row = sheet.createRow((short) rowNum);
 			String[] colsStr = cols.split("\\|");
 			for (int titleCol = 0; titleCol < colsStr.length; titleCol++) {
 				cell = row.createCell((short) (titleCol));
-				// ÉèÖÃÁĞÀàĞÍ
+				// è®¾ç½®åˆ—ç±»å‹
 				cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-				// ÉèÖÃÁĞµÄ×Ö·û¼¯ÎªÖĞÎÄ
+				// è®¾ç½®åˆ—çš„å­—ç¬¦é›†ä¸ºä¸­æ–‡
 				cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
-				// ÉèÖÃÄÚÈİ
+				// è®¾ç½®å†…å®¹
 				String[] names = colsStr[titleCol].split(":");
-				// ÓĞ±ğÃû,ÉèÖÃÄÚÈİÎª±ğÃû£¬·ñÔò£¬Îª×Ö¶ÎÃû¡£
+				// æœ‰åˆ«å,è®¾ç½®å†…å®¹ä¸ºåˆ«åï¼Œå¦åˆ™ï¼Œä¸ºå­—æ®µåã€‚
 				if (names.length > 1) {
 					cell.setCellValue(names[1]);
 				} else {
 					cell.setCellValue(colsStr[titleCol]);
 				}
 				cell.setCellStyle(cellStyle);
+			} 
+			
+			StatelessSession session = this.hibernateTemplate.getSessionFactory().openStatelessSession();
+			ScrollableResults sr;
+			if (query.startsWith("sql:")) {
+				String sql = query.substring(4);
+				sr = session.createSQLQuery(sql).scroll(ScrollMode.FORWARD_ONLY);
+			} else {
+				sr = session.createQuery(query).scroll(ScrollMode.FORWARD_ONLY);
 			}
-
-			// ´¦ÀíÎÄ¼şÊı¾İ
-			int pageSize = 1000;
-			int pageCount = count % pageSize == 0 ? (count / pageSize)
-					: (count / pageSize) + 1;
-			for (int i = 0; i <= pageCount; i++) {
-				List list = null;
-				// ÒÔsql:¿ªÊ¼£¬ËµÃ÷ÊÇÖ´ĞĞsqlÓï¾ä£¬·ñÔò£¬Ö´ĞĞhqlÓï¾ä
-				if (query.startsWith("sql:")) {
-					String sql = query.substring(4);
-					HibernateSQLCall sqlCall = new HibernateSQLCall(sql, i,
-							pageSize);
-					sqlCall.transformer = Transformers.ALIAS_TO_ENTITY_MAP;
-					list = this.hibernateTemplate.executeFind(sqlCall);
-				} else {
-					list = this.hibernateTemplate
-							.executeFind(new HibernateCall(query, i, pageSize));
-				}
-				for (int j = 0; j < list.size(); j++) {
-					Object obj = list.get(j);
-					// °Ñµ¥¸ömap×ª»»³ÉJSON¶ÔÏó
-					Map<String, Object> map = (Map<String, Object>) obj;
-					rowNum++;
-					row = sheet.createRow((short) rowNum);
-					for (int z = 0; z < colsStr.length; z++) {
-						// µÃµ½Êı¾İ
-						String[] names = colsStr[z].split(":");
-						// ÓĞ±ğÃû£¬×Ö¶ÎÃûÎªµÚÒ»Ïî£¬·ñÔò£¬Õû¸öÊÇ×Ö¶ÎÃû
-						String colName = colsStr[z];
-						if (names.length > 1) {
-							colName = names[0];
-						}
-						String data = "";
-						if (map.get(colName) != null) {
-							data = map.get(colName).toString();
-						}
-						cell = row.createCell((short) (z));
-						// ÉèÖÃÁĞÀàĞÍ
-						cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-						// ÉèÖÃÁĞµÄ×Ö·û¼¯ÎªÖĞÎÄ
-						cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
-						cell.setCellValue(data);
+			
+			while (sr.next()) {
+				Map<String, Object> map = (Map<String, Object>)sr.get(0);
+				rowNum++;
+				row = sheet.createRow((short) rowNum);
+				for (int z = 0; z < colsStr.length; z++) {
+					// å¾—åˆ°æ•°æ®
+					String[] names = colsStr[z].split(":");
+					// æœ‰åˆ«åï¼Œå­—æ®µåä¸ºç¬¬ä¸€é¡¹ï¼Œå¦åˆ™ï¼Œæ•´ä¸ªæ˜¯å­—æ®µå
+					String colName = colsStr[z];
+					if (names.length > 1) {
+						colName = names[0];
 					}
+					String data = "";
+					if (map.get(colName) != null) {
+						data = map.get(colName).toString();
+					}
+					cell = row.createCell((short) (z));
+					// è®¾ç½®åˆ—ç±»å‹
+					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+					// è®¾ç½®åˆ—çš„å­—ç¬¦é›†ä¸ºä¸­æ–‡
+					cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
+					cell.setCellValue(data);
 				}
 			}
-			// ²úÉúÁÙÊ±ÎÄ¼ş
+			session.close();
+
+			// äº§ç”Ÿä¸´æ—¶æ–‡ä»¶
 			File file = File.createTempFile("temp", ".xls");
 			file.deleteOnExit();
 			FileOutputStream fileOutputStream = new FileOutputStream(file);
-			// Ğ´ÎÄ¼ş
+			// å†™æ–‡ä»¶
 			workbook.write(fileOutputStream);
 			fileOutputStream.flush();
 			fileOutputStream.close();
-			// ·µ»ØÎÄ¼şÃû
+			// è¿”å›æ–‡ä»¶å
 			String result = file.getAbsolutePath();
 			log.debug(result);
 			return result;
@@ -135,7 +130,7 @@ public class ExcelService {
 		}
 	}
 
-	//µ¼excel
+	//å¯¼excel
 	@POST
 	@Path("/{count}")
 	public String exporttoexcel2(String json, @PathParam("count") int count) {
@@ -150,25 +145,25 @@ public class ExcelService {
 			HSSFFont font = workbook.createFont();
 			font.setColor((short) HSSFFont.COLOR_NORMAL);
 			font.setBoldweight((short) HSSFFont.BOLDWEIGHT_BOLD);
-			// ÉèÖÃ¸ñÊ½
+			// è®¾ç½®æ ¼å¼
 			HSSFCellStyle cellStyle = workbook.createCellStyle();
 			cellStyle.setAlignment((short) HSSFCellStyle.ALIGN_CENTER);
 			cellStyle.setFont(font);
 			HSSFRow row = null;
 			HSSFCell cell = null;
-			// ´´½¨µÚ0ĞĞ ±êÌâ
+			// åˆ›å»ºç¬¬0è¡Œ æ ‡é¢˜
 			int rowNum = 0;
 			row = sheet.createRow((short) rowNum);
 			String[] colsStr = cols.split("\\|");
 			for (int titleCol = 0; titleCol < colsStr.length; titleCol++) {
 				cell = row.createCell((short) (titleCol));
-				// ÉèÖÃÁĞÀàĞÍ
+				// è®¾ç½®åˆ—ç±»å‹
 				cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-				// ÉèÖÃÁĞµÄ×Ö·û¼¯ÎªÖĞÎÄ
+				// è®¾ç½®åˆ—çš„å­—ç¬¦é›†ä¸ºä¸­æ–‡
 				cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
-				// ÉèÖÃÄÚÈİ
+				// è®¾ç½®å†…å®¹
 				String[] names = colsStr[titleCol].split(":");
-				// ÓĞ±ğÃû,ÉèÖÃÄÚÈİÎª±ğÃû£¬·ñÔò£¬Îª×Ö¶ÎÃû¡£
+				// æœ‰åˆ«å,è®¾ç½®å†…å®¹ä¸ºåˆ«åï¼Œå¦åˆ™ï¼Œä¸ºå­—æ®µåã€‚
 				if (names.length > 1) {
 					cell.setCellValue(names[1]);
 				} else {
@@ -177,59 +172,49 @@ public class ExcelService {
 				cell.setCellStyle(cellStyle);
 			}
 
-			// ´¦ÀíÎÄ¼şÊı¾İ
-			int pageSize = 1000;
-			int pageCount = count % pageSize == 0 ? (count / pageSize)
-					: (count / pageSize) + 1;
-			for (int i = 0; i <= pageCount; i++) {
-				List list = null;
-				// ÒÔsql:¿ªÊ¼£¬ËµÃ÷ÊÇÖ´ĞĞsqlÓï¾ä£¬·ñÔò£¬Ö´ĞĞhqlÓï¾ä
-				if (query.startsWith("sql:")) {
-					String sql = query.substring(4);
-					HibernateSQLCall sqlCall = new HibernateSQLCall(sql, i,
-							pageSize);
-					sqlCall.transformer = Transformers.ALIAS_TO_ENTITY_MAP;
-					list = this.hibernateTemplate.executeFind(sqlCall);
-				} else {
-					list = this.hibernateTemplate
-							.executeFind(new HibernateCall(query, i, pageSize));
-				}
-				for (int j = 0; j < list.size(); j++) {
-					Object obj = list.get(j);
-					// °Ñµ¥¸ömap×ª»»³ÉJSON¶ÔÏó
-					Map<String, Object> map = (Map<String, Object>) obj;
-					rowNum++;
-					row = sheet.createRow((short) rowNum);
-					for (int z = 0; z < colsStr.length; z++) {
-						// µÃµ½Êı¾İ
-						String[] names = colsStr[z].split(":");
-						// ÓĞ±ğÃû£¬×Ö¶ÎÃûÎªµÚÒ»Ïî£¬·ñÔò£¬Õû¸öÊÇ×Ö¶ÎÃû
-						String colName = colsStr[z];
-						if (names.length > 1) {
-							colName = names[0];
-						}
-						String data = "";
-						if (map.get(colName) != null) {
-							data = map.get(colName).toString();
-						}
-						cell = row.createCell((short) (z));
-						// ÉèÖÃÁĞÀàĞÍ
-						cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-						// ÉèÖÃÁĞµÄ×Ö·û¼¯ÎªÖĞÎÄ
-						cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
-						cell.setCellValue(data);
+			StatelessSession session = this.hibernateTemplate.getSessionFactory().openStatelessSession();
+			ScrollableResults sr;
+			if (query.startsWith("sql:")) {
+				String sql = query.substring(4);
+				sr = session.createSQLQuery(sql).scroll(ScrollMode.FORWARD_ONLY);
+			} else {
+				sr = session.createQuery(query).scroll(ScrollMode.FORWARD_ONLY);
+			}
+			
+			while (sr.next()) {
+				Map<String, Object> map = (Map<String, Object>)sr.get(0);
+				rowNum++;
+				row = sheet.createRow((short) rowNum);
+				for (int z = 0; z < colsStr.length; z++) {
+					// å¾—åˆ°æ•°æ®
+					String[] names = colsStr[z].split(":");
+					// æœ‰åˆ«åï¼Œå­—æ®µåä¸ºç¬¬ä¸€é¡¹ï¼Œå¦åˆ™ï¼Œæ•´ä¸ªæ˜¯å­—æ®µå
+					String colName = colsStr[z];
+					if (names.length > 1) {
+						colName = names[0];
 					}
+					String data = "";
+					if (map.get(colName) != null) {
+						data = map.get(colName).toString();
+					}
+					cell = row.createCell((short) (z));
+					// è®¾ç½®åˆ—ç±»å‹
+					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+					// è®¾ç½®åˆ—çš„å­—ç¬¦é›†ä¸ºä¸­æ–‡
+					cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
+					cell.setCellValue(data);
 				}
 			}
-			// ²úÉúÁÙÊ±ÎÄ¼ş
+			session.close();
+			// äº§ç”Ÿä¸´æ—¶æ–‡ä»¶
 			File file = File.createTempFile("temp", ".xls");
 			file.deleteOnExit();
 			FileOutputStream fileOutputStream = new FileOutputStream(file);
-			// Ğ´ÎÄ¼ş
+			// å†™æ–‡ä»¶
 			workbook.write(fileOutputStream);
 			fileOutputStream.flush();
 			fileOutputStream.close();
-			// ·µ»ØÎÄ¼şÃû
+			// è¿”å›æ–‡ä»¶å
 			String result = file.getAbsolutePath();
 			log.debug(result);
 			return result;
@@ -238,7 +223,7 @@ public class ExcelService {
 		}
 	}
 
-	// Ö´ĞĞ·ÖÒ³²éÑ¯
+	// æ‰§è¡Œåˆ†é¡µæŸ¥è¯¢
 	class HibernateCall implements HibernateCallback {
 		String hql;
 		int page;
@@ -258,12 +243,12 @@ public class ExcelService {
 		}
 	}
 
-	// Ö´ĞĞsql·ÖÒ³²éÑ¯£¬½á¹û¼¯ĞÎÊ½¿ÉÒÔÉèÖÃ
+	// æ‰§è¡Œsqlåˆ†é¡µæŸ¥è¯¢ï¼Œç»“æœé›†å½¢å¼å¯ä»¥è®¾ç½®
 	class HibernateSQLCall implements HibernateCallback {
 		String sql;
 		int page;
 		int rows;
-		// ²éÑ¯½á¹û×ª»»Æ÷£¬¿ÉÒÔ×ª»»³ÉMapµÈ¡£
+		// æŸ¥è¯¢ç»“æœè½¬æ¢å™¨ï¼Œå¯ä»¥è½¬æ¢æˆMapç­‰ã€‚
 		public ResultTransformer transformer = null;
 
 		public HibernateSQLCall(String sql, int page, int rows) {
@@ -274,7 +259,7 @@ public class ExcelService {
 
 		public Object doInHibernate(Session session) {
 			Query q = session.createSQLQuery(sql);
-			// ÓĞ×ª»»Æ÷£¬ÉèÖÃ×ª»»Æ÷
+			// æœ‰è½¬æ¢å™¨ï¼Œè®¾ç½®è½¬æ¢å™¨
 			if (transformer != null) {
 				q.setResultTransformer(transformer);
 			}
