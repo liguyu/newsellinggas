@@ -47,70 +47,120 @@ public class ExcelService {
 		log.debug("in to excel count=" + count + ", cols=" + cols);
 		try {
 			HSSFWorkbook workbook = new HSSFWorkbook();
-			HSSFSheet sheet = workbook.createSheet();
-			HSSFFont font = workbook.createFont();
-			font.setColor((short) HSSFFont.COLOR_NORMAL);
-			font.setBoldweight((short) HSSFFont.BOLDWEIGHT_BOLD);
-			// 设置格式
-			HSSFCellStyle cellStyle = workbook.createCellStyle();
-			cellStyle.setAlignment((short) HSSFCellStyle.ALIGN_CENTER);
-			cellStyle.setFont(font);
-			HSSFRow row = null;
-			HSSFCell cell = null;
-			// 创建第0行 标题
-			int rowNum = 0;
-			row = sheet.createRow((short) rowNum);
+			int n = count;
+			int total = 0;
+			HSSFSheet sheet;
 			String[] colsStr = cols.split("\\|");
-			for (int titleCol = 0; titleCol < colsStr.length; titleCol++) {
-				cell = row.createCell((short) (titleCol));
-				// 设置列类型
-				cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-				// 设置列的字符集为中文
-				cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
-				// 设置内容
-				String[] names = colsStr[titleCol].split(":");
-				// 有别名,设置内容为别名，否则，为字段名。
-				if (names.length > 1) {
-					cell.setCellValue(names[1]);
-				} else {
-					cell.setCellValue(colsStr[titleCol]);
-				}
-				cell.setCellStyle(cellStyle);
-			} 
+			while(n > 0)
+			{
+				sheet = workbook.createSheet();
+				HSSFFont font = workbook.createFont();
+				font.setColor((short) HSSFFont.COLOR_NORMAL);
+				font.setBoldweight((short) HSSFFont.BOLDWEIGHT_BOLD);
+				// 设置格式
+				HSSFCellStyle cellStyle = workbook.createCellStyle();
+				cellStyle.setAlignment((short) HSSFCellStyle.ALIGN_CENTER);
+				cellStyle.setFont(font);
+				HSSFRow row = null;
+				HSSFCell cell = null;
+				// 创建第0行 标题
+				int rowNum = 0;
+				row = sheet.createRow((short) rowNum);
+				for (int titleCol = 0; titleCol < colsStr.length; titleCol++) {
+					cell = row.createCell((short) (titleCol));
+					// 设置列类型
+					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+					// 设置列的字符集为中文
+					cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
+					// 设置内容
+					String[] names = colsStr[titleCol].split(":");
+					// 有别名,设置内容为别名，否则，为字段名。
+					if (names.length > 1) {
+						cell.setCellValue(names[1]);
+					} else {
+						cell.setCellValue(colsStr[titleCol]);
+					}
+					cell.setCellStyle(cellStyle);
+				} 
+				
+				n -= 50000;
+			}
+			
+			sheet = workbook.getSheetAt(total);
+			int rowNum = 0;
 			
 			StatelessSession session = this.hibernateTemplate.getSessionFactory().openStatelessSession();
 			ScrollableResults sr;
 			if (query.startsWith("sql:")) {
 				String sql = query.substring(4);
-				sr = session.createSQLQuery(sql).scroll(ScrollMode.FORWARD_ONLY);
+				sr = session.createSQLQuery(sql).setFetchSize(1000).setReadOnly(true).scroll(ScrollMode.FORWARD_ONLY);
+				while (sr.next()) {
+					Object[] map = sr.get();
+					rowNum++;
+					if(rowNum % 50000 == 0)
+					{
+						sheet = workbook.getSheetAt(++total);
+						rowNum = 1;
+					}
+					
+					HSSFRow row = sheet.createRow((short) rowNum);
+					
+					for (int z = 0; z < colsStr.length; z++) {
+						// 得到数据
+						String[] names = colsStr[z].split(":");
+						// 有别名，字段名为第一项，否则，整个是字段名
+						String colName = colsStr[z];
+						if (names.length > 1) {
+							colName = names[0];
+						}
+						String data = "";
+						if (map[z] != null) {
+							data = map[z].toString();
+						}
+						HSSFCell cell = row.createCell((short) (z));
+						// 设置列类型
+						cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+						// 设置列的字符集为中文
+						cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
+						cell.setCellValue(data);
+					}
+				}				
 			} else {
-				sr = session.createQuery(query).scroll(ScrollMode.FORWARD_ONLY);
-			}
-			
-			while (sr.next()) {
-				Map<String, Object> map = (Map<String, Object>)sr.get(0);
-				rowNum++;
-				row = sheet.createRow((short) rowNum);
-				for (int z = 0; z < colsStr.length; z++) {
-					// 得到数据
-					String[] names = colsStr[z].split(":");
-					// 有别名，字段名为第一项，否则，整个是字段名
-					String colName = colsStr[z];
-					if (names.length > 1) {
-						colName = names[0];
+				sr = session.createQuery(query).setFetchSize(1000).setReadOnly(true).scroll(ScrollMode.FORWARD_ONLY);
+				while (sr.next()) {
+					Map<String, Object> map = (Map<String, Object>)sr.get(0);
+					rowNum++;
+					
+					if(rowNum % 50000 == 0)
+					{
+						sheet = workbook.getSheetAt(++total);
+						rowNum = 1;
 					}
-					String data = "";
-					if (map.get(colName) != null) {
-						data = map.get(colName).toString();
+					
+					HSSFRow row = sheet.createRow((short) rowNum);
+					
+					for (int z = 0; z < colsStr.length; z++) {
+						// 得到数据
+						String[] names = colsStr[z].split(":");
+						// 有别名，字段名为第一项，否则，整个是字段名
+						String colName = colsStr[z];
+						if (names.length > 1) {
+							colName = names[0];
+						}
+						String data = "";
+						if (map.get(colName) != null) {
+							data = map.get(colName).toString();
+						}
+						HSSFCell cell = row.createCell((short) (z));
+						// 设置列类型
+						cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+						// 设置列的字符集为中文
+						cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
+						cell.setCellValue(data);
 					}
-					cell = row.createCell((short) (z));
-					// 设置列类型
-					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					// 设置列的字符集为中文
-					cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
-					cell.setCellValue(data);
 				}
 			}
+			
 			session.close();
 
 			// 产生临时文件
@@ -139,70 +189,119 @@ public class ExcelService {
 			String[] strs = json.split("~");
 			String query = strs[0];
 			String cols = strs[1];
-
+			int n = count;
+			int total = 0;
 			HSSFWorkbook workbook = new HSSFWorkbook();
-			HSSFSheet sheet = workbook.createSheet();
-			HSSFFont font = workbook.createFont();
-			font.setColor((short) HSSFFont.COLOR_NORMAL);
-			font.setBoldweight((short) HSSFFont.BOLDWEIGHT_BOLD);
-			// 设置格式
-			HSSFCellStyle cellStyle = workbook.createCellStyle();
-			cellStyle.setAlignment((short) HSSFCellStyle.ALIGN_CENTER);
-			cellStyle.setFont(font);
-			HSSFRow row = null;
-			HSSFCell cell = null;
-			// 创建第0行 标题
-			int rowNum = 0;
-			row = sheet.createRow((short) rowNum);
+			HSSFSheet sheet;
 			String[] colsStr = cols.split("\\|");
-			for (int titleCol = 0; titleCol < colsStr.length; titleCol++) {
-				cell = row.createCell((short) (titleCol));
-				// 设置列类型
-				cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-				// 设置列的字符集为中文
-				cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
-				// 设置内容
-				String[] names = colsStr[titleCol].split(":");
-				// 有别名,设置内容为别名，否则，为字段名。
-				if (names.length > 1) {
-					cell.setCellValue(names[1]);
-				} else {
-					cell.setCellValue(colsStr[titleCol]);
+			while(n > 0)
+			{
+				sheet = workbook.createSheet();
+				HSSFFont font = workbook.createFont();
+				font.setColor((short) HSSFFont.COLOR_NORMAL);
+				font.setBoldweight((short) HSSFFont.BOLDWEIGHT_BOLD);
+				// 设置格式
+				HSSFCellStyle cellStyle = workbook.createCellStyle();
+				cellStyle.setAlignment((short) HSSFCellStyle.ALIGN_CENTER);
+				cellStyle.setFont(font);
+				HSSFRow row = null;
+				HSSFCell cell = null;
+				// 创建第0行 标题
+				int rowNum = 0;
+				row = sheet.createRow((short) rowNum);
+				for (int titleCol = 0; titleCol < colsStr.length; titleCol++) {
+					cell = row.createCell((short) (titleCol));
+					// 设置列类型
+					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+					// 设置列的字符集为中文
+					cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
+					// 设置内容
+					String[] names = colsStr[titleCol].split(":");
+					// 有别名,设置内容为别名，否则，为字段名。
+					if (names.length > 1) {
+						cell.setCellValue(names[1]);
+					} else {
+						cell.setCellValue(colsStr[titleCol]);
+					}
+					cell.setCellStyle(cellStyle);
 				}
-				cell.setCellStyle(cellStyle);
+				
+				n -= 50000;
 			}
+			
+			sheet = workbook.getSheetAt(total);
+			int rowNum = 0;
 
 			StatelessSession session = this.hibernateTemplate.getSessionFactory().openStatelessSession();
 			ScrollableResults sr;
 			if (query.startsWith("sql:")) {
 				String sql = query.substring(4);
-				sr = session.createSQLQuery(sql).scroll(ScrollMode.FORWARD_ONLY);
+				sr = session.createSQLQuery(sql).setFetchSize(1000).setReadOnly(true).scroll(ScrollMode.FORWARD_ONLY);
+				while (sr.next()) {
+					Object[] map = sr.get();
+					rowNum++;
+					
+					if(rowNum % 50000 == 0)
+					{
+						sheet = workbook.getSheetAt(++total);
+						rowNum = 1;
+					}
+					
+					HSSFRow row = sheet.createRow((short) rowNum);
+						
+					for (int z = 0; z < colsStr.length; z++) {
+						// 得到数据
+						String[] names = colsStr[z].split(":");
+						// 有别名，字段名为第一项，否则，整个是字段名
+						String colName = colsStr[z];
+						if (names.length > 1) {
+							colName = names[0];
+						}
+						String data = "";
+						if (map[z] != null) {
+							data = map[z].toString();
+						}
+						HSSFCell cell = row.createCell((short) (z));
+						// 设置列类型
+						cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+						// 设置列的字符集为中文
+						cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
+						cell.setCellValue(data);
+					}
+				}				
 			} else {
-				sr = session.createQuery(query).scroll(ScrollMode.FORWARD_ONLY);
-			}
-			
-			while (sr.next()) {
-				Map<String, Object> map = (Map<String, Object>)sr.get(0);
-				rowNum++;
-				row = sheet.createRow((short) rowNum);
-				for (int z = 0; z < colsStr.length; z++) {
-					// 得到数据
-					String[] names = colsStr[z].split(":");
-					// 有别名，字段名为第一项，否则，整个是字段名
-					String colName = colsStr[z];
-					if (names.length > 1) {
-						colName = names[0];
+				sr = session.createQuery(query).setFetchSize(1000).setReadOnly(true).scroll(ScrollMode.FORWARD_ONLY);
+				while (sr.next()) {
+					Map<String, Object> map = (Map<String, Object>)sr.get(0);
+					rowNum++;
+					
+					if(rowNum % 50000 == 0)
+					{
+						sheet = workbook.getSheetAt(++total);
+						rowNum = 1;
 					}
-					String data = "";
-					if (map.get(colName) != null) {
-						data = map.get(colName).toString();
+					
+					HSSFRow row = sheet.createRow((short) rowNum);
+						
+					for (int z = 0; z < colsStr.length; z++) {
+						// 得到数据
+						String[] names = colsStr[z].split(":");
+						// 有别名，字段名为第一项，否则，整个是字段名
+						String colName = colsStr[z];
+						if (names.length > 1) {
+							colName = names[0];
+						}
+						String data = "";
+						if (map.get(colName) != null) {
+							data = map.get(colName).toString();
+						}
+						HSSFCell cell = row.createCell((short) (z));
+						// 设置列类型
+						cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+						// 设置列的字符集为中文
+						cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
+						cell.setCellValue(data);
 					}
-					cell = row.createCell((short) (z));
-					// 设置列类型
-					cell.setCellType(HSSFCell.CELL_TYPE_STRING);
-					// 设置列的字符集为中文
-					cell.setEncoding((short) HSSFCell.ENCODING_UTF_16);
-					cell.setCellValue(data);
 				}
 			}
 			session.close();
